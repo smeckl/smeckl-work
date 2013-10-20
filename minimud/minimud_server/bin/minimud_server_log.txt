@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+</log>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2013-10-17T21:11:23</date>
+  <millis>1382058683341</millis>
+  <sequence>0</sequence>
+  <logger>MiniMUDServer</logger>
+  <level>INFO</level>
+  <class>MiniMUDServer</class>
+  <method>startListener</method>
+  <thread>1</thread>
+  <message>Creating SSLServerSocketFactory object</message>
+</record>
+<record>
+  <date>2013-10-17T21:11:23</date>
+  <millis>1382058683552</millis>
+  <sequence>1</sequence>
+  <logger>MiniMUDServer</logger>
+  <level>INFO</level>
+  <class>MiniMUDServer</class>
+  <method>startListener</method>
+  <thread>1</thread>
+  <message>Creating SSLServerSocket object on port 1443</message>
+</record>
+<record>
+  <date>2013-10-17T21:11:23</date>
+  <millis>1382058683600</millis>
+  <sequence>2</sequence>
+  <logger>MiniMUDServer</logger>
+  <level>INFO</level>
+  <class>MiniMUDServer</class>
+  <method>startListener</method>
+  <thread>1</thread>
+  <message>Starting to listen on port 1443</message>
+</record>
+<record>
+  <date>2013-10-17T21:11:46</date>
+  <millis>1382058706181</millis>
+  <sequence>3</sequence>
+  <logger>MiniMUDServer</logger>
+  <level>INFO</level>
+  <class>MiniMUDServer</class>
+  <method>startListener</method>
+  <thread>1</thread>
+  <message>Accepted user connection</message>
+</record>
+<record>
+  <date>2013-10-17T21:11:51</date>
+  <millis>1382058711165</millis>
+  <sequence>4</sequence>
+  <logger>MiniMUDServer</logger>
+  <level>INFO</level>
+  <class>UserConnectionThread</class>
+  <method>loginUser</method>
+  <thread>9</thread>
+  <message>User Sparge logged in successfully.</message>
+</record>
+<record>
+  <date>2013-10-17T21:12:30</date>
+  <millis>1382058750758</millis>
+  <sequence>5</sequence>
+  <logger>MiniMUDServer</logger>
+  <level>INFO</level>
+  <class>UserConnectionThread</class>
+  <method>teardownGameSession</method>
+  <thread>9</thread>
+  <message>Closing PrintWriter</message>
+</record>
+<record>
+  <date>2013-10-17T21:12:30</date>
+  <millis>1382058750760</millis>
+  <sequence>6</sequence>
+  <logger>MiniMUDServer</logger>
+  <level>INFO</level>
+  <class>UserConnectionThread</class>
+  <method>teardownGameSession</method>
+  <thread>9</thread>
+  <message>Closing BufferedReader</message>
+</record>
+<record>
+  <date>2013-10-17T21:12:30</date>
+  <millis>1382058750762</millis>
+  <sequence>7</sequence>
+  <logger>MiniMUDServer</logger>
+  <level>INFO</level>
+  <class>UserConnectionThread</class>
+  <method>teardownGameSession</method>
+  <thread>9</thread>
+  <message>Closing SSL socket</message>
+</record>
+</log>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2013-10-20T17:07:12</date>
+  <millis>1382303232270</millis>
+  <sequence>0</sequence>
+  <logger>MiniMUDServer.MiniMUDServer</logger>
+  <level>INFO</level>
+  <class>MiniMUDServer.MiniMUDServer</class>
+  <method>startListener</method>
+  <thread>1</thread>
+  <message>Creating SSLServerSocketFactory object</message>
+</record>
+<record>
+  <date>2013-10-20T17:07:12</date>
+  <millis>1382303232532</millis>
+  <sequence>1</sequence>
+  <logger>MiniMUDServer.MiniMUDServer</logger>
+  <level>INFO</level>
+  <class>MiniMUDServer.MiniMUDServer</class>
+  <method>startListener</method>
+  <thread>1</thread>
+  <message>Creating SSLServerSocket object on port 1443</message>
+</record>
+<record>
+  <date>2013-10-20T17:07:12</date>
+  <millis>1382303232586</millis>
+  <sequence>2</sequence>
+  <logger>MiniMUDServer.MiniMUDServer</logger>
+  <level>INFO</level>
+  <class>MiniMUDServer.MiniMUDServer</class>
+  <method>startListener</method>
+  <thread>1</thread>
+  <message>Starting to listen on port 1443</message>
+</record>
+<record>
+  <date>2013-10-20T17:08:53</date>
+  <millis>1382303333387</millis>
+  <sequence>3</sequence>
+  <logger>MiniMUDServer.MiniMUDServer</logger>
+  <level>INFO</level>
+  <class>MiniMUDServer.MiniMUDServer</class>
+  <method>startListener</method>
+  <thread>1</thread>
+  <message>Accepted user connection</message>
+</record>
+<record>
+  <date>2013-10-20T17:08:58</date>
+  <millis>1382303338739</millis>
+  <sequence>4</sequence>
+  <logger>MiniMUDServer.MiniMUDServer</logger>
+  <level>INFO</level>
+  <class>MiniMUDServer.UserConnectionThread</class>
+  <method>loginUser</method>
+  <thread>9</thread>
+  <message>User Sparge logged in successfully.</message>
+</record>
+<record>
+  <date>2013-10-20T17:09:00</date>
+  <millis>1382303340485</millis>
+  <sequence>5</sequence>
+  <logger>MiniMUDServer.MiniMUDServer</logger>
+  <level>INFO</level>
+  <class>MiniMUDServer.UserConnectionThread</class>
+  <method>teardownGameSession</method>
+  <thread>9</thread>
+  <message>Closing PrintWriter</message>
+</record>
+<record>
+  <date>2013-10-20T17:09:00</date>
+  <millis>1382303340489</millis>
+  <sequence>6</sequence>
+  <logger>MiniMUDServer.MiniMUDServer</logger>
+  <level>INFO</level>
+  <class>MiniMUDServer.UserConnectionThread</class>
+  <method>teardownGameSession</method>
+  <thread>9</thread>
+  <message>Closing BufferedReader</message>
+</record>
+<record>
+  <date>2013-10-20T17:09:00</date>
+  <millis>1382303340492</millis>
+  <sequence>7</sequence>
+  <logger>MiniMUDServer.MiniMUDServer</logger>
+  <level>INFO</level>
+  <class>MiniMUDServer.UserConnectionThread</class>
+  <method>teardownGameSession</method>
+  <thread>9</thread>
+  <message>Closing SSL socket</message>
+</record>
+<record>
+  <date>2013-10-20T17:09:02</date>
+  <millis>1382303342764</millis>
+  <sequence>8</sequence>
+  <logger>MiniMUDServer.MiniMUDServer</logger>
+  <level>INFO</level>
+  <class>MiniMUDServer.MiniMUDServer</class>
+  <method>startListener</method>
+  <thread>1</thread>
+  <message>Accepted user connection</message>
+</record>
+<record>
+  <date>2013-10-20T17:09:10</date>
+  <millis>1382303350919</millis>
+  <sequence>9</sequence>
+  <logger>MiniMUDServer.MiniMUDServer</logger>
+  <level>INFO</level>
+  <class>MiniMUDServer.UserConnectionThread</class>
+  <method>loginUser</method>
+  <thread>10</thread>
+  <message>User created correctly.</message>
+</record>
+<record>
+  <date>2013-10-20T17:09:12</date>
+  <millis>1382303352841</millis>
+  <sequence>10</sequence>
+  <logger>MiniMUDServer.MiniMUDServer</logger>
+  <level>INFO</level>
+  <class>MiniMUDServer.UserConnectionThread</class>
+  <method>teardownGameSession</method>
+  <thread>10</thread>
+  <message>Closing PrintWriter</message>
+</record>
+<record>
+  <date>2013-10-20T17:09:12</date>
+  <millis>1382303352842</millis>
+  <sequence>11</sequence>
+  <logger>MiniMUDServer.MiniMUDServer</logger>
+  <level>INFO</level>
+  <class>MiniMUDServer.UserConnectionThread</class>
+  <method>teardownGameSession</method>
+  <thread>10</thread>
+  <message>Closing BufferedReader</message>
+</record>
+<record>
+  <date>2013-10-20T17:09:12</date>
+  <millis>1382303352844</millis>
+  <sequence>12</sequence>
+  <logger>MiniMUDServer.MiniMUDServer</logger>
+  <level>INFO</level>
+  <class>MiniMUDServer.UserConnectionThread</class>
+  <method>teardownGameSession</method>
+  <thread>10</thread>
+  <message>Closing SSL socket</message>
+</record>
+</log>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2013-10-20T17:21:31</date>
+  <millis>1382304091568</millis>
+  <sequence>0</sequence>
+  <logger>MiniMUDServer.MiniMUDServer</logger>
+  <level>INFO</level>
+  <class>MiniMUDServer.MiniMUDServer</class>
+  <method>startListener</method>
+  <thread>1</thread>
+  <message>Creating SSLServerSocketFactory object</message>
+</record>
+<record>
+  <date>2013-10-20T17:21:31</date>
+  <millis>1382304091770</millis>
+  <sequence>1</sequence>
+  <logger>MiniMUDServer.MiniMUDServer</logger>
+  <level>INFO</level>
+  <class>MiniMUDServer.MiniMUDServer</class>
+  <method>startListener</method>
+  <thread>1</thread>
+  <message>Creating SSLServerSocket object on port 1443</message>
+</record>
+<record>
+  <date>2013-10-20T17:21:31</date>
+  <millis>1382304091814</millis>
+  <sequence>2</sequence>
+  <logger>MiniMUDServer.MiniMUDServer</logger>
+  <level>INFO</level>
+  <class>MiniMUDServer.MiniMUDServer</class>
+  <method>startListener</method>
+  <thread>1</thread>
+  <message>Starting to listen on port 1443</message>
+</record>
+</log>
