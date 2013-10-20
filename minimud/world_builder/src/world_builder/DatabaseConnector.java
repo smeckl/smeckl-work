@@ -1,7 +1,6 @@
 package world_builder;
 
 import java.sql.*;
-import java.util.logging.Logger;
 
 public class DatabaseConnector
 {
@@ -19,17 +18,13 @@ public class DatabaseConnector
 	private static String m_strDriver = "com.mysql.jdbc.Driver";
 	private static String m_strUserName = "";
 	private static String m_strPassword = "";
-	
-	private static Logger m_logger = null;
     
-	public DatabaseConnector(String strServer, int nPort, String strUser, String strPassword, Logger logger)
+	public DatabaseConnector(String strServer, int nPort, String strUser, String strPassword)
 	{
 		m_strUrl += strServer + ":";
 		m_strUrl += nPort + "/";
 		m_strUserName = strUser;
 		m_strPassword = strPassword;
-		
-		m_logger = logger;
 	}
 	
 	protected synchronized Connection getConnection()
@@ -80,5 +75,56 @@ public class DatabaseConnector
 		
 		return retVal;
 	}
-
+	
+	public ErrorCode dropTable(String strTableName)
+	{
+		ErrorCode retVal = ErrorCode.Success;
+		
+		try
+		{
+			System.out.println("Dropping table: " + strTableName);
+			
+			// This looks like an insecure use of prepared statements.  It is not for a couple of reasons:
+			// 1) It does not use input from the user.  strTableName is hard coded in the calling function.
+			// 2) Table names are not escaped, so using pstmt.setString() will cause the statement to fail
+			//    due to a syntax error.
+			PreparedStatement pstmt = getConnection().prepareStatement("drop table " + strTableName);
+			
+			pstmt.executeUpdate();
+			
+			System.out.println("Table drop successful.");
+		}
+		catch(Exception e)
+		{
+			System.out.println("Exception in DatabaseConnector.dropTable() " + e);
+			retVal = ErrorCode.Exception;
+		}
+		
+		return retVal;
+	}
+	
+	// DO NOT CALL THIS FUNCTION WITH USER INPUT --- EVER!
+	// It is essentially just runs an update with a raw query.
+	public ErrorCode addTable(String strQuery)
+	{
+		ErrorCode retVal = ErrorCode.Success;
+		
+		try
+		{
+			System.out.println("Adding new table: " + strQuery);
+			
+			PreparedStatement pstmt = getConnection().prepareStatement(strQuery);
+			
+			pstmt.executeUpdate();
+			
+			System.out.println("Table creation successful.");
+		}
+		catch(Exception e)
+		{
+			System.out.println("Exception in DatabaseConnector.addTable() " + e);
+			retVal = ErrorCode.Exception;
+		}
+		
+		return retVal;
+	}
 }
