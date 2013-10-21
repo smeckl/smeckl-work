@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE minimud_world SYSTEM "world_data.dtd">
+
+<minimud_world>
+	<rooms>
+		<room>
+			<id>1</id>
+			<name>Starter Tavern</name>
+			<description>You appear in a dark, smelly tavern.  You can't pick out any specific conversation amongst the cacophony, but you're sure it's there.  The exit to the street is to the west.  What looks like a door to a storeroom is to the north.</description>
+			<moves>
+				<move>
+					<room_id>1</room_id>
+					<direction>west</direction>
+					<next_room_id>2</next_room_id>
+					<description>Street exit</description>
+				</move>
+				<move>
+					<room_id>1</room_id>
+					<direction>north</direction>
+					<next_room_id>3</next_room_id>
+					<description>Storeroom door</description>
+				</move>
+			</moves>
+		</room>
+	
+		<room>
+			<id>2</id>
+			<name>Main Street</name>
+			<description>You turn on to Main Street.  There isn't much traffic this time of day.  To the east is a loud, smelly tavern.</description>
+			<moves>
+				<move>
+					<room_id>2</room_id>
+					<direction>east</direction>
+					<next_room_id>1</next_room_id>
+					<description>Tavern door</description>
+				</move>			
+			</moves>
+		</room>
+
+		<room>
+			<id>3</id>
+			<name>Storeroom</name>
+			<description>You quietly sneak into the storeroom.  It is lined with the skulls of sacrificed animals.  There is a pentagam painted on the floor in blood.  You wonder what exactly is in the meat pie.  To the south is the door back into the main Tavern.</description>
+			<moves>
+				<move>
+					<room_id>1</room_id>
+					<direction>south</direction>
+					<next_room_id>1</next_room_id>
+					<description>Tavern door</description>
+				</move>			
+			</moves>
+		</room>
+	</rooms>
+</minimud_world>

@@ -1,0 +1,19 @@
+
+<!ELEMENT minimud_world (rooms)>
+
+<!ELEMENT rooms (room+)>
+
+<!ELEMENT room (id, name, description, moves ) >
+
+<!ELEMENT id (#PCDATA)>
+<!ELEMENT name (#PCDATA)>
+<!ELEMENT description (#PCDATA)>
+
+<!ELEMENT moves (move+)>
+
+<!ELEMENT move ( room_id, direction, next_room_id, description )>
+
+<!ELEMENT room_id (#PCDATA)>
+<!ELEMENT direction (#PCDATA)>
+<!ELEMENT next_room_id (#PCDATA)>
+

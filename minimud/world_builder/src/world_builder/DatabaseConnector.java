@@ -127,4 +127,65 @@ public class DatabaseConnector
 		
 		return retVal;
 	}
+	
+	public ErrorCode addRoom(int nID, String strName, String strDescription)
+	{
+		ErrorCode retVal = ErrorCode.Success;
+		
+		try
+		{
+			System.out.println("Adding new room");
+			
+			PreparedStatement pstmt = getConnection().prepareStatement("insert into rooms values(?, ?, ?)");
+			pstmt.setInt(1, nID);
+			pstmt.setString(2, strName);
+			pstmt.setString(3, strDescription);
+			
+			if(0 == pstmt.executeUpdate())
+			{
+				retVal = ErrorCode.InsertFailed;
+				System.out.println("Failed to insert room.");
+			}
+			else
+				System.out.println("Room creation successful.");
+		}
+		catch(Exception e)
+		{
+			System.out.println("Exception in DatabaseConnector.addRoom() " + e);
+			retVal = ErrorCode.Exception;
+		}
+		
+		return retVal;
+	}
+	
+	public ErrorCode addMove(int nRoomID, String strDirection, int nNextRoomID, String strDescription)
+	{
+		ErrorCode retVal = ErrorCode.Success;
+		
+		try
+		{
+			System.out.println("Adding new move");
+			
+			PreparedStatement pstmt = getConnection().prepareStatement("insert into moves values(?, ?, ?, ?)");
+			pstmt.setInt(1, nRoomID);
+			pstmt.setString(2, strDirection);
+			pstmt.setInt(3, nNextRoomID);
+			pstmt.setString(4, strDescription);
+			
+			if(0 == pstmt.executeUpdate())
+			{
+				retVal = ErrorCode.InsertFailed;
+				System.out.println("Failed to insert move.");
+			}
+			else
+				System.out.println("Move creation successful.");
+		}
+		catch(Exception e)
+		{
+			System.out.println("Exception in DatabaseConnector.addMove() " + e);
+			retVal = ErrorCode.Exception;
+		}
+		
+		return retVal;
+	}
 }

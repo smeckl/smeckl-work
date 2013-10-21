@@ -1,64 +1,15 @@
-CREATE TABLE rooms (
-   ID INT NOT NULL,
-   name VARCHAR(30) NOT NULL,
-   description VARCHAR(2000) NOT NULL,
-   PRIMARY KEY ( id )
-   );
+CREATE TABLE rooms ( ID INT NOT NULL, name VARCHAR(30) NOT NULL, description VARCHAR(2000) NOT NULL, PRIMARY KEY ( id ) );
 
-CREATE TABLE moves (
-   RoomID INT NOT NULL,
-   direction VARCHAR(20) NOT NULL,
-   NextRoomID INT NOT NULL,
-   description VARCHAR(100) NOT NULL,
-   PRIMARY KEY ( RoomID, direction )
-   );
+CREATE TABLE moves ( RoomID INT NOT NULL, direction VARCHAR(20) NOT NULL, NextRoomID INT NOT NULL, description VARCHAR(100) NOT NULL, PRIMARY KEY ( RoomID, direction ) );
 
-CREATE TABLE npcs (
-   ID INT NOT NULL,
-   name VARCHAR(30) NOT NULL,
-   description VARCHAR(2000) NOT NULL,
-   intro VARCHAR(1000) NOT NULL,
-   PRIMARY KEY ( ID )
-   );
+CREATE TABLE npcs (ID INT NOT NULL, name VARCHAR(30) NOT NULL, description VARCHAR(2000) NOT NULL, intro VARCHAR(1000) NOT NULL, PRIMARY KEY ( ID ) );
 
-CREATE TABLE actions (
-   ObjectID INT NOT NULL,
-   name VARCHAR(50) NOT NULL,
-   result VARCHAR(200) NOT NULL,
-   PRIMARY KEY ( ObjectID )
-   );
+CREATE TABLE actions ( ObjectID INT NOT NULL, name VARCHAR(50) NOT NULL, result VARCHAR(200) NOT NULL, PRIMARY KEY ( ObjectID ) );
 
-CREATE TABLE objects (
-   ID INT NOT NULL,
-   name VARCHAR(50) NOT NULL,
-   description VARCHAR(2000) NOT NULL,
-   PRIMARY KEY ( ID )
-   );
+CREATE TABLE objects ( ID INT NOT NULL, name VARCHAR(50) NOT NULL, description VARCHAR(2000) NOT NULL, PRIMARY KEY ( ID ) );
 
-CREATE TABLE action_results (
-   ID INT NOT NULL,
-   Type INT NOT NULL,
-   Text VARCHAR(100),
-   ItemID INT,
-   Value INT,
-   PRIMARY KEY ( ID )
-   );
+CREATE TABLE action_results ( ID INT NOT NULL, Type INT NOT NULL, Text VARCHAR(100), ItemID INT, Value INT, PRIMARY KEY ( ID ) );
 
-CREATE TABLE items (
-   ID INT NOT NULL,
-   name VARCHAR(50) NOT NULL,
-   description VARCHAR(1000) NOT NULL,
-   PRIMARY KEY ( ID )
-);
+CREATE TABLE items ( ID INT NOT NULL, name VARCHAR(50) NOT NULL, description VARCHAR(1000) NOT NULL, PRIMARY KEY ( ID ));
 
-CREATE TABLE characters (
-   username VARCHAR(32) NOT NULL,
-   pwd_hash VARBINARY(100) NOT NULL,
-   pwd_salt VARBINARY(16) NOT NULL,
-   created DATE NOT NULL,
-   description VARCHAR(1000),
-   xp INT,
-   gold INT,
-   health INT,
-   PRIMARY KEY ( username )
-);
+CREATE TABLE characters ( username VARCHAR(32) NOT NULL, pwd_hash VARBINARY(100) NOT NULL, pwd_salt VARBINARY(16) NOT NULL, created DATE NOT NULL, description VARCHAR(1000), xp INT, gold INT, health INT, PRIMARY KEY ( username ));

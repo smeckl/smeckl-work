@@ -15,7 +15,7 @@ public class BuildWorld
 		int nPort = 0;
 		String strUser = "";
 		String strPassword = "";
-		String strLogFile = "./log.txt";
+		String strDataFile = "./world_data.xml";
 		String strDBServer = "";
 		
 		RegularExpressions regEx = new RegularExpressions();
@@ -77,11 +77,11 @@ public class BuildWorld
 			
 			if(args.length == 5)
 			{
-				strLogFile = args[4];
+				strDataFile = args[4];
 			}
 			
 			try
-			{			
+			{	
 				m_dbConn = new DatabaseConnector(strDBServer, nPort, strUser, strPassword);
 				m_dbConn.connect();
 				
@@ -126,12 +126,15 @@ public class BuildWorld
 						"health INT, PRIMARY KEY ( username ));");
 				
 				// Import world data from XML files
+				WorldImporter worldImp = new WorldImporter(strDataFile, m_dbConn);
+				
+				worldImp.importData();
 				
 				m_dbConn.disconnect();
 			}
 			catch(Exception e)
 			{
-				
+				System.out.println("Exception in main(): " + e);
 			}
 			
 			break;
