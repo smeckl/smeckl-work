@@ -1,0 +1,15 @@
+package world_builder;
+
+public class DatabaseConnector
+{
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args)
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+}

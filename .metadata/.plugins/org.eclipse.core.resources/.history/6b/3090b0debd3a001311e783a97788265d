@@ -1,0 +1,51 @@
+package MiniMUDServer;
+
+import MiniMUDShared.RegularExpressions;
+
+public class Room
+{
+	private int m_nID = 0;
+	private String m_strName = "";
+	private String m_strDescription = "";
+	
+	private RegularExpressions m_regEx = new RegularExpressions();
+	
+	public void setID(int nID)
+	{
+		m_nID = nID;
+	}
+	
+	public int getID()
+	{
+		return m_nID;
+	}
+	
+	public boolean isValidID(String strID)
+	{
+		boolean bRet = false;
+		
+		bRet = m_regEx.stringMatchesRegEx(strID, RegularExpressions.RegExID.ID);
+		
+		return bRet;
+	}
+	
+	public void setName(String strName)
+	{
+		m_strName = strName;
+	}
+	
+	public String getName()
+	{
+		return m_strName;
+	}
+	
+	public void setDescription(String str_Description)
+	{
+		m_strDescription = str_Description;
+	}
+	
+	public String getDescription()
+	{
+		return m_strDescription;
+	}
+}

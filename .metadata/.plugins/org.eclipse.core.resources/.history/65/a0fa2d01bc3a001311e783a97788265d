@@ -1,0 +1,49 @@
+package MiniMUDServer;
+
+public class Move
+{
+	private int m_nRoomID = 0;
+	private String m_strDirection = "";
+	private int m_nNextRoomID = 0;
+	private String m_strDescription = "";
+	
+	public void setRoomID(int nID)
+	{
+		m_nRoomID = nID;
+	}
+	
+	public int getRoomID()
+	{
+		return m_nRoomID;
+	}
+
+	public void setDirection(String strDirection)
+	{
+		m_strDirection = strDirection;
+	}
+	
+	public String getDirection()
+	{
+		return m_strDirection;
+	}
+	
+	public void setNextRoomID(int nID)
+	{
+		m_nNextRoomID = nID;
+	}
+	
+	public int getNextRoomID()
+	{
+		return m_nNextRoomID;
+	}
+	
+	public void setDescription(String strDescription)
+	{
+		m_strDescription = strDescription;
+	}
+	
+	public String getDescription()
+	{
+		return m_strDescription;
+	}
+}

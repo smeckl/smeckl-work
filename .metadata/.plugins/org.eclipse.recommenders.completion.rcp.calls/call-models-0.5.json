@@ -1,0 +1,12 @@
+{
+  "/home/steve/codemunki-gitrepo/minimud/minimud_shared/bin": {
+    "location": "/home/steve/codemunki-gitrepo/minimud/minimud_shared/bin",
+    "status": "UNRESOLVED",
+    "error": "No class path info available for \u0027/home/steve/codemunki-gitrepo/minimud/minimud_shared/bin\u0027. Skipped."
+  },
+  "/usr/lib/jvm/java-7-openjdk-i386/jre/lib/rt.jar": {
+    "coordinate": "jre:jre:zip:call:1.0.0",
+    "location": "/usr/lib/jvm/java-7-openjdk-i386/jre/lib/rt.jar",
+    "status": "RESOLVED"
+  }
+}
