@@ -8,4 +8,5 @@ public class MessageID
 	public static int USER_LOGOUT = 4;
 	public static int USER_CHAT = 5;
 	public static int MOVE = 6;
+	public static int ACTION = 7;
 }

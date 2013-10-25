@@ -191,6 +191,11 @@ public class GameServer
 					}
 				}	
 			}
+			else if(MessageID.ACTION == msg.getMessageId())
+			{
+				// Display the user's current room
+				user.displayCurrentRoom();
+			}
 		}
 		catch(Exception e)
 		{

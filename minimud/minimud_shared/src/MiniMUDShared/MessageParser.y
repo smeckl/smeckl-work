@@ -5,7 +5,7 @@ import java.io.*;
 %token TEXTMSG MESSAGE FROM TO PLAYER SERVER REQUEST_INPUT TYPE NORMAL_INPUT PASSWD_INPUT SERVER_STATUS
 %token LOGON_SUCCESS LOGON_FAILED INVALID QUIT EXIT LOGOUT TELL SAY SHOUT WHISPER 
 %token GO_NORTH GO_SOUTH GO_EAST GO_WEST GO_NORTHEAST GO_NORTHWEST GO_SOUTHEAST GO_SOUTHWEST GO_UP GO_DOWN
-%token CHARNAME CHARLITERAL STRINGLITERAL INT
+%token CHARNAME CHARLITERAL STRINGLITERAL INT LOOK
 %%
 
 message:
@@ -30,6 +30,10 @@ client_showtext
 		m_lastMsg = (Message)$$.obj;
 	}
 | move_message
+	{
+		m_lastMsg = (Message)$$.obj;
+	}
+| action_message
 	{
 		m_lastMsg = (Message)$$.obj;
 	}
@@ -162,6 +166,13 @@ move_message:
 	{
 		$$ = new MessageParserVal(new PlayerMoveMessage(PlayerMoveMessage.Direction.Down));
 	}
+;
+
+action_message:
+  LOOK
+  	{
+  		$$ = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Look));
+  	}
 ;
 
 %%

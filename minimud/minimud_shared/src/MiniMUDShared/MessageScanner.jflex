@@ -58,6 +58,7 @@ southeast		{yyparser.yylval = new MessageParserVal(yytext()); return MessagePars
 southwest		{yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.GO_SOUTHWEST;}
 up				{yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.GO_UP;}
 down			{yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.GO_DOWN;}
+look			{yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.LOOK;}
 
 \,		{return (int)yycharat(0);}
 \=		{return (int)yycharat(0);}

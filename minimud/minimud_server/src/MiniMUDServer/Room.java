@@ -134,9 +134,11 @@ public class Room
 			retVal = ErrorCode.Invalid;
 		else
 		{
+			display.sendText("");
 			display.sendText(getName());
 			display.sendText("");
 			display.sendText(getDescription());
+			display.sendText("");
 		}
 		
 		return retVal;
