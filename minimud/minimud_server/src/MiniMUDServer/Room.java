@@ -6,6 +6,13 @@ import MiniMUDShared.RegularExpressions;
 
 public class Room
 {
+	public enum ErrorCode
+	{
+		Success,
+		Exception,
+		Invalid
+	}
+	
 	private int m_nID = 0;
 	private String m_strName = "";
 	private String m_strDescription = "";
@@ -94,5 +101,21 @@ public class Room
 		}
 		
 		return bValid;
+	}
+	
+	public ErrorCode displayRoom(DisplayHelper display)
+	{
+		ErrorCode retVal = ErrorCode.Success;
+		
+		if(!isValid())
+			retVal = ErrorCode.Invalid;
+		else
+		{
+			display.sendText(getName());
+			display.sendText("");
+			display.sendText(getDescription());
+		}
+		
+		return retVal;
 	}
 }

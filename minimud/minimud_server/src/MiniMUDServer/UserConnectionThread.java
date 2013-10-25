@@ -30,6 +30,10 @@ public class UserConnectionThread extends Thread
 	
 	private static Logger m_logger = null;
 	
+	private Room m_curRoom = null;
+	
+	private DisplayHelper m_display = null;
+	
 	public enum ErrorCode
 	{
 		Success,
@@ -40,6 +44,7 @@ public class UserConnectionThread extends Thread
 		ObjectCreationFailed,
 		CreateUserFailed,
 		CommandProcessingFailed,
+		DisplayError
 	}
 	
 	public enum UserSessionState
@@ -101,6 +106,16 @@ public class UserConnectionThread extends Thread
 	public UserInfo getUserInfo()
 	{
 		return m_userInfo;
+	}
+	
+	public void setCurrentRoom(Room curRoom)
+	{
+		m_curRoom = curRoom;
+	}
+	
+	public Room getCurrentRoom()
+	{
+		return m_curRoom;
 	}
 	
 	// Determines if there is a message ready to be read
@@ -179,6 +194,8 @@ public class UserConnectionThread extends Thread
 				}
 				
 				setUserState(UserSessionState.Playing);
+				
+				getCurrentRoom().displayRoom(m_display);
 					
 				m_socket.setSoTimeout(1000); // Don't want reads to block forever
 				
@@ -198,7 +215,7 @@ public class UserConnectionThread extends Thread
 					    	retVal = executeClientCommand(msg);	    		
 					    }
 					    else
-					    	sendText("Invalid command.");
+					    	m_display.sendText("Invalid command.");
 			        }		           
 				}
 				
@@ -246,6 +263,15 @@ public class UserConnectionThread extends Thread
 					break;
 		        }
 		        
+		        m_display = new DisplayHelper(m_textOut, m_textIn, m_logger);
+		        
+		        if(null == m_display)
+		        {
+		        	m_logger.severe("Error in UserConnectionThread::initializeGameSession() - Failed to create DisplayHelper()");
+		        	retVal = ErrorCode.ObjectCreationFailed;
+					break;
+		        }	
+		        
 		        break;
 			}
 		}
@@ -287,69 +313,7 @@ public class UserConnectionThread extends Thread
 		return retVal;
 	}
 	
-	private ErrorCode sendText(String strMessage)
-	{
-		ErrorCode retVal = ErrorCode.Success;
-		
-		try
-		{
-			ClientShowTextMessage msg = new ClientShowTextMessage("server", strMessage);
-			
-			m_textOut.println(msg.serialize());
-		}
-		catch(Exception e)
-		{
-			m_logger.severe("Exception in UserConnectionThread::sendText() - " + e);
-			retVal = ErrorCode.Exception;
-		}
-		
-		return retVal;
-	}
 	
-	private ErrorCode sendCommand(Message msg)
-	{
-		ErrorCode retVal = ErrorCode.Success;
-		
-		try
-		{
-			m_textOut.println(msg.serialize());
-		}
-		catch(Exception e)
-		{
-			m_logger.severe("Exception in UserConnectionThread::sendCommand() - " + e);
-			retVal = ErrorCode.Exception;
-		}
-		
-		return retVal;
-	}
-	
-	private String requestClientInput(ClientRequestInputMessage.Type type, String strMessage)
-	{
-		String strRet = "";
-		
-		try
-		{
-			ClientRequestInputMessage reqInput = new ClientRequestInputMessage(type, strMessage);
-
-			m_textOut.println(reqInput.serialize());
-			
-			strRet = m_textIn.readLine();
-			
-			if(null == strRet)
-				strRet = "";
-		}
-		catch(SocketTimeoutException e)
-		{
-			strRet = null;
-		}
-		catch(Exception e)
-		{
-			m_logger.severe("Exception in UserConnectionThread::requestClientInput() - " + e);
-			strRet = "";
-		}
-		
-		return strRet;
-	}
 	
 	private ErrorCode printWelcomeMessage()
 	{
@@ -357,10 +321,10 @@ public class UserConnectionThread extends Thread
 		
 		try
 		{
-			sendText("Welcome to MiniMUD!");
-			sendText("MiniMUD is a fledgeling text-based adventure.  Please obey all of the rules");
-			sendText("and be curteous to your fellow players");
-			sendText("");
+			m_display.sendText("Welcome to MiniMUD!");
+			m_display.sendText("MiniMUD is a fledgeling text-based adventure.  Please obey all of the rules");
+			m_display.sendText("and be curteous to your fellow players");
+			m_display.sendText("");
 		}
 		catch(Exception e)
 		{
@@ -380,12 +344,12 @@ public class UserConnectionThread extends Thread
 		{	
 			while(ErrorCode.Success == retVal)
 			{	
-				sendText("Do you wish to create an account or log in with an existing one?");
-				sendText("1) Create new");
-				sendText("2) Use existing");
-				sendText("3) Quit");
+				m_display.sendText("Do you wish to create an account or log in with an existing one?");
+				m_display.sendText("1) Create new");
+				m_display.sendText("2) Use existing");
+				m_display.sendText("3) Quit");
 				
-		        String inputLine = requestClientInput(ClientRequestInputMessage.Type.Normal, "Selection: ");
+		        String inputLine = m_display.requestClientInput(ClientRequestInputMessage.Type.Normal, "Selection: ");
 		        
 		        if(0 == inputLine.compareTo("1"))
 		        {
@@ -397,12 +361,12 @@ public class UserConnectionThread extends Thread
 		        	
 		        	while(!bGoodUserName)
 		        	{
-		        		inputLine = requestClientInput(ClientRequestInputMessage.Type.Normal, 
+		        		inputLine = m_display.requestClientInput(ClientRequestInputMessage.Type.Normal, 
 		        										"Enter your new character name: ");
 			        	
 		        		if(!regExprs.stringMatchesRegEx(inputLine, RegularExpressions.RegExID.USERNAME))
 		        		{
-		        			sendText("Username cannot exceed 30 characters.  Try another.");
+		        			m_display.sendText("Username cannot exceed 30 characters.  Try another.");
 		        		}
 		        		else
 		        		{
@@ -415,7 +379,7 @@ public class UserConnectionThread extends Thread
 				        	{
 				        		// input already validated against regular expression.  It is safe
 				        		// to send back to the client.
-				        		sendText("Username " + inputLine + " is already in use.  Try another.");
+				        		m_display.sendText("Username " + inputLine + " is already in use.  Try another.");
 				        	}
 		        		}
 		        	}
@@ -424,19 +388,19 @@ public class UserConnectionThread extends Thread
 		        	
 		        	while(!bGoodPwd)
 		        	{        	
-			        	strPwd1 = requestClientInput(ClientRequestInputMessage.Type.Password, 
+			        	strPwd1 = m_display.requestClientInput(ClientRequestInputMessage.Type.Password, 
 			        			 						"Enter a new password: ");			        				   
 			        	
-			        	strPwd2 = requestClientInput(ClientRequestInputMessage.Type.Password, 
+			        	strPwd2 = m_display.requestClientInput(ClientRequestInputMessage.Type.Password, 
 			        									"Re-enter your new password: ");
 			        	
 			        	if(0 != strPwd1.compareTo(strPwd2))			        		
-			        		sendText("The passwords to not match.");
+			        		m_display.sendText("The passwords to not match.");
 			        	else if(!regExprs.stringMatchesRegEx(strPwd1, RegularExpressions.RegExID.PASSWORD))
 			        	{
-			        		sendText("The password does not comply with the MiniMud password policy.");
-			        		sendText("Password must be 8-20 characters and may contain letters, numbers, and");
-			        		sendText("the following characters:  !@#$%,.;:?<>");
+			        		m_display.sendText("The password does not comply with the MiniMud password policy.");
+			        		m_display.sendText("Password must be 8-20 characters and may contain letters, numbers, and");
+			        		m_display.sendText("the following characters:  !@#$%,.;:?<>");
 			        	}
 			        	else
 			        		bGoodPwd = true;
@@ -455,7 +419,7 @@ public class UserConnectionThread extends Thread
 		        	else
 		        	{
 		        		m_logger.info("User created correctly.");
-		        		sendCommand(new ServerStatusMessage(ServerStatusMessage.Status.LOGON_SUCCESS));
+		        		m_display.sendCommand(new ServerStatusMessage(ServerStatusMessage.Status.LOGON_SUCCESS));
 		        		
 		        		// Authenticated.  Add this user thread to the game server.
 		        		m_userInfo.setUserName(strUserName);
@@ -473,17 +437,17 @@ public class UserConnectionThread extends Thread
 		        	
 		        	while(!bLoggedIn)
 		        	{
-		        		strUserName = requestClientInput(ClientRequestInputMessage.Type.Normal, 
+		        		strUserName = m_display.requestClientInput(ClientRequestInputMessage.Type.Normal, 
 		        										"Enter your character name: ");
 			        		        	
-			        	strPwd = requestClientInput(ClientRequestInputMessage.Type.Password, 
+			        	strPwd = m_display.requestClientInput(ClientRequestInputMessage.Type.Password, 
 			        			 						"Enter your password: ");
 			        	
 			        	UserRecord userRec = m_dbConn.lookupUserRecord(strUserName);
 			        	
 			        	if(null == userRec)
 			        	{
-			        		sendText("Login failed.  Please try again.");
+			        		m_display.sendText("Login failed.  Please try again.");
 			        	}
 			        	else
 			        	{
@@ -494,14 +458,14 @@ public class UserConnectionThread extends Thread
 			        		if(bLoggedIn)
 			        		{
 			        			m_logger.info("User " + strUserName + " logged in successfully.");
-			        			sendCommand(new ServerStatusMessage(ServerStatusMessage.Status.LOGON_SUCCESS));
+			        			m_display.sendCommand(new ServerStatusMessage(ServerStatusMessage.Status.LOGON_SUCCESS));
 			        			
 			        			// Authenticated.  Add this user thread to the game server.
 			        			m_userInfo.setUserName(strUserName);
 			        			getGameServer().addUser(this);
 			        		}
 			        		else
-			        			sendText("Login failed.  Please try again.");
+			        			m_display.sendText("Login failed.  Please try again.");
 			        	}
 		        	}
 		        	
@@ -509,13 +473,13 @@ public class UserConnectionThread extends Thread
 		        }
 		        else if(0 == inputLine.compareTo("3"))
 		        {
-		        	sendCommand(new UserLogoutMessage());
+		        	m_display.sendCommand(new UserLogoutMessage());
 		        	
 		        	break;
 		        }
 		        else
 		        {
-		        	sendText("Invalid selection.");
+		        	m_display.sendText("Invalid selection.");
 		        }
 			}
 		}
@@ -564,7 +528,7 @@ public class UserConnectionThread extends Thread
 			if(MessageID.USER_LOGOUT == msg.getMessageId())
 			{
 				setUserState(UserSessionState.LoggingOut);
-				sendCommand(msg);
+				m_display.sendCommand(msg);
 			}
 			else
 			{
@@ -597,7 +561,10 @@ public class UserConnectionThread extends Thread
 	{
 		ErrorCode retVal = ErrorCode.Success;
 		
-		retVal = sendCommand(msg);
+		DisplayHelper.ErrorCode err = m_display.sendCommand(msg);
+		
+		if(DisplayHelper.ErrorCode.Success != err)
+			retVal = ErrorCode.DisplayError;
 		
 		return retVal;
 	}

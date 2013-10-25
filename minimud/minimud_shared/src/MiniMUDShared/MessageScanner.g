@@ -60,16 +60,22 @@ fragment HEX_DIGIT: (DIGIT | 'a' .. 'f' | 'A' .. 'F');
 
 fragment HEX_LITERAL: '0' ('x' | 'X') (HEX_DIGIT)+;
 
-fragment CHAR: ('a'..'z' | 'A'..'Z');
+fragment CHAR: ('a'..'z' | 'A'..'Z' | '\'');
 
 fragment
-ESCAPE :  '\\' 
-  ( 'n' { setText("\\n"); }
-    | 'r' { setText("\\r"); }
-    | 't' { setText("\\t"); }
-    | '\\' { setText("\\\\"); }
-    | '"' { setText("\\\""); }
-    | '\'' { setText("\\\'"); }
-  );
+ESCAPE: '\\'
+     ( 'n'             {this.setText("\n");}
+     | 't'             {this.setText("\t");}
+     | 'v'             {this.setText("\013");}
+     | 'b'             {this.setText("\b");}
+     | 'r'             {this.setText("\r");}
+     | 'f'             {this.setText("\r");}
+     | 'a'             {this.setText("\007");}
+     | '\\'            {this.setText("\\");}
+     | '?'             {this.setText("?");}
+     | '\''            {this.setText"'";}
+     | '"'             {this.setText("\"");}
+  )
+  ;
   
   EQUALS: '=';

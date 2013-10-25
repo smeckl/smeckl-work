@@ -16,16 +16,28 @@ public class GameServer
 	}
 	
 	private HashMap<String, UserConnectionThread> m_userMap = new HashMap<String, UserConnectionThread>();
-	private HashMap<String, Room> m_Rooms = new HashMap<String, Room>();
+	private HashMap<Integer, Room> m_Rooms = new HashMap<Integer, Room>();
 	
 	private Logger m_logger = null;
 	
 	private DatabaseConnector m_dbConn = null;
 	
+	private Room m_startingRoom = null;
+	
 	public GameServer(DatabaseConnector dbConn, Logger logger)
 	{
 		m_logger = logger;
 		m_dbConn = dbConn;
+	}
+	
+	private void setStartingRoom(Room startingRoom)
+	{
+		m_startingRoom = startingRoom;
+	}
+	
+	private Room getStartingRoom()
+	{
+		return m_startingRoom;
 	}
 	
 	// Loads game data from MySQL database into memory
@@ -35,7 +47,7 @@ public class GameServer
 		
 		try
 		{
-			// Load the Room datatypes
+			// Load the Room data types
 			ResultSet rooms = m_dbConn.getRooms();
 
 			while(null != rooms && rooms.next())
@@ -48,7 +60,8 @@ public class GameServer
 				
 				// Make sure that the data fields are valid
 				if(newRoom.isValid())
-				{					
+				{		
+					// Now, load all of the moves for the room
 					ResultSet moves = m_dbConn.getMovesForRoom(newRoom.getID());
 					
 					while(null != moves && moves.next())
@@ -60,11 +73,22 @@ public class GameServer
 						newMove.setNextRoomID(moves.getInt("NextRoomID"));
 						newMove.setDescription(moves.getString("description"));
 						
+						// Only add the move if it is valid
 						if(newMove.isValid())
-							newRoom.addMove(newMove);
+						{
+							newRoom.addMove(newMove);													
+						}
 					}
 					
-					m_Rooms.put(newRoom.getName(), newRoom);
+					// Add the room to the 
+					m_Rooms.put(new Integer(newRoom.getID()), newRoom);
+					
+					// If this is the starting room (always 1) then save it as
+					// the starting room
+					if(1 == newRoom.getID())
+					{
+						setStartingRoom(newRoom);
+					}
 				}
 				else
 				{
@@ -84,6 +108,10 @@ public class GameServer
 	
 	public void addUser(UserConnectionThread user)
 	{
+		// Set the starting room
+		user.setCurrentRoom(getStartingRoom());
+		
+		// Add the user to the game
 		m_userMap.put(user.getUserInfo().getUserName(), user);
 	}
 	

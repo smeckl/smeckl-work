@@ -1,4 +1,4 @@
-// $ANTLR 3.4 /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g 2013-10-20 17:30:47
+// $ANTLR 3.4 /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g 2013-10-25 01:03:09
 
   package MiniMUDShared;
 
@@ -68,15 +68,15 @@ public class MessageScanner extends Lexer {
     public MessageScanner(CharStream input, RecognizerSharedState state) {
         super(input,state);
     }
-    public String getGrammarFileName() { return "/home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g"; }
+    public String getGrammarFileName() { return "/home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g"; }
 
     // $ANTLR start "TEXTMSG"
     public final void mTEXTMSG() throws RecognitionException {
         try {
             int _type = TEXTMSG;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:9:8: ( 'text_msg' )
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:9:19: 'text_msg'
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:9:8: ( 'text_msg' )
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:9:19: 'text_msg'
             {
             match("text_msg"); 
 
@@ -98,8 +98,8 @@ public class MessageScanner extends Lexer {
         try {
             int _type = MESSAGE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:10:8: ( 'message' )
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:10:19: 'message'
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:10:8: ( 'message' )
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:10:19: 'message'
             {
             match("message"); 
 
@@ -121,8 +121,8 @@ public class MessageScanner extends Lexer {
         try {
             int _type = FROM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:11:5: ( 'from' )
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:11:19: 'from'
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:11:5: ( 'from' )
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:11:19: 'from'
             {
             match("from"); 
 
@@ -144,8 +144,8 @@ public class MessageScanner extends Lexer {
         try {
             int _type = TO;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:12:3: ( 'to' )
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:12:19: 'to'
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:12:3: ( 'to' )
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:12:19: 'to'
             {
             match("to"); 
 
@@ -167,8 +167,8 @@ public class MessageScanner extends Lexer {
         try {
             int _type = PLAYER;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:13:7: ( 'player' )
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:13:19: 'player'
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:13:7: ( 'player' )
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:13:19: 'player'
             {
             match("player"); 
 
@@ -190,8 +190,8 @@ public class MessageScanner extends Lexer {
         try {
             int _type = SERVER;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:14:7: ( 'server' )
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:14:19: 'server'
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:14:7: ( 'server' )
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:14:19: 'server'
             {
             match("server"); 
 
@@ -213,8 +213,8 @@ public class MessageScanner extends Lexer {
         try {
             int _type = REQUEST_INPUT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:15:14: ( 'request_input' )
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:15:19: 'request_input'
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:15:14: ( 'request_input' )
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:15:19: 'request_input'
             {
             match("request_input"); 
 
@@ -236,8 +236,8 @@ public class MessageScanner extends Lexer {
         try {
             int _type = TYPE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:16:5: ( 'type' )
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:16:19: 'type'
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:16:5: ( 'type' )
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:16:19: 'type'
             {
             match("type"); 
 
@@ -259,8 +259,8 @@ public class MessageScanner extends Lexer {
         try {
             int _type = NORMAL_INPUT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:17:13: ( 'normal_input' )
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:17:19: 'normal_input'
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:17:13: ( 'normal_input' )
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:17:19: 'normal_input'
             {
             match("normal_input"); 
 
@@ -282,8 +282,8 @@ public class MessageScanner extends Lexer {
         try {
             int _type = PASSWD_INPUT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:18:13: ( 'passwd_input' )
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:18:19: 'passwd_input'
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:18:13: ( 'passwd_input' )
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:18:19: 'passwd_input'
             {
             match("passwd_input"); 
 
@@ -305,8 +305,8 @@ public class MessageScanner extends Lexer {
         try {
             int _type = SERVER_STATUS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:19:14: ( 'server_status' )
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:19:19: 'server_status'
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:19:14: ( 'server_status' )
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:19:19: 'server_status'
             {
             match("server_status"); 
 
@@ -328,8 +328,8 @@ public class MessageScanner extends Lexer {
         try {
             int _type = LOGON_SUCCESS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:20:14: ( 'logon_success' )
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:20:19: 'logon_success'
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:20:14: ( 'logon_success' )
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:20:19: 'logon_success'
             {
             match("logon_success"); 
 
@@ -351,8 +351,8 @@ public class MessageScanner extends Lexer {
         try {
             int _type = LOGON_FAILED;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:21:13: ( 'logon_failed' )
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:21:19: 'logon_failed'
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:21:13: ( 'logon_failed' )
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:21:19: 'logon_failed'
             {
             match("logon_failed"); 
 
@@ -374,8 +374,8 @@ public class MessageScanner extends Lexer {
         try {
             int _type = INVALID;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:22:8: ( 'invalid' )
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:22:19: 'invalid'
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:22:8: ( 'invalid' )
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:22:19: 'invalid'
             {
             match("invalid"); 
 
@@ -397,8 +397,8 @@ public class MessageScanner extends Lexer {
         try {
             int _type = QUIT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:23:5: ( 'quit' )
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:23:19: 'quit'
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:23:5: ( 'quit' )
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:23:19: 'quit'
             {
             match("quit"); 
 
@@ -420,8 +420,8 @@ public class MessageScanner extends Lexer {
         try {
             int _type = EXIT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:24:5: ( 'exit' )
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:24:19: 'exit'
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:24:5: ( 'exit' )
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:24:19: 'exit'
             {
             match("exit"); 
 
@@ -443,8 +443,8 @@ public class MessageScanner extends Lexer {
         try {
             int _type = LOGOUT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:25:7: ( 'logout' )
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:25:19: 'logout'
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:25:7: ( 'logout' )
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:25:19: 'logout'
             {
             match("logout"); 
 
@@ -466,8 +466,8 @@ public class MessageScanner extends Lexer {
         try {
             int _type = TELL;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:26:5: ( '/tell' )
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:26:19: '/tell'
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:26:5: ( '/tell' )
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:26:19: '/tell'
             {
             match("/tell"); 
 
@@ -489,8 +489,8 @@ public class MessageScanner extends Lexer {
         try {
             int _type = SAY;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:27:4: ( '/say' )
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:27:19: '/say'
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:27:4: ( '/say' )
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:27:19: '/say'
             {
             match("/say"); 
 
@@ -512,8 +512,8 @@ public class MessageScanner extends Lexer {
         try {
             int _type = SHOUT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:28:6: ( '/shout' )
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:28:19: '/shout'
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:28:6: ( '/shout' )
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:28:19: '/shout'
             {
             match("/shout"); 
 
@@ -535,8 +535,8 @@ public class MessageScanner extends Lexer {
         try {
             int _type = WHISPER;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:29:8: ( '/whisper' )
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:29:19: '/whisper'
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:29:8: ( '/whisper' )
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:29:19: '/whisper'
             {
             match("/whisper"); 
 
@@ -558,8 +558,8 @@ public class MessageScanner extends Lexer {
         try {
             int _type = GO_NORTH;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:30:9: ( 'north' )
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:30:19: 'north'
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:30:9: ( 'north' )
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:30:19: 'north'
             {
             match("north"); 
 
@@ -581,8 +581,8 @@ public class MessageScanner extends Lexer {
         try {
             int _type = GO_SOUTH;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:31:9: ( 'south' )
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:31:19: 'south'
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:31:9: ( 'south' )
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:31:19: 'south'
             {
             match("south"); 
 
@@ -604,8 +604,8 @@ public class MessageScanner extends Lexer {
         try {
             int _type = GO_EAST;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:32:8: ( 'east' )
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:32:19: 'east'
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:32:8: ( 'east' )
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:32:19: 'east'
             {
             match("east"); 
 
@@ -627,8 +627,8 @@ public class MessageScanner extends Lexer {
         try {
             int _type = GO_WEST;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:33:8: ( 'west' )
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:33:19: 'west'
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:33:8: ( 'west' )
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:33:19: 'west'
             {
             match("west"); 
 
@@ -650,8 +650,8 @@ public class MessageScanner extends Lexer {
         try {
             int _type = GO_NORTHEAST;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:34:13: ( 'northeast' )
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:34:19: 'northeast'
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:34:13: ( 'northeast' )
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:34:19: 'northeast'
             {
             match("northeast"); 
 
@@ -673,8 +673,8 @@ public class MessageScanner extends Lexer {
         try {
             int _type = GO_NORTHWEST;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:35:13: ( 'northwest' )
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:35:19: 'northwest'
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:35:13: ( 'northwest' )
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:35:19: 'northwest'
             {
             match("northwest"); 
 
@@ -696,8 +696,8 @@ public class MessageScanner extends Lexer {
         try {
             int _type = GO_SOUTHEAST;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:36:13: ( 'southeast' )
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:36:19: 'southeast'
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:36:13: ( 'southeast' )
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:36:19: 'southeast'
             {
             match("southeast"); 
 
@@ -719,8 +719,8 @@ public class MessageScanner extends Lexer {
         try {
             int _type = GO_SOUTHWEST;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:37:13: ( 'southwest' )
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:37:19: 'southwest'
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:37:13: ( 'southwest' )
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:37:19: 'southwest'
             {
             match("southwest"); 
 
@@ -742,8 +742,8 @@ public class MessageScanner extends Lexer {
         try {
             int _type = GO_UP;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:38:6: ( 'up' )
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:38:19: 'up'
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:38:6: ( 'up' )
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:38:19: 'up'
             {
             match("up"); 
 
@@ -765,8 +765,8 @@ public class MessageScanner extends Lexer {
         try {
             int _type = GO_DOWN;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:39:8: ( 'down' )
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:39:19: 'down'
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:39:8: ( 'down' )
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:39:19: 'down'
             {
             match("down"); 
 
@@ -788,8 +788,8 @@ public class MessageScanner extends Lexer {
         try {
             int _type = WS_;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:41:5: ( ( ' ' | '\\n' | '\\t' | '\\r' ) )
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:41:7: ( ' ' | '\\n' | '\\t' | '\\r' )
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:41:5: ( ( ' ' | '\\n' | '\\t' | '\\r' ) )
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:41:7: ( ' ' | '\\n' | '\\t' | '\\r' )
             {
             if ( (input.LA(1) >= '\t' && input.LA(1) <= '\n')||input.LA(1)=='\r'||input.LA(1)==' ' ) {
                 input.consume();
@@ -819,10 +819,10 @@ public class MessageScanner extends Lexer {
         try {
             int _type = PRINTABLE_CHARS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:43:16: ( ( ' ' | '!' | ( '#' .. '&' ) | ( '(' .. '/' ) | ( ':' .. '<' ) | ( '>' .. '@' ) | '[' | ( ']' .. '`' ) | DIGIT | CHAR ) )
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:43:16: ( ( ' ' | '!' | ( '#' .. '&' ) | ( '(' .. '/' ) | ( ':' .. '<' ) | ( '>' .. '@' ) | '[' | ( ']' .. '`' ) | DIGIT | CHAR ) )
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:
             {
-            if ( (input.LA(1) >= ' ' && input.LA(1) <= '!')||(input.LA(1) >= '#' && input.LA(1) <= '&')||(input.LA(1) >= '(' && input.LA(1) <= '<')||(input.LA(1) >= '>' && input.LA(1) <= '[')||(input.LA(1) >= ']' && input.LA(1) <= 'z') ) {
+            if ( (input.LA(1) >= ' ' && input.LA(1) <= '!')||(input.LA(1) >= '#' && input.LA(1) <= '<')||(input.LA(1) >= '>' && input.LA(1) <= '[')||(input.LA(1) >= ']' && input.LA(1) <= 'z') ) {
                 input.consume();
             }
             else {
@@ -848,19 +848,19 @@ public class MessageScanner extends Lexer {
         try {
             int _type = CHARLITERAL;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:45:13: ( '\\'' ( ESCAPE | PRINTABLE_CHARS ) '\\'' )
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:45:15: '\\'' ( ESCAPE | PRINTABLE_CHARS ) '\\''
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:45:13: ( '\\'' ( ESCAPE | PRINTABLE_CHARS ) '\\'' )
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:45:15: '\\'' ( ESCAPE | PRINTABLE_CHARS ) '\\''
             {
             match('\''); 
 
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:45:20: ( ESCAPE | PRINTABLE_CHARS )
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:45:20: ( ESCAPE | PRINTABLE_CHARS )
             int alt1=2;
             int LA1_0 = input.LA(1);
 
             if ( (LA1_0=='\\') ) {
                 alt1=1;
             }
-            else if ( ((LA1_0 >= ' ' && LA1_0 <= '!')||(LA1_0 >= '#' && LA1_0 <= '&')||(LA1_0 >= '(' && LA1_0 <= '<')||(LA1_0 >= '>' && LA1_0 <= '[')||(LA1_0 >= ']' && LA1_0 <= 'z')) ) {
+            else if ( ((LA1_0 >= ' ' && LA1_0 <= '!')||(LA1_0 >= '#' && LA1_0 <= '<')||(LA1_0 >= '>' && LA1_0 <= '[')||(LA1_0 >= ']' && LA1_0 <= 'z')) ) {
                 alt1=2;
             }
             else {
@@ -872,7 +872,7 @@ public class MessageScanner extends Lexer {
             }
             switch (alt1) {
                 case 1 :
-                    // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:45:22: ESCAPE
+                    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:45:22: ESCAPE
                     {
                     mESCAPE(); 
 
@@ -880,7 +880,7 @@ public class MessageScanner extends Lexer {
                     }
                     break;
                 case 2 :
-                    // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:45:31: PRINTABLE_CHARS
+                    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:45:31: PRINTABLE_CHARS
                     {
                     mPRINTABLE_CHARS(); 
 
@@ -909,12 +909,12 @@ public class MessageScanner extends Lexer {
         try {
             int _type = STRINGLITERAL;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:47:15: ( '\"' ( ESCAPE | PRINTABLE_CHARS )* ( '\"' ) )
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:47:17: '\"' ( ESCAPE | PRINTABLE_CHARS )* ( '\"' )
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:47:15: ( '\"' ( ESCAPE | PRINTABLE_CHARS )* ( '\"' ) )
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:47:17: '\"' ( ESCAPE | PRINTABLE_CHARS )* ( '\"' )
             {
             match('\"'); 
 
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:48:9: ( ESCAPE | PRINTABLE_CHARS )*
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:48:9: ( ESCAPE | PRINTABLE_CHARS )*
             loop2:
             do {
                 int alt2=3;
@@ -923,14 +923,14 @@ public class MessageScanner extends Lexer {
                 if ( (LA2_0=='\\') ) {
                     alt2=1;
                 }
-                else if ( ((LA2_0 >= ' ' && LA2_0 <= '!')||(LA2_0 >= '#' && LA2_0 <= '&')||(LA2_0 >= '(' && LA2_0 <= '<')||(LA2_0 >= '>' && LA2_0 <= '[')||(LA2_0 >= ']' && LA2_0 <= 'z')) ) {
+                else if ( ((LA2_0 >= ' ' && LA2_0 <= '!')||(LA2_0 >= '#' && LA2_0 <= '<')||(LA2_0 >= '>' && LA2_0 <= '[')||(LA2_0 >= ']' && LA2_0 <= 'z')) ) {
                     alt2=2;
                 }
 
 
                 switch (alt2) {
             	case 1 :
-            	    // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:48:11: ESCAPE
+            	    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:48:11: ESCAPE
             	    {
             	    mESCAPE(); 
 
@@ -938,7 +938,7 @@ public class MessageScanner extends Lexer {
             	    }
             	    break;
             	case 2 :
-            	    // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:49:11: PRINTABLE_CHARS
+            	    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:49:11: PRINTABLE_CHARS
             	    {
             	    mPRINTABLE_CHARS(); 
 
@@ -952,8 +952,8 @@ public class MessageScanner extends Lexer {
             } while (true);
 
 
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:51:9: ( '\"' )
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:51:10: '\"'
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:51:9: ( '\"' )
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:51:10: '\"'
             {
             match('\"'); 
 
@@ -976,10 +976,10 @@ public class MessageScanner extends Lexer {
         try {
             int _type = CHARNAME;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:53:9: ( ( CHAR ) ( DIGIT | CHAR )+ )
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:53:11: ( CHAR ) ( DIGIT | CHAR )+
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:53:9: ( ( CHAR ) ( DIGIT | CHAR )+ )
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:53:11: ( CHAR ) ( DIGIT | CHAR )+
             {
-            if ( (input.LA(1) >= 'A' && input.LA(1) <= 'Z')||(input.LA(1) >= 'a' && input.LA(1) <= 'z') ) {
+            if ( input.LA(1)=='\''||(input.LA(1) >= 'A' && input.LA(1) <= 'Z')||(input.LA(1) >= 'a' && input.LA(1) <= 'z') ) {
                 input.consume();
             }
             else {
@@ -989,23 +989,23 @@ public class MessageScanner extends Lexer {
             }
 
 
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:53:17: ( DIGIT | CHAR )+
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:53:17: ( DIGIT | CHAR )+
             int cnt3=0;
             loop3:
             do {
                 int alt3=2;
                 int LA3_0 = input.LA(1);
 
-                if ( ((LA3_0 >= '0' && LA3_0 <= '9')||(LA3_0 >= 'A' && LA3_0 <= 'Z')||(LA3_0 >= 'a' && LA3_0 <= 'z')) ) {
+                if ( (LA3_0=='\''||(LA3_0 >= '0' && LA3_0 <= '9')||(LA3_0 >= 'A' && LA3_0 <= 'Z')||(LA3_0 >= 'a' && LA3_0 <= 'z')) ) {
                     alt3=1;
                 }
 
 
                 switch (alt3) {
             	case 1 :
-            	    // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:
+            	    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:
             	    {
-            	    if ( (input.LA(1) >= '0' && input.LA(1) <= '9')||(input.LA(1) >= 'A' && input.LA(1) <= 'Z')||(input.LA(1) >= 'a' && input.LA(1) <= 'z') ) {
+            	    if ( input.LA(1)=='\''||(input.LA(1) >= '0' && input.LA(1) <= '9')||(input.LA(1) >= 'A' && input.LA(1) <= 'Z')||(input.LA(1) >= 'a' && input.LA(1) <= 'z') ) {
             	        input.consume();
             	    }
             	    else {
@@ -1042,8 +1042,8 @@ public class MessageScanner extends Lexer {
     // $ANTLR start "DIGIT"
     public final void mDIGIT() throws RecognitionException {
         try {
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:55:15: ( ( '0' .. '9' ) )
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:55:15: ( ( '0' .. '9' ) )
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:
             {
             if ( (input.LA(1) >= '0' && input.LA(1) <= '9') ) {
                 input.consume();
@@ -1068,10 +1068,10 @@ public class MessageScanner extends Lexer {
     // $ANTLR start "DECIMAL_LITERAL"
     public final void mDECIMAL_LITERAL() throws RecognitionException {
         try {
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:57:25: ( ( DIGIT )+ )
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:57:27: ( DIGIT )+
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:57:25: ( ( DIGIT )+ )
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:57:27: ( DIGIT )+
             {
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:57:27: ( DIGIT )+
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:57:27: ( DIGIT )+
             int cnt4=0;
             loop4:
             do {
@@ -1085,7 +1085,7 @@ public class MessageScanner extends Lexer {
 
                 switch (alt4) {
             	case 1 :
-            	    // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:
+            	    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:
             	    {
             	    if ( (input.LA(1) >= '0' && input.LA(1) <= '9') ) {
             	        input.consume();
@@ -1123,8 +1123,8 @@ public class MessageScanner extends Lexer {
     // $ANTLR start "HEX_DIGIT"
     public final void mHEX_DIGIT() throws RecognitionException {
         try {
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:59:19: ( ( DIGIT | 'a' .. 'f' | 'A' .. 'F' ) )
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:59:19: ( ( DIGIT | 'a' .. 'f' | 'A' .. 'F' ) )
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:
             {
             if ( (input.LA(1) >= '0' && input.LA(1) <= '9')||(input.LA(1) >= 'A' && input.LA(1) <= 'F')||(input.LA(1) >= 'a' && input.LA(1) <= 'f') ) {
                 input.consume();
@@ -1149,8 +1149,8 @@ public class MessageScanner extends Lexer {
     // $ANTLR start "HEX_LITERAL"
     public final void mHEX_LITERAL() throws RecognitionException {
         try {
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:61:21: ( '0' ( 'x' | 'X' ) ( HEX_DIGIT )+ )
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:61:23: '0' ( 'x' | 'X' ) ( HEX_DIGIT )+
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:61:21: ( '0' ( 'x' | 'X' ) ( HEX_DIGIT )+ )
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:61:23: '0' ( 'x' | 'X' ) ( HEX_DIGIT )+
             {
             match('0'); 
 
@@ -1164,7 +1164,7 @@ public class MessageScanner extends Lexer {
             }
 
 
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:61:39: ( HEX_DIGIT )+
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:61:39: ( HEX_DIGIT )+
             int cnt5=0;
             loop5:
             do {
@@ -1178,7 +1178,7 @@ public class MessageScanner extends Lexer {
 
                 switch (alt5) {
             	case 1 :
-            	    // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:
+            	    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:
             	    {
             	    if ( (input.LA(1) >= '0' && input.LA(1) <= '9')||(input.LA(1) >= 'A' && input.LA(1) <= 'F')||(input.LA(1) >= 'a' && input.LA(1) <= 'f') ) {
             	        input.consume();
@@ -1216,10 +1216,10 @@ public class MessageScanner extends Lexer {
     // $ANTLR start "CHAR"
     public final void mCHAR() throws RecognitionException {
         try {
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:63:14: ( ( 'a' .. 'z' | 'A' .. 'Z' ) )
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:63:14: ( ( 'a' .. 'z' | 'A' .. 'Z' | '\\'' ) )
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:
             {
-            if ( (input.LA(1) >= 'A' && input.LA(1) <= 'Z')||(input.LA(1) >= 'a' && input.LA(1) <= 'z') ) {
+            if ( input.LA(1)=='\''||(input.LA(1) >= 'A' && input.LA(1) <= 'Z')||(input.LA(1) >= 'a' && input.LA(1) <= 'z') ) {
                 input.consume();
             }
             else {
@@ -1242,42 +1242,67 @@ public class MessageScanner extends Lexer {
     // $ANTLR start "ESCAPE"
     public final void mESCAPE() throws RecognitionException {
         try {
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:66:8: ( '\\\\' ( 'n' | 'r' | 't' | '\\\\' | '\"' | '\\'' ) )
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:66:11: '\\\\' ( 'n' | 'r' | 't' | '\\\\' | '\"' | '\\'' )
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:66:7: ( '\\\\' ( 'n' | 't' | 'v' | 'b' | 'r' | 'f' | 'a' | '\\\\' | '?' | '\\'' | '\"' ) )
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:66:9: '\\\\' ( 'n' | 't' | 'v' | 'b' | 'r' | 'f' | 'a' | '\\\\' | '?' | '\\'' | '\"' )
             {
             match('\\'); 
 
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:67:3: ( 'n' | 'r' | 't' | '\\\\' | '\"' | '\\'' )
-            int alt6=6;
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:67:6: ( 'n' | 't' | 'v' | 'b' | 'r' | 'f' | 'a' | '\\\\' | '?' | '\\'' | '\"' )
+            int alt6=11;
             switch ( input.LA(1) ) {
             case 'n':
                 {
                 alt6=1;
                 }
                 break;
-            case 'r':
+            case 't':
                 {
                 alt6=2;
                 }
                 break;
-            case 't':
+            case 'v':
                 {
                 alt6=3;
                 }
                 break;
-            case '\\':
+            case 'b':
                 {
                 alt6=4;
                 }
                 break;
-            case '\"':
+            case 'r':
                 {
                 alt6=5;
                 }
                 break;
-            case '\'':
+            case 'f':
                 {
                 alt6=6;
+                }
+                break;
+            case 'a':
+                {
+                alt6=7;
+                }
+                break;
+            case '\\':
+                {
+                alt6=8;
+                }
+                break;
+            case '?':
+                {
+                alt6=9;
+                }
+                break;
+            case '\'':
+                {
+                alt6=10;
+                }
+                break;
+            case '\"':
+                {
+                alt6=11;
                 }
                 break;
             default:
@@ -1290,56 +1315,101 @@ public class MessageScanner extends Lexer {
 
             switch (alt6) {
                 case 1 :
-                    // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:67:5: 'n'
+                    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:67:8: 'n'
                     {
                     match('n'); 
 
-                     setText("\\n"); 
+                    this.setText("\n");
 
                     }
                     break;
                 case 2 :
-                    // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:68:7: 'r'
+                    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:68:8: 't'
                     {
-                    match('r'); 
+                    match('t'); 
 
-                     setText("\\r"); 
+                    this.setText("\t");
 
                     }
                     break;
                 case 3 :
-                    // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:69:7: 't'
+                    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:69:8: 'v'
                     {
-                    match('t'); 
+                    match('v'); 
 
-                     setText("\\t"); 
+                    this.setText("\013");
 
                     }
                     break;
                 case 4 :
-                    // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:70:7: '\\\\'
+                    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:70:8: 'b'
                     {
-                    match('\\'); 
+                    match('b'); 
 
-                     setText("\\\\"); 
+                    this.setText("\b");
 
                     }
                     break;
                 case 5 :
-                    // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:71:7: '\"'
+                    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:71:8: 'r'
                     {
-                    match('\"'); 
+                    match('r'); 
 
-                     setText("\\\""); 
+                    this.setText("\r");
 
                     }
                     break;
                 case 6 :
-                    // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:72:7: '\\''
+                    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:72:8: 'f'
+                    {
+                    match('f'); 
+
+                    this.setText("\r");
+
+                    }
+                    break;
+                case 7 :
+                    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:73:8: 'a'
+                    {
+                    match('a'); 
+
+                    this.setText("\007");
+
+                    }
+                    break;
+                case 8 :
+                    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:74:8: '\\\\'
+                    {
+                    match('\\'); 
+
+                    this.setText("\\");
+
+                    }
+                    break;
+                case 9 :
+                    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:75:8: '?'
+                    {
+                    match('?'); 
+
+                    this.setText("?");
+
+                    }
+                    break;
+                case 10 :
+                    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:76:8: '\\''
                     {
                     match('\''); 
 
-                     setText("\\\'"); 
+                    this.setText"'";
+
+                    }
+                    break;
+                case 11 :
+                    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:77:8: '\"'
+                    {
+                    match('\"'); 
+
+                    this.setText("\"");
 
                     }
                     break;
@@ -1362,8 +1432,8 @@ public class MessageScanner extends Lexer {
         try {
             int _type = EQUALS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:75:9: ( '=' )
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:75:11: '='
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:81:9: ( '=' )
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:81:11: '='
             {
             match('='); 
 
@@ -1379,12 +1449,12 @@ public class MessageScanner extends Lexer {
     // $ANTLR end "EQUALS"
 
     public void mTokens() throws RecognitionException {
-        // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:8: ( TEXTMSG | MESSAGE | FROM | TO | PLAYER | SERVER | REQUEST_INPUT | TYPE | NORMAL_INPUT | PASSWD_INPUT | SERVER_STATUS | LOGON_SUCCESS | LOGON_FAILED | INVALID | QUIT | EXIT | LOGOUT | TELL | SAY | SHOUT | WHISPER | GO_NORTH | GO_SOUTH | GO_EAST | GO_WEST | GO_NORTHEAST | GO_NORTHWEST | GO_SOUTHEAST | GO_SOUTHWEST | GO_UP | GO_DOWN | WS_ | PRINTABLE_CHARS | CHARLITERAL | STRINGLITERAL | CHARNAME | EQUALS )
+        // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:8: ( TEXTMSG | MESSAGE | FROM | TO | PLAYER | SERVER | REQUEST_INPUT | TYPE | NORMAL_INPUT | PASSWD_INPUT | SERVER_STATUS | LOGON_SUCCESS | LOGON_FAILED | INVALID | QUIT | EXIT | LOGOUT | TELL | SAY | SHOUT | WHISPER | GO_NORTH | GO_SOUTH | GO_EAST | GO_WEST | GO_NORTHEAST | GO_NORTHWEST | GO_SOUTHEAST | GO_SOUTHWEST | GO_UP | GO_DOWN | WS_ | PRINTABLE_CHARS | CHARLITERAL | STRINGLITERAL | CHARNAME | EQUALS )
         int alt7=37;
         alt7 = dfa7.predict(input);
         switch (alt7) {
             case 1 :
-                // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:10: TEXTMSG
+                // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:10: TEXTMSG
                 {
                 mTEXTMSG(); 
 
@@ -1392,7 +1462,7 @@ public class MessageScanner extends Lexer {
                 }
                 break;
             case 2 :
-                // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:18: MESSAGE
+                // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:18: MESSAGE
                 {
                 mMESSAGE(); 
 
@@ -1400,7 +1470,7 @@ public class MessageScanner extends Lexer {
                 }
                 break;
             case 3 :
-                // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:26: FROM
+                // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:26: FROM
                 {
                 mFROM(); 
 
@@ -1408,7 +1478,7 @@ public class MessageScanner extends Lexer {
                 }
                 break;
             case 4 :
-                // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:31: TO
+                // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:31: TO
                 {
                 mTO(); 
 
@@ -1416,7 +1486,7 @@ public class MessageScanner extends Lexer {
                 }
                 break;
             case 5 :
-                // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:34: PLAYER
+                // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:34: PLAYER
                 {
                 mPLAYER(); 
 
@@ -1424,7 +1494,7 @@ public class MessageScanner extends Lexer {
                 }
                 break;
             case 6 :
-                // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:41: SERVER
+                // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:41: SERVER
                 {
                 mSERVER(); 
 
@@ -1432,7 +1502,7 @@ public class MessageScanner extends Lexer {
                 }
                 break;
             case 7 :
-                // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:48: REQUEST_INPUT
+                // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:48: REQUEST_INPUT
                 {
                 mREQUEST_INPUT(); 
 
@@ -1440,7 +1510,7 @@ public class MessageScanner extends Lexer {
                 }
                 break;
             case 8 :
-                // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:62: TYPE
+                // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:62: TYPE
                 {
                 mTYPE(); 
 
@@ -1448,7 +1518,7 @@ public class MessageScanner extends Lexer {
                 }
                 break;
             case 9 :
-                // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:67: NORMAL_INPUT
+                // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:67: NORMAL_INPUT
                 {
                 mNORMAL_INPUT(); 
 
@@ -1456,7 +1526,7 @@ public class MessageScanner extends Lexer {
                 }
                 break;
             case 10 :
-                // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:80: PASSWD_INPUT
+                // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:80: PASSWD_INPUT
                 {
                 mPASSWD_INPUT(); 
 
@@ -1464,7 +1534,7 @@ public class MessageScanner extends Lexer {
                 }
                 break;
             case 11 :
-                // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:93: SERVER_STATUS
+                // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:93: SERVER_STATUS
                 {
                 mSERVER_STATUS(); 
 
@@ -1472,7 +1542,7 @@ public class MessageScanner extends Lexer {
                 }
                 break;
             case 12 :
-                // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:107: LOGON_SUCCESS
+                // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:107: LOGON_SUCCESS
                 {
                 mLOGON_SUCCESS(); 
 
@@ -1480,7 +1550,7 @@ public class MessageScanner extends Lexer {
                 }
                 break;
             case 13 :
-                // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:121: LOGON_FAILED
+                // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:121: LOGON_FAILED
                 {
                 mLOGON_FAILED(); 
 
@@ -1488,7 +1558,7 @@ public class MessageScanner extends Lexer {
                 }
                 break;
             case 14 :
-                // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:134: INVALID
+                // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:134: INVALID
                 {
                 mINVALID(); 
 
@@ -1496,7 +1566,7 @@ public class MessageScanner extends Lexer {
                 }
                 break;
             case 15 :
-                // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:142: QUIT
+                // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:142: QUIT
                 {
                 mQUIT(); 
 
@@ -1504,7 +1574,7 @@ public class MessageScanner extends Lexer {
                 }
                 break;
             case 16 :
-                // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:147: EXIT
+                // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:147: EXIT
                 {
                 mEXIT(); 
 
@@ -1512,7 +1582,7 @@ public class MessageScanner extends Lexer {
                 }
                 break;
             case 17 :
-                // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:152: LOGOUT
+                // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:152: LOGOUT
                 {
                 mLOGOUT(); 
 
@@ -1520,7 +1590,7 @@ public class MessageScanner extends Lexer {
                 }
                 break;
             case 18 :
-                // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:159: TELL
+                // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:159: TELL
                 {
                 mTELL(); 
 
@@ -1528,7 +1598,7 @@ public class MessageScanner extends Lexer {
                 }
                 break;
             case 19 :
-                // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:164: SAY
+                // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:164: SAY
                 {
                 mSAY(); 
 
@@ -1536,7 +1606,7 @@ public class MessageScanner extends Lexer {
                 }
                 break;
             case 20 :
-                // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:168: SHOUT
+                // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:168: SHOUT
                 {
                 mSHOUT(); 
 
@@ -1544,7 +1614,7 @@ public class MessageScanner extends Lexer {
                 }
                 break;
             case 21 :
-                // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:174: WHISPER
+                // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:174: WHISPER
                 {
                 mWHISPER(); 
 
@@ -1552,7 +1622,7 @@ public class MessageScanner extends Lexer {
                 }
                 break;
             case 22 :
-                // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:182: GO_NORTH
+                // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:182: GO_NORTH
                 {
                 mGO_NORTH(); 
 
@@ -1560,7 +1630,7 @@ public class MessageScanner extends Lexer {
                 }
                 break;
             case 23 :
-                // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:191: GO_SOUTH
+                // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:191: GO_SOUTH
                 {
                 mGO_SOUTH(); 
 
@@ -1568,7 +1638,7 @@ public class MessageScanner extends Lexer {
                 }
                 break;
             case 24 :
-                // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:200: GO_EAST
+                // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:200: GO_EAST
                 {
                 mGO_EAST(); 
 
@@ -1576,7 +1646,7 @@ public class MessageScanner extends Lexer {
                 }
                 break;
             case 25 :
-                // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:208: GO_WEST
+                // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:208: GO_WEST
                 {
                 mGO_WEST(); 
 
@@ -1584,7 +1654,7 @@ public class MessageScanner extends Lexer {
                 }
                 break;
             case 26 :
-                // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:216: GO_NORTHEAST
+                // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:216: GO_NORTHEAST
                 {
                 mGO_NORTHEAST(); 
 
@@ -1592,7 +1662,7 @@ public class MessageScanner extends Lexer {
                 }
                 break;
             case 27 :
-                // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:229: GO_NORTHWEST
+                // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:229: GO_NORTHWEST
                 {
                 mGO_NORTHWEST(); 
 
@@ -1600,7 +1670,7 @@ public class MessageScanner extends Lexer {
                 }
                 break;
             case 28 :
-                // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:242: GO_SOUTHEAST
+                // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:242: GO_SOUTHEAST
                 {
                 mGO_SOUTHEAST(); 
 
@@ -1608,7 +1678,7 @@ public class MessageScanner extends Lexer {
                 }
                 break;
             case 29 :
-                // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:255: GO_SOUTHWEST
+                // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:255: GO_SOUTHWEST
                 {
                 mGO_SOUTHWEST(); 
 
@@ -1616,7 +1686,7 @@ public class MessageScanner extends Lexer {
                 }
                 break;
             case 30 :
-                // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:268: GO_UP
+                // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:268: GO_UP
                 {
                 mGO_UP(); 
 
@@ -1624,7 +1694,7 @@ public class MessageScanner extends Lexer {
                 }
                 break;
             case 31 :
-                // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:274: GO_DOWN
+                // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:274: GO_DOWN
                 {
                 mGO_DOWN(); 
 
@@ -1632,7 +1702,7 @@ public class MessageScanner extends Lexer {
                 }
                 break;
             case 32 :
-                // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:282: WS_
+                // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:282: WS_
                 {
                 mWS_(); 
 
@@ -1640,7 +1710,7 @@ public class MessageScanner extends Lexer {
                 }
                 break;
             case 33 :
-                // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:286: PRINTABLE_CHARS
+                // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:286: PRINTABLE_CHARS
                 {
                 mPRINTABLE_CHARS(); 
 
@@ -1648,7 +1718,7 @@ public class MessageScanner extends Lexer {
                 }
                 break;
             case 34 :
-                // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:302: CHARLITERAL
+                // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:302: CHARLITERAL
                 {
                 mCHARLITERAL(); 
 
@@ -1656,7 +1726,7 @@ public class MessageScanner extends Lexer {
                 }
                 break;
             case 35 :
-                // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:314: STRINGLITERAL
+                // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:314: STRINGLITERAL
                 {
                 mSTRINGLITERAL(); 
 
@@ -1664,7 +1734,7 @@ public class MessageScanner extends Lexer {
                 }
                 break;
             case 36 :
-                // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:328: CHARNAME
+                // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:328: CHARNAME
                 {
                 mCHARNAME(); 
 
@@ -1672,7 +1742,7 @@ public class MessageScanner extends Lexer {
                 }
                 break;
             case 37 :
-                // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:337: EQUALS
+                // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g:1:337: EQUALS
                 {
                 mEQUALS(); 
 
@@ -1687,81 +1757,84 @@ public class MessageScanner extends Lexer {
 
     protected DFA7 dfa7 = new DFA7(this);
     static final String DFA7_eotS =
-        "\1\uffff\17\25\2\uffff\1\25\4\uffff\1\32\1\57\1\32\1\uffff\15\32"+
-        "\3\uffff\1\32\1\101\2\32\1\uffff\16\32\2\uffff\1\32\1\uffff\2\32"+
-        "\1\126\1\32\1\130\11\32\1\143\1\144\1\145\1\146\1\147\2\uffff\1"+
-        "\32\1\uffff\3\32\1\156\2\32\1\163\3\32\5\uffff\1\32\1\170\1\32\1"+
-        "\173\2\32\1\uffff\4\32\2\uffff\1\u0084\1\32\1\u0086\4\uffff\3\32"+
-        "\1\uffff\2\32\3\uffff\1\u008c\1\uffff\2\32\1\uffff\2\32\1\uffff"+
-        "\1\u0091\1\u0092\1\u0093\1\u0094\4\uffff";
+        "\1\uffff\17\25\2\uffff\2\25\3\uffff\1\32\1\61\1\32\1\uffff\15\32"+
+        "\3\uffff\1\32\1\103\1\32\1\uffff\2\32\1\uffff\16\32\2\uffff\1\32"+
+        "\1\uffff\1\32\1\56\1\32\1\131\1\32\1\133\11\32\1\146\1\147\1\150"+
+        "\1\151\1\152\2\uffff\1\32\1\uffff\3\32\1\161\2\32\1\166\3\32\5\uffff"+
+        "\1\32\1\173\1\32\1\176\2\32\1\uffff\4\32\2\uffff\1\u0087\1\32\1"+
+        "\u0089\4\uffff\3\32\1\uffff\2\32\3\uffff\1\u008f\1\uffff\2\32\1"+
+        "\uffff\2\32\1\uffff\1\u0094\1\u0095\1\u0096\1\u0097\4\uffff";
     static final String DFA7_eofS =
-        "\u0095\uffff";
+        "\u0098\uffff";
     static final String DFA7_minS =
-        "\1\11\13\60\1\163\3\60\2\uffff\1\60\4\uffff\1\170\1\60\1\160\1\uffff"+
-        "\1\163\1\157\1\141\1\163\1\162\1\165\1\161\1\162\1\147\1\166\2\151"+
-        "\1\163\1\uffff\1\141\1\uffff\1\163\1\60\1\167\1\164\1\uffff\1\145"+
-        "\1\163\1\155\1\171\1\163\1\166\1\164\1\165\1\155\1\157\1\141\3\164"+
-        "\2\uffff\1\164\1\uffff\1\156\1\137\1\60\1\141\1\60\1\145\1\167\1"+
-        "\145\1\150\1\145\1\141\1\150\1\156\1\154\5\60\2\uffff\1\147\1\uffff"+
-        "\1\162\1\144\1\162\1\60\1\163\1\154\1\60\1\137\1\164\1\151\5\uffff"+
-        "\1\145\1\60\1\137\1\60\1\141\1\145\1\uffff\1\164\1\137\1\141\1\145"+
-        "\1\uffff\1\146\1\60\1\144\1\60\4\uffff\2\163\1\137\1\uffff\2\163"+
-        "\3\uffff\1\60\1\uffff\2\164\1\uffff\2\164\1\uffff\4\60\4\uffff";
+        "\1\11\13\47\1\163\3\47\2\uffff\1\40\1\47\3\uffff\1\170\1\47\1\160"+
+        "\1\uffff\1\163\1\157\1\141\1\163\1\162\1\165\1\161\1\162\1\147\1"+
+        "\166\2\151\1\163\1\uffff\1\141\1\uffff\1\163\1\47\1\167\1\uffff"+
+        "\1\47\1\164\1\uffff\1\145\1\163\1\155\1\171\1\163\1\166\1\164\1"+
+        "\165\1\155\1\157\1\141\3\164\2\uffff\1\164\1\uffff\1\156\1\47\1"+
+        "\137\1\47\1\141\1\47\1\145\1\167\1\145\1\150\1\145\1\141\1\150\1"+
+        "\156\1\154\5\47\2\uffff\1\147\1\uffff\1\162\1\144\1\162\1\47\1\163"+
+        "\1\154\1\47\1\137\1\164\1\151\5\uffff\1\145\1\47\1\137\1\47\1\141"+
+        "\1\145\1\uffff\1\164\1\137\1\141\1\145\1\uffff\1\146\1\47\1\144"+
+        "\1\47\4\uffff\2\163\1\137\1\uffff\2\163\3\uffff\1\47\1\uffff\2\164"+
+        "\1\uffff\2\164\1\uffff\4\47\4\uffff";
     static final String DFA7_maxS =
-        "\14\172\1\167\3\172\2\uffff\1\172\4\uffff\1\170\1\172\1\160\1\uffff"+
+        "\14\172\1\167\3\172\2\uffff\2\172\3\uffff\1\170\1\172\1\160\1\uffff"+
         "\1\163\1\157\1\141\1\163\1\162\1\165\1\161\1\162\1\147\1\166\2\151"+
-        "\1\163\1\uffff\1\150\1\uffff\1\163\1\172\1\167\1\164\1\uffff\1\145"+
-        "\1\163\1\155\1\171\1\163\1\166\1\164\1\165\1\164\1\157\1\141\3\164"+
-        "\2\uffff\1\164\1\uffff\1\156\1\137\1\172\1\141\1\172\1\145\1\167"+
-        "\1\145\1\150\1\145\1\141\1\150\1\165\1\154\5\172\2\uffff\1\147\1"+
-        "\uffff\1\162\1\144\1\162\1\172\1\163\1\154\1\172\1\137\1\164\1\151"+
-        "\5\uffff\1\145\1\172\1\137\1\172\1\141\1\145\1\uffff\1\164\1\137"+
-        "\1\141\1\145\1\uffff\1\163\1\172\1\144\1\172\4\uffff\2\163\1\137"+
-        "\1\uffff\2\163\3\uffff\1\172\1\uffff\2\164\1\uffff\2\164\1\uffff"+
-        "\4\172\4\uffff";
+        "\1\163\1\uffff\1\150\1\uffff\1\163\1\172\1\167\1\uffff\1\47\1\164"+
+        "\1\uffff\1\145\1\163\1\155\1\171\1\163\1\166\1\164\1\165\1\164\1"+
+        "\157\1\141\3\164\2\uffff\1\164\1\uffff\1\156\1\172\1\137\1\172\1"+
+        "\141\1\172\1\145\1\167\1\145\1\150\1\145\1\141\1\150\1\165\1\154"+
+        "\5\172\2\uffff\1\147\1\uffff\1\162\1\144\1\162\1\172\1\163\1\154"+
+        "\1\172\1\137\1\164\1\151\5\uffff\1\145\1\172\1\137\1\172\1\141\1"+
+        "\145\1\uffff\1\164\1\137\1\141\1\145\1\uffff\1\163\1\172\1\144\1"+
+        "\172\4\uffff\2\163\1\137\1\uffff\2\163\3\uffff\1\172\1\uffff\2\164"+
+        "\1\uffff\2\164\1\uffff\4\172\4\uffff";
     static final String DFA7_acceptS =
-        "\20\uffff\2\40\1\uffff\1\42\1\43\1\41\1\45\3\uffff\1\44\15\uffff"+
-        "\1\22\1\uffff\1\25\4\uffff\1\4\16\uffff\1\23\1\24\1\uffff\1\36\23"+
-        "\uffff\1\1\1\10\1\uffff\1\3\12\uffff\1\17\1\20\1\30\1\31\1\37\6"+
-        "\uffff\1\27\4\uffff\1\26\4\uffff\1\5\1\12\1\13\1\6\3\uffff\1\11"+
-        "\2\uffff\1\14\1\15\1\21\1\uffff\1\2\2\uffff\1\7\2\uffff\1\16\4\uffff"+
-        "\1\34\1\35\1\32\1\33";
+        "\20\uffff\2\40\2\uffff\1\43\1\41\1\45\3\uffff\1\44\15\uffff\1\22"+
+        "\1\uffff\1\25\3\uffff\1\42\2\uffff\1\4\16\uffff\1\23\1\24\1\uffff"+
+        "\1\36\24\uffff\1\1\1\10\1\uffff\1\3\12\uffff\1\17\1\20\1\30\1\31"+
+        "\1\37\6\uffff\1\27\4\uffff\1\26\4\uffff\1\5\1\12\1\13\1\6\3\uffff"+
+        "\1\11\2\uffff\1\14\1\15\1\21\1\uffff\1\2\2\uffff\1\7\2\uffff\1\16"+
+        "\4\uffff\1\34\1\35\1\32\1\33";
     static final String DFA7_specialS =
-        "\u0095\uffff}>";
+        "\u0098\uffff}>";
     static final String[] DFA7_transitionS = {
-            "\2\21\2\uffff\1\21\22\uffff\1\20\1\25\1\24\4\25\1\23\7\25\1"+
-            "\14\15\25\1\26\3\25\32\22\1\25\1\uffff\4\25\3\22\1\17\1\13\1"+
-            "\3\2\22\1\11\2\22\1\10\1\2\1\7\1\22\1\4\1\12\1\6\1\5\1\1\1\16"+
-            "\1\22\1\15\3\22",
-            "\12\32\7\uffff\32\32\6\uffff\4\32\1\27\11\32\1\30\11\32\1\31"+
-            "\1\32",
-            "\12\32\7\uffff\32\32\6\uffff\4\32\1\33\25\32",
-            "\12\32\7\uffff\32\32\6\uffff\21\32\1\34\10\32",
-            "\12\32\7\uffff\32\32\6\uffff\1\36\12\32\1\35\16\32",
-            "\12\32\7\uffff\32\32\6\uffff\4\32\1\37\11\32\1\40\13\32",
-            "\12\32\7\uffff\32\32\6\uffff\4\32\1\41\25\32",
-            "\12\32\7\uffff\32\32\6\uffff\16\32\1\42\13\32",
-            "\12\32\7\uffff\32\32\6\uffff\16\32\1\43\13\32",
-            "\12\32\7\uffff\32\32\6\uffff\15\32\1\44\14\32",
-            "\12\32\7\uffff\32\32\6\uffff\24\32\1\45\5\32",
-            "\12\32\7\uffff\32\32\6\uffff\1\47\26\32\1\46\2\32",
+            "\2\21\2\uffff\1\21\22\uffff\1\20\1\25\1\24\4\25\1\22\7\25\1"+
+            "\14\15\25\1\26\3\25\32\23\1\25\1\uffff\4\25\3\23\1\17\1\13\1"+
+            "\3\2\23\1\11\2\23\1\10\1\2\1\7\1\23\1\4\1\12\1\6\1\5\1\1\1\16"+
+            "\1\23\1\15\3\23",
+            "\1\32\10\uffff\12\32\7\uffff\32\32\6\uffff\4\32\1\27\11\32"+
+            "\1\30\11\32\1\31\1\32",
+            "\1\32\10\uffff\12\32\7\uffff\32\32\6\uffff\4\32\1\33\25\32",
+            "\1\32\10\uffff\12\32\7\uffff\32\32\6\uffff\21\32\1\34\10\32",
+            "\1\32\10\uffff\12\32\7\uffff\32\32\6\uffff\1\36\12\32\1\35"+
+            "\16\32",
+            "\1\32\10\uffff\12\32\7\uffff\32\32\6\uffff\4\32\1\37\11\32"+
+            "\1\40\13\32",
+            "\1\32\10\uffff\12\32\7\uffff\32\32\6\uffff\4\32\1\41\25\32",
+            "\1\32\10\uffff\12\32\7\uffff\32\32\6\uffff\16\32\1\42\13\32",
+            "\1\32\10\uffff\12\32\7\uffff\32\32\6\uffff\16\32\1\43\13\32",
+            "\1\32\10\uffff\12\32\7\uffff\32\32\6\uffff\15\32\1\44\14\32",
+            "\1\32\10\uffff\12\32\7\uffff\32\32\6\uffff\24\32\1\45\5\32",
+            "\1\32\10\uffff\12\32\7\uffff\32\32\6\uffff\1\47\26\32\1\46"+
+            "\2\32",
             "\1\51\1\50\2\uffff\1\52",
-            "\12\32\7\uffff\32\32\6\uffff\4\32\1\53\25\32",
-            "\12\32\7\uffff\32\32\6\uffff\17\32\1\54\12\32",
-            "\12\32\7\uffff\32\32\6\uffff\16\32\1\55\13\32",
+            "\1\32\10\uffff\12\32\7\uffff\32\32\6\uffff\4\32\1\53\25\32",
+            "\1\32\10\uffff\12\32\7\uffff\32\32\6\uffff\17\32\1\54\12\32",
+            "\1\32\10\uffff\12\32\7\uffff\32\32\6\uffff\16\32\1\55\13\32",
             "",
             "",
-            "\12\32\7\uffff\32\32\6\uffff\32\32",
+            "\2\56\1\uffff\4\56\1\57\10\56\12\57\3\56\1\uffff\3\56\32\57"+
+            "\6\56\32\57",
+            "\1\32\10\uffff\12\32\7\uffff\32\32\6\uffff\32\32",
             "",
             "",
             "",
-            "",
-            "\1\56",
-            "\12\32\7\uffff\32\32\6\uffff\32\32",
             "\1\60",
-            "",
-            "\1\61",
+            "\1\32\10\uffff\12\32\7\uffff\32\32\6\uffff\32\32",
             "\1\62",
+            "",
             "\1\63",
             "\1\64",
             "\1\65",
@@ -1773,111 +1846,119 @@ public class MessageScanner extends Lexer {
             "\1\73",
             "\1\74",
             "\1\75",
+            "\1\76",
+            "\1\77",
             "",
-            "\1\76\6\uffff\1\77",
+            "\1\100\6\uffff\1\101",
             "",
-            "\1\100",
-            "\12\32\7\uffff\32\32\6\uffff\32\32",
             "\1\102",
-            "\1\103",
-            "",
+            "\1\32\10\uffff\12\32\7\uffff\32\32\6\uffff\32\32",
             "\1\104",
+            "",
             "\1\105",
             "\1\106",
+            "",
             "\1\107",
             "\1\110",
             "\1\111",
             "\1\112",
             "\1\113",
-            "\1\114\6\uffff\1\115",
+            "\1\114",
+            "\1\115",
             "\1\116",
-            "\1\117",
-            "\1\120",
+            "\1\117\6\uffff\1\120",
             "\1\121",
             "\1\122",
-            "",
-            "",
             "\1\123",
-            "",
             "\1\124",
             "\1\125",
-            "\12\32\7\uffff\32\32\6\uffff\32\32",
+            "",
+            "",
+            "\1\126",
+            "",
             "\1\127",
-            "\12\32\7\uffff\32\32\6\uffff\32\32",
-            "\1\131",
+            "\1\32\10\uffff\12\32\7\uffff\32\32\6\uffff\32\32",
+            "\1\130",
+            "\1\32\10\uffff\12\32\7\uffff\32\32\6\uffff\32\32",
             "\1\132",
-            "\1\133",
+            "\1\32\10\uffff\12\32\7\uffff\32\32\6\uffff\32\32",
             "\1\134",
             "\1\135",
             "\1\136",
             "\1\137",
-            "\1\140\6\uffff\1\141",
+            "\1\140",
+            "\1\141",
             "\1\142",
-            "\12\32\7\uffff\32\32\6\uffff\32\32",
-            "\12\32\7\uffff\32\32\6\uffff\32\32",
-            "\12\32\7\uffff\32\32\6\uffff\32\32",
-            "\12\32\7\uffff\32\32\6\uffff\32\32",
-            "\12\32\7\uffff\32\32\6\uffff\32\32",
+            "\1\143\6\uffff\1\144",
+            "\1\145",
+            "\1\32\10\uffff\12\32\7\uffff\32\32\6\uffff\32\32",
+            "\1\32\10\uffff\12\32\7\uffff\32\32\6\uffff\32\32",
+            "\1\32\10\uffff\12\32\7\uffff\32\32\6\uffff\32\32",
+            "\1\32\10\uffff\12\32\7\uffff\32\32\6\uffff\32\32",
+            "\1\32\10\uffff\12\32\7\uffff\32\32\6\uffff\32\32",
             "",
             "",
-            "\1\150",
-            "",
-            "\1\151",
-            "\1\152",
             "\1\153",
-            "\12\32\7\uffff\32\32\6\uffff\4\32\1\154\21\32\1\155\3\32",
-            "\1\157",
-            "\1\160",
-            "\12\32\7\uffff\32\32\6\uffff\4\32\1\161\21\32\1\162\3\32",
-            "\1\164",
-            "\1\165",
-            "\1\166",
             "",
-            "",
-            "",
-            "",
-            "",
+            "\1\154",
+            "\1\155",
+            "\1\156",
+            "\1\32\10\uffff\12\32\7\uffff\32\32\6\uffff\4\32\1\157\21\32"+
+            "\1\160\3\32",
+            "\1\162",
+            "\1\163",
+            "\1\32\10\uffff\12\32\7\uffff\32\32\6\uffff\4\32\1\164\21\32"+
+            "\1\165\3\32",
             "\1\167",
-            "\12\32\7\uffff\32\32\6\uffff\32\32",
+            "\1\170",
             "\1\171",
-            "\12\32\7\uffff\32\32\4\uffff\1\172\1\uffff\32\32",
-            "\1\174",
-            "\1\175",
             "",
-            "\1\176",
+            "",
+            "",
+            "",
+            "",
+            "\1\172",
+            "\1\32\10\uffff\12\32\7\uffff\32\32\6\uffff\32\32",
+            "\1\174",
+            "\1\32\10\uffff\12\32\7\uffff\32\32\4\uffff\1\175\1\uffff\32"+
+            "\32",
             "\1\177",
             "\1\u0080",
+            "",
             "\1\u0081",
+            "\1\u0082",
+            "\1\u0083",
+            "\1\u0084",
             "",
-            "\1\u0083\14\uffff\1\u0082",
-            "\12\32\7\uffff\32\32\6\uffff\32\32",
-            "\1\u0085",
-            "\12\32\7\uffff\32\32\6\uffff\32\32",
-            "",
-            "",
-            "",
-            "",
-            "\1\u0087",
+            "\1\u0086\14\uffff\1\u0085",
+            "\1\32\10\uffff\12\32\7\uffff\32\32\6\uffff\32\32",
             "\1\u0088",
-            "\1\u0089",
+            "\1\32\10\uffff\12\32\7\uffff\32\32\6\uffff\32\32",
+            "",
+            "",
+            "",
             "",
             "\1\u008a",
             "\1\u008b",
-            "",
-            "",
-            "",
-            "\12\32\7\uffff\32\32\6\uffff\32\32",
+            "\1\u008c",
             "",
             "\1\u008d",
             "\1\u008e",
             "",
-            "\1\u008f",
-            "\1\u0090",
             "",
-            "\12\32\7\uffff\32\32\6\uffff\32\32",
-            "\12\32\7\uffff\32\32\6\uffff\32\32",
-            "\12\32\7\uffff\32\32\6\uffff\32\32",
-            "\12\32\7\uffff\32\32\6\uffff\32\32",
+            "",
+            "\1\32\10\uffff\12\32\7\uffff\32\32\6\uffff\32\32",
+            "",
+            "\1\u0090",
+            "\1\u0091",
+            "",
+            "\1\u0092",
+            "\1\u0093",
+            "",
+            "\1\32\10\uffff\12\32\7\uffff\32\32\6\uffff\32\32",
+            "\1\32\10\uffff\12\32\7\uffff\32\32\6\uffff\32\32",
+            "\1\32\10\uffff\12\32\7\uffff\32\32\6\uffff\32\32",
+            "\1\32\10\uffff\12\32\7\uffff\32\32\6\uffff\32\32",
             "",
             "",
             "",

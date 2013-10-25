@@ -6,7 +6,7 @@
 		<room>
 			<id>1</id>
 			<name>Starter Tavern</name>
-			<description>You appear in a dark, smelly tavern.  You can't pick out any specific conversation amongst the cacophony, but you're sure it's there.  The exit to the street is to the west.  What looks like a door to a storeroom is to the north.</description>
+			<description>You appear in a dark, smelly tavern.  You can\'t pick out any specific conversation amongst the cacophony, but you\'re sure it\'s there.  The exit to the street is to the west.  What looks like a door to a storeroom is to the north.</description>
 			<moves>
 				<move>
 					<room_id>1</room_id>
@@ -26,7 +26,7 @@
 		<room>
 			<id>2</id>
 			<name>Main Street</name>
-			<description>You turn on to Main Street.  There isn't much traffic this time of day.  To the east is a loud, smelly tavern.</description>
+			<description>You turn on to Main Street.  There isn\'t much traffic this time of day.  To the east is a loud, smelly tavern.</description>
 			<moves>
 				<move>
 					<room_id>2</room_id>

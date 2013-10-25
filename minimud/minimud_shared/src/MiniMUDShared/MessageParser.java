@@ -1,4 +1,4 @@
-// $ANTLR 3.4 /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g 2013-10-20 17:30:48
+// $ANTLR 3.4 /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g 2013-10-24 23:49:22
 
   package MiniMUDShared;
   import org.antlr.runtime.*;
@@ -78,7 +78,7 @@ public class MessageParser extends Parser {
     }
 
     public String[] getTokenNames() { return MessageParser.tokenNames; }
-    public String getGrammarFileName() { return "/home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g"; }
+    public String getGrammarFileName() { return "/home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g"; }
 
 
       protected static String trimQuotes(String str)
@@ -92,7 +92,7 @@ public class MessageParser extends Parser {
 
 
     // $ANTLR start "message"
-    // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:26:1: message returns [Message retVal] : (a= client_showtext |b= request_input |c= server_status |d= user_logout |e= chat_message |f= move_message |);
+    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:26:1: message returns [Message retVal] : (a= client_showtext |b= request_input |c= server_status |d= user_logout |e= chat_message |f= move_message |);
     public final Message message() throws RecognitionException {
         Message retVal = null;
 
@@ -111,7 +111,7 @@ public class MessageParser extends Parser {
 
 
         try {
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:27:3: (a= client_showtext |b= request_input |c= server_status |d= user_logout |e= chat_message |f= move_message |)
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:27:3: (a= client_showtext |b= request_input |c= server_status |d= user_logout |e= chat_message |f= move_message |)
             int alt1=7;
             switch ( input.LA(1) ) {
             case TEXTMSG:
@@ -173,7 +173,7 @@ public class MessageParser extends Parser {
 
             switch (alt1) {
                 case 1 :
-                    // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:27:5: a= client_showtext
+                    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:27:5: a= client_showtext
                     {
                     pushFollow(FOLLOW_client_showtext_in_message45);
                     a=client_showtext();
@@ -188,7 +188,7 @@ public class MessageParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:31:5: b= request_input
+                    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:31:5: b= request_input
                     {
                     pushFollow(FOLLOW_request_input_in_message59);
                     b=request_input();
@@ -203,7 +203,7 @@ public class MessageParser extends Parser {
                     }
                     break;
                 case 3 :
-                    // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:35:4: c= server_status
+                    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:35:4: c= server_status
                     {
                     pushFollow(FOLLOW_server_status_in_message71);
                     c=server_status();
@@ -218,7 +218,7 @@ public class MessageParser extends Parser {
                     }
                     break;
                 case 4 :
-                    // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:39:4: d= user_logout
+                    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:39:4: d= user_logout
                     {
                     pushFollow(FOLLOW_user_logout_in_message83);
                     d=user_logout();
@@ -233,7 +233,7 @@ public class MessageParser extends Parser {
                     }
                     break;
                 case 5 :
-                    // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:43:4: e= chat_message
+                    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:43:4: e= chat_message
                     {
                     pushFollow(FOLLOW_chat_message_in_message95);
                     e=chat_message();
@@ -248,7 +248,7 @@ public class MessageParser extends Parser {
                     }
                     break;
                 case 6 :
-                    // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:47:5: f= move_message
+                    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:47:5: f= move_message
                     {
                     pushFollow(FOLLOW_move_message_in_message109);
                     f=move_message();
@@ -263,7 +263,7 @@ public class MessageParser extends Parser {
                     }
                     break;
                 case 7 :
-                    // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:52:4: 
+                    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:52:4: 
                     {
 
                     	      retVal = null;
@@ -289,7 +289,7 @@ public class MessageParser extends Parser {
 
 
     // $ANTLR start "client_showtext"
-    // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:57:1: client_showtext returns [Message msg] : TEXTMSG FROM EQUALS from= ( SERVER | CHARNAME ) MESSAGE EQUALS txtmsg= STRINGLITERAL ;
+    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:57:1: client_showtext returns [Message msg] : TEXTMSG FROM EQUALS from= ( SERVER | CHARNAME ) MESSAGE EQUALS txtmsg= STRINGLITERAL ;
     public final Message client_showtext() throws RecognitionException {
         Message msg = null;
 
@@ -298,8 +298,8 @@ public class MessageParser extends Parser {
         Token txtmsg=null;
 
         try {
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:57:38: ( TEXTMSG FROM EQUALS from= ( SERVER | CHARNAME ) MESSAGE EQUALS txtmsg= STRINGLITERAL )
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:57:40: TEXTMSG FROM EQUALS from= ( SERVER | CHARNAME ) MESSAGE EQUALS txtmsg= STRINGLITERAL
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:57:38: ( TEXTMSG FROM EQUALS from= ( SERVER | CHARNAME ) MESSAGE EQUALS txtmsg= STRINGLITERAL )
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:57:40: TEXTMSG FROM EQUALS from= ( SERVER | CHARNAME ) MESSAGE EQUALS txtmsg= STRINGLITERAL
             {
             match(input,TEXTMSG,FOLLOW_TEXTMSG_in_client_showtext141); 
 
@@ -352,7 +352,7 @@ public class MessageParser extends Parser {
 
 
     // $ANTLR start "request_input"
-    // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:68:1: request_input returns [Message msg] : REQUEST_INPUT TYPE EQUALS type= ( NORMAL_INPUT | PASSWD_INPUT ) MESSAGE EQUALS txtmsg= STRINGLITERAL ;
+    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:68:1: request_input returns [Message msg] : REQUEST_INPUT TYPE EQUALS type= ( NORMAL_INPUT | PASSWD_INPUT ) MESSAGE EQUALS txtmsg= STRINGLITERAL ;
     public final Message request_input() throws RecognitionException {
         Message msg = null;
 
@@ -361,8 +361,8 @@ public class MessageParser extends Parser {
         Token txtmsg=null;
 
         try {
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:68:36: ( REQUEST_INPUT TYPE EQUALS type= ( NORMAL_INPUT | PASSWD_INPUT ) MESSAGE EQUALS txtmsg= STRINGLITERAL )
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:68:38: REQUEST_INPUT TYPE EQUALS type= ( NORMAL_INPUT | PASSWD_INPUT ) MESSAGE EQUALS txtmsg= STRINGLITERAL
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:68:36: ( REQUEST_INPUT TYPE EQUALS type= ( NORMAL_INPUT | PASSWD_INPUT ) MESSAGE EQUALS txtmsg= STRINGLITERAL )
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:68:38: REQUEST_INPUT TYPE EQUALS type= ( NORMAL_INPUT | PASSWD_INPUT ) MESSAGE EQUALS txtmsg= STRINGLITERAL
             {
             match(input,REQUEST_INPUT,FOLLOW_REQUEST_INPUT_in_request_input181); 
 
@@ -417,7 +417,7 @@ public class MessageParser extends Parser {
 
 
     // $ANTLR start "server_status"
-    // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:81:1: server_status returns [Message msg] : SERVER_STATUS TYPE EQUALS type= ( LOGON_SUCCESS | LOGON_FAILED | LOGOUT ) ;
+    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:81:1: server_status returns [Message msg] : SERVER_STATUS TYPE EQUALS type= ( LOGON_SUCCESS | LOGON_FAILED | LOGOUT ) ;
     public final Message server_status() throws RecognitionException {
         Message msg = null;
 
@@ -426,8 +426,8 @@ public class MessageParser extends Parser {
         Token TYPE1=null;
 
         try {
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:81:36: ( SERVER_STATUS TYPE EQUALS type= ( LOGON_SUCCESS | LOGON_FAILED | LOGOUT ) )
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:81:38: SERVER_STATUS TYPE EQUALS type= ( LOGON_SUCCESS | LOGON_FAILED | LOGOUT )
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:81:36: ( SERVER_STATUS TYPE EQUALS type= ( LOGON_SUCCESS | LOGON_FAILED | LOGOUT ) )
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:81:38: SERVER_STATUS TYPE EQUALS type= ( LOGON_SUCCESS | LOGON_FAILED | LOGOUT )
             {
             match(input,SERVER_STATUS,FOLLOW_SERVER_STATUS_in_server_status219); 
 
@@ -478,14 +478,14 @@ public class MessageParser extends Parser {
 
 
     // $ANTLR start "user_logout"
-    // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:96:1: user_logout returns [Message msg] : ( QUIT | EXIT ) ;
+    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:96:1: user_logout returns [Message msg] : ( QUIT | EXIT ) ;
     public final Message user_logout() throws RecognitionException {
         Message msg = null;
 
 
         try {
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:96:34: ( ( QUIT | EXIT ) )
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:96:36: ( QUIT | EXIT )
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:96:34: ( ( QUIT | EXIT ) )
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:96:36: ( QUIT | EXIT )
             {
             if ( input.LA(1)==EXIT||input.LA(1)==QUIT ) {
                 input.consume();
@@ -519,7 +519,7 @@ public class MessageParser extends Parser {
 
 
     // $ANTLR start "chat_message"
-    // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:102:1: chat_message returns [Message msg] : ( TELL toChar= CHARNAME txtMsg= STRINGLITERAL | SAY txtMsg= STRINGLITERAL | SHOUT txtMsg= STRINGLITERAL | WHISPER toChar= CHARNAME txtMsg= STRINGLITERAL );
+    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:102:1: chat_message returns [Message msg] : ( TELL toChar= CHARNAME txtMsg= STRINGLITERAL | SAY txtMsg= STRINGLITERAL | SHOUT txtMsg= STRINGLITERAL | WHISPER toChar= CHARNAME txtMsg= STRINGLITERAL );
     public final Message chat_message() throws RecognitionException {
         Message msg = null;
 
@@ -528,7 +528,7 @@ public class MessageParser extends Parser {
         Token txtMsg=null;
 
         try {
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:102:35: ( TELL toChar= CHARNAME txtMsg= STRINGLITERAL | SAY txtMsg= STRINGLITERAL | SHOUT txtMsg= STRINGLITERAL | WHISPER toChar= CHARNAME txtMsg= STRINGLITERAL )
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:102:35: ( TELL toChar= CHARNAME txtMsg= STRINGLITERAL | SAY txtMsg= STRINGLITERAL | SHOUT txtMsg= STRINGLITERAL | WHISPER toChar= CHARNAME txtMsg= STRINGLITERAL )
             int alt2=4;
             switch ( input.LA(1) ) {
             case TELL:
@@ -561,7 +561,7 @@ public class MessageParser extends Parser {
 
             switch (alt2) {
                 case 1 :
-                    // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:102:37: TELL toChar= CHARNAME txtMsg= STRINGLITERAL
+                    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:102:37: TELL toChar= CHARNAME txtMsg= STRINGLITERAL
                     {
                     match(input,TELL,FOLLOW_TELL_in_chat_message275); 
 
@@ -581,7 +581,7 @@ public class MessageParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:111:3: SAY txtMsg= STRINGLITERAL
+                    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:111:3: SAY txtMsg= STRINGLITERAL
                     {
                     match(input,SAY,FOLLOW_SAY_in_chat_message290); 
 
@@ -598,7 +598,7 @@ public class MessageParser extends Parser {
                     }
                     break;
                 case 3 :
-                    // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:119:3: SHOUT txtMsg= STRINGLITERAL
+                    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:119:3: SHOUT txtMsg= STRINGLITERAL
                     {
                     match(input,SHOUT,FOLLOW_SHOUT_in_chat_message301); 
 
@@ -615,7 +615,7 @@ public class MessageParser extends Parser {
                     }
                     break;
                 case 4 :
-                    // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:127:3: WHISPER toChar= CHARNAME txtMsg= STRINGLITERAL
+                    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:127:3: WHISPER toChar= CHARNAME txtMsg= STRINGLITERAL
                     {
                     match(input,WHISPER,FOLLOW_WHISPER_in_chat_message313); 
 
@@ -652,13 +652,13 @@ public class MessageParser extends Parser {
 
 
     // $ANTLR start "move_message"
-    // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:138:1: move_message returns [Message msg] : ( ( GO )? GO_NORTH | GO_SOUTH | GO_EAST | GO_WEST | GO_NORTHEAST | GO_NORTHWEST | GO_SOUTHEAST | GO_SOUTHWEST | GO_UP | GO_DOWN );
+    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:138:1: move_message returns [Message msg] : ( ( GO )? GO_NORTH | GO_SOUTH | GO_EAST | GO_WEST | GO_NORTHEAST | GO_NORTHWEST | GO_SOUTHEAST | GO_SOUTHWEST | GO_UP | GO_DOWN );
     public final Message move_message() throws RecognitionException {
         Message msg = null;
 
 
         try {
-            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:138:35: ( ( GO )? GO_NORTH | GO_SOUTH | GO_EAST | GO_WEST | GO_NORTHEAST | GO_NORTHWEST | GO_SOUTHEAST | GO_SOUTHWEST | GO_UP | GO_DOWN )
+            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:138:35: ( ( GO )? GO_NORTH | GO_SOUTH | GO_EAST | GO_WEST | GO_NORTHEAST | GO_NORTHWEST | GO_SOUTHEAST | GO_SOUTHWEST | GO_UP | GO_DOWN )
             int alt4=10;
             switch ( input.LA(1) ) {
             case GO_NORTH:
@@ -722,9 +722,9 @@ public class MessageParser extends Parser {
 
             switch (alt4) {
                 case 1 :
-                    // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:138:37: ( GO )? GO_NORTH
+                    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:138:37: ( GO )? GO_NORTH
                     {
-                    // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:138:37: ( GO )?
+                    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:138:37: ( GO )?
                     int alt3=2;
                     int LA3_0 = input.LA(1);
 
@@ -733,7 +733,7 @@ public class MessageParser extends Parser {
                     }
                     switch (alt3) {
                         case 1 :
-                            // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:138:38: GO
+                            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:138:38: GO
                             {
                             match(input,GO,FOLLOW_GO_in_move_message337); 
 
@@ -752,7 +752,7 @@ public class MessageParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:143:3: GO_SOUTH
+                    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:143:3: GO_SOUTH
                     {
                     match(input,GO_SOUTH,FOLLOW_GO_SOUTH_in_move_message351); 
 
@@ -763,7 +763,7 @@ public class MessageParser extends Parser {
                     }
                     break;
                 case 3 :
-                    // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:147:3: GO_EAST
+                    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:147:3: GO_EAST
                     {
                     match(input,GO_EAST,FOLLOW_GO_EAST_in_move_message359); 
 
@@ -774,7 +774,7 @@ public class MessageParser extends Parser {
                     }
                     break;
                 case 4 :
-                    // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:151:3: GO_WEST
+                    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:151:3: GO_WEST
                     {
                     match(input,GO_WEST,FOLLOW_GO_WEST_in_move_message367); 
 
@@ -785,7 +785,7 @@ public class MessageParser extends Parser {
                     }
                     break;
                 case 5 :
-                    // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:155:3: GO_NORTHEAST
+                    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:155:3: GO_NORTHEAST
                     {
                     match(input,GO_NORTHEAST,FOLLOW_GO_NORTHEAST_in_move_message375); 
 
@@ -796,7 +796,7 @@ public class MessageParser extends Parser {
                     }
                     break;
                 case 6 :
-                    // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:159:3: GO_NORTHWEST
+                    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:159:3: GO_NORTHWEST
                     {
                     match(input,GO_NORTHWEST,FOLLOW_GO_NORTHWEST_in_move_message383); 
 
@@ -807,7 +807,7 @@ public class MessageParser extends Parser {
                     }
                     break;
                 case 7 :
-                    // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:163:3: GO_SOUTHEAST
+                    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:163:3: GO_SOUTHEAST
                     {
                     match(input,GO_SOUTHEAST,FOLLOW_GO_SOUTHEAST_in_move_message391); 
 
@@ -818,7 +818,7 @@ public class MessageParser extends Parser {
                     }
                     break;
                 case 8 :
-                    // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:167:3: GO_SOUTHWEST
+                    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:167:3: GO_SOUTHWEST
                     {
                     match(input,GO_SOUTHWEST,FOLLOW_GO_SOUTHWEST_in_move_message399); 
 
@@ -829,7 +829,7 @@ public class MessageParser extends Parser {
                     }
                     break;
                 case 9 :
-                    // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:171:3: GO_UP
+                    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:171:3: GO_UP
                     {
                     match(input,GO_UP,FOLLOW_GO_UP_in_move_message407); 
 
@@ -840,7 +840,7 @@ public class MessageParser extends Parser {
                     }
                     break;
                 case 10 :
-                    // /home/steve/codemunki-work/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:175:3: GO_DOWN
+                    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:175:3: GO_DOWN
                     {
                     match(input,GO_DOWN,FOLLOW_GO_DOWN_in_move_message415); 
 

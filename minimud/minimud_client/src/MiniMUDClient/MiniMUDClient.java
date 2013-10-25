@@ -56,6 +56,7 @@ public class MiniMUDClient
 					{
 						if((serverInput = m_serverIn.readLine()) != null)
 						{
+							System.out.println("Raw server string: " + serverInput);
 						    Message msg = parseServerCommand(serverInput);
 						    
 						    if(null != msg)
