@@ -111,23 +111,76 @@ public class GameServer
 		// Set the starting room
 		user.setCurrentRoom(getStartingRoom());
 		
+		// Add the suer to the starting Room
+		getStartingRoom().addUser(user);
+		
 		// Add the user to the game
 		m_userMap.put(user.getUserInfo().getUserName(), user);
 	}
 	
-	public synchronized ErrorCode processUserMessage(UserInfo userInfo, Message msg)
+	public void removeUser(UserConnectionThread user)
+	{
+		// Remove the user from their current room
+		user.getCurrentRoom().removeUser(user);
+		
+		// Remove the user from the game
+		m_userMap.remove(user.getUserInfo().getUserName());
+	}
+	
+	public synchronized ErrorCode processUserMessage(UserConnectionThread user, Message msg)
 	{
 		ErrorCode retVal = ErrorCode.Success;
 		
 		try
 		{		
+			// Process user chat message
 			if(MessageID.USER_CHAT == msg.getMessageId())
 			{
 				UserChatMessage userChat = (UserChatMessage)msg;
 				
-				userChat.setFromUser(userInfo.getUserName());
+				userChat.setFromUser(user.getUserInfo().getUserName());
 				
+				// Method to handle different types of chat commands
 				retVal = processChatMessage(userChat);
+			}
+			else if(MessageID.MOVE == msg.getMessageId())
+			{
+				PlayerMoveMessage moveMsg = (PlayerMoveMessage)msg;
+				
+				// Get the user's current room
+				Room curRoom = user.getCurrentRoom();
+				
+				// Find the room the move goes to
+				int nNextRoom = curRoom.getNextRoomID(moveMsg);
+				
+				// If there is no room in that direction, then tell user
+				if(-1 == nNextRoom)
+				{
+					ClientShowTextMessage clMsg = new ClientShowTextMessage("server", "There is nothing in that direction.");
+					
+					user.processGameServerCommand(clMsg);
+				}
+				// else handle move
+				else
+				{
+					// Get next room
+					Room nextRoom = m_Rooms.get(nNextRoom);
+					
+					if(null != nextRoom)
+					{
+						// Remove the user from the current room
+						curRoom.removeUser(user);
+						
+						// Add the user to the new room
+						nextRoom.addUser(user);
+						
+						// Set the new room as the user's current room
+						user.setCurrentRoom(nextRoom);
+						
+						// Have the user display the new room
+						user.displayCurrentRoom();
+					}
+				}	
 			}
 		}
 		catch(Exception e)

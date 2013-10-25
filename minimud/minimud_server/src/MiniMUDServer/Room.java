@@ -2,7 +2,8 @@ package MiniMUDServer;
 
 import java.util.HashMap;
 
-import MiniMUDShared.RegularExpressions;
+import MiniMUDShared.*;
+
 
 public class Room
 {
@@ -20,6 +21,7 @@ public class Room
 	private RegularExpressions m_regEx = new RegularExpressions();
 	
 	private HashMap<String, Move> m_moves = new HashMap<String, Move>();
+	private HashMap<String, UserConnectionThread> m_users = new HashMap<String, UserConnectionThread>();
 	
 	public void setID(int nID)
 	{
@@ -87,6 +89,27 @@ public class Room
 	public void addMove(Move move)
 	{
 		m_moves.put(move.getDirection(), move);
+	}
+	
+	// Returns ID of the next room.  -1 if none exists
+	public int getNextRoomID(PlayerMoveMessage move)
+	{
+		int nNextRoom = -1;
+		
+		if(m_moves.containsKey(move.getDirectionString()))
+			nNextRoom  = m_moves.get(move.getDirectionString()).getNextRoomID();
+		
+		return nNextRoom;
+	}
+	
+	public void addUser(UserConnectionThread user)
+	{
+		m_users.put(user.getUserInfo().getUserName(), user);
+	}
+	
+	public void removeUser(UserConnectionThread user)
+	{
+		m_users.remove(user.getUserInfo().getUserName());
 	}
 	
 	public boolean isValid()

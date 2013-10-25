@@ -19,20 +19,31 @@ import MiniMUDShared.*;
 @SuppressWarnings("deprecation")
 public class UserConnectionThread extends Thread
 {
+	// Objects for IO with clients
 	private Socket m_socket;
 	private PrintWriter m_textOut;
 	private BufferedReader m_textIn;
+	
+	// Main object for keeping track of the game state
 	private GameServer m_game = null;
+	
+	// For connecting to the database
 	private DatabaseConnector m_dbConn = null;
+	
+	// State of this user's session
 	private UserSessionState m_state = UserSessionState.Unauthenticated;
 	private UserInfo m_userInfo = new UserInfo();
 	
+	// If this is acquired, then we should stop
 	private Semaphore m_stopSem = null;
 	
+	// For system logs
 	private static Logger m_logger = null;
 	
+	// The room the current user is in
 	private Room m_curRoom = null;
 	
+	// Helper object for sending commands to the user
 	private DisplayHelper m_display = null;
 	
 	public enum ErrorCode
@@ -168,8 +179,10 @@ public class UserConnectionThread extends Thread
 		{
 			while(true)
 			{
+				// Initialize the user's game session
 				retVal = initializeGameSession();
 				
+				// Start the user in the unauthenticated state
 				setUserState(UserSessionState.Unauthenticated);
 				
 				if(ErrorCode.Success != retVal)
@@ -178,6 +191,7 @@ public class UserConnectionThread extends Thread
 					break;
 				}
 				
+				// Send the welcome message
 				retVal = printWelcomeMessage(); 
 				
 				if(ErrorCode.Success != retVal)
@@ -186,6 +200,7 @@ public class UserConnectionThread extends Thread
 					break;
 				}
 				
+				// Loop until the user is logged in
 				retVal = loginUser(); 
 				
 				if(ErrorCode.Success != retVal)
@@ -194,12 +209,15 @@ public class UserConnectionThread extends Thread
 					break;
 				}
 				
+				// If we got this far, the user is logged in
 				setUserState(UserSessionState.Playing);
 				
+				// Display the current room's text (set by the GameServer object
 				getCurrentRoom().displayRoom(m_display);
 					
 				m_socket.setSoTimeout(1000); // Don't want reads to block forever
 				
+				// Loop until the user logs out or the socket is disconnected
 				while(ErrorCode.Success == retVal 
 					  && 1 == m_stopSem.availablePermits()
 					  && UserSessionState.Playing == getUserState()
@@ -207,19 +225,24 @@ public class UserConnectionThread extends Thread
 				{	
 			        String inputLine;
 			
+			        // Try to read a message from the client
 			        if((inputLine = ReceiveMessage()) != null)
 			        {
+			        	// If a message is recieved, parse it into a Message object
 			        	Message msg = parseClientCommand(inputLine);
 					    
 					    if(null != msg)
 					    {
+					    	// We have a valid Message object, process it
 					    	retVal = executeClientCommand(msg);	    		
 					    }
 					    else
+					    	// Failed to parse command, let the user know
 					    	m_display.sendText("Invalid command.");
 			        }		           
 				}
 				
+				// The user has logged out or disconnected, stop the session
 				retVal = teardownGameSession();
 				
 				if(ErrorCode.Success != retVal)
