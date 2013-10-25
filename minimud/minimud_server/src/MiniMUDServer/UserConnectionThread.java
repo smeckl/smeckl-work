@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.StringBufferInputStream;
+import java.io.StringReader;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
@@ -499,16 +500,11 @@ public class UserConnectionThread extends Thread
 		
 		try
 		{
-			StringBufferInputStream strStream = new StringBufferInputStream(strMsg);
+			MessageParser parser = new MessageParser(new StringReader(strMsg));
+		    
+			parser.parse();
 			
-			ANTLRInputStream inputStream = new ANTLRInputStream(strStream);
-			
-			MessageScanner lexer = new MessageScanner(inputStream);
-			CommonTokenStream tokStream = new CommonTokenStream(lexer);
-			
-			MessageParser parser = new MessageParser(tokStream);
-			
-			msg = parser.message();
+			msg = parser.getLastMessage();
 		}
 		catch(Exception e)
 		{

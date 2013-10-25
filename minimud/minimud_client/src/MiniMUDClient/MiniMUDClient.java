@@ -3,9 +3,6 @@ import java.io.*;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
 
-import org.antlr.runtime.ANTLRInputStream;
-import org.antlr.runtime.CommonTokenStream;
-
 import javax.net.ssl.*;
 import java.security.cert.X509Certificate;
 import java.util.concurrent.Semaphore;
@@ -56,7 +53,7 @@ public class MiniMUDClient
 					{
 						if((serverInput = m_serverIn.readLine()) != null)
 						{
-							System.out.println("Raw server string: " + serverInput);
+							//System.out.println("Raw server string: " + serverInput);
 						    Message msg = parseServerCommand(serverInput);
 						    
 						    if(null != msg)
@@ -185,16 +182,11 @@ public class MiniMUDClient
 		
 		try
 		{
-			StringBufferInputStream strStream = new StringBufferInputStream(strMsg);
+			MessageParser parser = new MessageParser(new StringReader(strMsg));
+		    
+			parser.parse();
 			
-			ANTLRInputStream inputStream = new ANTLRInputStream(strStream);
-			
-			MessageScanner lexer = new MessageScanner(inputStream);
-			CommonTokenStream tokStream = new CommonTokenStream(lexer);
-			
-			MessageParser parser = new MessageParser (tokStream);
-			
-			msg = parser.message();
+			msg = parser.getLastMessage();
 		}
 		catch(Exception e)
 		{

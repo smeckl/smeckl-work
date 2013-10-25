@@ -1,920 +1,820 @@
-// $ANTLR 3.4 /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g 2013-10-24 23:49:22
+//### This file created by BYACC 1.8(/Java extension  1.15)
+//### Java capabilities added 7 Jan 97, Bob Jamison
+//### Updated : 27 Nov 97  -- Bob Jamison, Joe Nieten
+//###           01 Jan 98  -- Bob Jamison -- fixed generic semantic constructor
+//###           01 Jun 99  -- Bob Jamison -- added Runnable support
+//###           06 Aug 00  -- Bob Jamison -- made state variables class-global
+//###           03 Jan 01  -- Bob Jamison -- improved flags, tracing
+//###           16 May 01  -- Bob Jamison -- added custom stack sizing
+//###           04 Mar 02  -- Yuval Oren  -- improved java performance, added options
+//###           14 Mar 02  -- Tomas Hurka -- -d support, static initializer workaround
+//### Please send bug reports to tom@hukatronic.cz
+//### static char yysccsid[] = "@(#)yaccpar	1.8 (Berkeley) 01/20/90";
 
-  package MiniMUDShared;
-  import org.antlr.runtime.*;
-  import org.antlr.runtime.tree.*;
 
 
-import org.antlr.runtime.*;
-import java.util.Stack;
-import java.util.List;
-import java.util.ArrayList;
+package MiniMUDShared;
 
-@SuppressWarnings({"all", "warnings", "unchecked"})
-public class MessageParser extends Parser {
-    public static final String[] tokenNames = new String[] {
-        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "CHAR", "CHARLITERAL", "CHARNAME", "DECIMAL_LITERAL", "DIGIT", "EQUALS", "ESCAPE", "EXIT", "FROM", "GO_DOWN", "GO_EAST", "GO_NORTH", "GO_NORTHEAST", "GO_NORTHWEST", "GO_SOUTH", "GO_SOUTHEAST", "GO_SOUTHWEST", "GO_UP", "GO_WEST", "HEX_DIGIT", "HEX_LITERAL", "INVALID", "LOGON_FAILED", "LOGON_SUCCESS", "LOGOUT", "MESSAGE", "NORMAL_INPUT", "PASSWD_INPUT", "PLAYER", "PRINTABLE_CHARS", "QUIT", "REQUEST_INPUT", "SAY", "SERVER", "SERVER_STATUS", "SHOUT", "STRINGLITERAL", "TELL", "TEXTMSG", "TO", "TYPE", "WHISPER", "WS_", "GO"
-    };
 
-    public static final int EOF=-1;
-    public static final int CHAR=4;
-    public static final int CHARLITERAL=5;
-    public static final int CHARNAME=6;
-    public static final int DECIMAL_LITERAL=7;
-    public static final int DIGIT=8;
-    public static final int EQUALS=9;
-    public static final int ESCAPE=10;
-    public static final int EXIT=11;
-    public static final int FROM=12;
-    public static final int GO_DOWN=13;
-    public static final int GO_EAST=14;
-    public static final int GO_NORTH=15;
-    public static final int GO_NORTHEAST=16;
-    public static final int GO_NORTHWEST=17;
-    public static final int GO_SOUTH=18;
-    public static final int GO_SOUTHEAST=19;
-    public static final int GO_SOUTHWEST=20;
-    public static final int GO_UP=21;
-    public static final int GO_WEST=22;
-    public static final int HEX_DIGIT=23;
-    public static final int HEX_LITERAL=24;
-    public static final int INVALID=25;
-    public static final int LOGON_FAILED=26;
-    public static final int LOGON_SUCCESS=27;
-    public static final int LOGOUT=28;
-    public static final int MESSAGE=29;
-    public static final int NORMAL_INPUT=30;
-    public static final int PASSWD_INPUT=31;
-    public static final int PLAYER=32;
-    public static final int PRINTABLE_CHARS=33;
-    public static final int QUIT=34;
-    public static final int REQUEST_INPUT=35;
-    public static final int SAY=36;
-    public static final int SERVER=37;
-    public static final int SERVER_STATUS=38;
-    public static final int SHOUT=39;
-    public static final int STRINGLITERAL=40;
-    public static final int TELL=41;
-    public static final int TEXTMSG=42;
-    public static final int TO=43;
-    public static final int TYPE=44;
-    public static final int WHISPER=45;
-    public static final int WS_=46;
-    public static final int GO=47;
 
-    // delegates
-    public Parser[] getDelegates() {
-        return new Parser[] {};
+//#line 2 "./MiniMUDShared/MessageParser.y"
+import java.io.*;
+//#line 19 "MessageParser.java"
+
+
+
+
+public class MessageParser
+{
+
+boolean yydebug;        //do I want debug output?
+int yynerrs;            //number of errors so far
+int yyerrflag;          //was there an error?
+int yychar;             //the current working character
+
+//########## MESSAGES ##########
+//###############################################################
+// method: debug
+//###############################################################
+void debug(String msg)
+{
+  if (yydebug)
+    System.out.println(msg);
+}
+
+//########## STATE STACK ##########
+final static int YYSTACKSIZE = 500;  //maximum stack size
+int statestk[] = new int[YYSTACKSIZE]; //state stack
+int stateptr;
+int stateptrmax;                     //highest index of stackptr
+int statemax;                        //state when highest index reached
+//###############################################################
+// methods: state stack push,pop,drop,peek
+//###############################################################
+final void state_push(int state)
+{
+  try {
+		stateptr++;
+		statestk[stateptr]=state;
+	 }
+	 catch (ArrayIndexOutOfBoundsException e) {
+     int oldsize = statestk.length;
+     int newsize = oldsize * 2;
+     int[] newstack = new int[newsize];
+     System.arraycopy(statestk,0,newstack,0,oldsize);
+     statestk = newstack;
+     statestk[stateptr]=state;
+  }
+}
+final int state_pop()
+{
+  return statestk[stateptr--];
+}
+final void state_drop(int cnt)
+{
+  stateptr -= cnt; 
+}
+final int state_peek(int relative)
+{
+  return statestk[stateptr-relative];
+}
+//###############################################################
+// method: init_stacks : allocate and prepare stacks
+//###############################################################
+final boolean init_stacks()
+{
+  stateptr = -1;
+  val_init();
+  return true;
+}
+//###############################################################
+// method: dump_stacks : show n levels of the stacks
+//###############################################################
+void dump_stacks(int count)
+{
+int i;
+  System.out.println("=index==state====value=     s:"+stateptr+"  v:"+valptr);
+  for (i=0;i<count;i++)
+    System.out.println(" "+i+"    "+statestk[i]+"      "+valstk[i]);
+  System.out.println("======================");
+}
+
+
+//########## SEMANTIC VALUES ##########
+//public class MessageParserVal is defined in MessageParserVal.java
+
+
+String   yytext;//user variable to return contextual strings
+MessageParserVal yyval; //used to return semantic vals from action routines
+MessageParserVal yylval;//the 'lval' (result) I got from yylex()
+MessageParserVal valstk[];
+int valptr;
+//###############################################################
+// methods: value stack push,pop,drop,peek.
+//###############################################################
+void val_init()
+{
+  valstk=new MessageParserVal[YYSTACKSIZE];
+  yyval=new MessageParserVal();
+  yylval=new MessageParserVal();
+  valptr=-1;
+}
+void val_push(MessageParserVal val)
+{
+  if (valptr>=YYSTACKSIZE)
+    return;
+  valstk[++valptr]=val;
+}
+MessageParserVal val_pop()
+{
+  if (valptr<0)
+    return new MessageParserVal();
+  return valstk[valptr--];
+}
+void val_drop(int cnt)
+{
+int ptr;
+  ptr=valptr-cnt;
+  if (ptr<0)
+    return;
+  valptr = ptr;
+}
+MessageParserVal val_peek(int relative)
+{
+int ptr;
+  ptr=valptr-relative;
+  if (ptr<0)
+    return new MessageParserVal();
+  return valstk[ptr];
+}
+final MessageParserVal dup_yyval(MessageParserVal val)
+{
+  MessageParserVal dup = new MessageParserVal();
+  dup.ival = val.ival;
+  dup.dval = val.dval;
+  dup.sval = val.sval;
+  dup.obj = val.obj;
+  return dup;
+}
+//#### end semantic value section ####
+public final static short TEXTMSG=257;
+public final static short MESSAGE=258;
+public final static short FROM=259;
+public final static short TO=260;
+public final static short PLAYER=261;
+public final static short SERVER=262;
+public final static short REQUEST_INPUT=263;
+public final static short TYPE=264;
+public final static short NORMAL_INPUT=265;
+public final static short PASSWD_INPUT=266;
+public final static short SERVER_STATUS=267;
+public final static short LOGON_SUCCESS=268;
+public final static short LOGON_FAILED=269;
+public final static short INVALID=270;
+public final static short QUIT=271;
+public final static short EXIT=272;
+public final static short LOGOUT=273;
+public final static short TELL=274;
+public final static short SAY=275;
+public final static short SHOUT=276;
+public final static short WHISPER=277;
+public final static short GO_NORTH=278;
+public final static short GO_SOUTH=279;
+public final static short GO_EAST=280;
+public final static short GO_WEST=281;
+public final static short GO_NORTHEAST=282;
+public final static short GO_NORTHWEST=283;
+public final static short GO_SOUTHEAST=284;
+public final static short GO_SOUTHWEST=285;
+public final static short GO_UP=286;
+public final static short GO_DOWN=287;
+public final static short CHARNAME=288;
+public final static short CHARLITERAL=289;
+public final static short STRINGLITERAL=290;
+public final static short INT=291;
+public final static short YYERRCODE=256;
+final static short yylhs[] = {                           -1,
+    0,    0,    0,    0,    0,    0,    1,    1,    2,    2,
+    3,    3,    3,    4,    4,    5,    5,    5,    5,    6,
+    6,    6,    6,    6,    6,    6,    6,    6,    6,
+};
+final static short yylen[] = {                            2,
+    1,    1,    1,    1,    1,    1,    7,    7,    7,    7,
+    4,    4,    4,    1,    1,    3,    2,    2,    3,    1,
+    1,    1,    1,    1,    1,    1,    1,    1,    1,
+};
+final static short yydefred[] = {                         0,
+    0,    0,    0,   14,   15,    0,    0,    0,    0,   20,
+   21,   22,   23,   24,   25,   26,   27,   28,   29,    0,
+    1,    2,    3,    4,    5,    6,    0,    0,    0,    0,
+   17,   18,    0,    0,    0,    0,   16,   19,    0,    0,
+    0,    0,   11,   12,   13,    0,    0,    0,    0,    0,
+    0,    0,    0,    7,    8,    9,   10,
+};
+final static short yydgoto[] = {                         20,
+   21,   22,   23,   24,   25,   26,
+};
+final static short yysindex[] = {                      -257,
+ -254, -253, -252,    0,    0, -279, -277, -274, -256,    0,
+    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+    0,    0,    0,    0,    0,    0,  -30,  -27,  -26, -251,
+    0,    0, -250, -255, -264, -265,    0,    0, -222, -221,
+ -220, -217,    0,    0,    0,  -19,  -18,  -17,  -16, -244,
+ -243, -242, -241,    0,    0,    0,    0,
+};
+final static short yyrindex[] = {                         0,
+    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+    0,    0,    0,    0,    0,    0,    0,
+};
+final static short yygindex[] = {                         0,
+    0,    0,    0,    0,    0,    0,
+};
+final static int YYTABLESIZE=49;
+static short yytable[];
+static { yytable();}
+static void yytable(){
+yytable = new short[]{                          1,
+   41,   42,   43,   44,   27,    2,   39,   45,   30,    3,
+   28,   29,   31,    4,    5,   32,    6,    7,    8,    9,
+   10,   11,   12,   13,   14,   15,   16,   17,   18,   19,
+   34,   33,   40,   35,   36,   46,   47,   48,   37,   38,
+   49,   50,   51,   52,   53,   54,   55,   56,   57,
+};
+}
+static short yycheck[];
+static { yycheck(); }
+static void yycheck() {
+yycheck = new short[] {                        257,
+  265,  266,  268,  269,  259,  263,  262,  273,  288,  267,
+  264,  264,  290,  271,  272,  290,  274,  275,  276,  277,
+  278,  279,  280,  281,  282,  283,  284,  285,  286,  287,
+   61,  288,  288,   61,   61,  258,  258,  258,  290,  290,
+  258,   61,   61,   61,   61,  290,  290,  290,  290,
+};
+}
+final static short YYFINAL=20;
+final static short YYMAXTOKEN=291;
+final static String yyname[] = {
+"end-of-file",null,null,null,null,null,null,null,null,null,null,null,null,null,
+null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
+null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
+null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
+"'='",null,null,null,null,null,null,null,null,null,null,null,null,null,null,
+null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
+null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
+null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
+null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
+null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
+null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
+null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
+null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
+null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
+null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
+null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
+null,null,null,null,null,"TEXTMSG","MESSAGE","FROM","TO","PLAYER","SERVER",
+"REQUEST_INPUT","TYPE","NORMAL_INPUT","PASSWD_INPUT","SERVER_STATUS",
+"LOGON_SUCCESS","LOGON_FAILED","INVALID","QUIT","EXIT","LOGOUT","TELL","SAY",
+"SHOUT","WHISPER","GO_NORTH","GO_SOUTH","GO_EAST","GO_WEST","GO_NORTHEAST",
+"GO_NORTHWEST","GO_SOUTHEAST","GO_SOUTHWEST","GO_UP","GO_DOWN","CHARNAME",
+"CHARLITERAL","STRINGLITERAL","INT",
+};
+final static String yyrule[] = {
+"$accept : message",
+"message : client_showtext",
+"message : request_input",
+"message : server_status",
+"message : user_logout",
+"message : chat_message",
+"message : move_message",
+"client_showtext : TEXTMSG FROM '=' SERVER MESSAGE '=' STRINGLITERAL",
+"client_showtext : TEXTMSG FROM '=' CHARNAME MESSAGE '=' STRINGLITERAL",
+"request_input : REQUEST_INPUT TYPE '=' NORMAL_INPUT MESSAGE '=' STRINGLITERAL",
+"request_input : REQUEST_INPUT TYPE '=' PASSWD_INPUT MESSAGE '=' STRINGLITERAL",
+"server_status : SERVER_STATUS TYPE '=' LOGON_SUCCESS",
+"server_status : SERVER_STATUS TYPE '=' LOGON_FAILED",
+"server_status : SERVER_STATUS TYPE '=' LOGOUT",
+"user_logout : QUIT",
+"user_logout : EXIT",
+"chat_message : TELL CHARNAME STRINGLITERAL",
+"chat_message : SAY STRINGLITERAL",
+"chat_message : SHOUT STRINGLITERAL",
+"chat_message : WHISPER CHARNAME STRINGLITERAL",
+"move_message : GO_NORTH",
+"move_message : GO_SOUTH",
+"move_message : GO_EAST",
+"move_message : GO_WEST",
+"move_message : GO_NORTHEAST",
+"move_message : GO_NORTHWEST",
+"move_message : GO_SOUTHEAST",
+"move_message : GO_SOUTHWEST",
+"move_message : GO_UP",
+"move_message : GO_DOWN",
+};
+
+//#line 168 "./MiniMUDShared/MessageParser.y"
+
+/* Byacc/J expects a member method int yylex(). We need to provide one
+   through this mechanism. See the jflex manual for more information. */
+
+	/* reference to the lexer object */
+	private MessageScanner lexer;
+	
+	private Message m_lastMsg = null;
+	
+	public Message getLastMessage()
+	{
+		return m_lastMsg;
+	}
+	
+	public void parse()
+	{
+		yyparse();
+	}
+
+	  protected static String trimQuotes(String str)
+	  {
+	    if('\"' == str.charAt(0) && '\"' == str.charAt(str.length()-1))
+	        return str.substring(1, str.length()-1);
+	    
+	    return str;
+	  }
+
+	/* interface to the lexer */
+	private int yylex() {
+		int retVal = -1;
+		try {
+			retVal = lexer.yylex();
+		} catch (IOException e) {
+			System.err.println("IO Error:" + e);
+		}
+		return retVal;
+	}
+	
+	/* error reporting */
+	public void yyerror (String error) {
+		System.err.println("Error : " + error + " at line " + lexer.getLine());
+		System.err.println("String rejected");
+	}
+
+	/* constructor taking in File Input */
+	public MessageParser (Reader r) {
+		lexer = new MessageScanner (r, this);
+	}
+	
+	public void print(String str)
+	{
+		System.out.println(str);
+	}
+
+
+	public static void main (String [] args) 
+	{
+		try
+		{
+		    MessageParser yyparser = new MessageParser(new InputStreamReader(System.in));
+		    
+		    System.out.println("parsing...");
+		    yyparser.yyparse();
+		}
+		catch (Exception e)
+		{
+			System.out.println("parse error: " + e);
+		}
     }
+    
+    
+//#line 318 "MessageParser.java"
+//###############################################################
+// method: yylexdebug : check lexer state
+//###############################################################
+void yylexdebug(int state,int ch)
+{
+String s=null;
+  if (ch < 0) ch=0;
+  if (ch <= YYMAXTOKEN) //check index bounds
+     s = yyname[ch];    //now get it
+  if (s==null)
+    s = "illegal-symbol";
+  debug("state "+state+", reading "+ch+" ("+s+")");
+}
 
-    // delegators
 
 
-    public MessageParser(TokenStream input) {
-        this(input, new RecognizerSharedState());
-    }
-    public MessageParser(TokenStream input, RecognizerSharedState state) {
-        super(input, state);
-    }
-
-    public String[] getTokenNames() { return MessageParser.tokenNames; }
-    public String getGrammarFileName() { return "/home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g"; }
 
 
-      protected static String trimQuotes(String str)
+//The following are now global, to aid in error reporting
+int yyn;       //next next thing to do
+int yym;       //
+int yystate;   //current parsing state from state table
+String yys;    //current token string
+
+
+//###############################################################
+// method: yyparse : parse input and execute indicated items
+//###############################################################
+int yyparse()
+{
+boolean doaction;
+  init_stacks();
+  yynerrs = 0;
+  yyerrflag = 0;
+  yychar = -1;          //impossible char forces a read
+  yystate=0;            //initial state
+  state_push(yystate);  //save it
+  val_push(yylval);     //save empty value
+  while (true) //until parsing is done, either correctly, or w/error
+    {
+    doaction=true;
+    if (yydebug) debug("loop"); 
+    //#### NEXT ACTION (from reduction table)
+    for (yyn=yydefred[yystate];yyn==0;yyn=yydefred[yystate])
       {
-        if('\"' == str.charAt(0) && '\"' == str.charAt(str.length()-1))
-            return str.substring(1, str.length()-1);
-        
-        return str;
+      if (yydebug) debug("yyn:"+yyn+"  state:"+yystate+"  yychar:"+yychar);
+      if (yychar < 0)      //we want a char?
+        {
+        yychar = yylex();  //get next token
+        if (yydebug) debug(" next yychar:"+yychar);
+        //#### ERROR CHECK ####
+        if (yychar < 0)    //it it didn't work/error
+          {
+          yychar = 0;      //change it to default string (no -1!)
+          if (yydebug)
+            yylexdebug(yystate,yychar);
+          }
+        }//yychar<0
+      yyn = yysindex[yystate];  //get amount to shift by (shift index)
+      if ((yyn != 0) && (yyn += yychar) >= 0 &&
+          yyn <= YYTABLESIZE && yycheck[yyn] == yychar)
+        {
+        if (yydebug)
+          debug("state "+yystate+", shifting to state "+yytable[yyn]);
+        //#### NEXT STATE ####
+        yystate = yytable[yyn];//we are in a new state
+        state_push(yystate);   //save it
+        val_push(yylval);      //push our lval as the input for next rule
+        yychar = -1;           //since we have 'eaten' a token, say we need another
+        if (yyerrflag > 0)     //have we recovered an error?
+           --yyerrflag;        //give ourselves credit
+        doaction=false;        //but don't process yet
+        break;   //quit the yyn=0 loop
+        }
+
+    yyn = yyrindex[yystate];  //reduce
+    if ((yyn !=0 ) && (yyn += yychar) >= 0 &&
+            yyn <= YYTABLESIZE && yycheck[yyn] == yychar)
+      {   //we reduced!
+      if (yydebug) debug("reduce");
+      yyn = yytable[yyn];
+      doaction=true; //get ready to execute
+      break;         //drop down to actions
       }
-
-
-
-    // $ANTLR start "message"
-    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:26:1: message returns [Message retVal] : (a= client_showtext |b= request_input |c= server_status |d= user_logout |e= chat_message |f= move_message |);
-    public final Message message() throws RecognitionException {
-        Message retVal = null;
-
-
-        Message a =null;
-
-        Message b =null;
-
-        Message c =null;
-
-        Message d =null;
-
-        Message e =null;
-
-        Message f =null;
-
-
-        try {
-            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:27:3: (a= client_showtext |b= request_input |c= server_status |d= user_logout |e= chat_message |f= move_message |)
-            int alt1=7;
-            switch ( input.LA(1) ) {
-            case TEXTMSG:
-                {
-                alt1=1;
-                }
-                break;
-            case REQUEST_INPUT:
-                {
-                alt1=2;
-                }
-                break;
-            case SERVER_STATUS:
-                {
-                alt1=3;
-                }
-                break;
-            case EXIT:
-            case QUIT:
-                {
-                alt1=4;
-                }
-                break;
-            case SAY:
-            case SHOUT:
-            case TELL:
-            case WHISPER:
-                {
-                alt1=5;
-                }
-                break;
-            case GO_DOWN:
-            case GO_EAST:
-            case GO_NORTH:
-            case GO_NORTHEAST:
-            case GO_NORTHWEST:
-            case GO_SOUTH:
-            case GO_SOUTHEAST:
-            case GO_SOUTHWEST:
-            case GO_UP:
-            case GO_WEST:
-            case GO:
-                {
-                alt1=6;
-                }
-                break;
-            case EOF:
-                {
-                alt1=7;
-                }
-                break;
-            default:
-                NoViableAltException nvae =
-                    new NoViableAltException("", 1, 0, input);
-
-                throw nvae;
-
-            }
-
-            switch (alt1) {
-                case 1 :
-                    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:27:5: a= client_showtext
-                    {
-                    pushFollow(FOLLOW_client_showtext_in_message45);
-                    a=client_showtext();
-
-                    state._fsp--;
-
-
-
-                            retVal = a;
-                        
-
-                    }
-                    break;
-                case 2 :
-                    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:31:5: b= request_input
-                    {
-                    pushFollow(FOLLOW_request_input_in_message59);
-                    b=request_input();
-
-                    state._fsp--;
-
-
-
-                    	      retVal = b;
-                    	  
-
-                    }
-                    break;
-                case 3 :
-                    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:35:4: c= server_status
-                    {
-                    pushFollow(FOLLOW_server_status_in_message71);
-                    c=server_status();
-
-                    state._fsp--;
-
-
-
-                    	      retVal = c;
-                    	  
-
-                    }
-                    break;
-                case 4 :
-                    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:39:4: d= user_logout
-                    {
-                    pushFollow(FOLLOW_user_logout_in_message83);
-                    d=user_logout();
-
-                    state._fsp--;
-
-
-
-                    	      retVal = d;
-                    	  
-
-                    }
-                    break;
-                case 5 :
-                    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:43:4: e= chat_message
-                    {
-                    pushFollow(FOLLOW_chat_message_in_message95);
-                    e=chat_message();
-
-                    state._fsp--;
-
-
-
-                    		    retVal = e;
-                    		
-
-                    }
-                    break;
-                case 6 :
-                    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:47:5: f= move_message
-                    {
-                    pushFollow(FOLLOW_move_message_in_message109);
-                    f=move_message();
-
-                    state._fsp--;
-
-
-
-                            retVal = f;
-                        
-
-                    }
-                    break;
-                case 7 :
-                    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:52:4: 
-                    {
-
-                    	      retVal = null;
-                    	  
-
-                    }
-                    break;
-
-            }
+    else //ERROR RECOVERY
+      {
+      if (yyerrflag==0)
+        {
+        yyerror("syntax error");
+        yynerrs++;
         }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-        }
-
-        finally {
-        	// do for sure before leaving
-        }
-        return retVal;
-    }
-    // $ANTLR end "message"
-
-
-
-    // $ANTLR start "client_showtext"
-    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:57:1: client_showtext returns [Message msg] : TEXTMSG FROM EQUALS from= ( SERVER | CHARNAME ) MESSAGE EQUALS txtmsg= STRINGLITERAL ;
-    public final Message client_showtext() throws RecognitionException {
-        Message msg = null;
-
-
-        Token from=null;
-        Token txtmsg=null;
-
-        try {
-            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:57:38: ( TEXTMSG FROM EQUALS from= ( SERVER | CHARNAME ) MESSAGE EQUALS txtmsg= STRINGLITERAL )
-            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:57:40: TEXTMSG FROM EQUALS from= ( SERVER | CHARNAME ) MESSAGE EQUALS txtmsg= STRINGLITERAL
+      if (yyerrflag < 3) //low error count?
+        {
+        yyerrflag = 3;
+        while (true)   //do until break
+          {
+          if (stateptr<0)   //check for under & overflow here
             {
-            match(input,TEXTMSG,FOLLOW_TEXTMSG_in_client_showtext141); 
-
-            match(input,FROM,FOLLOW_FROM_in_client_showtext143); 
-
-            match(input,EQUALS,FOLLOW_EQUALS_in_client_showtext145); 
-
-            from=(Token)input.LT(1);
-
-            if ( input.LA(1)==CHARNAME||input.LA(1)==SERVER ) {
-                input.consume();
-                state.errorRecovery=false;
+            yyerror("stack underflow. aborting...");  //note lower case 's'
+            return 1;
             }
-            else {
-                MismatchedSetException mse = new MismatchedSetException(null,input);
-                throw mse;
-            }
-
-
-            match(input,MESSAGE,FOLLOW_MESSAGE_in_client_showtext157); 
-
-            match(input,EQUALS,FOLLOW_EQUALS_in_client_showtext159); 
-
-            txtmsg=(Token)match(input,STRINGLITERAL,FOLLOW_STRINGLITERAL_in_client_showtext163); 
-
-
-                  String strFrom = (from!=null?from.getText():null);
-                  
-                  if(strFrom.length() < 31)
-                      msg = (Message)new ClientShowTextMessage((from!=null?from.getText():null), trimQuotes((txtmsg!=null?txtmsg.getText():null)));
-                  else
-                      msg = null;
-              
-
-            }
-
-        }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-        }
-
-        finally {
-        	// do for sure before leaving
-        }
-        return msg;
-    }
-    // $ANTLR end "client_showtext"
-
-
-
-    // $ANTLR start "request_input"
-    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:68:1: request_input returns [Message msg] : REQUEST_INPUT TYPE EQUALS type= ( NORMAL_INPUT | PASSWD_INPUT ) MESSAGE EQUALS txtmsg= STRINGLITERAL ;
-    public final Message request_input() throws RecognitionException {
-        Message msg = null;
-
-
-        Token type=null;
-        Token txtmsg=null;
-
-        try {
-            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:68:36: ( REQUEST_INPUT TYPE EQUALS type= ( NORMAL_INPUT | PASSWD_INPUT ) MESSAGE EQUALS txtmsg= STRINGLITERAL )
-            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:68:38: REQUEST_INPUT TYPE EQUALS type= ( NORMAL_INPUT | PASSWD_INPUT ) MESSAGE EQUALS txtmsg= STRINGLITERAL
+          yyn = yysindex[state_peek(0)];
+          if ((yyn != 0) && (yyn += YYERRCODE) >= 0 &&
+                    yyn <= YYTABLESIZE && yycheck[yyn] == YYERRCODE)
             {
-            match(input,REQUEST_INPUT,FOLLOW_REQUEST_INPUT_in_request_input181); 
-
-            match(input,TYPE,FOLLOW_TYPE_in_request_input183); 
-
-            match(input,EQUALS,FOLLOW_EQUALS_in_request_input185); 
-
-            type=(Token)input.LT(1);
-
-            if ( (input.LA(1) >= NORMAL_INPUT && input.LA(1) <= PASSWD_INPUT) ) {
-                input.consume();
-                state.errorRecovery=false;
+            if (yydebug)
+              debug("state "+state_peek(0)+", error recovery shifting to state "+yytable[yyn]+" ");
+            yystate = yytable[yyn];
+            state_push(yystate);
+            val_push(yylval);
+            doaction=false;
+            break;
             }
-            else {
-                MismatchedSetException mse = new MismatchedSetException(null,input);
-                throw mse;
-            }
-
-
-            match(input,MESSAGE,FOLLOW_MESSAGE_in_request_input197); 
-
-            match(input,EQUALS,FOLLOW_EQUALS_in_request_input199); 
-
-            txtmsg=(Token)match(input,STRINGLITERAL,FOLLOW_STRINGLITERAL_in_request_input203); 
-
-
-                  ClientRequestInputMessage.Type inputType = ClientRequestInputMessage.Type.Invalid;
-                  
-                  if((type!=null?type.getType():0) == NORMAL_INPUT)
-                      inputType = ClientRequestInputMessage.Type.Normal;
-                  else if((type!=null?type.getType():0) == PASSWD_INPUT)
-                      inputType = ClientRequestInputMessage.Type.Password;
-                      
-                  msg = (Message) new ClientRequestInputMessage(inputType, trimQuotes((txtmsg!=null?txtmsg.getText():null)));
-              
-
-            }
-
-        }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-        }
-
-        finally {
-        	// do for sure before leaving
-        }
-        return msg;
-    }
-    // $ANTLR end "request_input"
-
-
-
-    // $ANTLR start "server_status"
-    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:81:1: server_status returns [Message msg] : SERVER_STATUS TYPE EQUALS type= ( LOGON_SUCCESS | LOGON_FAILED | LOGOUT ) ;
-    public final Message server_status() throws RecognitionException {
-        Message msg = null;
-
-
-        Token type=null;
-        Token TYPE1=null;
-
-        try {
-            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:81:36: ( SERVER_STATUS TYPE EQUALS type= ( LOGON_SUCCESS | LOGON_FAILED | LOGOUT ) )
-            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:81:38: SERVER_STATUS TYPE EQUALS type= ( LOGON_SUCCESS | LOGON_FAILED | LOGOUT )
+          else
             {
-            match(input,SERVER_STATUS,FOLLOW_SERVER_STATUS_in_server_status219); 
-
-            TYPE1=(Token)match(input,TYPE,FOLLOW_TYPE_in_server_status221); 
-
-            match(input,EQUALS,FOLLOW_EQUALS_in_server_status223); 
-
-            type=(Token)input.LT(1);
-
-            if ( (input.LA(1) >= LOGON_FAILED && input.LA(1) <= LOGOUT) ) {
-                input.consume();
-                state.errorRecovery=false;
+            if (yydebug)
+              debug("error recovery discarding state "+state_peek(0)+" ");
+            if (stateptr<0)   //check for under & overflow here
+              {
+              yyerror("Stack underflow. aborting...");  //capital 'S'
+              return 1;
+              }
+            state_pop();
+            val_pop();
             }
-            else {
-                MismatchedSetException mse = new MismatchedSetException(null,input);
-                throw mse;
-            }
-
-
-
-                  ServerStatusMessage.Status status = ServerStatusMessage.Status.INVALID;
-                  
-                  if((type!=null?type.getType():0) == LOGON_SUCCESS)
-                      status = ServerStatusMessage.Status.LOGON_SUCCESS;
-                  else if((type!=null?type.getType():0) == LOGON_FAILED)
-                      status = ServerStatusMessage.Status.LOGON_FAILED;
-                  else if((TYPE1!=null?TYPE1.getType():0) == LOGOUT)
-                      status = ServerStatusMessage.Status.LOGOUT;
-                    
-                  msg = (Message) new ServerStatusMessage(status);
-              
-
-            }
-
+          }
         }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
+      else            //discard this token
+        {
+        if (yychar == 0)
+          return 1; //yyabort
+        if (yydebug)
+          {
+          yys = null;
+          if (yychar <= YYMAXTOKEN) yys = yyname[yychar];
+          if (yys == null) yys = "illegal-symbol";
+          debug("state "+yystate+", error recovery discards token "+yychar+" ("+yys+")");
+          }
+        yychar = -1;  //read another
         }
-
-        finally {
-        	// do for sure before leaving
+      }//end error recovery
+    }//yyn=0 loop
+    if (!doaction)   //any reason not to proceed?
+      continue;      //skip action
+    yym = yylen[yyn];          //get count of terminals on rhs
+    if (yydebug)
+      debug("state "+yystate+", reducing "+yym+" by rule "+yyn+" ("+yyrule[yyn]+")");
+    if (yym>0)                 //if count of rhs not 'nil'
+      yyval = val_peek(yym-1); //get current semantic value
+    yyval = dup_yyval(yyval); //duplicate yyval if ParserVal is used as semantic value
+    switch(yyn)
+      {
+//########## USER-SUPPLIED ACTIONS ##########
+case 1:
+//#line 13 "./MiniMUDShared/MessageParser.y"
+{
+		m_lastMsg = (Message)yyval.obj;
+	}
+break;
+case 2:
+//#line 17 "./MiniMUDShared/MessageParser.y"
+{
+		m_lastMsg = (Message)yyval.obj;
+	}
+break;
+case 3:
+//#line 21 "./MiniMUDShared/MessageParser.y"
+{
+		m_lastMsg = (Message)yyval.obj;
+	}
+break;
+case 4:
+//#line 25 "./MiniMUDShared/MessageParser.y"
+{
+		m_lastMsg = (Message)yyval.obj;
+	}
+break;
+case 5:
+//#line 29 "./MiniMUDShared/MessageParser.y"
+{
+		m_lastMsg = (Message)yyval.obj;
+	}
+break;
+case 6:
+//#line 33 "./MiniMUDShared/MessageParser.y"
+{
+		m_lastMsg = (Message)yyval.obj;
+	}
+break;
+case 7:
+//#line 40 "./MiniMUDShared/MessageParser.y"
+{
+  	  yyval = new MessageParserVal(new ClientShowTextMessage(val_peek(5).sval, trimQuotes(val_peek(0).sval)));
+  }
+break;
+case 8:
+//#line 44 "./MiniMUDShared/MessageParser.y"
+{
+      yyval = new MessageParserVal(new ClientShowTextMessage(val_peek(5).sval, trimQuotes(val_peek(0).sval)));
+  }
+break;
+case 9:
+//#line 51 "./MiniMUDShared/MessageParser.y"
+{
+      yyval = new MessageParserVal(new ClientRequestInputMessage(ClientRequestInputMessage.Type.Normal, 
+      					trimQuotes(val_peek(0).sval)));
+  }
+break;
+case 10:
+//#line 56 "./MiniMUDShared/MessageParser.y"
+{
+  	  yyval = new MessageParserVal(new ClientRequestInputMessage(ClientRequestInputMessage.Type.Password, 
+      					trimQuotes(val_peek(0).sval)));
+  }
+break;
+case 11:
+//#line 64 "./MiniMUDShared/MessageParser.y"
+{
+		yyval = new MessageParserVal(new ServerStatusMessage(ServerStatusMessage.Status.LOGON_SUCCESS));
+	}
+break;
+case 12:
+//#line 68 "./MiniMUDShared/MessageParser.y"
+{
+		yyval = new MessageParserVal(new ServerStatusMessage(ServerStatusMessage.Status.LOGON_FAILED));
+	}
+break;
+case 13:
+//#line 72 "./MiniMUDShared/MessageParser.y"
+{
+		yyval = new MessageParserVal(new ServerStatusMessage(ServerStatusMessage.Status.LOGOUT));
+	}
+break;
+case 14:
+//#line 79 "./MiniMUDShared/MessageParser.y"
+{
+		yyval = new MessageParserVal(new UserLogoutMessage());
+	}
+break;
+case 15:
+//#line 83 "./MiniMUDShared/MessageParser.y"
+{
+		yyval = new MessageParserVal(new UserLogoutMessage());
+	}
+break;
+case 16:
+//#line 89 "./MiniMUDShared/MessageParser.y"
+{
+  		UserChatMessage chatMsg = new UserChatMessage();
+	    chatMsg.setMsgType(UserChatMessage.MsgType.Tell);
+	    chatMsg.setToUser(val_peek(1).sval);
+	    chatMsg.setMessage(trimQuotes(val_peek(0).sval));
+	    
+	    yyval = new MessageParserVal(chatMsg);
+  	}
+break;
+case 17:
+//#line 98 "./MiniMUDShared/MessageParser.y"
+{
+		UserChatMessage chatMsg = new UserChatMessage();
+  		chatMsg.setMsgType(UserChatMessage.MsgType.Say);
+  		chatMsg.setMessage(trimQuotes(val_peek(0).sval));
+  
+  		yyval = new MessageParserVal(chatMsg);
+	}
+break;
+case 18:
+//#line 106 "./MiniMUDShared/MessageParser.y"
+{
+		UserChatMessage chatMsg = new UserChatMessage();
+      	chatMsg.setMsgType(UserChatMessage.MsgType.Shout);
+      	chatMsg.setMessage(trimQuotes(val_peek(0).sval));
+      
+      	yyval = new MessageParserVal(chatMsg);
+	}
+break;
+case 19:
+//#line 114 "./MiniMUDShared/MessageParser.y"
+{
+		UserChatMessage chatMsg = new UserChatMessage();
+      	chatMsg.setMsgType(UserChatMessage.MsgType.Tell);
+      	chatMsg.setToUser(val_peek(1).sval);
+      	chatMsg.setMessage(trimQuotes(val_peek(0).sval));
+      
+      	yyval = new MessageParserVal(chatMsg);
+	}
+break;
+case 20:
+//#line 126 "./MiniMUDShared/MessageParser.y"
+{
+		yyval = new MessageParserVal(new PlayerMoveMessage(PlayerMoveMessage.Direction.North));
+	}
+break;
+case 21:
+//#line 130 "./MiniMUDShared/MessageParser.y"
+{
+		yyval = new MessageParserVal(new PlayerMoveMessage(PlayerMoveMessage.Direction.South));
+	}
+break;
+case 22:
+//#line 134 "./MiniMUDShared/MessageParser.y"
+{
+		yyval = new MessageParserVal(new PlayerMoveMessage(PlayerMoveMessage.Direction.East));
+	}
+break;
+case 23:
+//#line 138 "./MiniMUDShared/MessageParser.y"
+{
+		yyval = new MessageParserVal(new PlayerMoveMessage(PlayerMoveMessage.Direction.West));
+	}
+break;
+case 24:
+//#line 142 "./MiniMUDShared/MessageParser.y"
+{
+		yyval = new MessageParserVal(new PlayerMoveMessage(PlayerMoveMessage.Direction.Northeast));
+	}
+break;
+case 25:
+//#line 146 "./MiniMUDShared/MessageParser.y"
+{
+		yyval = new MessageParserVal(new PlayerMoveMessage(PlayerMoveMessage.Direction.Northwest));
+	}
+break;
+case 26:
+//#line 150 "./MiniMUDShared/MessageParser.y"
+{
+		yyval = new MessageParserVal(new PlayerMoveMessage(PlayerMoveMessage.Direction.Southeast));
+	}
+break;
+case 27:
+//#line 154 "./MiniMUDShared/MessageParser.y"
+{
+		yyval = new MessageParserVal(new PlayerMoveMessage(PlayerMoveMessage.Direction.Southwest));
+	}
+break;
+case 28:
+//#line 158 "./MiniMUDShared/MessageParser.y"
+{
+		yyval = new MessageParserVal(new PlayerMoveMessage(PlayerMoveMessage.Direction.Up));
+	}
+break;
+case 29:
+//#line 162 "./MiniMUDShared/MessageParser.y"
+{
+		yyval = new MessageParserVal(new PlayerMoveMessage(PlayerMoveMessage.Direction.Down));
+	}
+break;
+//#line 661 "MessageParser.java"
+//########## END OF USER-SUPPLIED ACTIONS ##########
+    }//switch
+    //#### Now let's reduce... ####
+    if (yydebug) debug("reduce");
+    state_drop(yym);             //we just reduced yylen states
+    yystate = state_peek(0);     //get new state
+    val_drop(yym);               //corresponding value drop
+    yym = yylhs[yyn];            //select next TERMINAL(on lhs)
+    if (yystate == 0 && yym == 0)//done? 'rest' state and at first TERMINAL
+      {
+      if (yydebug) debug("After reduction, shifting from state 0 to state "+YYFINAL+"");
+      yystate = YYFINAL;         //explicitly say we're done
+      state_push(YYFINAL);       //and save it
+      val_push(yyval);           //also save the semantic value of parsing
+      if (yychar < 0)            //we want another character?
+        {
+        yychar = yylex();        //get next character
+        if (yychar<0) yychar=0;  //clean, if necessary
+        if (yydebug)
+          yylexdebug(yystate,yychar);
         }
-        return msg;
-    }
-    // $ANTLR end "server_status"
+      if (yychar == 0)          //Good exit (if lex returns 0 ;-)
+         break;                 //quit the loop--all DONE
+      }//if yystate
+    else                        //else not done yet
+      {                         //get next state and push, for next yydefred[]
+      yyn = yygindex[yym];      //find out where to go
+      if ((yyn != 0) && (yyn += yystate) >= 0 &&
+            yyn <= YYTABLESIZE && yycheck[yyn] == yystate)
+        yystate = yytable[yyn]; //get new state
+      else
+        yystate = yydgoto[yym]; //else go to new defred
+      if (yydebug) debug("after reduction, shifting from state "+state_peek(0)+" to state "+yystate+"");
+      state_push(yystate);     //going again, so push state & val...
+      val_push(yyval);         //for next action
+      }
+    }//main loop
+  return 0;//yyaccept!!
+}
+//## end of method parse() ######################################
+
+
+
+//## run() --- for Thread #######################################
+/**
+ * A default run method, used for operating this parser
+ * object in the background.  It is intended for extending Thread
+ * or implementing Runnable.  Turn off with -Jnorun .
+ */
+public void run()
+{
+  yyparse();
+}
+//## end of method run() ########################################
+
+
+
+//## Constructors ###############################################
+/**
+ * Default constructor.  Turn off with -Jnoconstruct .
+
+ */
+public MessageParser()
+{
+  //nothing to do
+}
+
+
+/**
+ * Create a parser, setting the debug to true or false.
+ * @param debugMe true for debugging, false for no debug.
+ */
+public MessageParser(boolean debugMe)
+{
+  yydebug=debugMe;
+}
+//###############################################################
 
 
-
-    // $ANTLR start "user_logout"
-    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:96:1: user_logout returns [Message msg] : ( QUIT | EXIT ) ;
-    public final Message user_logout() throws RecognitionException {
-        Message msg = null;
-
-
-        try {
-            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:96:34: ( ( QUIT | EXIT ) )
-            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:96:36: ( QUIT | EXIT )
-            {
-            if ( input.LA(1)==EXIT||input.LA(1)==QUIT ) {
-                input.consume();
-                state.errorRecovery=false;
-            }
-            else {
-                MismatchedSetException mse = new MismatchedSetException(null,input);
-                throw mse;
-            }
-
-
-
-                  msg = new UserLogoutMessage();
-              
-
-            }
-
-        }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-        }
-
-        finally {
-        	// do for sure before leaving
-        }
-        return msg;
-    }
-    // $ANTLR end "user_logout"
-
-
-
-    // $ANTLR start "chat_message"
-    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:102:1: chat_message returns [Message msg] : ( TELL toChar= CHARNAME txtMsg= STRINGLITERAL | SAY txtMsg= STRINGLITERAL | SHOUT txtMsg= STRINGLITERAL | WHISPER toChar= CHARNAME txtMsg= STRINGLITERAL );
-    public final Message chat_message() throws RecognitionException {
-        Message msg = null;
-
-
-        Token toChar=null;
-        Token txtMsg=null;
-
-        try {
-            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:102:35: ( TELL toChar= CHARNAME txtMsg= STRINGLITERAL | SAY txtMsg= STRINGLITERAL | SHOUT txtMsg= STRINGLITERAL | WHISPER toChar= CHARNAME txtMsg= STRINGLITERAL )
-            int alt2=4;
-            switch ( input.LA(1) ) {
-            case TELL:
-                {
-                alt2=1;
-                }
-                break;
-            case SAY:
-                {
-                alt2=2;
-                }
-                break;
-            case SHOUT:
-                {
-                alt2=3;
-                }
-                break;
-            case WHISPER:
-                {
-                alt2=4;
-                }
-                break;
-            default:
-                NoViableAltException nvae =
-                    new NoViableAltException("", 2, 0, input);
-
-                throw nvae;
-
-            }
-
-            switch (alt2) {
-                case 1 :
-                    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:102:37: TELL toChar= CHARNAME txtMsg= STRINGLITERAL
-                    {
-                    match(input,TELL,FOLLOW_TELL_in_chat_message275); 
-
-                    toChar=(Token)match(input,CHARNAME,FOLLOW_CHARNAME_in_chat_message279); 
-
-                    txtMsg=(Token)match(input,STRINGLITERAL,FOLLOW_STRINGLITERAL_in_chat_message283); 
-
-
-                    	    UserChatMessage chatMsg = new UserChatMessage();
-                    	    chatMsg.setMsgType(UserChatMessage.MsgType.Tell);
-                    	    chatMsg.setToUser((toChar!=null?toChar.getText():null));
-                    	    chatMsg.setMessage(trimQuotes((txtMsg!=null?txtMsg.getText():null)));
-                    	    
-                    	    msg = chatMsg;
-                    	
-
-                    }
-                    break;
-                case 2 :
-                    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:111:3: SAY txtMsg= STRINGLITERAL
-                    {
-                    match(input,SAY,FOLLOW_SAY_in_chat_message290); 
-
-                    txtMsg=(Token)match(input,STRINGLITERAL,FOLLOW_STRINGLITERAL_in_chat_message294); 
-
-
-                    	    UserChatMessage chatMsg = new UserChatMessage();
-                          chatMsg.setMsgType(UserChatMessage.MsgType.Say);
-                          chatMsg.setMessage(trimQuotes((txtMsg!=null?txtMsg.getText():null)));
-                          
-                          msg = chatMsg;
-                    	
-
-                    }
-                    break;
-                case 3 :
-                    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:119:3: SHOUT txtMsg= STRINGLITERAL
-                    {
-                    match(input,SHOUT,FOLLOW_SHOUT_in_chat_message301); 
-
-                    txtMsg=(Token)match(input,STRINGLITERAL,FOLLOW_STRINGLITERAL_in_chat_message305); 
-
-
-                          UserChatMessage chatMsg = new UserChatMessage();
-                          chatMsg.setMsgType(UserChatMessage.MsgType.Shout);
-                          chatMsg.setMessage(trimQuotes((txtMsg!=null?txtMsg.getText():null)));
-                          
-                          msg = chatMsg;
-                      
-
-                    }
-                    break;
-                case 4 :
-                    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:127:3: WHISPER toChar= CHARNAME txtMsg= STRINGLITERAL
-                    {
-                    match(input,WHISPER,FOLLOW_WHISPER_in_chat_message313); 
-
-                    toChar=(Token)match(input,CHARNAME,FOLLOW_CHARNAME_in_chat_message317); 
-
-                    txtMsg=(Token)match(input,STRINGLITERAL,FOLLOW_STRINGLITERAL_in_chat_message321); 
-
-
-                    	    UserChatMessage chatMsg = new UserChatMessage();
-                          chatMsg.setMsgType(UserChatMessage.MsgType.Tell);
-                          chatMsg.setToUser((toChar!=null?toChar.getText():null));
-                          chatMsg.setMessage(trimQuotes((txtMsg!=null?txtMsg.getText():null)));
-                          
-                          msg = chatMsg;
-                    	
-
-                    }
-                    break;
-
-            }
-        }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-        }
-
-        finally {
-        	// do for sure before leaving
-        }
-        return msg;
-    }
-    // $ANTLR end "chat_message"
-
-
-
-    // $ANTLR start "move_message"
-    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:138:1: move_message returns [Message msg] : ( ( GO )? GO_NORTH | GO_SOUTH | GO_EAST | GO_WEST | GO_NORTHEAST | GO_NORTHWEST | GO_SOUTHEAST | GO_SOUTHWEST | GO_UP | GO_DOWN );
-    public final Message move_message() throws RecognitionException {
-        Message msg = null;
-
-
-        try {
-            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:138:35: ( ( GO )? GO_NORTH | GO_SOUTH | GO_EAST | GO_WEST | GO_NORTHEAST | GO_NORTHWEST | GO_SOUTHEAST | GO_SOUTHWEST | GO_UP | GO_DOWN )
-            int alt4=10;
-            switch ( input.LA(1) ) {
-            case GO_NORTH:
-            case GO:
-                {
-                alt4=1;
-                }
-                break;
-            case GO_SOUTH:
-                {
-                alt4=2;
-                }
-                break;
-            case GO_EAST:
-                {
-                alt4=3;
-                }
-                break;
-            case GO_WEST:
-                {
-                alt4=4;
-                }
-                break;
-            case GO_NORTHEAST:
-                {
-                alt4=5;
-                }
-                break;
-            case GO_NORTHWEST:
-                {
-                alt4=6;
-                }
-                break;
-            case GO_SOUTHEAST:
-                {
-                alt4=7;
-                }
-                break;
-            case GO_SOUTHWEST:
-                {
-                alt4=8;
-                }
-                break;
-            case GO_UP:
-                {
-                alt4=9;
-                }
-                break;
-            case GO_DOWN:
-                {
-                alt4=10;
-                }
-                break;
-            default:
-                NoViableAltException nvae =
-                    new NoViableAltException("", 4, 0, input);
-
-                throw nvae;
-
-            }
-
-            switch (alt4) {
-                case 1 :
-                    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:138:37: ( GO )? GO_NORTH
-                    {
-                    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:138:37: ( GO )?
-                    int alt3=2;
-                    int LA3_0 = input.LA(1);
-
-                    if ( (LA3_0==GO) ) {
-                        alt3=1;
-                    }
-                    switch (alt3) {
-                        case 1 :
-                            // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:138:38: GO
-                            {
-                            match(input,GO,FOLLOW_GO_in_move_message337); 
-
-                            }
-                            break;
-
-                    }
-
-
-                    match(input,GO_NORTH,FOLLOW_GO_NORTH_in_move_message343); 
-
-
-                          msg = (Message)new PlayerMoveMessage(PlayerMoveMessage.Direction.North);
-                      
-
-                    }
-                    break;
-                case 2 :
-                    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:143:3: GO_SOUTH
-                    {
-                    match(input,GO_SOUTH,FOLLOW_GO_SOUTH_in_move_message351); 
-
-
-                          msg = (Message)new PlayerMoveMessage(PlayerMoveMessage.Direction.South);
-                      
-
-                    }
-                    break;
-                case 3 :
-                    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:147:3: GO_EAST
-                    {
-                    match(input,GO_EAST,FOLLOW_GO_EAST_in_move_message359); 
-
-
-                          msg = (Message)new PlayerMoveMessage(PlayerMoveMessage.Direction.East);
-                      
-
-                    }
-                    break;
-                case 4 :
-                    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:151:3: GO_WEST
-                    {
-                    match(input,GO_WEST,FOLLOW_GO_WEST_in_move_message367); 
-
-
-                          msg = (Message)new PlayerMoveMessage(PlayerMoveMessage.Direction.West);
-                      
-
-                    }
-                    break;
-                case 5 :
-                    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:155:3: GO_NORTHEAST
-                    {
-                    match(input,GO_NORTHEAST,FOLLOW_GO_NORTHEAST_in_move_message375); 
-
-
-                          msg = (Message)new PlayerMoveMessage(PlayerMoveMessage.Direction.Northeast);
-                      
-
-                    }
-                    break;
-                case 6 :
-                    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:159:3: GO_NORTHWEST
-                    {
-                    match(input,GO_NORTHWEST,FOLLOW_GO_NORTHWEST_in_move_message383); 
-
-
-                          msg = (Message)new PlayerMoveMessage(PlayerMoveMessage.Direction.Northwest);
-                      
-
-                    }
-                    break;
-                case 7 :
-                    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:163:3: GO_SOUTHEAST
-                    {
-                    match(input,GO_SOUTHEAST,FOLLOW_GO_SOUTHEAST_in_move_message391); 
-
-
-                          msg = (Message)new PlayerMoveMessage(PlayerMoveMessage.Direction.Southeast);
-                      
-
-                    }
-                    break;
-                case 8 :
-                    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:167:3: GO_SOUTHWEST
-                    {
-                    match(input,GO_SOUTHWEST,FOLLOW_GO_SOUTHWEST_in_move_message399); 
-
-
-                          msg = (Message)new PlayerMoveMessage(PlayerMoveMessage.Direction.Southwest);
-                      
-
-                    }
-                    break;
-                case 9 :
-                    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:171:3: GO_UP
-                    {
-                    match(input,GO_UP,FOLLOW_GO_UP_in_move_message407); 
-
-
-                          msg = (Message)new PlayerMoveMessage(PlayerMoveMessage.Direction.Up);
-                      
-
-                    }
-                    break;
-                case 10 :
-                    // /home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g:175:3: GO_DOWN
-                    {
-                    match(input,GO_DOWN,FOLLOW_GO_DOWN_in_move_message415); 
-
-
-                          msg = (Message)new PlayerMoveMessage(PlayerMoveMessage.Direction.Down);
-                      
-
-                    }
-                    break;
-
-            }
-        }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-        }
-
-        finally {
-        	// do for sure before leaving
-        }
-        return msg;
-    }
-    // $ANTLR end "move_message"
-
-    // Delegated rules
-
-
- 
-
-    public static final BitSet FOLLOW_client_showtext_in_message45 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_request_input_in_message59 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_server_status_in_message71 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_user_logout_in_message83 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_chat_message_in_message95 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_move_message_in_message109 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_TEXTMSG_in_client_showtext141 = new BitSet(new long[]{0x0000000000001000L});
-    public static final BitSet FOLLOW_FROM_in_client_showtext143 = new BitSet(new long[]{0x0000000000000200L});
-    public static final BitSet FOLLOW_EQUALS_in_client_showtext145 = new BitSet(new long[]{0x0000002000000040L});
-    public static final BitSet FOLLOW_set_in_client_showtext149 = new BitSet(new long[]{0x0000000020000000L});
-    public static final BitSet FOLLOW_MESSAGE_in_client_showtext157 = new BitSet(new long[]{0x0000000000000200L});
-    public static final BitSet FOLLOW_EQUALS_in_client_showtext159 = new BitSet(new long[]{0x0000010000000000L});
-    public static final BitSet FOLLOW_STRINGLITERAL_in_client_showtext163 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_REQUEST_INPUT_in_request_input181 = new BitSet(new long[]{0x0000100000000000L});
-    public static final BitSet FOLLOW_TYPE_in_request_input183 = new BitSet(new long[]{0x0000000000000200L});
-    public static final BitSet FOLLOW_EQUALS_in_request_input185 = new BitSet(new long[]{0x00000000C0000000L});
-    public static final BitSet FOLLOW_set_in_request_input189 = new BitSet(new long[]{0x0000000020000000L});
-    public static final BitSet FOLLOW_MESSAGE_in_request_input197 = new BitSet(new long[]{0x0000000000000200L});
-    public static final BitSet FOLLOW_EQUALS_in_request_input199 = new BitSet(new long[]{0x0000010000000000L});
-    public static final BitSet FOLLOW_STRINGLITERAL_in_request_input203 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_SERVER_STATUS_in_server_status219 = new BitSet(new long[]{0x0000100000000000L});
-    public static final BitSet FOLLOW_TYPE_in_server_status221 = new BitSet(new long[]{0x0000000000000200L});
-    public static final BitSet FOLLOW_EQUALS_in_server_status223 = new BitSet(new long[]{0x000000001C000000L});
-    public static final BitSet FOLLOW_set_in_server_status227 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_set_in_user_logout253 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_TELL_in_chat_message275 = new BitSet(new long[]{0x0000000000000040L});
-    public static final BitSet FOLLOW_CHARNAME_in_chat_message279 = new BitSet(new long[]{0x0000010000000000L});
-    public static final BitSet FOLLOW_STRINGLITERAL_in_chat_message283 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_SAY_in_chat_message290 = new BitSet(new long[]{0x0000010000000000L});
-    public static final BitSet FOLLOW_STRINGLITERAL_in_chat_message294 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_SHOUT_in_chat_message301 = new BitSet(new long[]{0x0000010000000000L});
-    public static final BitSet FOLLOW_STRINGLITERAL_in_chat_message305 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_WHISPER_in_chat_message313 = new BitSet(new long[]{0x0000000000000040L});
-    public static final BitSet FOLLOW_CHARNAME_in_chat_message317 = new BitSet(new long[]{0x0000010000000000L});
-    public static final BitSet FOLLOW_STRINGLITERAL_in_chat_message321 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_GO_in_move_message337 = new BitSet(new long[]{0x0000000000008000L});
-    public static final BitSet FOLLOW_GO_NORTH_in_move_message343 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_GO_SOUTH_in_move_message351 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_GO_EAST_in_move_message359 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_GO_WEST_in_move_message367 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_GO_NORTHEAST_in_move_message375 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_GO_NORTHWEST_in_move_message383 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_GO_SOUTHEAST_in_move_message391 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_GO_SOUTHWEST_in_move_message399 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_GO_UP_in_move_message407 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_GO_DOWN_in_move_message415 = new BitSet(new long[]{0x0000000000000002L});
 
 }
+//################### END OF CLASS ##############################
