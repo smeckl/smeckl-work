@@ -94,6 +94,7 @@ public class MiniMUDServer
 				break;
 			}
 			
+			// If a log file was specified, then use it
 			if(args.length == 5)
 			{
 				strLogFile = args[4];
@@ -101,18 +102,31 @@ public class MiniMUDServer
 			
 			try
 			{
+				// Set up the logger object
 				fh = new FileHandler(strLogFile, true);
 				
 				logger.addHandler(fh);
 			    logger.setLevel(Level.FINE);
-			    
-			    m_gameServer = new GameServer(logger);
 				
+			    // Connect to the database
 				m_dbConn = new DatabaseConnector(strDBServer, nPort, strUser, strPassword, logger);
 				m_dbConn.connect();
 				
-				startListener(SSL_PORT);
+				// Create the game server and load data into memory
+				m_gameServer = new GameServer(m_dbConn, logger);
 				
+				GameServer.ErrorCode retVal = m_gameServer.loadGameData();
+				
+				if(GameServer.ErrorCode.Success == retVal)
+				{
+					// Start listening to new connections
+					// This call blocks until the server is shut down
+					startListener(SSL_PORT);
+				}
+				else
+					logger.severe("Failed to load game data.");
+				
+				// We're done.  Close the connection to the database
 				m_dbConn.disconnect();
 			}
 			catch(Exception e)

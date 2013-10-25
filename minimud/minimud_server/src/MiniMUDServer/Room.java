@@ -1,5 +1,7 @@
 package MiniMUDServer;
 
+import java.util.HashMap;
+
 import MiniMUDShared.RegularExpressions;
 
 public class Room
@@ -9,6 +11,8 @@ public class Room
 	private String m_strDescription = "";
 	
 	private RegularExpressions m_regEx = new RegularExpressions();
+	
+	private HashMap<String, Move> m_moves = new HashMap<String, Move>();
 	
 	public void setID(int nID)
 	{
@@ -27,6 +31,11 @@ public class Room
 		bRet = m_regEx.stringMatchesRegEx(strID, RegularExpressions.RegExID.ID);
 		
 		return bRet;
+	}
+	
+	public boolean isValidID(int nID)
+	{
+		return (nID > 0 && nID < 100);
 	}
 	
 	public void setName(String strName)
@@ -66,5 +75,24 @@ public class Room
 				&& strDescription.length() < 2000);
 		
 		return bRet;
+	}
+	
+	public void addMove(Move move)
+	{
+		m_moves.put(move.getDirection(), move);
+	}
+	
+	public boolean isValid()
+	{
+		boolean bValid = false;
+		
+		if(isValidID(getID())
+				&& isValidName(getName())
+				&& isValidDescription(getDescription()))
+		{
+			bValid = true;
+		}
+		
+		return bValid;
 	}
 }

@@ -43,16 +43,16 @@ public class DatabaseConnector
 		
         try 
         {
-        	System.out.println("Connecting to database: " + m_strUrl + m_strDbName);
+        	m_logger.info("Connecting to database: " + m_strUrl + m_strDbName);
         	
 	        Class.forName(m_strDriver).newInstance();
 	        m_conn = DriverManager.getConnection(m_strUrl + m_strDbName, m_strUserName, m_strPassword);
 	        
-	        System.out.println("Connection successful!");
+	        m_logger.info("Connection successful!");
         } 
         catch (Exception e) 
         {
-        	System.out.println("Exception connecting to the database " + e);
+        	m_logger.severe("Exception connecting to the database " + e);
         	retVal = ErrorCode.Exception;
         }
         
@@ -65,16 +65,16 @@ public class DatabaseConnector
 		
 		try
 		{
-			System.out.println("Disconnecting from database.");
+			m_logger.info("Disconnecting from database.");
 					
 			if(null != m_conn && m_conn.isClosed())
 				m_conn.close();
 			
-			System.out.println("Disconnection successful!");
+			m_logger.info("Disconnection successful!");
 		}
 		catch(Exception e)
 		{
-			System.out.println("Exception disconnecting from the database " + e);
+			m_logger.severe("Exception disconnecting from the database " + e);
 			retVal = ErrorCode.Exception;
 		}
 		
@@ -99,7 +99,7 @@ public class DatabaseConnector
 		}
 		catch(Exception e)
 		{
-			System.out.println("Exception in DatabaseConnector::checkDuplicateUser() " + e);
+			m_logger.severe("Exception in DatabaseConnector::checkDuplicateUser() " + e);
 			retVal = true;
 		}
 		
@@ -128,7 +128,7 @@ public class DatabaseConnector
 		}
 		catch(Exception e)
 		{
-			System.out.println("Exception in DatabaseConnector::lookupUserRecord() " + e);
+			m_logger.severe("Exception in DatabaseConnector::lookupUserRecord() " + e);
 			userRec = null;
 		}
 		
@@ -163,10 +163,52 @@ public class DatabaseConnector
 		}
 		catch(Exception e)
 		{
-			System.out.println("Exception in DatabaseConnector::checkDuplicateUser() " + e);
+			m_logger.severe("Exception in DatabaseConnector::checkDuplicateUser() " + e);
 			retVal = ErrorCode.Exception;
 		}
 		
 		return retVal;
+	}
+	
+	// Retrieves list of rooms.  Return value is null if there is an error.
+	public ResultSet getRooms()
+	{
+		ResultSet results = null;
+		
+		try
+		{
+			PreparedStatement pstmt = getConnection().prepareStatement("select * from rooms");
+			
+			results = pstmt.executeQuery();
+		}
+		catch(Exception e)
+		{
+			m_logger.severe("Exception in DatabaseConnector::getRooms() " + e);
+			results = null;
+		}
+		
+		return results;
+	}
+	
+	// Retrieves list of moves.  Return value is null if there is an error.
+	public ResultSet getMovesForRoom(int nRoomID)
+	{
+		ResultSet results = null;
+		
+		try
+		{
+			PreparedStatement pstmt = getConnection().prepareStatement("select * from moves where RoomID = ?");
+			pstmt.setInt(1, nRoomID);
+			
+			results = pstmt.executeQuery();
+			
+		}
+		catch(Exception e)
+		{
+			m_logger.severe("Exception in DatabaseConnector::getMoves() " + e);
+			results = null;
+		}
+		
+		return results;
 	}
 }

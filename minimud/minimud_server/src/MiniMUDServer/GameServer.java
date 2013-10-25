@@ -1,7 +1,7 @@
 package MiniMUDServer;
+import java.sql.ResultSet;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.concurrent.LinkedBlockingQueue;
 import java.util.logging.Logger;
 import MiniMUDShared.*;
 
@@ -16,12 +16,70 @@ public class GameServer
 	}
 	
 	private HashMap<String, UserConnectionThread> m_userMap = new HashMap<String, UserConnectionThread>();
+	private HashMap<String, Room> m_Rooms = new HashMap<String, Room>();
 	
 	private Logger m_logger = null;
 	
-	public GameServer(Logger logger)
+	private DatabaseConnector m_dbConn = null;
+	
+	public GameServer(DatabaseConnector dbConn, Logger logger)
 	{
 		m_logger = logger;
+		m_dbConn = dbConn;
+	}
+	
+	// Loads game data from MySQL database into memory
+	public ErrorCode loadGameData()
+	{
+		ErrorCode retVal = ErrorCode.Success;
+		
+		try
+		{
+			// Load the Room datatypes
+			ResultSet rooms = m_dbConn.getRooms();
+
+			while(null != rooms && rooms.next())
+			{
+				Room newRoom = new Room();
+				
+				newRoom.setID(rooms.getInt("ID"));
+				newRoom.setName(rooms.getString("name"));
+				newRoom.setDescription(rooms.getString("description"));
+				
+				// Make sure that the data fields are valid
+				if(newRoom.isValid())
+				{					
+					ResultSet moves = m_dbConn.getMovesForRoom(newRoom.getID());
+					
+					while(null != moves && moves.next())
+					{
+						Move newMove = new Move();
+						
+						newMove.setRoomID(moves.getInt("RoomID"));
+						newMove.setDirection(moves.getString("direction"));
+						newMove.setNextRoomID(moves.getInt("NextRoomID"));
+						newMove.setDescription(moves.getString("description"));
+						
+						if(newMove.isValid())
+							newRoom.addMove(newMove);
+					}
+					
+					m_Rooms.put(newRoom.getName(), newRoom);
+				}
+				else
+				{
+					m_logger.severe("Failed to load room object.  Invalid field value.");
+					break;
+				}
+			}
+		}
+		catch(Exception e)
+		{
+			m_logger.severe("Exception caught in GameServer.postUserMessage(): " + e);
+			retVal = ErrorCode.Exception;
+		}
+		
+		return retVal;
 	}
 	
 	public void addUser(UserConnectionThread user)
@@ -46,7 +104,7 @@ public class GameServer
 		}
 		catch(Exception e)
 		{
-			System.out.println("Exception caught in GameServer.postUserMessage(): " + e);
+			m_logger.severe("Exception caught in GameServer.postUserMessage(): " + e);
 			retVal = ErrorCode.Exception;
 		}
 		

@@ -29,6 +29,11 @@ public class Move
 		
 		return bRet;
 	}
+	
+	public boolean isValidRoomID(int nID)
+	{
+		return (getRoomID() > 0 && getRoomID() < 100);
+	}
 
 	public void setDirection(String strDirection)
 	{
@@ -68,6 +73,11 @@ public class Move
 		return bRet;
 	}
 	
+	public boolean isValidNextRoomID(int nID)
+	{
+		return (getNextRoomID() > 0 && getNextRoomID() < 100);
+	}
+	
 	public void setDescription(String strDescription)
 	{
 		m_strDescription = strDescription;
@@ -86,5 +96,21 @@ public class Move
 				&& strDescription.length() < 100);
 		
 		return bRet;
+	}
+	
+	public boolean isValid()
+	{
+		boolean bValid = false;
+		
+		if(isValidRoomID(getRoomID())
+				&& isValidDirection(getDirection())
+				&& isValidNextRoomID(getNextRoomID())
+				&& isValidDescription(getDescription()))
+		{
+			bValid = true;
+		}
+			
+		
+		return bValid;
 	}
 }
