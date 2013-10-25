@@ -3,7 +3,6 @@ package MiniMUDServer;
 import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.net.SocketTimeoutException;
-import java.util.logging.Logger;
 
 import MiniMUDShared.ClientRequestInputMessage;
 import MiniMUDShared.ClientShowTextMessage;

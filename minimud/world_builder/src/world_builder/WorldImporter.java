@@ -204,7 +204,7 @@ public class WorldImporter
 						}
 						else if(0 == nodeName.compareTo(XMLNames.MOVES))
 						{
-							retVal = processMoves(node);
+							retVal = processMoves(nID, node);
 						}
 							
 						if(!bSavedRoom && bID && bName && bDescription)
@@ -227,7 +227,7 @@ public class WorldImporter
 		return retVal;
 	}
 	
-	private ErrorCode processMoves(Node moves)
+	private ErrorCode processMoves(int nID, Node moves)
 	{
 		ErrorCode retVal = ErrorCode.Success;
 				
@@ -248,7 +248,7 @@ public class WorldImporter
 						
 						if(0 == nodeName.compareTo(XMLNames.MOVE))
 						{
-							retVal = processMove(move);
+							retVal = processMove(nID, move);
 						}
 					}
 				}
@@ -265,7 +265,7 @@ public class WorldImporter
 		return retVal;
 	}
 	
-	private ErrorCode processMove(Node move)
+	private ErrorCode processMove(int nID, Node move)
 	{
 		ErrorCode retVal = ErrorCode.Success;
 		
@@ -276,7 +276,6 @@ public class WorldImporter
 		int nNextRoomID = 0;
 		String strDescription = "";
 		
-		boolean bRoomID = false;
 		boolean bDirection = false;
 		boolean bNextRoomID = false;
 		boolean bDescription = false;
@@ -298,20 +297,7 @@ public class WorldImporter
 						
 						String nodeName = node.getNodeName();
 						
-						if(0 == nodeName.compareTo(XMLNames.ROOM_ID))
-						{
-							if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ID))
-							{
-								nRoomID = Integer.parseInt(content);
-								bRoomID = true;
-							}
-							else
-							{
-								retVal = ErrorCode.INVALID_ID;
-								System.out.println("Invalid Room ID specified.");
-							}
-						}
-						else if(0 == nodeName.compareTo(XMLNames.DIRECTION))
+						if(0 == nodeName.compareTo(XMLNames.DIRECTION))
 						{
 							if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.DIRECTION))
 							{
@@ -351,9 +337,9 @@ public class WorldImporter
 							}
 						}
 						
-						if(bRoomID && bDirection && bNextRoomID && bDescription)
+						if(bDirection && bNextRoomID && bDescription)
 						{
-							getDBconn().addMove(nRoomID, strDirection, nNextRoomID, strDescription);
+							getDBconn().addMove(nID, strDirection, nNextRoomID, strDescription);
 						}
 					}
 				}

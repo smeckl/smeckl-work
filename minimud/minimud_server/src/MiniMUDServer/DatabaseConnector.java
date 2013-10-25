@@ -1,7 +1,6 @@
 package MiniMUDServer;
 import java.sql.*;
 import java.util.Calendar;
-import java.util.logging.Logger;
 
 public class DatabaseConnector
 {

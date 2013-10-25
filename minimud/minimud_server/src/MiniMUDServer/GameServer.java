@@ -2,7 +2,6 @@ package MiniMUDServer;
 import java.sql.ResultSet;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.logging.Logger;
 import MiniMUDShared.*;
 
 public class GameServer

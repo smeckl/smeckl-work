@@ -11,7 +11,7 @@
 
 <!ELEMENT moves (move+)>
 
-<!ELEMENT move ( room_id, direction, next_room_id, description )>
+<!ELEMENT move ( direction, next_room_id, description )>
 
 <!ELEMENT room_id (#PCDATA)>
 <!ELEMENT direction (#PCDATA)>

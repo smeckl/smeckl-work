@@ -1,22 +1,16 @@
 package MiniMUDServer;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.io.StringBufferInputStream;
 import java.io.StringReader;
 import java.net.Socket;
-import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.util.concurrent.Semaphore;
-import java.util.logging.Logger;
-
-import org.antlr.runtime.ANTLRInputStream;
-import org.antlr.runtime.CommonTokenStream;
 
 import MiniMUDShared.*;
 
-@SuppressWarnings("deprecation")
 public class UserConnectionThread extends Thread
 {
 	// Objects for IO with clients
@@ -589,15 +583,6 @@ public class UserConnectionThread extends Thread
 		}
 		
 		return retVal;
-	}
-	
-	private String escapeOutput(String strIn)
-	{
-		String strOut = "";
-		
-		
-		
-		return strOut;
 	}
 	
 	public ErrorCode processGameServerCommand(Message msg)
