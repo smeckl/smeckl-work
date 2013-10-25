@@ -1,25 +1,16 @@
 <?xml version="1.0" encoding="ASCII"?>
-<cache:CacheIndex xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:cache="http://eclipse.org/dltk/cache_model" lastIndex="8" environment="org.eclipse.dltk.core.environment.localEnvironment">
-  <entries path="/home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.g" timestamp="1382305370000" lastAccessTime="1382404582228">
-    <attributes name="indexed" location="2838196607/1654003026/5.idx"/>
-  </entries>
-  <entries path="/home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.g" timestamp="1382305370000" lastAccessTime="1382404581928">
-    <attributes name="indexed" location="2838196607/1654003026/3.idx"/>
-  </entries>
-  <entries path="/home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageID.java" timestamp="1382305370000" lastAccessTime="1382404581785"/>
-  <entries path="/home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/RegularExpressions.java" timestamp="1382320344000" lastAccessTime="1382404581785"/>
-  <entries path="/home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/ClientShowTextMessage.java" timestamp="1382305370000" lastAccessTime="1382404581785"/>
-  <entries path="/home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/PlayerMoveMessage.java" timestamp="1382305370000" lastAccessTime="1382404581785"/>
-  <entries path="/home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.java" timestamp="1382305370000" lastAccessTime="1382404581785"/>
-  <entries path="/home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/ClientRequestInputMessage.java" timestamp="1382305370000" lastAccessTime="1382404581785"/>
-  <entries path="/home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.java" timestamp="1382305370000" lastAccessTime="1382404581785"/>
-  <entries path="/home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/UserChatMessage.java" timestamp="1382305370000" lastAccessTime="1382404581785"/>
-  <entries path="/home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.tokens" timestamp="1382305370000" lastAccessTime="1382404581785"/>
-  <entries path="/home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/ServerStatusMessage.java" timestamp="1382305370000" lastAccessTime="1382404581785"/>
-  <entries path="/home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/Message.java" timestamp="1382305370000" lastAccessTime="1382404581785"/>
-  <entries path="/home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.tokens" timestamp="1382305370000" lastAccessTime="1382404581785"/>
-  <entries path="/home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/UserLogoutMessage.java" timestamp="1382305370000" lastAccessTime="1382404581785"/>
-  <entries path="/home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared" timestamp="1382305370000" lastAccessTime="1382404582228">
-    <attributes name=".dltk.core.archive.cache.lastaccess" location="2838196607/3557676654/7.idx"/>
-  </entries>
+<cache:CacheIndex xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:cache="http://eclipse.org/dltk/cache_model" lastIndex="58" environment="org.eclipse.dltk.core.environment.localEnvironment">
+  <entries path="/home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageID.java" timestamp="1382305370000" lastAccessTime="1382677752414"/>
+  <entries path="/home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/ClientShowTextMessage.java" timestamp="1382305370000" lastAccessTime="1382677752414"/>
+  <entries path="/home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/PlayerMoveMessage.java" timestamp="1382305370000" lastAccessTime="1382677752414"/>
+  <entries path="/home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/ClientRequestInputMessage.java" timestamp="1382305370000" lastAccessTime="1382677752414"/>
+  <entries path="/home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/UserChatMessage.java" timestamp="1382305370000" lastAccessTime="1382677752415"/>
+  <entries path="/home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/ServerStatusMessage.java" timestamp="1382305370000" lastAccessTime="1382677752415"/>
+  <entries path="/home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/Message.java" timestamp="1382305370000" lastAccessTime="1382677752415"/>
+  <entries path="/home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/UserLogoutMessage.java" timestamp="1382305370000" lastAccessTime="1382677752415"/>
+  <entries path="/home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/RegularExpressions.java" timestamp="1382674303000" lastAccessTime="1382677752414"/>
+  <entries path="/home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.java" timestamp="1382672963000" lastAccessTime="1382677752414"/>
+  <entries path="/home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageParser.tokens" timestamp="1382672963000" lastAccessTime="1382677752415"/>
+  <entries path="/home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.java" timestamp="1382677389000" lastAccessTime="1382677752414"/>
+  <entries path="/home/steve/codemunki-gitrepo/minimud/minimud_shared/src/MiniMUDShared/MessageScanner.tokens" timestamp="1382677389000" lastAccessTime="1382677752415"/>
 </cache:CacheIndex>

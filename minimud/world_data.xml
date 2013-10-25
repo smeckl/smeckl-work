@@ -43,7 +43,7 @@
 			<description>You quietly sneak into the storeroom.  It is lined with the skulls of sacrificed animals.  There is a pentagam painted on the floor in blood.  You wonder what exactly is in the meat pie.  To the south is the door back into the main Tavern.</description>
 			<moves>
 				<move>
-					<room_id>1</room_id>
+					<room_id>3</room_id>
 					<direction>south</direction>
 					<next_room_id>1</next_room_id>
 					<description>Tavern door</description>

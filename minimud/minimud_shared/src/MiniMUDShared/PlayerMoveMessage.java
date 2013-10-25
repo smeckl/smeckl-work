@@ -84,4 +84,9 @@ public class PlayerMoveMessage extends Message
 		
 		return strOut;
 	}
+	
+	public String serialize()
+	{
+		return getDirectionString();
+	}
 }

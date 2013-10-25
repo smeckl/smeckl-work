@@ -57,20 +57,31 @@ public class MiniMUDClient
 						{
 							do
 							{
-								//System.out.println("Raw server string: " + serverInput);
-							    Message msg = parseServerCommand(serverInput);
-							    
-							    if(null != msg)
-							    {
-							    	executeServerCommand(msg);	    		
-							    }	
-							    
-							    serverInput = m_serverIn.readLine();
+								try
+								{
+									//System.out.println("Raw server string: " + serverInput);
+								    Message msg = parseServerCommand(serverInput);
+								    
+								    if(null != msg)
+								    {
+								    	executeServerCommand(msg);	    		
+								    }	
+								    
+								    serverInput = m_serverIn.readLine();
+								}
+								catch(IOException e)
+								{
+									serverInput = null;
+								}
+								catch(Exception e)
+								{
+									System.out.println("Invalid server message received.");
+								}
 							} 
 							while(null != serverInput
 									&& (1 == m_stopSem.availablePermits()));
 							
-							System.out.println(">>");
+							System.out.print(">>");
 						}
 					}
 					catch(SocketTimeoutException e)

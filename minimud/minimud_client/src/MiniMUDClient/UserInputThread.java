@@ -67,7 +67,7 @@ public class UserInputThread extends Thread
 						if(!userInput.isEmpty())
 							m_serverOut.println(userInput);
 						
-						showPrompt();
+						//showPrompt();
 					}
 				}
 				

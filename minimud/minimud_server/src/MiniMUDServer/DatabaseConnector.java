@@ -20,9 +20,9 @@ public class DatabaseConnector
 	private static String m_strUserName = "";
 	private static String m_strPassword = "";
 	
-	private static Logger m_logger = null;
+	private static MMLogger m_logger = null;
     
-	public DatabaseConnector(String strServer, int nPort, String strUser, String strPassword, Logger logger)
+	public DatabaseConnector(String strServer, int nPort, String strUser, String strPassword, MMLogger logger)
 	{
 		m_strUrl += strServer + ":";
 		m_strUrl += nPort + "/";

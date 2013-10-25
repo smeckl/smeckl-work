@@ -17,7 +17,7 @@ import MiniMUDShared.*;
 
 public class MiniMUDServer
 {
-	private static final Logger logger = Logger.getLogger(MiniMUDServer.class.getName());
+	private static MMLogger logger = null;
 	
 	public static int SSL_PORT = 1443;
 	private static GameServer m_gameServer = null;
@@ -28,9 +28,7 @@ public class MiniMUDServer
 	 * @param args
 	 */
 	public static void main(String[] args)
-	{
-		Handler fh = null;
-	    
+	{    
 		System.out.println("Starting Mini MUD server.");
 
 		int nPort = 0;
@@ -94,20 +92,17 @@ public class MiniMUDServer
 				break;
 			}
 			
-			// If a log file was specified, then use it
-			if(args.length == 5)
-			{
-				strLogFile = args[4];
-			}
-			
 			try
-			{
-				// Set up the logger object
-				fh = new FileHandler(strLogFile, true);
-				
-				logger.addHandler(fh);
-			    logger.setLevel(Level.FINE);
-				
+			{			
+				// If a log file was specified, then use it
+				if(args.length == 5)
+				{
+					strLogFile = args[4];
+					
+					logger = new MMLogger(strLogFile);
+				}
+			
+						
 			    // Connect to the database
 				m_dbConn = new DatabaseConnector(strDBServer, nPort, strUser, strPassword, logger);
 				m_dbConn.connect();

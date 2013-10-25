@@ -20,9 +20,9 @@ public class DisplayHelper
 	private PrintWriter m_textOut;
 	private BufferedReader m_textIn;
 	
-	private static Logger m_logger = null;
+	private static MMLogger m_logger = null;
 	
-	public DisplayHelper(PrintWriter textOut, BufferedReader textIn, Logger logger)
+	public DisplayHelper(PrintWriter textOut, BufferedReader textIn, MMLogger logger)
 	{
 		m_textOut = textOut;
 		m_textIn = textIn;

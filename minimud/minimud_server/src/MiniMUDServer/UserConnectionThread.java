@@ -38,7 +38,7 @@ public class UserConnectionThread extends Thread
 	private Semaphore m_stopSem = null;
 	
 	// For system logs
-	private static Logger m_logger = null;
+	private static MMLogger m_logger = null;
 	
 	// The room the current user is in
 	private Room m_curRoom = null;
@@ -66,7 +66,8 @@ public class UserConnectionThread extends Thread
 		LoggingOut
 	};
 	
-	public UserConnectionThread(Socket socket, GameServer game, DatabaseConnector dbConn, Semaphore stopSem, Logger logger)
+	public UserConnectionThread(Socket socket, GameServer game, DatabaseConnector dbConn, 
+								Semaphore stopSem, MMLogger logger)
 	{
 		setSocket(socket);
 		setGameServer(game);
@@ -128,6 +129,14 @@ public class UserConnectionThread extends Thread
 	public Room getCurrentRoom()
 	{
 		return m_curRoom;
+	}
+	
+	public void displayCurrentRoom()
+	{
+		Room cur = getCurrentRoom();
+		
+		if(null != cur)
+			cur.displayRoom(m_display);
 	}
 	
 	// Determines if there is a message ready to be read
@@ -237,9 +246,14 @@ public class UserConnectionThread extends Thread
 					    	retVal = executeClientCommand(msg);	    		
 					    }
 					    else
+					    {
 					    	// Failed to parse command, let the user know
 					    	m_display.sendText("Invalid command.");
-			        }		           
+					    	
+					    	m_logger.info("Received invalid command from user (" + getUserInfo().getUserName() 
+										  + "): " + inputLine);
+					    }
+			        }		 
 				}
 				
 				// The user has logged out or disconnected, stop the session
@@ -516,7 +530,6 @@ public class UserConnectionThread extends Thread
 		return retVal;
 	}
 	
-	@SuppressWarnings("deprecation")
 	private static Message parseClientCommand(String strMsg)
 	{
 		Message msg = null;
@@ -528,6 +541,11 @@ public class UserConnectionThread extends Thread
 			parser.parse();
 			
 			msg = parser.getLastMessage();
+		}
+		catch(java.lang.Error e)
+		{
+			m_logger.severe("Invalid Server Message.");
+			msg = null;
 		}
 		catch(Exception e)
 		{
@@ -545,13 +563,19 @@ public class UserConnectionThread extends Thread
 		try
 		{
 			if(MessageID.USER_LOGOUT == msg.getMessageId())
-			{
+			{				
+				// Set user state to Logging Out
 				setUserState(UserSessionState.LoggingOut);
+				
+				// Remove the user from the GameServer object
+				m_game.removeUser(this);
+			
+				// Send the logout message to the user
 				m_display.sendCommand(msg);
 			}
 			else
 			{
-				GameServer.ErrorCode error = m_game.processUserMessage(getUserInfo(), msg);
+				GameServer.ErrorCode error = m_game.processUserMessage(this, msg);
 				
 				if(GameServer.ErrorCode.Success != error)
 				{

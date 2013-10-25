@@ -8,5 +8,10 @@
     "coordinate": "jre:jre:zip:call:1.0.0",
     "location": "/usr/lib/jvm/java-7-openjdk-i386/jre/lib/rt.jar",
     "status": "RESOLVED"
+  },
+  "/home/steve/codemunki-gitrepo/minimud/minimud_server/src": {
+    "location": "/home/steve/codemunki-gitrepo/minimud/minimud_server/src",
+    "status": "UNRESOLVED",
+    "error": "No class path info available for \u0027/home/steve/codemunki-gitrepo/minimud/minimud_server/src\u0027. Skipped."
   }
 }

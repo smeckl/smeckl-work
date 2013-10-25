@@ -18,13 +18,13 @@ public class GameServer
 	private HashMap<String, UserConnectionThread> m_userMap = new HashMap<String, UserConnectionThread>();
 	private HashMap<Integer, Room> m_Rooms = new HashMap<Integer, Room>();
 	
-	private Logger m_logger = null;
+	private MMLogger m_logger = null;
 	
 	private DatabaseConnector m_dbConn = null;
 	
 	private Room m_startingRoom = null;
 	
-	public GameServer(DatabaseConnector dbConn, Logger logger)
+	public GameServer(DatabaseConnector dbConn, MMLogger logger)
 	{
 		m_logger = logger;
 		m_dbConn = dbConn;
@@ -108,18 +108,24 @@ public class GameServer
 	
 	public void addUser(UserConnectionThread user)
 	{
+		// Add the user to the game
+		m_logger.info("Adding user " + user.getUserInfo().getUserName() + " to the game.");
+		m_userMap.put(user.getUserInfo().getUserName(), user);
+				
+		m_logger.info("Adding user " + user.getUserInfo().getUserName() + " to starting room " + 
+					  getStartingRoom().getName() + ".");
+		
 		// Set the starting room
 		user.setCurrentRoom(getStartingRoom());
 		
 		// Add the suer to the starting Room
 		getStartingRoom().addUser(user);
-		
-		// Add the user to the game
-		m_userMap.put(user.getUserInfo().getUserName(), user);
 	}
 	
 	public void removeUser(UserConnectionThread user)
 	{
+		m_logger.info("Removing user " + user.getUserInfo().getUserName() + " from the game.");
+		
 		// Remove the user from their current room
 		user.getCurrentRoom().removeUser(user);
 		
@@ -133,6 +139,9 @@ public class GameServer
 		
 		try
 		{		
+			m_logger.info("Received message from user (" + user.getUserInfo().getUserName() 
+						  + "): " + msg.serialize());
+			
 			// Process user chat message
 			if(MessageID.USER_CHAT == msg.getMessageId())
 			{

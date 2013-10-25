@@ -2,4 +2,6 @@
 <qualifiedTypeNameHistroy>
 <fullyQualifiedTypeName name="MiniMUDShared.RegularExpressions"/>
 <fullyQualifiedTypeName name="MiniMUDShared.RegularExpressions.RegExID"/>
+<fullyQualifiedTypeName name="MiniMUDServer.DisplayHelper"/>
+<fullyQualifiedTypeName name="MiniMUDServer.DisplayHelper.ErrorCode"/>
 </qualifiedTypeNameHistroy>
