@@ -1,0 +1,42 @@
+Instr = li
+Instr = sgt
+Instr = li
+Instr = sgt
+	.data
+a_:	.word	0
+b_:	.word	0
+c_:	.word	0
+max_:	.word	0
+	.text
+main:
+	li $t0,5
+	sw $t0,c_
+	li $t0,7
+	sw $t0,a_
+	li $v0,5
+	syscall
+	sw $v0,b_
+	lw $t1,b_
+	sgt $t0,$t0,$t1
+	b L1
+	lw $t0,c_
+	sw $t0,max_
+	b L2
+L1:
+	lw $t0,a_
+	lw $t1,c_
+	sgt $t0,$t0,$t1
+	bnez $t0,L4
+	lw $t0,c_
+	sw $t0,max_
+	b L2
+L4:
+	lw $t0,a_
+	sw $t0,max_
+L2:
+	lw $t0,max_
+	li $v0,1
+	move $a0,$t0
+	syscall
+	li $v0,10
+	syscall

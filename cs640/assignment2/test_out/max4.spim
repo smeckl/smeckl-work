@@ -1,0 +1,29 @@
+	.data
+a_:	.word	0
+b_:	.word	0
+c_:	.word	0
+max_:	.word	0
+	.text
+main:
+	li $v0,5
+	syscall
+	sw $v0,c_
+	b L1
+L1:
+	li $t0,7
+	lw $t1,c_
+	sgt $t0,$t0,$t1
+	bnez $t0,L4
+	lw $t0,c_
+	sw $t0,max_
+	b L2
+L4:
+	li $t0,7
+	sw $t0,max_
+L2:
+	lw $t0,max_
+	li $v0,1
+	move $a0,$t0
+	syscall
+	li $v0,10
+	syscall

@@ -1,0 +1,74 @@
+	.data
+a_:	.word	0
+b_:	.word	0
+c_:	.word	0
+d_:	.word	0
+e_:	.word	0
+f_:	.word	0
+	.text
+main:
+	li $t1,2
+	sw $t1,a_
+	li $t2,3
+	sw $t2,b_
+	li $t2,9
+	sw $t2,f_
+	li $v0,5
+	syscall
+	sw $v0,c_
+	add $t7,$t1,$t1
+	sw $t7,d_
+	lw $t0,a_
+	sw $t0,b_
+	lw $t0,b_
+	add $t3,$t1,$t0
+	sw $t3,e_
+	slt $t7,$t3,$t2
+	bnez $t7,C
+	li $t1,3
+	sw $t1,c_
+	lw $t2,a_
+	add $t7,$t2,$t1
+	sw $t7,f_
+	li $t0,5
+	sw $t0,b_
+	lw $t1,d_
+	li $t0,9
+	sgt $t7,$t1,$t0
+	bnez $t7,D
+C:
+	lw $t0,a_
+	li $t1,1
+	add $t2,$t0,$t1
+	sw $t2,a_
+	lw $t1,c_
+	lw $t0,f_
+	mul $t7,$t1,$t0
+	sw $t7,b_
+	li $t3,3
+	sw $t3,c_
+	slt $t7,$t2,$t0
+	bnez $t7,C
+	b E
+D:
+	lw $t0,d_
+	lw $t1,f_
+	add $t7,$t0,$t1
+	sw $t7,b_
+	lw $t1,e_
+	li $t0,1
+	add $t7,$t1,$t0
+	sw $t7,e_
+E:
+	lw $t0,b_
+	li $t1,1
+	add $t2,$t0,$t1
+	sw $t2,e_
+	lw $t0,c_
+	add $t3,$t2,$t0
+	sw $t3,f_
+	li $v0,1
+	move $a0,$t3
+	syscall
+	li $v0,10
+	syscall

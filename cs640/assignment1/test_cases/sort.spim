@@ -1,0 +1,120 @@
+main:
+	.data
+bb0:	.space	40
+len0:	.word	0
+ctr0:	.word	0
+i10:	.word	0
+i20:	.word	0
+s0:	.word	0
+	.text
+	li $v0,5
+	syscall
+	sw $v0,len0
+	li $t0,1
+	lw $t1,len0
+	sw $t0,ctr0
+L0:	
+	sle $t2,$t0,$t1
+	beqz $t2,L1
+	lw $t2,ctr0
+	li $v0,5
+	syscall
+	li $t3,4
+	mul $t2,$t2,$t3
+	la $t3,bb0
+	add $t3,$t2,$t3      # address of array elem
+	sw $v0,($t3)
+	addi $t0,$t0,1
+	sw $t0,ctr0
+	b L0
+L1:
+	sw $t1,ctr0
+	li $t0,1
+	lw $t1,len0
+	sw $t0,i10
+L2:
+	sle $t2,$t0,$t1
+	beqz $t2,L3
+	lw $t2,i10
+	li $t3,1
+	add $t2,$t2,$t3
+	lw $t3,len0
+	sw $t2,i20
+L4:
+	sle $t4,$t2,$t3
+	beqz $t4,L5
+	lw $t4,i10
+	li $t5,4
+	mul $t4,$t4,$t5
+	la $t5,bb0
+	add $t5,$t4,$t5      # address of array elem
+	lw $t4,($t5)
+	lw $t5,i20
+	li $t6,4
+	mul $t5,$t5,$t6
+	la $t6,bb0
+	add $t6,$t5,$t6      # address of array elem
+	lw $t5,($t6)
+	sgt $t4,$t4,$t5
+	beqz $t4,L6
+	.data
+	.text
+	lw $t4,i10
+	li $t5,4
+	mul $t4,$t4,$t5
+	la $t5,bb0
+	add $t5,$t4,$t5      # address of array elem
+	lw $t4,($t5)
+	sw $t4,s0
+	lw $t4,i10
+	lw $t5,i20
+	li $t6,4
+	mul $t5,$t5,$t6
+	la $t6,bb0
+	add $t6,$t5,$t6      # address of array elem
+	lw $t5,($t6)
+	li $t6,4
+	mul $t4,$t4,$t6
+	la $t6,bb0
+	add $t6,$t4,$t6      # address of array elem
+	sw $t5,($t6)
+	lw $t4,i20
+	lw $t5,s0
+	li $t6,4
+	mul $t4,$t4,$t6
+	la $t6,bb0
+	add $t6,$t4,$t6      # address of array elem
+	sw $t5,($t6)
+L6:
+	addi $t2,$t2,1
+	sw $t2,i20
+	b L4
+L5:
+	sw $t3,i20
+	addi $t0,$t0,1
+	sw $t0,i10
+	b L2
+L3:
+	sw $t1,i10
+	li $t0,1
+	lw $t1,len0
+	sw $t0,ctr0
+L7:
+	sle $t2,$t0,$t1
+	beqz $t2,L8
+	lw $t2,ctr0
+	li $t3,4
+	mul $t2,$t2,$t3
+	la $t3,bb0
+	add $t3,$t2,$t3      # address of array elem
+	lw $t2,($t3)
+	li $v0,1
+	move $a0,$t2
+	syscall
+	addi $t0,$t0,1
+	sw $t0,ctr0
+	b L7
+L8:
+	sw $t1,ctr0
+	li $v0,10
+	syscall

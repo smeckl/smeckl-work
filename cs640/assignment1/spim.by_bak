@@ -1,0 +1,123 @@
+%{
+import java.io.*;
+
+%}
+%token LW_T LA_T LI_T SW_T MOVE_T ADD_T ADDI_T AND_T OR_T SUB_T SUBI_T MUL_T DIV_T NEG_T
+%token COMP1_T COMP2_T COMP3_T COMP4_T COMP5_T COMP6_T BRANCH_T CBRANCH1_T CBRANCH2_T SYSCALL_T
+%token AREG TREG VREG INT IDENT
+%token DATA_START TEXT_START IS_WORD IS_SPACE IS_STRING STRING
+
+%%
+program		: program spimline |
+	;
+spimline	: 	IDENT ':'	
+		|	directive
+		|	var_decl
+		|	instruction
+		;	
+
+directive:	DATA_START
+	|	TEXT_START
+	;
+
+var_decl:	IDENT ':' IS_WORD	INT
+	|	IDENT ':' IS_SPACE INTz
+	|	IDENT ':' IS_STRING STRING 
+	;
+
+instruction:	LW_T register ',' location
+	|	LI_T register ',' INT
+	|	LA_T register ',' location 
+	|	SW_T register ',' location
+	|	ADD_T register ',' register ',' register
+		{
+			//System.out.println($1.sval + " " + $2.sval + $3.sval + $4.sval + $5.sval + $6.sval);
+			//Instruction instr = new Instruction("", "add", $2.sval, $4.sval, $6.sval);
+			
+			//zinstrList.addItem(instr);
+		}
+	|	ADDI_T register ',' register ',' INT
+	|	SUB_T register ',' register ',' register
+	|	MUL_T register ',' register ',' register
+	|	DIV_T register ',' register ',' register
+	|	NEG_T register ',' register
+	|	MOVE_T register ',' register
+	|	SYSCALL_T
+	|	COMP1_T register ',' register ',' register
+	|	COMP2_T register ',' register ',' register
+	|	COMP3_T register ',' register ',' register
+	|	COMP4_T register ',' register ',' register
+	|	COMP5_T register ',' register ',' register
+	|	COMP6_T register ',' register ',' register
+	|	BRANCH_T IDENT
+	|	CBRANCH1_T register ',' IDENT
+	|	CBRANCH2_T register ',' IDENT
+	;
+register:	AREG
+		{
+			$$ = new ParserVal($1.sval);
+		}
+	|	TREG
+		{
+			$$ = new ParserVal($1.sval);
+		}
+	|	VREG
+		{
+			$$ = new ParserVal($1.sval);
+		}
+	;
+location:	IDENT
+		{
+			$$ = new ParserVal(new Argument($1.sval, Argument.Type.IDENTIFIER));
+		}
+	|	register z
+		{
+			$$ = new ParserVal(new Argument($1.sval, Argument.Type.REGISTER));
+		}
+	|	'(' register ')'
+		{
+			$$ = new ParserVal(new Argument($1.sval, Argument.Type.REGISTER_CONTENTS));
+		}
+	|	INT '(' register ')'
+		{
+			$$ = new ParserVal(new Argument($1.sval, Argument.Type.IMMEDIATE_PLUS_REGISTER_CONTENTS));
+		}
+	;
+%%
+
+	private InstructionList instrList;
+
+/* Byacc/J expects a member method int yylex(). We need to provide one
+   through this mechanism. See the jflex manual for more information. */
+
+	/* reference to the lexer object */
+	private scanner lexer;
+
+	/* interface to the lexer */
+	private int yylex() {
+		int retVal = -1;
+		try {
+			retVal = lexer.yylex();
+		} catch (IOException e) {
+			System.err.println("IO Error:" + e);
+		}
+		return retVal;
+	}
+	
+	/* error reporting */
+	public void yyerror (String error) {
+		System.err.println("Error : " + error + " at line " + lexer.getLine());
+		System.err.println("String rejected");
+	}
+
+	/* constructor taking in File Input */
+	public Parser (Reader r) {
+		lexer = new scanner (r, this);
+	}
+
+
+public static void main (String [] args) throws IOException {
+                Parser yyparser = new Parser(new InputStreamReader(System.in));
+                yyparser.yyparse();
+        }
+

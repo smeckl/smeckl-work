@@ -1,0 +1,31 @@
+	.data
+u_:	.word	0
+v_:	.word	0
+w_:	.word	0
+x_:	.word	0
+y_:	.word	0
+z_:	.word	0
+	.text
+main:
+	lw $t0,v_
+	lw $t1,w_
+	add $t0,$t0,$t1
+	sw $t0,t1_
+	lw $t0,u_
+	lw $t1,t1_
+	add $t0,$t0,$t1
+	sw $t0,t2_
+	lw $t0,y_
+	lw $t1,z_
+	add $t0,$t0,$t1
+	sw $t0,t3_
+	lw $t0,x_
+	lw $t1,t3_
+	add $t0,$t0,$t1
+	sw $t0,t4_
+	lw $t0,t2_
+	lw $t1,t4_
+	add $t0,$t0,$t1
+	sw $t0,t5_
+	li $v0,10
+	syscall

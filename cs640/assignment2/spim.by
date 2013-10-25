@@ -1,0 +1,283 @@
+%{
+import java.io.*;
+import java.util.ArrayList;
+%}
+%token LW_T LA_T LI_T SW_T MOVE_T ADD_T ADDI_T AND_T OR_T SUB_T SUBI_T MUL_T DIV_T NEG_T
+%token COMP1_T COMP2_T COMP3_T COMP4_T COMP5_T COMP6_T BRANCH_T CBRANCH1_T CBRANCH2_T SYSCALL_T
+%token AREG TREG VREG INT IDENT
+%token DATA_START TEXT_START IS_WORD IS_SPACE IS_STRING STRING
+
+%%
+program		: program spimline |
+	;
+spimline: 	IDENT ':'
+		{
+			Line line = newLine(Line.Type.LABEL, $1.sval + ":");
+			line.setLabel($1.sval);
+			lineList.addItem(line);
+		}
+		|	directive
+		|	var_decl
+		|	instruction
+		;	
+
+directive:	DATA_START
+		{
+			Line line = newLine(Line.Type.SECTION, "\t" + $1.sval);
+			lineList.addItem(line);
+		}
+	|	TEXT_START
+		{
+			Line line = newLine(Line.Type.SECTION, "\t" + $1.sval);
+			lineList.addItem(line);
+		}
+	;
+
+var_decl:	IDENT ':' IS_WORD INT
+		{
+			Line line = newLine(Line.Type.VAR_DECL, $1.sval + ":\t" + $3.sval + "\t" + $4.sval);
+			lineList.addItem(line);
+
+			Variable var = new Variable($1.sval, Variable.Type.INTEGER, "");
+			variableList.add(var);
+		}
+	|	IDENT ':' IS_SPACE INT
+		{
+			Line line = newLine(Line.Type.VAR_DECL, $1.sval + ":\t" + $3.sval + "\t" + $4.sval);
+			lineList.addItem(line);
+
+			Variable var = new Variable($1.sval, Variable.Type.BINARY, "");
+			variableList.add(var);
+		}
+	|	IDENT ':' IS_STRING STRING 
+		{
+			Line line = newLine(Line.Type.VAR_DECL, $1.sval + ":\t" + $3.sval + "\t" + $4.sval);
+			lineList.addItem(line);
+
+			Variable var = new Variable($1.sval, Variable.Type.STRING, "");
+			variableList.add(var);
+		}
+	;
+
+instruction:	LW_T register ',' location
+		{
+			Instruction instr = newInstruction(Line.Type.INSTRUCTION, $1.sval, $2.obj, $4.obj, null);
+			lineList.addItem(instr);
+		}
+	|	LI_T register ',' INT
+		{
+			Argument arg = new Argument($4.sval, Argument.Type.LITERAL);
+			Instruction instr = newInstruction(Line.Type.INSTRUCTION, $1.sval, $2.obj, arg, null);
+			lineList.addItem(instr);
+		}
+	|	LA_T register ',' location 
+		{
+			Instruction instr = newInstruction(Line.Type.INSTRUCTION, $1.sval, $2.obj, $4.obj, null);
+			lineList.addItem(instr);
+		}
+	|	SW_T register ',' location
+		{
+			Instruction instr = newInstruction(Line.Type.INSTRUCTION, $1.sval, $2.obj, $4.obj, null);
+			lineList.addItem(instr);
+		}
+	|	ADD_T register ',' register ',' register
+		{
+			Instruction instr = newInstruction(Line.Type.INSTRUCTION, $1.sval, $2.obj, $4.obj, $6.obj);
+			lineList.addItem(instr);
+		}
+	|	ADDI_T register ',' register ',' INT
+		{
+			Argument arg = new Argument($6.sval, Argument.Type.LITERAL);
+
+			Instruction instr = newInstruction(Line.Type.INSTRUCTION, $1.sval, $2.obj, $4.obj, arg);
+			lineList.addItem(instr);
+		}
+	|	SUB_T register ',' register ',' register
+		{
+			Instruction instr = newInstruction(Line.Type.INSTRUCTION, $1.sval, $2.obj, $4.obj, $6.obj);
+			lineList.addItem(instr);
+		}
+	|	MUL_T register ',' register ',' register
+		{
+			Instruction instr = newInstruction(Line.Type.INSTRUCTION, $1.sval, $2.obj, $4.obj, $6.obj);
+			lineList.addItem(instr);
+		}
+	|	DIV_T register ',' register ',' register
+		{
+			Instruction instr = newInstruction(Line.Type.INSTRUCTION, $1.sval, $2.obj, $4.obj, $6.obj);
+			lineList.addItem(instr);
+		}
+	|	NEG_T register ',' register
+		{
+			Instruction instr = newInstruction(Line.Type.INSTRUCTION, $1.sval, $2.obj, $4.obj, null);
+			lineList.addItem(instr);
+		}
+	|	MOVE_T register ',' register
+		{
+			Instruction instr = newInstruction(Line.Type.INSTRUCTION, $1.sval, $2.obj, $4.obj, null);
+			lineList.addItem(instr);
+		}
+	|	SYSCALL_T
+		{
+			Instruction instr = newInstruction(Line.Type.INSTRUCTION, $1.sval, null, null, null);
+			lineList.addItem(instr);
+		}
+		
+	|	COMP1_T register ',' register ',' register
+		{
+			Instruction instr = newInstruction(Line.Type.INSTRUCTION, $1.sval, $2.obj, $4.obj, $6.obj);
+			lineList.addItem(instr);
+		}
+	|	COMP2_T register ',' register ',' register
+		{
+			Instruction instr = newInstruction(Line.Type.INSTRUCTION, $1.sval, $2.obj, $4.obj, $6.obj);
+			lineList.addItem(instr);
+		}
+	|	COMP3_T register ',' register ',' register
+		{
+			Instruction instr = newInstruction(Line.Type.INSTRUCTION, $1.sval, $2.obj, $4.obj, $6.obj);
+			lineList.addItem(instr);
+		}
+	|	COMP4_T register ',' register ',' register
+		{
+			Instruction instr = newInstruction(Line.Type.INSTRUCTION, $1.sval, $2.obj, $4.obj, $6.obj);
+			lineList.addItem(instr);
+		}
+	|	COMP5_T register ',' register ',' register
+		{
+			Instruction instr = newInstruction(Line.Type.INSTRUCTION, $1.sval, $2.obj, $4.obj, $6.obj);
+			lineList.addItem(instr);
+		}
+	|	COMP6_T register ',' register ',' register
+		{
+			Instruction instr = newInstruction(Line.Type.INSTRUCTION, $1.sval, $2.obj, $4.obj, $6.obj);
+			lineList.addItem(instr);
+		}
+	|	BRANCH_T IDENT
+		{
+			Argument arg = new Argument($2.sval, Argument.Type.IDENTIFIER);
+			Instruction instr = newInstruction(Line.Type.INSTRUCTION, $1.sval, arg, null, null);
+			instr.setIsJump(true);
+			instr.setBranchType(Instruction.BranchType.JUMP);
+			lineList.addItem(instr);
+		}
+	|	CBRANCH1_T register ',' IDENT
+		{
+			Argument arg = new Argument($4.sval, Argument.Type.IDENTIFIER);
+
+			Instruction instr = newInstruction(Line.Type.INSTRUCTION, $1.sval, $2.obj, arg, null);
+			instr.setIsJump(true);
+			instr.setBranchType(Instruction.BranchType.JUMP_EQ);
+
+			lineList.addItem(instr);
+		}
+	|	CBRANCH2_T register ',' IDENT
+		{
+			Argument arg = new Argument($4.sval, Argument.Type.IDENTIFIER);
+
+			Instruction instr = newInstruction(Line.Type.INSTRUCTION, $1.sval, $2.obj, arg, null);
+			instr.setIsJump(true);
+			instr.setBranchType(Instruction.BranchType.JUMP_NEQ);
+
+			lineList.addItem(instr);
+		}
+	;
+
+register:	AREG
+		{
+			$$ = new ParserVal(new Argument($1.sval, Argument.Type.REGISTER));
+		}
+	|	TREG
+		{
+			$$ = new ParserVal(new Argument($1.sval, Argument.Type.REGISTER));
+		}
+	|	VREG
+		{
+			$$ = new ParserVal(new Argument($1.sval, Argument.Type.REGISTER));
+		}
+	;
+location:	IDENT
+		{
+			$$ = new ParserVal(new Argument($1.sval, Argument.Type.IDENTIFIER));
+		}
+	|	register
+		{
+			$$ = new ParserVal(new Argument($1.sval, Argument.Type.REGISTER));
+		}
+	|	'(' register ')'
+		{
+			$$ = new ParserVal(new Argument($2.obj.toString(), Argument.Type.REGISTER_CONTENTS));
+		}
+	|	INT '(' register ')'
+		{
+			$$ = new ParserVal(new Argument($1.sval + "(" + $3.obj + ")", Argument.Type.IMMEDIATE_PLUS_REGISTER_CONTENTS));
+		}
+	;
+%%
+
+/* Byacc/J expects a member method int yylex(). We need to provide one
+   through this mechanism. See the jflex manual for more information. */
+
+	private LineList lineList = new LineList();
+	private ArrayList<Variable> variableList = new ArrayList<Variable>();
+
+	public LineList getLineList()
+	{
+		return lineList;
+	}
+
+	public ArrayList<Variable> getVariableList()
+	{
+		return variableList;
+	}
+
+	private Instruction newInstruction(Line.Type type, String strInstruction, 
+					Object argument1, Object argument2, Object argument3)
+	{
+		return new Instruction(type, strInstruction, (Argument)argument1, (Argument)argument2, (Argument)argument3);
+	}		
+
+	private Line newLine(Line.Type type, String strLineText)
+	{
+		return new Line(type, strLineText);
+	}
+
+	/* reference to the lexer object */
+	private scanner lexer;
+
+	/* interface to the lexer */
+	private int yylex() {
+		int retVal = -1;
+		try {
+			retVal = lexer.yylex();
+		} catch (IOException e) {
+			System.err.println("IO Error:" + e);
+		}
+		return retVal;
+	}
+	
+	/* error reporting */
+	public void yyerror (String error) {
+		System.err.println("Error : " + error + " at line " + lexer.getLine());
+		System.err.println("String rejected");
+	}
+
+	/* constructor taking in File Input */
+	public Parser (Reader r) {
+		lexer = new scanner (r, this);
+	}
+
+
+	public static void main (String [] args) throws IOException 
+	{
+	        Parser yyparser = new Parser(new InputStreamReader(System.in));
+	        yyparser.yyparse();
+
+		LineList instrList = yyparser.getLineList();
+
+		// Perform code analysis
+		CodeAnalyzer analyzer = new CodeAnalyzer(instrList, yyparser.getVariableList());
+
+		analyzer.doWork();
+        }
+

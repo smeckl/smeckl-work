@@ -1,0 +1,48 @@
+main:
+	.data
+x0:	.word	0
+y0:	.word	0
+z0:	.word	0
+	.text
+	li $t0,2
+	sw $t0,y0
+	li $t0,3
+	beqz $t0,L2
+L0:
+	sw $t0,x0
+	lw $t0,y0
+	li $t1,3
+	sgt $t0,$t0,$t1
+	beqz $t0,L0
+L1:
+	li $t0,0
+	li $v0,1
+	move $a0,$t0
+	beqz $t0,L4
+	li $t0,1
+	li $v0,1
+	b L1
+L2:
+	move $a0,$t0
+	lw $t0,y0
+	beqz $t1,L4
+L3:
+	li $t1,3
+	slt $t0,$t0,$t1
+	li $t0,1
+	li $v0,1
+	sgt $t0,$t0,$t1
+	li $t0,0	
+	sgt $t0,$t0,$t1
+	li $t0,0	
+	beqz $t2,L3
+	sgt $t0,$t0,$t1
+	b L2
+L4:
+	li $t0,0	
+	sgt $t0,$t0,$t1
+	li $t0,0	
+	sgt $t0,$t0,$t1
+	li $t0,0	
+	sgt $t0,$t0,$t1
+	li $t0,0

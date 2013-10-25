@@ -1,0 +1,62 @@
+main:
+	.data
+b0:	.space	40
+len0:	.word	0
+ctr0:	.word	0
+	.text
+	li $t0,10
+	sw $t0,len0
+	li $t0,0
+	li $t1,42
+	li $t2,4
+	mul $t0,$t0,$t2
+	la $t2,b0
+	add $t2,$t0,$t2      # address of array elem
+	sw $t1,($t2)
+	lw $t0,len0
+	li $t1,1
+	sub $t0,$t0,$t1
+	li $t1,0
+	li $t2,4
+	mul $t1,$t1,$t2
+	la $t2,b0
+	add $t2,$t1,$t2      # address of array elem
+	lw $t1,($t2)
+	li $t2,2
+	mul $t1,$t1,$t2
+	li $t2,4
+	mul $t0,$t0,$t2
+	la $t2,b0
+	add $t2,$t0,$t2      # address of array elem
+	sw $t1,($t2)
+	li $t0,0
+	li $t1,4
+	mul $t0,$t0,$t1
+	la $t1,b0
+	add $t1,$t0,$t1      # address of array elem
+	lw $t0,($t1)
+	li $v0,1
+	move $a0,$t0
+	syscall
+	li $t0,1
+	li $t1,4
+	mul $t0,$t0,$t1
+	la $t1,b0
+	add $t1,$t0,$t1      # address of array elem
+	lw $t0,($t1)
+	li $v0,1
+	move $a0,$t0
+	syscall
+	lw $t0,len0
+	li $t1,1
+	sub $t0,$t0,$t1
+	li $t1,4
+	mul $t0,$t0,$t1
+	la $t1,b0
+	add $t1,$t0,$t1      # address of array elem
+	lw $t0,($t1)
+	li $v0,1
+	move $a0,$t0
+	syscall
+	li $v0,10
+	syscall

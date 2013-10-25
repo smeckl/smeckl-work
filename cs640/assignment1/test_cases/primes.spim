@@ -1,0 +1,82 @@
+main:
+ .data
+testee: .word 0
+.data
+divisor: .word 0
+.data
+stop: .word 0
+.data
+is_prime: .word 0
+.text
+                  # Begin line 13
+li $t0,2
+sw $t0,testee # line 14
+li $t1,500
+sw $t1,stop # line 15
+L1:                # While start line 17
+lw $t2,testee
+lw $t3,stop
+slt $t2,$t2,$t3
+beqz $t2,L2
+                  # Begin line 18
+lw $t2,testee
+li $t3,1
+add $t2,$t2,$t3
+sw $t2,testee # line 19
+li $t3,1
+sw $t3,is_prime # line 20
+li $t4,2
+sw $t4,divisor # line 21
+L3:                # While start line 23
+lw $t5,divisor
+lw $t6,divisor
+mul $t5,$t5,$t6
+lw $t6,testee
+slt $t5,$t5,$t6
+beqz $t5,L4
+                  # Begin line 24
+lw $t5,testee
+lw $t6,divisor
+lw $t7,testee
+lw $t0,divisor
+div $t7,$t7,$t0
+mul $t6,$t6,$t7
+sub $t5,$t5,$t6
+li $t0,0
+seq $t5,$t5,$t0
+beqz $t5,L5    # If start line 26
+li $t0,0
+sw $t0,is_prime # line 27
+b L6
+L5:
+lw $t5,is_prime
+sw $t5,is_prime # line 27
+move $t0,$t5
+L6:            # If end line 27
+lw $t5,divisor
+li $t6,1
+add $t5,$t5,$t6
+sw $t5,divisor # line 29
+             # End line 31
+b L3
+L4:           # While end line 32
+lw $t6,is_prime
+beqz $t6,L7    # If start line 34
+                  # Begin line 34
+lw $t6,testee
+li $v0,1
+move $a0,$t6
+syscall
+.text
+             # End line 37
+b L8
+L7:
+.text
+move $t1,$t1
+L8:            # If end line 40
+             # End line 42
+b L1
+L2:           # While end line 43
+             # End line 45
+li $v0,10
+syscall

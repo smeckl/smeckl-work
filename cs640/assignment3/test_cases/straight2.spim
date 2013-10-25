@@ -1,0 +1,42 @@
+	.data
+a_:	.word	0
+b_:	.word	0
+c_:	.word	0
+d_:	.word	0
+	.text
+main:
+	li $t0,2
+	sw $t0,a_
+	li $v0,5
+	syscall
+	sw $v0,b_
+	lw $t0,a_
+	lw $t1,b_
+	add $t0,$t0,$t1
+	sw $t0,c_
+	lw $t0,a_
+	li $t1,1
+	add $t0,$t0,$t1
+	sw $t0,d_
+	lw $t0,b_
+	lw $t1,c_
+	add $t0,$t0,$t1
+	sw $t0,b_
+	lw $t0,b_
+	li $t1,1
+	add $t0,$t0,$t1
+	sw $t0,b_
+	lw $t0,d_
+	lw $t1,a_
+	add $t0,$t0,$t1
+	sw $t0,c_
+	lw $t0,b_
+	li $v0, 1
+	move $a0,$t0
+	syscall
+	lw $t0,c_
+	li $v0, 1
+	move $a0,$t0
+	syscall
+	li $v0,10
+	syscall
