@@ -59,9 +59,10 @@ public class UserInputThread extends Thread
 				showPrompt();
 				
 				while(m_socket.isConnected() 
-						&& 1 == m_stopSem.availablePermits()) 
+						&& 1 == m_stopSem.availablePermits())
 				{
-					if(m_stdIn.ready() && (userInput = m_stdIn.readLine()) != null)
+					if(m_stdIn.ready() 
+						&& (userInput = m_stdIn.readLine()) != null)
 					{
 						if(!userInput.isEmpty())
 							m_serverOut.println(userInput);
@@ -90,7 +91,7 @@ public class UserInputThread extends Thread
 	
 	private void showPrompt()
 	{
-		System.out.print("Enter command > ");
+		System.out.print(">> ");
 	}
 	
 	private ErrorCode initializeThread()

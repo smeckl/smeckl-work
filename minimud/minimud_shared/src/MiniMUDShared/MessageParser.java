@@ -580,13 +580,13 @@ break;
 case 7:
 //#line 40 "./MiniMUDShared/MessageParser.y"
 {
-  	  yyval = new MessageParserVal(new ClientShowTextMessage(val_peek(5).sval, trimQuotes(val_peek(0).sval)));
+  	  yyval = new MessageParserVal(new ClientShowTextMessage("", trimQuotes(val_peek(0).sval)));
   }
 break;
 case 8:
 //#line 44 "./MiniMUDShared/MessageParser.y"
 {
-      yyval = new MessageParserVal(new ClientShowTextMessage(val_peek(5).sval, trimQuotes(val_peek(0).sval)));
+      yyval = new MessageParserVal(new ClientShowTextMessage(val_peek(3).sval, trimQuotes(val_peek(0).sval)));
   }
 break;
 case 9:

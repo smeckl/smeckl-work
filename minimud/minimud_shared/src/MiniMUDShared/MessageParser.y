@@ -38,11 +38,11 @@ client_showtext
 client_showtext: 
   TEXTMSG FROM '=' SERVER MESSAGE '=' STRINGLITERAL
   {
-  	  $$ = new MessageParserVal(new ClientShowTextMessage($2.sval, trimQuotes($7.sval)));
+  	  $$ = new MessageParserVal(new ClientShowTextMessage("", trimQuotes($7.sval)));
   }
 | TEXTMSG FROM '=' CHARNAME MESSAGE '=' STRINGLITERAL
   {
-      $$ = new MessageParserVal(new ClientShowTextMessage($2.sval, trimQuotes($7.sval)));
+      $$ = new MessageParserVal(new ClientShowTextMessage($4.sval, trimQuotes($7.sval)));
   }
 ;
 

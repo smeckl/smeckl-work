@@ -51,15 +51,26 @@ public class MiniMUDClient
 				{
 					try
 					{
-						if((serverInput = m_serverIn.readLine()) != null)
+						serverInput = m_serverIn.readLine();
+						
+						if(null != serverInput)
 						{
-							//System.out.println("Raw server string: " + serverInput);
-						    Message msg = parseServerCommand(serverInput);
-						    
-						    if(null != msg)
-						    {
-						    	executeServerCommand(msg);	    		
-						    }
+							do
+							{
+								//System.out.println("Raw server string: " + serverInput);
+							    Message msg = parseServerCommand(serverInput);
+							    
+							    if(null != msg)
+							    {
+							    	executeServerCommand(msg);	    		
+							    }	
+							    
+							    serverInput = m_serverIn.readLine();
+							} 
+							while(null != serverInput
+									&& (1 == m_stopSem.availablePermits()));
+							
+							System.out.println(">>");
 						}
 					}
 					catch(SocketTimeoutException e)
@@ -136,7 +147,7 @@ public class MiniMUDClient
 	    	
 			// Creating Client Sockets
 			m_sslSocket = (SSLSocket)socketFactory.createSocket(m_serverName, SSL_PORT);
-			m_sslSocket.setSoTimeout(1000);
+			m_sslSocket.setSoTimeout(100);
 			
          	// Initializing the streams for Communication with the Server
          	m_serverIn = new BufferedReader(new InputStreamReader(m_sslSocket.getInputStream()));
@@ -256,7 +267,6 @@ public class MiniMUDClient
 			else if(MessageID.USER_LOGOUT == msg.getMessageId())
 			{
 				// acquire the semaphore to stop the client
-				System.out.println("Acquired sem");
 				m_stopSem.acquire();
 			}
 		}

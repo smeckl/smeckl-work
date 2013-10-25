@@ -44,7 +44,12 @@ public class ClientShowTextMessage extends Message
 	@Override
 	public String getClientDisplaytext()
 	{
-		String strOut = getFrom() + ": " + getMessage();
+		String strOut = "";
+		
+		if(!getFrom().isEmpty())
+			strOut += getFrom() + ": " + getMessage();
+		else
+			strOut += getMessage();
 		
 		return strOut;
 	}
