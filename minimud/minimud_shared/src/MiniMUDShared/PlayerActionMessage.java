@@ -4,16 +4,25 @@ public class PlayerActionMessage extends Message
 {
 	public enum Action
 	{
-		Look
+		Look,
+		Talk,
+		Punch,
+		Kick,
+		Stab,
+		Slash,
+		Push,
+		Shoot
 	}
 	
 	private Action m_action;
+	private String m_strObject;
 	
-	public PlayerActionMessage(Action action)
+	public PlayerActionMessage(Action action, String strObject)
 	{
 		super(MessageID.ACTION);
 		
 		setAction(action);
+		setObject(strObject);
 	}
 	
 	public void setAction(Action action)
@@ -24,6 +33,16 @@ public class PlayerActionMessage extends Message
 	public Action getAction()
 	{
 		return m_action;
+	}
+	
+	public void setObject(String strObject)
+	{
+		m_strObject = strObject;
+	}
+	
+	public String getObject()
+	{
+		return m_strObject;
 	}
 	
 	public String getActionString()

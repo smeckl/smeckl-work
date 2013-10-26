@@ -210,4 +210,70 @@ public class DatabaseConnector
 		
 		return results;
 	}
+	
+	// Retrieves list of NPCs.  Return value is null if there is an error.
+	public ResultSet getNPCsForRoom(int nRoomID)
+	{
+		ResultSet results = null;
+		
+		try
+		{
+			PreparedStatement pstmt = getConnection().prepareStatement("select * from npcs where room = ?");
+			pstmt.setInt(1, nRoomID);
+			
+			results = pstmt.executeQuery();
+			
+		}
+		catch(Exception e)
+		{
+			m_logger.severe("Exception in DatabaseConnector::getNPCsForRoom() " + e);
+			results = null;
+		}
+		
+		return results;
+	}
+	
+	// Retrieves list of Objects.  Return value is null if there is an error.
+	public ResultSet getObjectsForRoom(int nRoomID)
+	{
+		ResultSet results = null;
+		
+		try
+		{
+			PreparedStatement pstmt = getConnection().prepareStatement("select * from objects where room = ?");
+			pstmt.setInt(1, nRoomID);
+			
+			results = pstmt.executeQuery();
+			
+		}
+		catch(Exception e)
+		{
+			m_logger.severe("Exception in DatabaseConnector::getObjectsForRoom() " + e);
+			results = null;
+		}
+		
+		return results;
+	}
+	
+	// Retrieves list of NPCs.  Return value is null if there is an error.
+	public ResultSet getActionsForNPC(NPC npc)
+	{
+		ResultSet results = null;
+		
+		try
+		{
+			PreparedStatement pstmt = getConnection().prepareStatement("select * from actions where parent = ?");
+			pstmt.setInt(1, npc.getID());
+			
+			results = pstmt.executeQuery();
+			
+		}
+		catch(Exception e)
+		{
+			m_logger.severe("Exception in DatabaseConnector::getActionsForNPC() " + e);
+			results = null;
+		}
+		
+		return results;
+	}
 }

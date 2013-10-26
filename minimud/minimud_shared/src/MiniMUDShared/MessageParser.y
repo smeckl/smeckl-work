@@ -6,6 +6,7 @@ import java.io.*;
 %token LOGON_SUCCESS LOGON_FAILED INVALID QUIT EXIT LOGOUT TELL SAY SHOUT WHISPER 
 %token GO_NORTH GO_SOUTH GO_EAST GO_WEST GO_NORTHEAST GO_NORTHWEST GO_SOUTHEAST GO_SOUTHWEST GO_UP GO_DOWN
 %token CHARNAME CHARLITERAL STRINGLITERAL INT LOOK
+%token KICK PUNCH TALK STAB PUSH SLASH SHOOT
 %%
 
 message:
@@ -171,8 +172,40 @@ move_message:
 action_message:
   LOOK
   	{
-  		$$ = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Look));
+  		$$ = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Look, ""));
   	}
+| TALK TO CHARNAME
+	{
+		$$ = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Talk, $3.sval));
+	}
+| TALK CHARNAME
+	{
+		$$ = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Talk, $2.sval));
+	}
+| PUNCH CHARNAME
+	{
+		$$ = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Punch, $2.sval));
+	}
+| KICK CHARNAME
+	{
+		$$ = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Kick, $2.sval));
+	}
+| STAB CHARNAME
+	{
+		$$ = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Stab, $2.sval));
+	}
+| SLASH CHARNAME
+	{
+		$$ = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Slash, $2.sval));
+	}
+| PUSH CHARNAME
+	{
+		$$ = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Push, $2.sval));
+	}
+| SHOOT CHARNAME
+	{
+		$$ = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Shoot, $2.sval));
+	}
 ;
 
 %%

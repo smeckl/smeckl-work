@@ -105,17 +105,18 @@ public class BuildWorld
 						"PRIMARY KEY ( RoomID, direction ));");
 				
 				
-				m_dbConn.addTable("CREATE TABLE npcs (ID INT NOT NULL, name VARCHAR(30) NOT NULL, " +
+				m_dbConn.addTable("CREATE TABLE npcs (ID INT NOT NULL, room INT NOT NULL, name VARCHAR(30) NOT NULL, " +
 						"description VARCHAR(2000) NOT NULL, intro VARCHAR(1000) NOT NULL, " +
 						"PRIMARY KEY ( ID ) );");
 				
-				m_dbConn.addTable("CREATE TABLE actions ( ObjectID INT NOT NULL, name VARCHAR(50) NOT NULL, " +
-						"result VARCHAR(200) NOT NULL, PRIMARY KEY ( ObjectID ) );");
+				m_dbConn.addTable("CREATE TABLE actions ( ID INT NOT NULL, parent INT NOT NULL, name VARCHAR(50) NOT NULL, " +
+						"result INT NOT NULL, PRIMARY KEY ( ID ) );");
 				
-				m_dbConn.addTable("CREATE TABLE objects ( ID INT NOT NULL, name VARCHAR(50) NOT NULL, " +
+				m_dbConn.addTable("CREATE TABLE objects ( ID INT NOT NULL, room INT NOT NULL, name VARCHAR(50) NOT NULL, " +
 						"description VARCHAR(2000) NOT NULL, PRIMARY KEY ( ID ) );");
 				
-				m_dbConn.addTable("CREATE TABLE action_results ( ID INT NOT NULL, Type INT NOT NULL, Text VARCHAR(100), " +
+				m_dbConn.addTable("CREATE TABLE action_results ( ID INT NOT NULL, parent INT NOT NULL, " +
+						"Type VARCHAR(20) NOT NULL, description VARCHAR(100), " +
 						"ItemID INT, Value INT, PRIMARY KEY ( ID ) );");
 				
 				m_dbConn.addTable("CREATE TABLE items ( ID INT NOT NULL, name VARCHAR(50) NOT NULL, " +

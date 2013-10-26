@@ -188,4 +188,132 @@ public class DatabaseConnector
 		
 		return retVal;
 	}
+	
+	public ErrorCode addNPC(int nRoomID, int nID, String strName, String strDescription, String strIntro)
+	{
+		ErrorCode retVal = ErrorCode.Success;
+		
+		try
+		{
+			System.out.println("Adding new NPC");
+			
+			PreparedStatement pstmt = getConnection().prepareStatement("insert into npcs values(?, ?, ?, ?, ?)");
+			pstmt.setInt(1, nRoomID);
+			pstmt.setInt(2,  nID);
+			pstmt.setString(3, strName);
+			pstmt.setString(4, strDescription);
+			pstmt.setString(5, strIntro);
+			
+			if(0 == pstmt.executeUpdate())
+			{
+				retVal = ErrorCode.InsertFailed;
+				System.out.println("Failed to insert NPC.");
+			}
+			else
+				System.out.println("NPC creation successful.");
+		}
+		catch(Exception e)
+		{
+			System.out.println("Exception in DatabaseConnector.addNPC() " + e);
+			retVal = ErrorCode.Exception;
+		}
+		
+		return retVal;
+	}
+	
+	public ErrorCode addAction(int nParentID, int nID, String strName, int nResult)
+	{
+		ErrorCode retVal = ErrorCode.Success;
+		
+		try
+		{
+			System.out.println("Adding new Action");
+			
+			PreparedStatement pstmt = getConnection().prepareStatement("insert into actions values(?,?,?,?)");
+			pstmt.setInt(1, nID);
+			pstmt.setInt(2, nParentID);
+			pstmt.setString(3,  strName);
+			pstmt.setInt(4, nResult);
+			
+			if(0 == pstmt.executeUpdate())
+			{
+				retVal = ErrorCode.InsertFailed;
+				System.out.println("Failed to insert Action.");
+			}
+			else
+				System.out.println("Action creation successful.");
+		}
+		catch(Exception e)
+		{
+			System.out.println("Exception in DatabaseConnector.addAction() " + e);
+			retVal = ErrorCode.Exception;
+		}
+	
+		return retVal;
+	}
+	
+	public ErrorCode addActionResult(int nID, int nParentID, String strType, String strText, int nItemID, int nValue )
+	{
+		ErrorCode retVal = ErrorCode.Success;
+		
+		try
+		{
+			System.out.println("Adding new ActionResult");
+			
+			PreparedStatement pstmt = getConnection().prepareStatement("insert into action_results values(?,?,?,?,?,?)");
+			pstmt.setInt(1, nID);
+			pstmt.setInt(2, nParentID);
+			pstmt.setString(3,  strType);
+			pstmt.setString(4, strText);
+			pstmt.setInt(5, nItemID);
+			pstmt.setInt(6, nValue);
+			
+			if(0 == pstmt.executeUpdate())
+			{
+				retVal = ErrorCode.InsertFailed;
+				System.out.println("Failed to insert ActionResult.");
+			}
+			else
+				System.out.println("ActionResult creation successful.");
+		}
+		catch(Exception e)
+		{
+			System.out.println("Exception in DatabaseConnector.addActionResult() " + e);
+			retVal = ErrorCode.Exception;
+		}
+		
+		return retVal;
+	}
+	
+	public ErrorCode addObject(int nRoomID, int nID, String strName, String strDescription)
+	{
+		ErrorCode retVal = ErrorCode.Success;
+		
+		try
+		{
+			System.out.println("Adding new Object");
+			
+			PreparedStatement pstmt = getConnection().prepareStatement("insert into objects values(?, ?, ?, ?)");
+			pstmt.setInt(1, nRoomID);
+			pstmt.setInt(2,  nID);
+			pstmt.setString(3, strName);
+			pstmt.setString(4, strDescription);
+
+			
+			if(0 == pstmt.executeUpdate())
+			{
+				retVal = ErrorCode.InsertFailed;
+				System.out.println("Failed to insert Object.");
+			}
+			else
+				System.out.println("Object creation successful.");
+		}
+		catch(Exception e)
+		{
+			System.out.println("Exception in DatabaseConnector.addObject() " + e);
+			retVal = ErrorCode.Exception;
+		}
+		
+		return retVal;
+	}
 }

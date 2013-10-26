@@ -1,19 +1,24 @@
 
-<!ELEMENT minimud_world (rooms)>
+<!ELEMENT minimud_world (room+)>
 
-<!ELEMENT rooms (room+)>
-
-<!ELEMENT room (id, name, description, moves ) >
+<!ELEMENT room (id, name, description, move+, npc+, object+ ) >
 
 <!ELEMENT id (#PCDATA)>
+<!ELEMENT item_id (#PCDATA)>
 <!ELEMENT name (#PCDATA)>
 <!ELEMENT description (#PCDATA)>
 
-<!ELEMENT moves (move+)>
-
 <!ELEMENT move ( direction, next_room_id, description )>
 
-<!ELEMENT room_id (#PCDATA)>
 <!ELEMENT direction (#PCDATA)>
 <!ELEMENT next_room_id (#PCDATA)>
+
+<!ELEMENT object (id, name, detail, action*)>
+<!ELEMENT npc (id, name, description, intro, action*)>
+<!ELEMENT action (id, result)>
+
+<!ELEMENT intro (#PCDATA)>
+<!ELEMENT detail (#PCDATA)>
+
+<!ELEMENT result (id, type, description, item_id?, value?)>
 

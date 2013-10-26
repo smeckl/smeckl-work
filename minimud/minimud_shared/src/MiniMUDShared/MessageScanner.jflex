@@ -59,6 +59,13 @@ southwest		{yyparser.yylval = new MessageParserVal(yytext()); return MessagePars
 up				{yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.GO_UP;}
 down			{yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.GO_DOWN;}
 look			{yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.LOOK;}
+kick			{yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.KICK;}
+punch			{yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.PUNCH;}
+talk			{yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.TALK;}
+stab			{yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.STAB;}
+slash			{yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.SLASH;}
+push			{yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.PUSH;}
+shoot			{yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.SHOOT;}
 
 \,		{return (int)yycharat(0);}
 \=		{return (int)yycharat(0);}

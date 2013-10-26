@@ -26,7 +26,14 @@ public class WorldImporter
 		INVALID_ID,
 		INVALID_NAME,
 		INVALID_DESCRIPTION,
-		INVALID_DIRECTION
+		INVALID_DIRECTION,
+		INVALID_INTRO_TEXT,
+		INVALID_TYPE,
+		INVALID_RESULT,
+		INVALID_MOVE,
+		INVALID_NPC,
+		INVALID_OBJECT,
+		INVALID_ACTION
 	}
 	
 	private String m_strDataFile;
@@ -85,30 +92,19 @@ public class WorldImporter
 		{
 			while(true)
 			{
-				// Get <room>
-				NodeList rootList = doc.getDocumentElement().getElementsByTagName(XMLNames.ROOMS);
+				// Get <room> elemsnts
+				NodeList rootList = doc.getDocumentElement().getChildNodes();
 				
-				if(null == rootList || rootList.getLength() != 1)
+				if(null == rootList)
 				{
 					retVal = ErrorCode.INVALID_ROOMS_TAG;
 					System.out.println("Invalid <rooms> tag.");
 					break;
 				}
 			
-				Node rooms = rootList.item(0);
-				
-				NodeList roomList = rooms.getChildNodes();
-				
-				if(null == roomList || 0 == roomList.getLength())
+				for(int i = 0; i < rootList.getLength(); i++)
 				{
-					retVal = ErrorCode.INVALID_ROOMS_TAG;
-					System.out.println("Invalid <rooms> tag.");
-					break;
-				}
-				
-				for(int i = 0; i < roomList.getLength(); i++)
-				{
-					Node room = roomList.item(i);
+					Node room = rootList.item(i);
 					
 					String strNodeName = room.getNodeName();
 					
@@ -143,117 +139,114 @@ public class WorldImporter
 		boolean bName = false;
 		boolean bDescription = false;
 		boolean bSavedRoom = false;
+		boolean bMoves = false;
 		
 		RegularExpressions regEx = new RegularExpressions();
 		
 		try
 		{
-			while(true)
+			NodeList nodes = room.getChildNodes();
+			
+			for(int i = 0; i < nodes.getLength(); i++)
 			{
-				NodeList nodes = room.getChildNodes();
+				Node node = nodes.item(i);
 				
-				for(int i = 0; i < nodes.getLength(); i++)
+				// Make sure this is an element
+				if (node instanceof Element)
 				{
-					Node node = nodes.item(i);
+					String content = node.getLastChild().getTextContent().trim();
 					
-					// Make sure this is an element
-					if (node instanceof Element)
+					String nodeName = node.getNodeName();
+					
+					// If this is an <id> element, then validate and add to Room object
+					if(!bSavedRoom && 0 == nodeName.compareTo(XMLNames.ID))
 					{
-						String content = node.getLastChild().getTextContent().trim();
+						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ID))
+						{
+							nID = Integer.parseInt(content);
+							bID = true;
+						}
+						else
+						{
+							retVal = ErrorCode.INVALID_ID;
+							System.out.println("Invalid ID specified.");
+						}
+					}
+					// If this is a <name> element, then validate and add to Room object
+					else if(!bSavedRoom && 0 == nodeName.compareTo(XMLNames.NAME))
+					{
+						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.NAME))
+						{
+							strName = content;
+							bName = true;
+						}
+						else
+						{
+							retVal = ErrorCode.INVALID_NAME;
+							System.out.println("Invalid name specified.");
+						}
+					}
+					// If this is a <description> element, then validate and add to Room object
+					else if(!bSavedRoom && 0 == nodeName.compareTo(XMLNames.DESCRIPTION))
+					{
+						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.DESCRIPTION))
+						{
+							strDescription = content;
+							bDescription = true;
+						}
+						else
+						{
+							retVal = ErrorCode.INVALID_DESCRIPTION;
+							System.out.println("Invalid description specified.");
+						}
+					}
+					// If this is a <move> element, then validate and add to Room object
+					else if(0 == nodeName.compareTo(XMLNames.MOVE))
+					{
+						retVal = processMove(nID, node);
 						
-						String nodeName = node.getNodeName();
-						
-						if(!bSavedRoom && 0 == nodeName.compareTo(XMLNames.ID))
-						{
-							if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ID))
-							{
-								nID = Integer.parseInt(content);
-								bID = true;
-							}
-							else
-							{
-								retVal = ErrorCode.INVALID_ID;
-								System.out.println("Invalid ID specified.");
-							}
-						}
-						else if(!bSavedRoom && 0 == nodeName.compareTo(XMLNames.NAME))
-						{
-							if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.NAME))
-							{
-								strName = content;
-								bName = true;
-							}
-							else
-							{
-								retVal = ErrorCode.INVALID_NAME;
-								System.out.println("Invalid name specified.");
-							}
-						}
-						else if(!bSavedRoom && 0 == nodeName.compareTo(XMLNames.DESCRIPTION))
-						{
-							if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.DESCRIPTION))
-							{
-								strDescription = content;
-								bDescription = true;
-							}
-							else
-							{
-								retVal = ErrorCode.INVALID_DESCRIPTION;
-								System.out.println("Invalid description specified.");
-							}
-						}
-						else if(0 == nodeName.compareTo(XMLNames.MOVES))
-						{
-							retVal = processMoves(nID, node);
-						}
+						if(ErrorCode.Success == retVal)
+							bMoves = true;
+						else
+							System.out.println("Invalid move specified.");
 							
-						if(!bSavedRoom && bID && bName && bDescription)
-						{
-							DatabaseConnector.ErrorCode err = getDBconn().addRoom(nID, strName, strDescription);
-							bSavedRoom = true;
-						}
 					}
-				}
-
-				break;
-			}
-		}
-		catch(Exception e)
-		{
-			System.out.println("Exception in WorldImporter.processRoomElement(): " + e);
-			retVal = ErrorCode.Exception;
-		}
-		
-		return retVal;
-	}
-	
-	private ErrorCode processMoves(int nID, Node moves)
-	{
-		ErrorCode retVal = ErrorCode.Success;
-				
-		try
-		{
-			while(true)
-			{
-				NodeList nodes = moves.getChildNodes();
-				
-				for(int i = 0; i < nodes.getLength(); i++)
-				{
-					Node move = nodes.item(i);
-					
-					// Make sure this is an element
-					if (move instanceof Element)
-					{						
-						String nodeName = move.getNodeName();
+					// If this is a <npc> element, then validate and add to Room object
+					else if(0 == nodeName.compareTo(XMLNames.NPC))
+					{
+						retVal = processNPC(nID, node);
 						
-						if(0 == nodeName.compareTo(XMLNames.MOVE))
-						{
-							retVal = processMove(nID, move);
-						}
+						if(ErrorCode.Success == retVal)
+							bMoves = true;
+						else
+							System.out.println("Invalid NPC specified.");
+							
+					}
+					// If this is a <npc> element, then validate and add to Room object
+					else if(0 == nodeName.compareTo(XMLNames.OBJECT))
+					{
+						retVal = processObject(nID, node);
+						
+						if(ErrorCode.Success == retVal)
+							bMoves = true;
+						else
+							System.out.println("Invalid object specified.");
+							
+					}
+					
+						
+					if(!bSavedRoom && bID && bName && bDescription && bMoves)
+					{
+						getDBconn().addRoom(nID, strName, strDescription);
+						bSavedRoom = true;
 					}
 				}
-				
-				break;
+			}
+
+			if(!bSavedRoom)
+			{
+				retVal = ErrorCode.INVALID_ROOMS_TAG;
+				System.out.println("FAILED to import room element.");
 			}
 		}
 		catch(Exception e)
@@ -271,80 +264,82 @@ public class WorldImporter
 		
 		RegularExpressions regEx = new RegularExpressions();
 		
-		int nRoomID = 0;
 		String strDirection = "";
 		int nNextRoomID = 0;
 		String strDescription = "";
 		
+		boolean bSavedMove = false;
 		boolean bDirection = false;
 		boolean bNextRoomID = false;
 		boolean bDescription = false;
 		
 		try
 		{
-			while(true)
+			NodeList nodes = move.getChildNodes();
+			
+			for(int i = 0; i < nodes.getLength(); i++)
 			{
-				NodeList nodes = move.getChildNodes();
+				Node node = nodes.item(i);
 				
-				for(int i = 0; i < nodes.getLength(); i++)
+				// Make sure this is an element
+				if (node instanceof Element)
 				{
-					Node node = nodes.item(i);
+					String content = node.getLastChild().getTextContent().trim();
 					
-					// Make sure this is an element
-					if (node instanceof Element)
+					String nodeName = node.getNodeName();
+					
+					if(!bSavedMove && 0 == nodeName.compareTo(XMLNames.DIRECTION))
 					{
-						String content = node.getLastChild().getTextContent().trim();
-						
-						String nodeName = node.getNodeName();
-						
-						if(0 == nodeName.compareTo(XMLNames.DIRECTION))
+						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.DIRECTION))
 						{
-							if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.DIRECTION))
-							{
-								strDirection = content;
-								bDirection = true;
-							}
-							else
-							{
-								retVal = ErrorCode.INVALID_DIRECTION;
-								System.out.println("Invalid direction specified.");
-							}
+							strDirection = content;
+							bDirection = true;
 						}
-						else if(0 == nodeName.compareTo(XMLNames.NEXT_ROOM_ID))
+						else
 						{
-							if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ID))
-							{
-								nNextRoomID = Integer.parseInt(content);
-								bNextRoomID = true;
-							}
-							else
-							{
-								retVal = ErrorCode.INVALID_ID;
-								System.out.println("Invalid Next Room ID specified.");
-							}
-						}
-						else if(0 == nodeName.compareTo(XMLNames.DESCRIPTION))
-						{
-							if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.DESCRIPTION))
-							{
-								strDescription = content;
-								bDescription = true;
-							}
-							else
-							{
-								retVal = ErrorCode.INVALID_DESCRIPTION;
-								System.out.println("Invalid description specified.");
-							}
-						}
-						
-						if(bDirection && bNextRoomID && bDescription)
-						{
-							getDBconn().addMove(nID, strDirection, nNextRoomID, strDescription);
+							retVal = ErrorCode.INVALID_DIRECTION;
+							System.out.println("Invalid direction specified.");
 						}
 					}
+					else if(!bSavedMove && 0 == nodeName.compareTo(XMLNames.NEXT_ROOM_ID))
+					{
+						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ID))
+						{
+							nNextRoomID = Integer.parseInt(content);
+							bNextRoomID = true;
+						}
+						else
+						{
+							retVal = ErrorCode.INVALID_ID;
+							System.out.println("Invalid Next Room ID specified.");
+						}
+					}
+					else if(!bSavedMove && 0 == nodeName.compareTo(XMLNames.DESCRIPTION))
+					{
+						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.DESCRIPTION))
+						{
+							strDescription = content;
+							bDescription = true;
+						}
+						else
+						{
+							retVal = ErrorCode.INVALID_DESCRIPTION;
+							System.out.println("Invalid description specified.");
+						}
+					}
+					
+					if(bDirection && bNextRoomID && bDescription)
+					{
+						getDBconn().addMove(nID, strDirection, nNextRoomID, strDescription);
+						bSavedMove = true;
+					}
 				}
-				
-				break;
+			}
+			
+			if(!bSavedMove)
+			{
+				retVal = ErrorCode.INVALID_MOVE;
+				System.out.println("FAILED to import move element.");
 			}
 		}
 		catch(Exception e)
@@ -356,4 +351,428 @@ public class WorldImporter
 		return retVal;
 	}
 	
+	private ErrorCode processNPC(int nRoomID, Node move)
+	{
+		ErrorCode retVal = ErrorCode.Success;
+		
+		RegularExpressions regEx = new RegularExpressions();
+		
+		int nNpcID = 0;
+		String strName = "";
+		String strDescription = "";
+		String strIntro = "";
+		
+		boolean bSavedNPC = false;
+		boolean bNpcID = false;
+		boolean bName = false;
+		boolean bDescription = false;
+		boolean bIntro = false;
+		boolean bActions = false;
+		
+		try
+		{
+			NodeList nodes = move.getChildNodes();
+			
+			for(int i = 0; i < nodes.getLength(); i++)
+			{
+				Node node = nodes.item(i);
+				
+				// Make sure this is an element
+				if (node instanceof Element)
+				{
+					String content = node.getLastChild().getTextContent().trim();
+					
+					String nodeName = node.getNodeName();
+					
+					// If this is an <id> element, then validate and add to Room object
+					if(!bSavedNPC && 0 == nodeName.compareTo(XMLNames.ID))
+					{
+						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ID))
+						{
+							nNpcID = Integer.parseInt(content);
+							bNpcID = true;
+						}
+						else
+						{
+							retVal = ErrorCode.INVALID_ID;
+							System.out.println("Invalid ID specified.");
+						}
+					}
+					else if(!bSavedNPC && 0 == nodeName.compareTo(XMLNames.NAME))
+					{
+						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.NAME))
+						{
+							strName = content;
+							bName = true;
+						}
+						else
+						{
+							retVal = ErrorCode.INVALID_NAME;
+							System.out.println("Invalid name specified.");
+						}
+					}
+					else if(!bSavedNPC && 0 == nodeName.compareTo(XMLNames.DESCRIPTION))
+					{
+						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.DESCRIPTION))
+						{
+							strDescription = content;
+							bDescription = true;
+						}
+						else
+						{
+							retVal = ErrorCode.INVALID_DESCRIPTION;
+							System.out.println("Invalid description specified.");
+						}
+					}
+					else if(!bSavedNPC && 0 == nodeName.compareTo(XMLNames.INTRO))
+					{
+						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.NPCTEXT))
+						{
+							strIntro = content;
+							bIntro = true;
+						}
+						else
+						{
+							retVal = ErrorCode.INVALID_INTRO_TEXT;
+							System.out.println("Invalid intro specified.");
+						}
+					}
+					else if(!bSavedNPC && 0 == nodeName.compareTo(XMLNames.ACTION))
+					{
+						retVal = processAction(nNpcID, node);
+						
+						if(ErrorCode.Success == retVal)
+							bActions = true;
+						else
+							System.out.println("Invalid action specified.");
+					}
+				}
+				if(!bSavedNPC && bNpcID && bName && bDescription && bIntro && bActions)
+				{
+					getDBconn().addNPC(nRoomID, nNpcID, strName, strDescription, strIntro);
+					bSavedNPC = true;
+				}
+			}
+			
+			if(!bSavedNPC)
+			{
+				retVal = ErrorCode.INVALID_NPC;
+				System.out.println("FAILED to import NPC element.");
+			}
+		}
+		catch(Exception e)
+		{
+			System.out.println("Exception in WorldImporter.processNPC(): " + e);
+			retVal = ErrorCode.Exception;
+		}
+		
+		return retVal;	
+	}
+	
+	private ErrorCode processObject(int nRoomID, Node object)
+	{
+		ErrorCode retVal = ErrorCode.Success;
+		
+		RegularExpressions regEx = new RegularExpressions();
+		
+		int nObjectID = 0;
+		String strName = "";
+		String strDescription = "";
+		
+		boolean bSavedObject= false;
+		boolean bObjectID = false;
+		boolean bName = false;
+		boolean bDescription = false;
+		
+		try
+		{
+			NodeList nodes = object.getChildNodes();
+			
+			for(int i = 0; i < nodes.getLength(); i++)
+			{
+				Node node = nodes.item(i);
+				
+				// Make sure this is an element
+				if (node instanceof Element)
+				{
+					String content = node.getLastChild().getTextContent().trim();
+					
+					String nodeName = node.getNodeName();
+					
+					// If this is an <id> element, then validate and add to Room object
+					if(!bSavedObject && 0 == nodeName.compareTo(XMLNames.ID))
+					{
+						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ID))
+						{
+							nObjectID = Integer.parseInt(content);
+							bObjectID = true;
+						}
+						else
+						{
+							retVal = ErrorCode.INVALID_ID;
+							System.out.println("Invalid ID specified.");
+						}
+					}
+					else if(!bSavedObject && 0 == nodeName.compareTo(XMLNames.NAME))
+					{
+						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.NAME))
+						{
+							strName = content;
+							bName = true;
+						}
+						else
+						{
+							retVal = ErrorCode.INVALID_NAME;
+							System.out.println("Invalid name specified.");
+						}
+					}
+					else if(!bSavedObject && 0 == nodeName.compareTo(XMLNames.DESCRIPTION))
+					{
+						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.DESCRIPTION))
+						{
+							strDescription = content;
+							bDescription = true;
+						}
+						else
+						{
+							retVal = ErrorCode.INVALID_DESCRIPTION;
+							System.out.println("Invalid description specified.");
+						}
+					}
+				}
+				if(!bSavedObject && bObjectID && bName && bDescription)
+				{
+					getDBconn().addObject(nRoomID, nObjectID, strName, strDescription);
+					bSavedObject = true;
+				}
+			}
+			
+			if(!bSavedObject)
+			{
+				retVal = ErrorCode.INVALID_OBJECT;
+				System.out.println("FAILED to import object element.");
+			}
+		}
+		catch(Exception e)
+		{
+			System.out.println("Exception in WorldImporter.processNPC(): " + e);
+			retVal = ErrorCode.Exception;
+		}
+		
+		return retVal;	
+	}
+	
+	private ErrorCode processAction(int nParentID, Node object)
+	{
+		ErrorCode retVal = ErrorCode.Success;
+		
+		RegularExpressions regEx = new RegularExpressions();
+		
+		int nID = 0;
+		String strName = "";
+		int nResult = 0;
+		
+		boolean bSavedAction = false;
+		boolean bID = false;
+		boolean bName = false;
+		boolean bResult = false;
+		
+		try
+		{
+			NodeList nodes = object.getChildNodes();
+			
+			for(int i = 0; i < nodes.getLength(); i++)
+			{
+				Node node = nodes.item(i);
+				
+				// Make sure this is an element
+				if (node instanceof Element)
+				{
+					String content = node.getLastChild().getTextContent().trim();
+					
+					String nodeName = node.getNodeName();
+					
+					// If this is an <id> element, then validate and add to Room object
+					if(!bSavedAction && 0 == nodeName.compareTo(XMLNames.ID))
+					{
+						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ID))
+						{
+							nID = Integer.parseInt(content);
+							bID = true;
+						}
+						else
+						{
+							retVal = ErrorCode.INVALID_ID;
+							System.out.println("Invalid ID specified.");
+						}
+					}
+					else if(!bSavedAction && 0 == nodeName.compareTo(XMLNames.NAME))
+					{
+						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ACTION_TYPE))
+						{
+							strName = content;
+							bName = true;
+						}
+						else
+						{
+							retVal = ErrorCode.INVALID_TYPE;
+							System.out.println("Invalid type specified.");
+						}
+					}
+					else if(!bSavedAction && 0 == nodeName.compareTo(XMLNames.RESULT))
+					{
+						retVal = processActionResult(nID, node);
+						
+						if(ErrorCode.Success == retVal)
+							bResult = true;
+						else
+							System.out.println("Invalid action specified.");
+					}
+				}
+				if(!bSavedAction && bID && bName && bResult)
+				{
+					getDBconn().addAction(nParentID, nID, strName, nResult);
+					bSavedAction = true;
+				}
+			}
+			
+			if(!bSavedAction)
+			{
+				retVal = ErrorCode.INVALID_ACTION;
+				System.out.println("FAILED to import action element");
+			}
+		}
+		catch(Exception e)
+		{
+			System.out.println("Exception in WorldImporter.processNPC(): " + e);
+			retVal = ErrorCode.Exception;
+		}
+		
+		return retVal;	
+	}
+	
+	private ErrorCode processActionResult(int nParentID, Node object)
+	{
+		ErrorCode retVal = ErrorCode.Success;
+		
+		RegularExpressions regEx = new RegularExpressions();
+		
+		int nID = 0;
+		String strType = "";
+		String strDescription = "";
+		int nItemID = 0;
+		int nValue = 0;
+		
+		boolean bSavedActionResult = false;
+		boolean bID = false;
+		boolean bType = false;
+		boolean bDescription = false;
+		boolean bItemID = false;
+		boolean bValue = false;
+		
+		try
+		{
+			NodeList nodes = object.getChildNodes();
+			
+			for(int i = 0; i < nodes.getLength(); i++)
+			{
+				Node node = nodes.item(i);
+				
+				// Make sure this is an element
+				if (node instanceof Element)
+				{
+					String content = node.getLastChild().getTextContent().trim();
+					
+					String nodeName = node.getNodeName();
+					
+					// If this is an <id> element, then validate and add to Room object
+					if(!bSavedActionResult && 0 == nodeName.compareTo(XMLNames.ID))
+					{
+						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ID))
+						{
+							nID = Integer.parseInt(content);
+							bID = true;
+						}
+						else
+						{
+							retVal = ErrorCode.INVALID_ID;
+							System.out.println("Invalid ID specified.");
+						}
+					}
+					else if(!bSavedActionResult && 0 == nodeName.compareTo(XMLNames.TYPE))
+					{
+						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.RESULT_TYPE))
+						{
+							strType = content;
+							bType = true;
+						}
+						else
+						{
+							retVal = ErrorCode.INVALID_TYPE;
+							System.out.println("Invalid type specified.");
+						}
+					}
+					else if(!bSavedActionResult && 0 == nodeName.compareTo(XMLNames.DESCRIPTION))
+					{
+						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.DESCRIPTION))
+						{
+							strDescription = content;
+							bDescription = true;
+						}
+						else
+						{
+							retVal = ErrorCode.INVALID_DESCRIPTION;
+							System.out.println("Invalid description specified.");
+						}
+					}
+					else if(!bSavedActionResult && 0 == nodeName.compareTo(XMLNames.ITEM_ID))
+					{
+						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ID))
+						{
+							nItemID = Integer.parseInt(content);
+							bItemID = true;
+						}
+						else
+						{
+							retVal = ErrorCode.INVALID_ID;
+							System.out.println("Invalid ID specified.");
+						}
+					}
+					else if(!bSavedActionResult && 0 == nodeName.compareTo(XMLNames.VALUE))
+					{
+						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ID))
+						{
+							nValue = Integer.parseInt(content);
+							bValue = true;
+						}
+						else
+						{
+							retVal = ErrorCode.INVALID_ID;
+							System.out.println("Invalid ID specified.");
+						}
+					}
+				}
+			}
+			
+			// ItemID and Value are optional elements
+			if(!bSavedActionResult && bID && bType && bDescription)
+			{
+				getDBconn().addActionResult(nParentID, nID, strType, strDescription, nItemID, nValue);
+				bSavedActionResult = true;
+			}
+			
+			if(!bSavedActionResult)
+			{
+				retVal = ErrorCode.INVALID_RESULT;
+				System.out.println("FAILED to import action_result element");
+			}
+		}
+		catch(Exception e)
+		{
+			System.out.println("Exception in WorldImporter.processNPC(): " + e);
+			retVal = ErrorCode.Exception;
+		}
+		
+		return retVal;	
+	}
 }

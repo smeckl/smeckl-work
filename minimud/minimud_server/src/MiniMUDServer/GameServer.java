@@ -49,7 +49,7 @@ public class GameServer
 			// Load the Room data types
 			ResultSet rooms = m_dbConn.getRooms();
 
-			while(null != rooms && rooms.next())
+			while(ErrorCode.Success == retVal && null != rooms && rooms.next())
 			{
 				Room newRoom = new Room();
 				
@@ -60,23 +60,20 @@ public class GameServer
 				// Make sure that the data fields are valid
 				if(newRoom.isValid())
 				{		
-					// Now, load all of the moves for the room
-					ResultSet moves = m_dbConn.getMovesForRoom(newRoom.getID());
+					retVal = loadMovesIntoRoom(newRoom);
 					
-					while(null != moves && moves.next())
+					if(ErrorCode.Success != retVal)
 					{
-						Move newMove = new Move();
-						
-						newMove.setRoomID(moves.getInt("RoomID"));
-						newMove.setDirection(moves.getString("direction"));
-						newMove.setNextRoomID(moves.getInt("NextRoomID"));
-						newMove.setDescription(moves.getString("description"));
-						
-						// Only add the move if it is valid
-						if(newMove.isValid())
-						{
-							newRoom.addMove(newMove);													
-						}
+						m_logger.severe("Failed to load moves into room object.");
+						break;
+					}
+					
+					retVal = loadNPCsIntoRoom(newRoom);
+					
+					if(ErrorCode.Success != retVal)
+					{
+						m_logger.severe("Failed to load NPCs into room object.");
+						break;
 					}
 					
 					// Add the room to the 
@@ -100,6 +97,122 @@ public class GameServer
 		{
 			m_logger.severe("Exception caught in GameServer.postUserMessage(): " + e);
 			retVal = ErrorCode.Exception;
+		}
+		
+		return retVal;
+	}
+	
+	private ErrorCode loadMovesIntoRoom(Room room)
+	{
+		ErrorCode retVal = ErrorCode.Success;
+		
+		try
+		{
+			// Now, load all of the moves for the room
+			ResultSet moves = m_dbConn.getMovesForRoom(room.getID());
+			
+			while(null != moves && moves.next())
+			{
+				Move newMove = new Move();
+				
+				newMove.setRoomID(moves.getInt("RoomID"));
+				newMove.setDirection(moves.getString("direction"));
+				newMove.setNextRoomID(moves.getInt("NextRoomID"));
+				newMove.setDescription(moves.getString("description"));
+				
+				// Only add the move if it is valid
+				if(newMove.isValid())
+				{
+					room.addMove(newMove);													
+				}
+			}
+		}
+		catch(Exception e)
+		{
+			retVal = ErrorCode.Exception;		
+			m_logger.severe("Exception caught in GameServer.loadMovesIntoRoom()");
+		}
+		
+		return retVal;
+	}
+	
+	private ErrorCode loadNPCsIntoRoom(Room room)
+	{
+		ErrorCode retVal = ErrorCode.Success;
+		
+		try
+		{
+			// Now, load all of the NPCs for the room
+			ResultSet npcs = m_dbConn.getNPCsForRoom(room.getID());
+			
+			while(null != npcs && npcs.next())
+			{
+				NPC newNPC = new NPC();
+				
+				newNPC.setID(npcs.getInt("id"));
+				newNPC.setRoomID(npcs.getInt("room"));
+				newNPC.setName(npcs.getString("name"));
+				newNPC.setDescription(npcs.getString("description"));
+				newNPC.setIntro(npcs.getString("intro"));
+				
+				retVal = loadActionsIntoNPC(newNPC);
+				
+				if(ErrorCode.Success != retVal)
+				{
+					m_logger.severe("Failed to load Actions into NPC object.");
+					break;
+				}
+				
+				// Only add the move if it is valid
+				if(newNPC.isValid())
+				{
+					room.addNPC(newNPC);													
+				}
+			}
+		}
+		catch(Exception e)
+		{
+			retVal = ErrorCode.Exception;		
+			m_logger.severe("Exception caught in GameServer.loadNPCsIntoRoom()");
+		}
+		
+		return retVal;
+	}
+	
+	private ErrorCode loadActionsIntoNPC(NPC npc)
+	{
+		ErrorCode retVal = ErrorCode.Success;
+		
+		try
+		{
+			// Now, load all of the NPCs for the room
+			ResultSet actions = m_dbConn.getActionsForNPC(npc);
+			
+			while(null != actions && actions.next())
+			{
+				Action action = new Action();
+				
+				action.setID(actions.getInt("ID"));
+				action.setName(actions.getString("name"));
+				action.setResult(actions.getInt("result"));
+				
+				if(ErrorCode.Success != retVal)
+				{
+					m_logger.severe("Failed to load Actions into NPC object.");
+					break;
+				}
+				
+				// Only add the move if it is valid
+				if(action.isValid())
+				{
+					npc.addAction(action);													
+				}
+			}
+		}
+		catch(Exception e)
+		{
+			retVal = ErrorCode.Exception;		
+			m_logger.severe("Exception caught in GameServer.loadNPCsIntoRoom()");
 		}
 		
 		return retVal;

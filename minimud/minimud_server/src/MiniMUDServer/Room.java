@@ -1,6 +1,7 @@
 package MiniMUDServer;
 
 import java.util.HashMap;
+import java.util.Iterator;
 
 import MiniMUDShared.*;
 
@@ -22,6 +23,7 @@ public class Room
 	
 	private HashMap<String, Move> m_moves = new HashMap<String, Move>();
 	private HashMap<String, UserConnectionThread> m_users = new HashMap<String, UserConnectionThread>();
+	private HashMap<Integer, NPC> m_npcs = new HashMap<Integer, NPC>();
 	
 	public void setID(int nID)
 	{
@@ -112,6 +114,11 @@ public class Room
 		m_users.remove(user.getUserInfo().getUserName());
 	}
 	
+	public void addNPC(NPC npc)
+	{
+		m_npcs.put(npc.getID(), npc);
+	}
+	
 	public boolean isValid()
 	{
 		boolean bValid = false;
@@ -139,6 +146,16 @@ public class Room
 			display.sendText("");
 			display.sendText(getDescription());
 			display.sendText("");
+			
+			// Show NPCs
+			Iterator<NPC> userIter = m_npcs.values().iterator();
+			
+			while(userIter.hasNext())
+			{
+				NPC npc = userIter.next();
+				
+				display.sendText("You see " + npc.getName());
+			}
 		}
 		
 		return retVal;
