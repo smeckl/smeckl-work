@@ -1,5 +1,7 @@
 package MiniMUDServer;
 
+import java.util.HashMap;
+
 import MiniMUDShared.RegularExpressions;
 
 public class Action
@@ -9,6 +11,20 @@ public class Action
 	private int m_nResultID = 0;
 	
 	private RegularExpressions m_regEx = new RegularExpressions();
+	
+	private HashMap<String,String> m_validActions = new HashMap<String,String>();
+	
+	public Action()
+	{
+		m_validActions.put("look", "look");
+		m_validActions.put("talk", "talk");
+		m_validActions.put("punch", "punch");
+		m_validActions.put("kick", "kick");
+		m_validActions.put("stab", "stab");
+		m_validActions.put("slash", "slash");
+		m_validActions.put("push", "push");
+		m_validActions.put("shoot", "shoot");
+	}
 	
 	public void setID(int nID)
 	{
@@ -48,7 +64,8 @@ public class Action
 	{
 		boolean bRet = false;
 		
-		bRet = m_regEx.stringMatchesRegEx(strName, RegularExpressions.RegExID.NAME);
+		bRet = (m_regEx.stringMatchesRegEx(strName, RegularExpressions.RegExID.NAME)
+				&& m_validActions.containsKey(strName));
 		
 		return bRet;
 	}

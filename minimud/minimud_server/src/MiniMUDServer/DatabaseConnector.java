@@ -255,7 +255,7 @@ public class DatabaseConnector
 		return results;
 	}
 	
-	// Retrieves list of NPCs.  Return value is null if there is an error.
+	// Retrieves list of Actions.  Return value is null if there is an error.
 	public ResultSet getActionsForNPC(NPC npc)
 	{
 		ResultSet results = null;
@@ -275,5 +275,39 @@ public class DatabaseConnector
 		}
 		
 		return results;
+	}
+	
+	// Retrieves the result of an action.  Return value is null if there is an error.
+	public ActionResult getActionResult(int parentID, int resultID)
+	{
+		ActionResult actionRes = null;
+		
+		try
+		{
+			PreparedStatement pstmt = getConnection().prepareStatement("select * from action_results where ID = ? and parent = ?");
+			pstmt.setInt(1, resultID);
+			pstmt.setInt(2, parentID);
+			
+			ResultSet results = pstmt.executeQuery();
+			
+			if(null != results && results.next())
+			{
+				actionRes = new ActionResult();
+				
+				actionRes.setID(results.getInt("ID"));
+				actionRes.setType(results.getString("type"));
+				actionRes.setDescription(results.getString("description"));
+				actionRes.setItemID(results.getInt("ItemID"));
+				actionRes.setValue(results.getInt("Value"));
+			}
+			
+		}
+		catch(Exception e)
+		{
+			m_logger.severe("Exception in DatabaseConnector::getActionResult() " + e);
+			actionRes = null;
+		}
+		
+		return actionRes;
 	}
 }

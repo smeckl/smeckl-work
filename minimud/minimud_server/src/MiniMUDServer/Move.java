@@ -32,7 +32,7 @@ public class Move
 	
 	public boolean isValidRoomID(int nID)
 	{
-		return (getRoomID() > 0 && getRoomID() < 100);
+		return (nID > 0 && nID < 100);
 	}
 
 	public void setDirection(String strDirection)
@@ -75,7 +75,7 @@ public class Move
 	
 	public boolean isValidNextRoomID(int nID)
 	{
-		return (getNextRoomID() > 0 && getNextRoomID() < 100);
+		return (nID > 0 && nID < 100);
 	}
 	
 	public void setDescription(String strDescription)

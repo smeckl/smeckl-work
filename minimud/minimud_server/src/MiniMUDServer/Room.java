@@ -23,7 +23,7 @@ public class Room
 	
 	private HashMap<String, Move> m_moves = new HashMap<String, Move>();
 	private HashMap<String, UserConnectionThread> m_users = new HashMap<String, UserConnectionThread>();
-	private HashMap<Integer, NPC> m_npcs = new HashMap<Integer, NPC>();
+	private HashMap<String, NPC> m_npcs = new HashMap<String, NPC>();
 	
 	public void setID(int nID)
 	{
@@ -116,7 +116,17 @@ public class Room
 	
 	public void addNPC(NPC npc)
 	{
-		m_npcs.put(npc.getID(), npc);
+		m_npcs.put(npc.getName(), npc);
+	}
+	
+	public NPC getNPC(String strName)
+	{
+		NPC npc = null;
+				
+		if(m_npcs.containsKey(strName))	
+			npc = m_npcs.get(strName);
+		
+		return npc;
 	}
 	
 	public boolean isValid()

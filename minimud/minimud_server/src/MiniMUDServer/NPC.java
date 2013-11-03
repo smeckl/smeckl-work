@@ -13,7 +13,7 @@ public class NPC
 	private String m_strIntro = "";
 	
 	private RegularExpressions m_regEx = new RegularExpressions();
-	private HashMap<Integer, Action> m_actions = new HashMap<Integer, Action>();
+	private HashMap<String, Action> m_actions = new HashMap<String, Action>();
 	
 	public void setID(int nID)
 	{
@@ -138,6 +138,16 @@ public class NPC
 	
 	public void addAction(Action action)
 	{
-		m_actions.put(action.getID(), action);
+		m_actions.put(action.getName(), action);
+	}
+	
+	public Action getAction(String strName)
+	{
+		Action ret = null;
+		
+		if(m_actions.containsKey(strName))
+			ret = m_actions.get(strName);
+		
+		return ret;
 	}
 }

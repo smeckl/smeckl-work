@@ -18,7 +18,7 @@
 		</move>
 		<npc>
 			<id>1</id>
-			<name>Tommy the Lip</name>
+			<name>Tommy</name>
 			<description>a tall, scruffy man in a brown leather jerkin.  He looks a little drunk, but otherwise harmless.  He looks like he has something to say.</description>
 			<intro>Name's Tommy the Lip, but you can call me Tommy.  Welcome to the world of MiniMUD.  I can answer most basic questions that new folks tend to ask.</intro>
 			<action>

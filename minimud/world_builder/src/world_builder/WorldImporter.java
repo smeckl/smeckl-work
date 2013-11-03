@@ -140,6 +140,8 @@ public class WorldImporter
 		boolean bDescription = false;
 		boolean bSavedRoom = false;
 		boolean bMoves = false;
+		boolean bNPCs = false;
+		boolean bObjects = false;
 		
 		RegularExpressions regEx = new RegularExpressions();
 		
@@ -159,7 +161,7 @@ public class WorldImporter
 					String nodeName = node.getNodeName();
 					
 					// If this is an <id> element, then validate and add to Room object
-					if(!bSavedRoom && 0 == nodeName.compareTo(XMLNames.ID))
+					if(0 == nodeName.compareTo(XMLNames.ID))
 					{
 						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ID))
 						{
@@ -173,7 +175,7 @@ public class WorldImporter
 						}
 					}
 					// If this is a <name> element, then validate and add to Room object
-					else if(!bSavedRoom && 0 == nodeName.compareTo(XMLNames.NAME))
+					else if(0 == nodeName.compareTo(XMLNames.NAME))
 					{
 						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.NAME))
 						{
@@ -187,7 +189,7 @@ public class WorldImporter
 						}
 					}
 					// If this is a <description> element, then validate and add to Room object
-					else if(!bSavedRoom && 0 == nodeName.compareTo(XMLNames.DESCRIPTION))
+					else if(0 == nodeName.compareTo(XMLNames.DESCRIPTION))
 					{
 						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.DESCRIPTION))
 						{
@@ -217,30 +219,29 @@ public class WorldImporter
 						retVal = processNPC(nID, node);
 						
 						if(ErrorCode.Success == retVal)
-							bMoves = true;
+							bNPCs = true;
 						else
 							System.out.println("Invalid NPC specified.");
 							
 					}
-					// If this is a <npc> element, then validate and add to Room object
+					// If this is a <object> element, then validate and add to Room object
 					else if(0 == nodeName.compareTo(XMLNames.OBJECT))
 					{
 						retVal = processObject(nID, node);
 						
 						if(ErrorCode.Success == retVal)
-							bMoves = true;
+							bObjects = true;
 						else
 							System.out.println("Invalid object specified.");
 							
 					}
-					
-						
-					if(!bSavedRoom && bID && bName && bDescription && bMoves)
-					{
-						getDBconn().addRoom(nID, strName, strDescription);
-						bSavedRoom = true;
-					}
 				}
+			}
+			
+			if(!bSavedRoom && bID && bName && bDescription && bMoves)
+			{
+				getDBconn().addRoom(nID, strName, strDescription);
+				bSavedRoom = true;
 			}
 
 			if(!bSavedRoom)
@@ -385,7 +386,7 @@ public class WorldImporter
 					String nodeName = node.getNodeName();
 					
 					// If this is an <id> element, then validate and add to Room object
-					if(!bSavedNPC && 0 == nodeName.compareTo(XMLNames.ID))
+					if(0 == nodeName.compareTo(XMLNames.ID))
 					{
 						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ID))
 						{
@@ -398,7 +399,7 @@ public class WorldImporter
 							System.out.println("Invalid ID specified.");
 						}
 					}
-					else if(!bSavedNPC && 0 == nodeName.compareTo(XMLNames.NAME))
+					else if(0 == nodeName.compareTo(XMLNames.NAME))
 					{
 						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.NAME))
 						{
@@ -411,7 +412,7 @@ public class WorldImporter
 							System.out.println("Invalid name specified.");
 						}
 					}
-					else if(!bSavedNPC && 0 == nodeName.compareTo(XMLNames.DESCRIPTION))
+					else if(0 == nodeName.compareTo(XMLNames.DESCRIPTION))
 					{
 						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.DESCRIPTION))
 						{
@@ -424,7 +425,7 @@ public class WorldImporter
 							System.out.println("Invalid description specified.");
 						}
 					}
-					else if(!bSavedNPC && 0 == nodeName.compareTo(XMLNames.INTRO))
+					else if(0 == nodeName.compareTo(XMLNames.INTRO))
 					{
 						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.NPCTEXT))
 						{
@@ -437,7 +438,7 @@ public class WorldImporter
 							System.out.println("Invalid intro specified.");
 						}
 					}
-					else if(!bSavedNPC && 0 == nodeName.compareTo(XMLNames.ACTION))
+					else if(0 == nodeName.compareTo(XMLNames.ACTION))
 					{
 						retVal = processAction(nNpcID, node);
 						
@@ -447,11 +448,12 @@ public class WorldImporter
 							System.out.println("Invalid action specified.");
 					}
 				}
-				if(!bSavedNPC && bNpcID && bName && bDescription && bIntro && bActions)
-				{
-					getDBconn().addNPC(nRoomID, nNpcID, strName, strDescription, strIntro);
-					bSavedNPC = true;
-				}
+			}
+			
+			if(!bSavedNPC && bNpcID && bName && bDescription && bIntro && bActions)
+			{
+				getDBconn().addNPC(nRoomID, nNpcID, strName, strDescription, strIntro);
+				bSavedNPC = true;
 			}
 			
 			if(!bSavedNPC)
@@ -621,12 +623,12 @@ public class WorldImporter
 					}
 					else if(!bSavedAction && 0 == nodeName.compareTo(XMLNames.RESULT))
 					{
-						retVal = processActionResult(nID, node);
+						nResult = processActionResult(nID, node);
 						
-						if(ErrorCode.Success == retVal)
+						if(0 != nResult)
 							bResult = true;
 						else
-							System.out.println("Invalid action specified.");
+							System.out.println("Invalid result specified.");
 					}
 				}
 				if(!bSavedAction && bID && bName && bResult)
@@ -651,9 +653,9 @@ public class WorldImporter
 		return retVal;	
 	}
 	
-	private ErrorCode processActionResult(int nParentID, Node object)
+	private int processActionResult(int nParentID, Node object)
 	{
-		ErrorCode retVal = ErrorCode.Success;
+		int retVal = 0;
 		
 		RegularExpressions regEx = new RegularExpressions();
 		
@@ -695,7 +697,6 @@ public class WorldImporter
 						}
 						else
 						{
-							retVal = ErrorCode.INVALID_ID;
 							System.out.println("Invalid ID specified.");
 						}
 					}
@@ -708,7 +709,6 @@ public class WorldImporter
 						}
 						else
 						{
-							retVal = ErrorCode.INVALID_TYPE;
 							System.out.println("Invalid type specified.");
 						}
 					}
@@ -721,7 +721,6 @@ public class WorldImporter
 						}
 						else
 						{
-							retVal = ErrorCode.INVALID_DESCRIPTION;
 							System.out.println("Invalid description specified.");
 						}
 					}
@@ -734,7 +733,6 @@ public class WorldImporter
 						}
 						else
 						{
-							retVal = ErrorCode.INVALID_ID;
 							System.out.println("Invalid ID specified.");
 						}
 					}
@@ -747,7 +745,6 @@ public class WorldImporter
 						}
 						else
 						{
-							retVal = ErrorCode.INVALID_ID;
 							System.out.println("Invalid ID specified.");
 						}
 					}
@@ -759,18 +756,19 @@ public class WorldImporter
 			{
 				getDBconn().addActionResult(nParentID, nID, strType, strDescription, nItemID, nValue);
 				bSavedActionResult = true;
+				
+				retVal = nID;
 			}
 			
 			if(!bSavedActionResult)
 			{
-				retVal = ErrorCode.INVALID_RESULT;
 				System.out.println("FAILED to import action_result element");
 			}
 		}
 		catch(Exception e)
 		{
 			System.out.println("Exception in WorldImporter.processNPC(): " + e);
-			retVal = ErrorCode.Exception;
+			retVal = 0;
 		}
 		
 		return retVal;	

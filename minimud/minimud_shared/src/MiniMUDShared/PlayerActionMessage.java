@@ -54,6 +54,34 @@ public class PlayerActionMessage extends Message
 		case Look:
 			strOut = "look";
 			break;
+			
+		case Talk:
+			strOut = "talk";
+			break;
+			
+		case Punch:
+			strOut = "punch";
+			break;
+			
+		case Kick:
+			strOut = "kick";
+			break;
+			
+		case Stab:
+			strOut = "stab";
+			break;
+			
+		case Slash:
+			strOut = "slash";
+			break;
+			
+		case Push:
+			strOut = "push";
+			break;
+			
+		case Shoot:
+			strOut = "shoot";
+			break;
 		}
 		
 		return strOut;
@@ -63,12 +91,10 @@ public class PlayerActionMessage extends Message
 	{
 		String strOut = "";
 		
-		switch(getAction())
-		{
-		case Look:
-			strOut = "look";
-			break;
-		}
+		strOut += getActionString();
+		
+		if(!getObject().isEmpty())
+			strOut += " " + getObject();
 		
 		return strOut;
 	}

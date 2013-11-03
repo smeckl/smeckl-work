@@ -31,6 +31,7 @@ text_msg		{yyparser.yylval = new MessageParserVal(yytext()); return MessageParse
 message			{yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.MESSAGE;}
 from			{yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.FROM;}
 to				{yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.TO;}
+at				{yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.AT;}
 player			{yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.PLAYER;}
 server			{yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.SERVER;}
 request_input	{yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.REQUEST_INPUT;}

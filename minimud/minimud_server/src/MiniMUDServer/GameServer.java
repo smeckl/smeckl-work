@@ -125,6 +125,8 @@ public class GameServer
 				{
 					room.addMove(newMove);													
 				}
+				else
+					retVal = ErrorCode.ObjectCreationFailed;
 			}
 		}
 		catch(Exception e)
@@ -196,16 +198,14 @@ public class GameServer
 				action.setName(actions.getString("name"));
 				action.setResult(actions.getInt("result"));
 				
-				if(ErrorCode.Success != retVal)
-				{
-					m_logger.severe("Failed to load Actions into NPC object.");
-					break;
-				}
-				
 				// Only add the move if it is valid
 				if(action.isValid())
 				{
 					npc.addAction(action);													
+				}
+				else
+				{
+					retVal = ErrorCode.ObjectCreationFailed;
 				}
 			}
 		}
@@ -266,47 +266,11 @@ public class GameServer
 			}
 			else if(MessageID.MOVE == msg.getMessageId())
 			{
-				PlayerMoveMessage moveMsg = (PlayerMoveMessage)msg;
-				
-				// Get the user's current room
-				Room curRoom = user.getCurrentRoom();
-				
-				// Find the room the move goes to
-				int nNextRoom = curRoom.getNextRoomID(moveMsg);
-				
-				// If there is no room in that direction, then tell user
-				if(-1 == nNextRoom)
-				{
-					ClientShowTextMessage clMsg = new ClientShowTextMessage("server", "There is nothing in that direction.");
-					
-					user.processGameServerCommand(clMsg);
-				}
-				// else handle move
-				else
-				{
-					// Get next room
-					Room nextRoom = m_Rooms.get(nNextRoom);
-					
-					if(null != nextRoom)
-					{
-						// Remove the user from the current room
-						curRoom.removeUser(user);
-						
-						// Add the user to the new room
-						nextRoom.addUser(user);
-						
-						// Set the new room as the user's current room
-						user.setCurrentRoom(nextRoom);
-						
-						// Have the user display the new room
-						user.displayCurrentRoom();
-					}
-				}	
+				retVal = processMoveMessage(user, (PlayerMoveMessage)msg);
 			}
 			else if(MessageID.ACTION == msg.getMessageId())
 			{
-				// Display the user's current room
-				user.displayCurrentRoom();
+				retVal = processActionMessage(user, (PlayerActionMessage)msg);
 			}
 		}
 		catch(Exception e)
@@ -342,5 +306,121 @@ public class GameServer
 		}
 		
 		return retVal;
+	}
+	
+	public ErrorCode processMoveMessage(UserConnectionThread user, PlayerMoveMessage msg)
+	{
+		ErrorCode retVal = ErrorCode.Success;
+		
+		// Get the user's current room
+		Room curRoom = user.getCurrentRoom();
+		
+		// Find the room the move goes to
+		int nNextRoom = curRoom.getNextRoomID(msg);
+		
+		// If there is no room in that direction, then tell user
+		if(-1 == nNextRoom)
+		{
+			ClientShowTextMessage clMsg = new ClientShowTextMessage("server", "There is nothing in that direction.");
+			
+			user.processGameServerCommand(clMsg);
+		}
+		// else handle move
+		else
+		{
+			// Get next room
+			Room nextRoom = m_Rooms.get(nNextRoom);
+			
+			if(null != nextRoom)
+			{
+				// Remove the user from the current room
+				curRoom.removeUser(user);
+				
+				// Add the user to the new room
+				nextRoom.addUser(user);
+				
+				// Set the new room as the user's current room
+				user.setCurrentRoom(nextRoom);
+				
+				// Have the user display the new room
+				user.displayCurrentRoom();
+			}
+		}	
+		
+		return retVal;
+	}
+	
+	public ErrorCode processActionMessage(UserConnectionThread user, PlayerActionMessage msg)
+	{
+		ErrorCode retVal = ErrorCode.Success;
+		
+		switch(msg.getAction())
+		{
+		case Look:
+			// Display the user's current room
+			user.displayCurrentRoom();
+			break;
+			
+		case Talk:	
+		case Punch:	
+		case Kick:	
+		case Stab:	
+		case Slash:	
+		case Push:
+		case Shoot:
+			Room room = user.getCurrentRoom();
+			
+			// See if there is a valid NPC in the room
+			NPC npc = room.getNPC(msg.getObject());
+			
+			if(null != npc)
+			{
+				// Check to see if this NPC has an action matching the name
+				Action action = npc.getAction(msg.getActionString());
+				
+				if(null != action)
+				{
+					// There is a valid action, do it and get the result
+					
+					// Look up the ActionResult from the database
+					ActionResult result = m_dbConn.getActionResult(action.getID(), action.getResultID());
+					
+					if(null != result)
+					{
+						sendUserText(user, result.getDescription());
+						
+						// TODO:  Need to handle action types other than text_only
+					}
+					else
+					{
+						// There is no valid result.  Tell the user.
+						sendUserText(user, "Your action yields no result.");
+					}
+				}
+				else
+				{
+					// There is no valid action, do it and get the result
+					sendUserText(user, "You can't " + msg.getActionString() + " the NPC.");
+				}
+			}	
+			else
+			{
+				// Tell user that the object doesn't exist
+				// There is a valid action, do it and get the result
+				sendUserText(user, "You can't do that.  " + msg.getObject() + " is not in the room.");
+			}
+			break;
+			
+		default:
+			
+		}
+		
+		return retVal;
+	}
+	
+	private static void sendUserText(UserConnectionThread user, String strMsg)
+	{
+		ClientShowTextMessage clMsg = new ClientShowTextMessage("server", strMsg);
+		user.processGameServerCommand(clMsg);
 	}
 }
