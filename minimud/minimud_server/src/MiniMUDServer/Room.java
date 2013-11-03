@@ -24,6 +24,7 @@ public class Room
 	private HashMap<String, Move> m_moves = new HashMap<String, Move>();
 	private HashMap<String, UserConnectionThread> m_users = new HashMap<String, UserConnectionThread>();
 	private HashMap<String, NPC> m_npcs = new HashMap<String, NPC>();
+	private HashMap<String, GameObject> m_objects = new HashMap<String, GameObject>();
 	
 	public void setID(int nID)
 	{
@@ -127,6 +128,21 @@ public class Room
 			npc = m_npcs.get(strName);
 		
 		return npc;
+	}
+	
+	public void addObject(GameObject obj)
+	{
+		m_objects.put(obj.getName(), obj);
+	}
+	
+	public GameObject getObject(String strObject)
+	{
+		GameObject obj = null;
+				
+		if(m_objects.containsKey(strObject))	
+			obj = m_objects.get(strObject);
+		
+		return obj;
 	}
 	
 	public boolean isValid()

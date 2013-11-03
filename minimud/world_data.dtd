@@ -1,7 +1,7 @@
 
 <!ELEMENT minimud_world (room+)>
 
-<!ELEMENT room (id, name, description, move+, npc+, object+ ) >
+<!ELEMENT room (id, name, description, move+, npc*, object* ) >
 
 <!ELEMENT id (#PCDATA)>
 <!ELEMENT item_id (#PCDATA)>

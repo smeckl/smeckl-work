@@ -256,14 +256,14 @@ public class DatabaseConnector
 	}
 	
 	// Retrieves list of Actions.  Return value is null if there is an error.
-	public ResultSet getActionsForNPC(NPC npc)
+	public ResultSet getActionsForObject(GameObject obj)
 	{
 		ResultSet results = null;
 		
 		try
 		{
 			PreparedStatement pstmt = getConnection().prepareStatement("select * from actions where parent = ?");
-			pstmt.setInt(1, npc.getID());
+			pstmt.setInt(1, obj.getID());
 			
 			results = pstmt.executeQuery();
 			

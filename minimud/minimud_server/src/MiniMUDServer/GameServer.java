@@ -76,6 +76,14 @@ public class GameServer
 						break;
 					}
 					
+					retVal = loadObjectsIntoRoom(newRoom);
+					
+					if(ErrorCode.Success != retVal)
+					{
+						m_logger.severe("Failed to load Objects into room object.");
+						break;
+					}
+					
 					// Add the room to the 
 					m_Rooms.put(new Integer(newRoom.getID()), newRoom);
 					
@@ -157,7 +165,7 @@ public class GameServer
 				newNPC.setDescription(npcs.getString("description"));
 				newNPC.setIntro(npcs.getString("intro"));
 				
-				retVal = loadActionsIntoNPC(newNPC);
+				retVal = loadActionsIntoObject(newNPC);
 				
 				if(ErrorCode.Success != retVal)
 				{
@@ -181,14 +189,56 @@ public class GameServer
 		return retVal;
 	}
 	
-	private ErrorCode loadActionsIntoNPC(NPC npc)
+	private ErrorCode loadObjectsIntoRoom(Room room)
 	{
 		ErrorCode retVal = ErrorCode.Success;
 		
 		try
 		{
 			// Now, load all of the NPCs for the room
-			ResultSet actions = m_dbConn.getActionsForNPC(npc);
+			ResultSet objects = m_dbConn.getObjectsForRoom(room.getID());
+			
+			while(null != objects && objects.next())
+			{
+				GameObject obj = new GameObject();
+				
+				obj.setID(objects.getInt("id"));
+				obj.setRoomID(objects.getInt("room"));
+				obj.setName(objects.getString("name"));
+				obj.setDescription(objects.getString("description"));
+				
+				retVal = loadActionsIntoObject(obj);
+				
+				if(ErrorCode.Success != retVal)
+				{
+					m_logger.severe("Failed to load Actions into Game object.");
+					break;
+				}
+				
+				// Only add the move if it is valid
+				if(obj.isValid())
+				{
+					room.addObject(obj);													
+				}
+			}
+		}
+		catch(Exception e)
+		{
+			retVal = ErrorCode.Exception;		
+			m_logger.severe("Exception caught in GameServer.loadObjectsIntoRoom()");
+		}
+		
+		return retVal;
+	}
+	
+	private ErrorCode loadActionsIntoObject(GameObject obj)
+	{
+		ErrorCode retVal = ErrorCode.Success;
+		
+		try
+		{
+			// Now, load all of the NPCs for the room
+			ResultSet actions = m_dbConn.getActionsForObject(obj);
 			
 			while(null != actions && actions.next())
 			{
@@ -201,18 +251,19 @@ public class GameServer
 				// Only add the move if it is valid
 				if(action.isValid())
 				{
-					npc.addAction(action);													
+					obj.addAction(action);													
 				}
 				else
 				{
 					retVal = ErrorCode.ObjectCreationFailed;
+					m_logger.severe("FAILED to load Action into object.");
 				}
 			}
 		}
 		catch(Exception e)
 		{
 			retVal = ErrorCode.Exception;		
-			m_logger.severe("Exception caught in GameServer.loadNPCsIntoRoom()");
+			m_logger.severe("Exception caught in GameServer.loadActionsIntoObject()");
 		}
 		
 		return retVal;
@@ -357,9 +408,15 @@ public class GameServer
 		switch(msg.getAction())
 		{
 		case Look:
-			// Display the user's current room
-			user.displayCurrentRoom();
-			break;
+			if(msg.getObject().isEmpty())
+			{
+				// Display the user's current room
+				user.displayCurrentRoom();
+				break;
+			}
+
+		// If the Look action is aimed at an object or NPC, then
+		// We want to fall through to the next case.
 			
 		case Talk:	
 		case Punch:	
@@ -372,35 +429,51 @@ public class GameServer
 			
 			// See if there is a valid NPC in the room
 			NPC npc = room.getNPC(msg.getObject());
+			GameObject obj = null;
 			
-			if(null != npc)
+			if(null == npc)
 			{
-				// Check to see if this NPC has an action matching the name
-				Action action = npc.getAction(msg.getActionString());
-				
-				if(null != action)
+				obj = room.getObject(msg.getObject());
+			}
+			else
+				obj = npc;
+			
+			if(null != obj)
+			{
+				// If this is a Look message, then show the objects description
+				if(PlayerActionMessage.Action.Look == msg.getAction())
 				{
-					// There is a valid action, do it and get the result
-					
-					// Look up the ActionResult from the database
-					ActionResult result = m_dbConn.getActionResult(action.getID(), action.getResultID());
-					
-					if(null != result)
-					{
-						sendUserText(user, result.getDescription());
-						
-						// TODO:  Need to handle action types other than text_only
-					}
-					else
-					{
-						// There is no valid result.  Tell the user.
-						sendUserText(user, "Your action yields no result.");
-					}
+					sendUserText(user, "You see " + obj.getDescription());
 				}
 				else
 				{
-					// There is no valid action, do it and get the result
-					sendUserText(user, "You can't " + msg.getActionString() + " the NPC.");
+					// Check to see if this NPC has an action matching the name
+					Action action = obj.getAction(msg.getActionString());
+					
+					if(null != action)
+					{
+						// There is a valid action, do it and get the result
+						
+						// Look up the ActionResult from the database
+						ActionResult result = m_dbConn.getActionResult(action.getID(), action.getResultID());
+						
+						if(null != result)
+						{
+							sendUserText(user, result.getDescription());
+							
+							// TODO:  Need to handle action types other than text_only
+						}
+						else
+						{
+							// There is no valid result.  Tell the user.
+							sendUserText(user, "Your action yields no result.");
+						}
+					}
+					else
+					{
+						// There is no valid action, do it and get the result
+						sendUserText(user, "You can't " + msg.getActionString() + " " + msg.getObject());
+					}
 				}
 			}	
 			else

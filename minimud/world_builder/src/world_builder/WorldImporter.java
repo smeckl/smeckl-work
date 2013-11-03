@@ -39,6 +39,10 @@ public class WorldImporter
 	private String m_strDataFile;
 	private DatabaseConnector m_dbConn;
 	
+	private int m_nNextObjectId = 1; // Includes NPCs and Items
+	private int m_nNextActionId = 1;
+	private int m_nNextResultId = 1;
+	
 	public WorldImporter(String strDataFile, DatabaseConnector dbConn)
 	{
 		setDataFile(strDataFile);
@@ -358,13 +362,12 @@ public class WorldImporter
 		
 		RegularExpressions regEx = new RegularExpressions();
 		
-		int nNpcID = 0;
+		int nNpcID = m_nNextObjectId;
 		String strName = "";
 		String strDescription = "";
 		String strIntro = "";
 		
 		boolean bSavedNPC = false;
-		boolean bNpcID = false;
 		boolean bName = false;
 		boolean bDescription = false;
 		boolean bIntro = false;
@@ -385,21 +388,7 @@ public class WorldImporter
 					
 					String nodeName = node.getNodeName();
 					
-					// If this is an <id> element, then validate and add to Room object
-					if(0 == nodeName.compareTo(XMLNames.ID))
-					{
-						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ID))
-						{
-							nNpcID = Integer.parseInt(content);
-							bNpcID = true;
-						}
-						else
-						{
-							retVal = ErrorCode.INVALID_ID;
-							System.out.println("Invalid ID specified.");
-						}
-					}
-					else if(0 == nodeName.compareTo(XMLNames.NAME))
+					if(0 == nodeName.compareTo(XMLNames.NAME))
 					{
 						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.NAME))
 						{
@@ -450,10 +439,13 @@ public class WorldImporter
 				}
 			}
 			
-			if(!bSavedNPC && bNpcID && bName && bDescription && bIntro && bActions)
+			if(!bSavedNPC && bName && bDescription && bIntro && bActions)
 			{
 				getDBconn().addNPC(nRoomID, nNpcID, strName, strDescription, strIntro);
 				bSavedNPC = true;
+				
+				//Increment NPC ID
+				m_nNextObjectId++;
 			}
 			
 			if(!bSavedNPC)
@@ -477,14 +469,14 @@ public class WorldImporter
 		
 		RegularExpressions regEx = new RegularExpressions();
 		
-		int nObjectID = 0;
+		int nObjectID = m_nNextObjectId;
 		String strName = "";
 		String strDescription = "";
 		
 		boolean bSavedObject= false;
-		boolean bObjectID = false;
 		boolean bName = false;
 		boolean bDescription = false;
+		boolean bActions = false;
 		
 		try
 		{
@@ -501,21 +493,7 @@ public class WorldImporter
 					
 					String nodeName = node.getNodeName();
 					
-					// If this is an <id> element, then validate and add to Room object
-					if(!bSavedObject && 0 == nodeName.compareTo(XMLNames.ID))
-					{
-						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ID))
-						{
-							nObjectID = Integer.parseInt(content);
-							bObjectID = true;
-						}
-						else
-						{
-							retVal = ErrorCode.INVALID_ID;
-							System.out.println("Invalid ID specified.");
-						}
-					}
-					else if(!bSavedObject && 0 == nodeName.compareTo(XMLNames.NAME))
+					if(!bSavedObject && 0 == nodeName.compareTo(XMLNames.NAME))
 					{
 						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.NAME))
 						{
@@ -541,11 +519,23 @@ public class WorldImporter
 							System.out.println("Invalid description specified.");
 						}
 					}
+					else if(0 == nodeName.compareTo(XMLNames.ACTION))
+					{
+						retVal = processAction(nObjectID, node);
+						
+						if(ErrorCode.Success == retVal)
+							bActions = true;
+						else
+							System.out.println("Invalid action specified.");
+					}
 				}
-				if(!bSavedObject && bObjectID && bName && bDescription)
+				if(!bSavedObject && bName && bDescription && bActions)
 				{
 					getDBconn().addObject(nRoomID, nObjectID, strName, strDescription);
 					bSavedObject = true;
+					
+					//Increment Object ID
+					m_nNextObjectId++;
 				}
 			}
 			
@@ -570,12 +560,11 @@ public class WorldImporter
 		
 		RegularExpressions regEx = new RegularExpressions();
 		
-		int nID = 0;
+		int nID = m_nNextActionId;
 		String strName = "";
 		int nResult = 0;
 		
 		boolean bSavedAction = false;
-		boolean bID = false;
 		boolean bName = false;
 		boolean bResult = false;
 		
@@ -594,21 +583,7 @@ public class WorldImporter
 					
 					String nodeName = node.getNodeName();
 					
-					// If this is an <id> element, then validate and add to Room object
-					if(!bSavedAction && 0 == nodeName.compareTo(XMLNames.ID))
-					{
-						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ID))
-						{
-							nID = Integer.parseInt(content);
-							bID = true;
-						}
-						else
-						{
-							retVal = ErrorCode.INVALID_ID;
-							System.out.println("Invalid ID specified.");
-						}
-					}
-					else if(!bSavedAction && 0 == nodeName.compareTo(XMLNames.NAME))
+					if(!bSavedAction && 0 == nodeName.compareTo(XMLNames.NAME))
 					{
 						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ACTION_TYPE))
 						{
@@ -631,10 +606,13 @@ public class WorldImporter
 							System.out.println("Invalid result specified.");
 					}
 				}
-				if(!bSavedAction && bID && bName && bResult)
+				if(!bSavedAction && bName && bResult)
 				{
 					getDBconn().addAction(nParentID, nID, strName, nResult);
 					bSavedAction = true;
+					
+					//Increment Action ID
+					m_nNextActionId++;
 				}
 			}
 			
@@ -659,14 +637,13 @@ public class WorldImporter
 		
 		RegularExpressions regEx = new RegularExpressions();
 		
-		int nID = 0;
+		int nID = m_nNextResultId;
 		String strType = "";
 		String strDescription = "";
 		int nItemID = 0;
 		int nValue = 0;
 		
 		boolean bSavedActionResult = false;
-		boolean bID = false;
 		boolean bType = false;
 		boolean bDescription = false;
 		boolean bItemID = false;
@@ -687,20 +664,7 @@ public class WorldImporter
 					
 					String nodeName = node.getNodeName();
 					
-					// If this is an <id> element, then validate and add to Room object
-					if(!bSavedActionResult && 0 == nodeName.compareTo(XMLNames.ID))
-					{
-						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ID))
-						{
-							nID = Integer.parseInt(content);
-							bID = true;
-						}
-						else
-						{
-							System.out.println("Invalid ID specified.");
-						}
-					}
-					else if(!bSavedActionResult && 0 == nodeName.compareTo(XMLNames.TYPE))
+					if(!bSavedActionResult && 0 == nodeName.compareTo(XMLNames.TYPE))
 					{
 						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.RESULT_TYPE))
 						{
@@ -752,12 +716,15 @@ public class WorldImporter
 			}
 			
 			// ItemID and Value are optional elements
-			if(!bSavedActionResult && bID && bType && bDescription)
+			if(!bSavedActionResult && bType && bDescription)
 			{
 				getDBconn().addActionResult(nParentID, nID, strType, strDescription, nItemID, nValue);
 				bSavedActionResult = true;
 				
 				retVal = nID;
+				
+				// Increment Result ID
+				m_nNextResultId++;
 			}
 			
 			if(!bSavedActionResult)

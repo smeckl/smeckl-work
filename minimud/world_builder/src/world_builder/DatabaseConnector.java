@@ -294,8 +294,8 @@ public class DatabaseConnector
 			System.out.println("Adding new Object");
 			
 			PreparedStatement pstmt = getConnection().prepareStatement("insert into objects values(?, ?, ?, ?)");
-			pstmt.setInt(1, nRoomID);
-			pstmt.setInt(2,  nID);
+			pstmt.setInt(1, nID);
+			pstmt.setInt(2,  nRoomID);
 			pstmt.setString(3, strName);
 			pstmt.setString(4, strDescription);
 
