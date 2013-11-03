@@ -13,12 +13,13 @@
 <!ELEMENT direction (#PCDATA)>
 <!ELEMENT next_room_id (#PCDATA)>
 
-<!ELEMENT object (id, name, detail, action*)>
-<!ELEMENT npc (id, name, description, intro, action*)>
-<!ELEMENT action (id, result)>
+<!ELEMENT object (name, description, action*)>
+<!ELEMENT npc (name, description, intro, action*)>
+<!ELEMENT action (name, result)>
 
 <!ELEMENT intro (#PCDATA)>
 <!ELEMENT detail (#PCDATA)>
+<!ELEMENT type (#PCDATA)>
 
-<!ELEMENT result (id, type, description, item_id?, value?)>
+<!ELEMENT result (type, description, item_id?, value?)>
 
