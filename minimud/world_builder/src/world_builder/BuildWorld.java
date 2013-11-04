@@ -126,6 +126,9 @@ public class BuildWorld
 						"pwd_salt VARBINARY(16) NOT NULL, created DATE NOT NULL, description VARCHAR(1000), xp INT, gold INT, " +
 						"health INT, PRIMARY KEY ( username ));");
 				
+				m_dbConn.addTable("CREATE TABLE inventory (ItemID INT NOT NULL, username VARCHAR(32) NOT NULL," +
+									" PRIMARY KEY ( ItemID, username));");
+				
 				// Import world data from XML files
 				WorldImporter worldImp = new WorldImporter(strDataFile, m_dbConn);
 				

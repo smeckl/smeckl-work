@@ -11,7 +11,9 @@ public class PlayerActionMessage extends Message
 		Stab,
 		Slash,
 		Push,
-		Shoot
+		Shoot,
+		Take,
+		Drop
 	}
 	
 	private Action m_action;
@@ -81,6 +83,14 @@ public class PlayerActionMessage extends Message
 			
 		case Shoot:
 			strOut = "shoot";
+			break;
+		
+		case Take:
+			strOut = "take";
+			break;
+			
+		case Drop:
+			strOut = "drop";
 			break;
 		}
 		

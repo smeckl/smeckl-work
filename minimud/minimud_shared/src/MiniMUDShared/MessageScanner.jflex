@@ -67,6 +67,8 @@ stab			{yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.S
 slash			{yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.SLASH;}
 push			{yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.PUSH;}
 shoot			{yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.SHOOT;}
+take			{yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.TAKE;}
+drop			{yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.DROP;}
 
 \,		{return (int)yycharat(0);}
 \=		{return (int)yycharat(0);}

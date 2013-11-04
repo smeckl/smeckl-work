@@ -316,4 +316,35 @@ public class DatabaseConnector
 		
 		return retVal;
 	}
+	
+	public ErrorCode addItem(int nID, String strName, String strDescription)
+	{
+		ErrorCode retVal = ErrorCode.Success;
+		
+		try
+		{
+			System.out.println("Adding new Item");
+			
+			PreparedStatement pstmt = getConnection().prepareStatement("insert into items values(?, ?, ?)");
+			pstmt.setInt(1, nID);
+			pstmt.setString(2, strName);
+			pstmt.setString(3, strDescription);
+
+			
+			if(0 == pstmt.executeUpdate())
+			{
+				retVal = ErrorCode.InsertFailed;
+				System.out.println("Failed to insert Item.");
+			}
+			else
+				System.out.println("Item creation successful.");
+		}
+		catch(Exception e)
+		{
+			System.out.println("Exception in DatabaseConnector.addItem() " + e);
+			retVal = ErrorCode.Exception;
+		}
+		
+		return retVal;
+	}
 }

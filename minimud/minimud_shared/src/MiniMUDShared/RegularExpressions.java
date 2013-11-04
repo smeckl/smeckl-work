@@ -34,7 +34,7 @@ public class RegularExpressions
 		m_regExMap.put(RegExID.NAME, "^[a-zA-Z ]{1,50}$");
 		m_regExMap.put(RegExID.DIRECTION, "^(north|south|east|west|northeast|northwest|southeast|southwest|up|down)$");
 		m_regExMap.put(RegExID.NPCTEXT, "^[a-zA-Z0-9\\-\\.\\,\\:\\?\\!\\'\\\"\\$\\\\ ]{1,1000}$");
-		m_regExMap.put(RegExID.ACTION_TYPE, "^(talk|kick|punch|stab|slash|push|shoot)$");
+		m_regExMap.put(RegExID.ACTION_TYPE, "^(talk|kick|punch|stab|slash|push|shoot|take)$");
 		m_regExMap.put(RegExID.RESULT_TYPE, "^(text_only|xp_reward|gold_reward|item_reward)$");
 	}
 	

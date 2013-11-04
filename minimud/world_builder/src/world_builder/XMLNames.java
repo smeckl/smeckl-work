@@ -21,4 +21,5 @@ public class XMLNames
 	public static String NPC			= "npc";
 	public static String ACTION_RESULTS	= "action_results";
 	public static String PARENT			= "parent";
+	public static String ITEM			= "item";
 }

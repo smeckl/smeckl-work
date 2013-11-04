@@ -6,7 +6,7 @@ import java.io.*;
 %token LOGON_SUCCESS LOGON_FAILED INVALID QUIT EXIT LOGOUT TELL SAY SHOUT WHISPER 
 %token GO_NORTH GO_SOUTH GO_EAST GO_WEST GO_NORTHEAST GO_NORTHWEST GO_SOUTHEAST GO_SOUTHWEST GO_UP GO_DOWN
 %token CHARNAME CHARLITERAL STRINGLITERAL INT LOOK
-%token KICK PUNCH TALK STAB PUSH SLASH SHOOT
+%token KICK PUNCH TALK STAB PUSH SLASH SHOOT TAKE DROP
 %%
 
 message:
@@ -189,6 +189,14 @@ action_message:
 | TALK CHARNAME
 	{
 		$$ = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Talk, $2.sval));
+	}
+| TAKE CHARNAME
+	{
+		$$ = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Take, $2.sval));
+	}
+| DROP CHARNAME
+	{
+		$$ = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Drop, $2.sval));
 	}
 | PUNCH CHARNAME
 	{

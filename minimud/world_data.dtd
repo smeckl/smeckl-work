@@ -1,5 +1,5 @@
 
-<!ELEMENT minimud_world (room+)>
+<!ELEMENT minimud_world (room+, item+)>
 
 <!ELEMENT room (id, name, description, move+, npc*, object* ) >
 
@@ -15,6 +15,7 @@
 
 <!ELEMENT object (name, description, action*)>
 <!ELEMENT npc (name, description, intro, action*)>
+<!ELEMENT item (id, name, description)>
 <!ELEMENT action (name, result)>
 
 <!ELEMENT intro (#PCDATA)>

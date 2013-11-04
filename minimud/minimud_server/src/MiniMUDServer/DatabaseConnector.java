@@ -310,4 +310,83 @@ public class DatabaseConnector
 		
 		return actionRes;
 	}
+	
+	// Retrieves an item.  Return value is null if there is an error.
+	public Item getItem(int nID)
+	{
+		Item item = null;
+		
+		try
+		{
+			PreparedStatement pstmt = getConnection().prepareStatement("select * from items where ID = ?");
+			pstmt.setInt(1, nID);
+			
+			ResultSet results = pstmt.executeQuery();
+			
+			if(null != results && results.next())
+			{
+				item = new Item();
+				
+				item.setID(results.getInt("ID"));
+				item.setName(results.getString("name"));
+				item.setDescription(results.getString("description"));
+			}
+			
+		}
+		catch(Exception e)
+		{
+			m_logger.severe("Exception in DatabaseConnector::getActionResult() " + e);
+			item = null;
+		}
+		
+		return item;
+	}
+	
+	// Retrieves list of Items for a user.  Return value is null if there is an error.
+	public ResultSet getItemsForUser(String strUser)
+	{
+		ResultSet results = null;
+		
+		try
+		{
+			PreparedStatement pstmt = getConnection().prepareStatement("select * from inventory where username = ?");
+			pstmt.setString(1, strUser);
+			
+			results = pstmt.executeQuery();
+		}
+		catch(Exception e)
+		{
+			m_logger.severe("Exception in DatabaseConnector::getItemsForUser() " + e);
+			results = null;
+		}
+		
+		return results;
+	}
+	
+	public ErrorCode addItemToInventory(int nID, String strUserName)
+	{
+		ErrorCode retVal = ErrorCode.Success;
+		
+		try
+		{			
+			PreparedStatement pstmt = getConnection().prepareStatement("insert into inventory values(?, ?)");
+			pstmt.setInt(1, nID);
+			pstmt.setString(2, strUserName);
+			
+			if(0 == pstmt.executeUpdate())
+			{
+				retVal = ErrorCode.InsertFailed;
+				m_logger.severe("Failed to insert item into inventory.");
+			}
+			else
+				m_logger.info("Item " + nID + "added to the inventory of " + strUserName + ".");
+		}
+		catch(Exception e)
+		{
+			m_logger.severe("Exception in DatabaseConnector.addRoom() " + e);
+			retVal = ErrorCode.Exception;
+		}
+		
+		return retVal;
+	}
 }

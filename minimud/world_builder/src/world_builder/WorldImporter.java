@@ -42,6 +42,7 @@ public class WorldImporter
 	private int m_nNextObjectId = 1; // Includes NPCs and Items
 	private int m_nNextActionId = 1;
 	private int m_nNextResultId = 1;
+	private int m_nNextItemId = 1;
 	
 	public WorldImporter(String strDataFile, DatabaseConnector dbConn)
 	{
@@ -117,6 +118,11 @@ public class WorldImporter
 					{
 						// Process Room node
 						retVal = processRoomElement(room);
+					}
+					else if(0 == strNodeName.compareTo(XMLNames.ITEM))
+					{
+						// Process item element
+						retVal = processItemElement(room);
 					}
 				}
 				
@@ -261,6 +267,99 @@ public class WorldImporter
 		}
 		
 		return retVal;
+	}
+	
+	private ErrorCode processItemElement(Node item)
+	{
+		ErrorCode retVal = ErrorCode.Success;
+		
+		RegularExpressions regEx = new RegularExpressions();
+		
+		int nID = 0;
+		String strName = "";
+		String strDescription = "";
+		
+		boolean bSavedItem = false;
+		boolean bID = false;
+		boolean bName = false;
+		boolean bDescription = false;
+		
+		try
+		{
+			NodeList nodes = item.getChildNodes();
+			
+			for(int i = 0; i < nodes.getLength(); i++)
+			{
+				Node node = nodes.item(i);
+				
+				// Make sure this is an element
+				if (node instanceof Element)
+				{
+					String content = node.getLastChild().getTextContent().trim();
+					
+					String nodeName = node.getNodeName();
+					
+					// If this is an <id> element, then validate and add to item object
+					if(!bSavedItem && 0 == nodeName.compareTo(XMLNames.ID))
+					{
+						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ID))
+						{
+							nID = Integer.parseInt(content);
+							bID = true;
+						}
+						else
+						{
+							retVal = ErrorCode.INVALID_ID;
+							System.out.println("Invalid ID specified.");
+						}
+					}
+					else if(!bSavedItem && 0 == nodeName.compareTo(XMLNames.NAME))
+					{
+						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.NAME))
+						{
+							strName = content;
+							bName = true;
+						}
+						else
+						{
+							retVal = ErrorCode.INVALID_NAME;
+							System.out.println("Invalid name specified.");
+						}
+					}
+					else if(!bSavedItem && 0 == nodeName.compareTo(XMLNames.DESCRIPTION))
+					{
+						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.DESCRIPTION))
+						{
+							strDescription = content;
+							bDescription = true;
+						}
+						else
+						{
+							retVal = ErrorCode.INVALID_DESCRIPTION;
+							System.out.println("Invalid description specified.");
+						}
+					}
+				}
+				if(!bSavedItem && bName && bDescription && bID)
+				{
+					getDBconn().addItem(nID, strName, strDescription);
+					bSavedItem = true;
+				}
+			}
+			
+			if(!bSavedItem)
+			{
+				retVal = ErrorCode.INVALID_OBJECT;
+				System.out.println("FAILED to import object element.");
+			}
+		}
+		catch(Exception e)
+		{
+			System.out.println("Exception in WorldImporter.processNPC(): " + e);
+			retVal = ErrorCode.Exception;
+		}
+		
+		return retVal;	
 	}
 	
 	private ErrorCode processMove(int nID, Node move)
@@ -606,14 +705,15 @@ public class WorldImporter
 							System.out.println("Invalid result specified.");
 					}
 				}
-				if(!bSavedAction && bName && bResult)
-				{
-					getDBconn().addAction(nParentID, nID, strName, nResult);
-					bSavedAction = true;
-					
-					//Increment Action ID
-					m_nNextActionId++;
-				}
+			}
+			
+			if(!bSavedAction && bName && bResult)
+			{
+				getDBconn().addAction(nParentID, nID, strName, nResult);
+				bSavedAction = true;
+				
+				//Increment Action ID
+				m_nNextActionId++;
 			}
 			
 			if(!bSavedAction)

@@ -45,6 +45,14 @@
 					<description>You push the lantern and it falls over.</description>
 				</result>
 			</action>
+			<action>
+				<name>take</name>
+				<result>
+					<type>item_reward</type>
+					<description>You take the lantern and add it to your inventory</description>
+					<item_id>1</item_id>
+				</result>
+			</action>
 		</object>
 	</room>
 
@@ -69,4 +77,9 @@
 			<description>Tavern door</description>
 		</move>			
 	</room>
+	<item>
+		<id>1</id>
+		<name>lantern</name>
+		<description>a lantern.  It's a bit rusty, but it still works.</description>
+	</item>
 </minimud_world>

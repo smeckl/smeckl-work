@@ -4,13 +4,15 @@ import java.util.HashMap;
 
 import MiniMUDShared.RegularExpressions;
 
-public class Action
+public class Item 
 {
-	private int m_nID = 0;;
+	private int m_nID = 0;
 	private String m_strName = "";
-	private int m_nResultID = 0;
+	private String m_strDescription = "";
+
 	
 	private RegularExpressions m_regEx = new RegularExpressions();
+	private HashMap<String, Action> m_actions = new HashMap<String, Action>();
 	
 	public void setID(int nID)
 	{
@@ -50,33 +52,28 @@ public class Action
 	{
 		boolean bRet = false;
 		
-		bRet = (m_regEx.stringMatchesRegEx(strName, RegularExpressions.RegExID.ACTION_TYPE));
+		bRet = m_regEx.stringMatchesRegEx(strName, RegularExpressions.RegExID.NAME);
 		
 		return bRet;
 	}
 	
-	public void setResult(int nResultID)
+	public void setDescription(String strDescription)
 	{
-		m_nResultID = nResultID;
+		m_strDescription = strDescription;
 	}
 	
-	public int getResultID()
+	public String getDescription()
 	{
-		return m_nResultID;
+		return m_strDescription;
 	}
 	
-	public boolean isValidResultID(String strResultID)
+	public boolean isValidDescription(String strDescription)
 	{
 		boolean bRet = false;
 		
-		bRet = m_regEx.stringMatchesRegEx(strResultID, RegularExpressions.RegExID.ID);
+		bRet = m_regEx.stringMatchesRegEx(strDescription, RegularExpressions.RegExID.DESCRIPTION);
 		
 		return bRet;
-	}
-	
-	public boolean isValidResultID(int nID)
-	{
-		return (getID() > 0 && getID() < 100);
 	}
 	
 	public boolean isValid()
@@ -85,11 +82,31 @@ public class Action
 		
 		if(isValidID(getID())
 				&& isValidName(getName())
-				&& isValidResultID(getResultID()))
+				&& isValidDescription(getDescription()))
 		{
 			bValid = true;
 		}
 		
 		return bValid;
+	}
+	
+	public void addAction(Action action)
+	{
+		m_actions.put(action.getName(), action);
+	}
+	
+	public Action getAction(String strName)
+	{
+		Action ret = null;
+		
+		if(m_actions.containsKey(strName))
+			ret = m_actions.get(strName);
+		
+		return ret;
+	}
+	
+	protected RegularExpressions getRegEx()
+	{
+		return m_regEx;
 	}
 }

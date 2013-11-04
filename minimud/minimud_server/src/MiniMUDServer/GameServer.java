@@ -425,6 +425,8 @@ public class GameServer
 		case Slash:	
 		case Push:
 		case Shoot:
+		case Take:
+		{
 			Room room = user.getCurrentRoom();
 			
 			// See if there is a valid NPC in the room
@@ -459,9 +461,42 @@ public class GameServer
 						
 						if(null != result)
 						{
-							sendUserText(user, result.getDescription());
-							
-							// TODO:  Need to handle action types other than text_only
+							if(0 == result.getType().compareTo("text_only"))
+							{
+								sendUserText(user, result.getDescription());
+							}
+							else if(0 == result.getType().compareTo("item_reward")
+									&& (obj instanceof GameObject))
+							{
+								int nItemID = result.getItemID();
+								
+								Item item = m_dbConn.getItem(nItemID);
+								
+								if(null != item)
+								{
+									// Add the item to the user's inventory
+									m_dbConn.addItemToInventory(nItemID, user.getUserInfo().getUserName());
+									
+									sendUserText(user, "The " + item.getName() + " has been added to your inventory.");
+								}
+								else
+								{
+									m_logger.severe("Item " + nItemID + " coudld not be found.");
+									sendUserText(user, "Invalid command.");
+								}
+							}
+							else if(0 == result.getType().compareTo("xp_reward"))
+							{
+								// TODO:  Add XP to the user
+								sendUserText(user, "Congratulations.  You have earned " + result.getValue()
+											+ " XP!");
+							}
+							else if(0 == result.getType().compareTo("gold_reward"))
+							{
+								// TODO:  Add gold to user
+								sendUserText(user, "Congratulations.  You have earned " + result.getValue()
+										+ " gold pieces!");
+							}
 						}
 						else
 						{
@@ -483,7 +518,7 @@ public class GameServer
 				sendUserText(user, "You can't do that.  " + msg.getObject() + " is not in the room.");
 			}
 			break;
-			
+		}
 		default:
 			
 		}
