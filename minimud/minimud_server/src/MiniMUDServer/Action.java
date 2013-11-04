@@ -1,7 +1,5 @@
 package MiniMUDServer;
 
-import java.util.HashMap;
-
 import MiniMUDShared.RegularExpressions;
 
 public class Action
@@ -9,6 +7,8 @@ public class Action
 	private int m_nID = 0;;
 	private String m_strName = "";
 	private int m_nResultID = 0;
+	private int m_nQuestDependencyID = 0;
+	private int m_nQuestDependencyStep = 0;
 	
 	private RegularExpressions m_regEx = new RegularExpressions();
 	
@@ -79,13 +79,63 @@ public class Action
 		return (getID() > 0 && getID() < 100);
 	}
 	
+	public void setQuestDependencyID(int nQuestDependencyID)
+	{
+		m_nQuestDependencyID = nQuestDependencyID;
+	}
+	
+	public int getQuestDependencyID()
+	{
+		return m_nQuestDependencyID;
+	}
+	
+	public boolean isValidQuestDependencyID(String strQuestDependencyID)
+	{
+		boolean bRet = false;
+		
+		bRet = m_regEx.stringMatchesRegEx(strQuestDependencyID, RegularExpressions.RegExID.ID);
+		
+		return bRet;
+	}
+	
+	public boolean isValidQuestDependencyID(int nQuestDependencyID)
+	{
+		return (getQuestDependencyID() >= 0 && getQuestDependencyID() < 100);
+	}
+	
+	public void setQuestDependencyStep(int nQuestDependencyStep)
+	{
+		m_nQuestDependencyStep = nQuestDependencyStep;
+	}
+	
+	public int getQuestDependencyStep()
+	{
+		return m_nQuestDependencyStep;
+	}
+	
+	public boolean isValidQuestDependencyStep(String strQuestDependencyStep)
+	{
+		boolean bRet = false;
+		
+		bRet = m_regEx.stringMatchesRegEx(strQuestDependencyStep, RegularExpressions.RegExID.ID);
+		
+		return bRet;
+	}
+	
+	public boolean isValidQuestDependencyStep(int nQuestDependencyStep)
+	{
+		return (getQuestDependencyID() >= 0 && getQuestDependencyID() < 100);
+	}
+	
 	public boolean isValid()
 	{
 		boolean bValid = false;
 		
 		if(isValidID(getID())
 				&& isValidName(getName())
-				&& isValidResultID(getResultID()))
+				&& isValidResultID(getResultID())
+				&& isValidQuestDependencyID(getQuestDependencyID())
+				&& isValidQuestDependencyStep(getQuestDependencyStep()))
 		{
 			bValid = true;
 		}

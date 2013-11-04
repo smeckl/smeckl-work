@@ -1,5 +1,6 @@
 package MiniMUDServer;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import MiniMUDShared.*;
@@ -247,6 +248,8 @@ public class GameServer
 				action.setID(actions.getInt("ID"));
 				action.setName(actions.getString("name"));
 				action.setResult(actions.getInt("result"));
+				action.setQuestDependencyID(actions.getInt("quest_dependency_id"));
+				action.setQuestDependencyStep(actions.getInt("quest_dependency_step"));
 				
 				// Only add the move if it is valid
 				if(action.isValid())
@@ -426,6 +429,7 @@ public class GameServer
 		case Push:
 		case Shoot:
 		case Take:
+		case Give:
 		{
 			Room room = user.getCurrentRoom();
 			
@@ -449,53 +453,70 @@ public class GameServer
 				}
 				else
 				{
-					// Check to see if this NPC has an action matching the name
-					Action action = obj.getAction(msg.getActionString());
+					// Check to see if this NPC has an action matching the name and 
+					// any quest dependencies
+					Action action = obj.getAction(m_dbConn, msg.getActionString(), user.getUserInfo().getUserName());
 					
 					if(null != action)
 					{
 						// There is a valid action, do it and get the result
 						
 						// Look up the ActionResult from the database
-						ActionResult result = m_dbConn.getActionResult(action.getID(), action.getResultID());
+						ArrayList<ActionResult> results = m_dbConn.getActionResults(action.getID(), action.getResultID());
 						
-						if(null != result)
+						if(null != results)
 						{
-							if(0 == result.getType().compareTo("text_only"))
+							for(int i = 0; i < results.size(); i++)
 							{
-								sendUserText(user, result.getDescription());
-							}
-							else if(0 == result.getType().compareTo("item_reward")
-									&& (obj instanceof GameObject))
-							{
-								int nItemID = result.getItemID();
+								ActionResult result = results.get(i);
 								
-								Item item = m_dbConn.getItem(nItemID);
-								
-								if(null != item)
+								if(0 == result.getType().compareTo("text_only"))
 								{
-									// Add the item to the user's inventory
-									m_dbConn.addItemToInventory(nItemID, user.getUserInfo().getUserName());
+									sendUserText(user, result.getDescription());
+								}
+								else if(0 == result.getType().compareTo("item_reward")
+										&& (obj instanceof GameObject))
+								{
+									int nItemID = result.getItemID();
 									
-									sendUserText(user, "The " + item.getName() + " has been added to your inventory.");
+									Item item = m_dbConn.getItem(nItemID);
+									
+									if(null != item)
+									{
+										// Add the item to the user's inventory
+										m_dbConn.addItemToInventory(nItemID, user.getUserInfo().getUserName());
+										
+										sendUserText(user, "The " + item.getName() + " has been added to your inventory.");
+									}
+									else
+									{
+										m_logger.severe("Item " + nItemID + " coudld not be found.");
+										sendUserText(user, "Invalid command.");
+									}
 								}
-								else
+								else if(0 == result.getType().compareTo("xp_reward"))
 								{
-									m_logger.severe("Item " + nItemID + " coudld not be found.");
-									sendUserText(user, "Invalid command.");
+									// TODO:  Add XP to the user
+									sendUserText(user, "Congratulations.  You have earned " + result.getValue()
+												+ " XP!");
 								}
-							}
-							else if(0 == result.getType().compareTo("xp_reward"))
-							{
-								// TODO:  Add XP to the user
-								sendUserText(user, "Congratulations.  You have earned " + result.getValue()
-											+ " XP!");
-							}
-							else if(0 == result.getType().compareTo("gold_reward"))
-							{
-								// TODO:  Add gold to user
-								sendUserText(user, "Congratulations.  You have earned " + result.getValue()
-										+ " gold pieces!");
+								else if(0 == result.getType().compareTo("gold_reward"))
+								{
+									// TODO:  Add gold to user
+									sendUserText(user, "Congratulations.  You have earned " + result.getValue()
+											+ " gold pieces!");
+								}
+								else if(0 == result.getType().compareTo("give_quest"))
+								{
+									int nQuestID = result.getValue();
+									
+									if(0 != nQuestID)
+									{
+										m_dbConn.addQuestToUser(nQuestID, user.getUserInfo().getUserName());
+										
+										sendUserText(user, result.getDescription());
+									}
+								}
 							}
 						}
 						else

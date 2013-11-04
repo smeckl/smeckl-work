@@ -172,55 +172,63 @@ move_message:
 action_message:
   LOOK
   	{
-  		$$ = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Look, ""));
+  		$$ = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Look, "", ""));
   	}
 | LOOK AT CHARNAME
 	{
-  		$$ = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Look, $3.sval));
+  		$$ = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Look, $3.sval, ""));
   	}
 | LOOK CHARNAME
 	{
-  		$$ = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Look, $2.sval));
+  		$$ = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Look, $2.sval, ""));
   	}
 | TALK TO CHARNAME
 	{
-		$$ = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Talk, $3.sval));
+		$$ = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Talk, $3.sval, ""));
 	}
 | TALK CHARNAME
 	{
-		$$ = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Talk, $2.sval));
+		$$ = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Talk, $2.sval, ""));
+	}
+| GIVE CHARNAME TO CHARNAME
+	{
+		$$ = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Give, $4.sval, $2.sval));
+	}
+| GIVE CHARNAME CHARNAME
+	{
+		$$ = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Talk, $3.sval, $2.sval));
 	}
 | TAKE CHARNAME
 	{
-		$$ = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Take, $2.sval));
+		$$ = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Take, $2.sval, ""));
 	}
 | DROP CHARNAME
 	{
-		$$ = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Drop, $2.sval));
+		$$ = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Drop, $2.sval, ""));
 	}
 | PUNCH CHARNAME
 	{
-		$$ = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Punch, $2.sval));
+		$$ = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Punch, $2.sval, ""));
 	}
 | KICK CHARNAME
 	{
-		$$ = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Kick, $2.sval));
+		$$ = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Kick, $2.sval, ""));
 	}
 | STAB CHARNAME
 	{
-		$$ = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Stab, $2.sval));
+		$$ = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Stab, $2.sval, ""));
 	}
 | SLASH CHARNAME
 	{
-		$$ = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Slash, $2.sval));
+		$$ = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Slash, $2.sval, ""));
 	}
 | PUSH CHARNAME
 	{
-		$$ = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Push, $2.sval));
+		$$ = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Push, $2.sval, ""));
 	}
 | SHOOT CHARNAME
 	{
-		$$ = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Shoot, $2.sval));
+		$$ = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Shoot, $2.sval, ""));
 	}
 ;
 

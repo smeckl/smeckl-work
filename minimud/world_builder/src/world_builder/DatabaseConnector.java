@@ -233,9 +233,9 @@ public class DatabaseConnector
 			pstmt.setInt(1, nID);
 			pstmt.setInt(2, nParentID);
 			pstmt.setString(3,  strName);
-			pstmt.setInt(4, nDepID);
-			pstmt.setInt(5, nDepStep);
-			pstmt.setInt(6, nResult);
+			pstmt.setInt(4, nResult);
+			pstmt.setInt(5, nDepID);
+			pstmt.setInt(6, nDepStep);
 			
 			if(0 == pstmt.executeUpdate())
 			{

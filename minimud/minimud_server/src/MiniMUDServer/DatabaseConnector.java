@@ -1,5 +1,6 @@
 package MiniMUDServer;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class DatabaseConnector
@@ -278,37 +279,40 @@ public class DatabaseConnector
 	}
 	
 	// Retrieves the result of an action.  Return value is null if there is an error.
-	public ActionResult getActionResult(int parentID, int resultID)
+	public ArrayList<ActionResult> getActionResults(int parentID, int resultID)
 	{
-		ActionResult actionRes = null;
+		ArrayList<ActionResult> actionResults = new ArrayList<ActionResult>();
 		
 		try
 		{
-			PreparedStatement pstmt = getConnection().prepareStatement("select * from action_results where ID = ? and parent = ?");
+			PreparedStatement pstmt = getConnection().prepareStatement("select * from action_results where ID = ? " +
+																		"and parent = ?");
 			pstmt.setInt(1, resultID);
 			pstmt.setInt(2, parentID);
 			
 			ResultSet results = pstmt.executeQuery();
 			
-			if(null != results && results.next())
+			while(null != results && results.next())
 			{
-				actionRes = new ActionResult();
+				ActionResult actionRes = new ActionResult();
 				
 				actionRes.setID(results.getInt("ID"));
 				actionRes.setType(results.getString("type"));
 				actionRes.setDescription(results.getString("description"));
 				actionRes.setItemID(results.getInt("ItemID"));
 				actionRes.setValue(results.getInt("Value"));
+				
+				actionResults.add(actionRes);
 			}
 			
 		}
 		catch(Exception e)
 		{
-			m_logger.severe("Exception in DatabaseConnector::getActionResult() " + e);
-			actionRes = null;
+			m_logger.severe("Exception in DatabaseConnector::getActionResults() " + e);
+			actionResults = null;
 		}
 		
-		return actionRes;
+		return actionResults;
 	}
 	
 	// Retrieves an item.  Return value is null if there is an error.
@@ -383,10 +387,66 @@ public class DatabaseConnector
 		}
 		catch(Exception e)
 		{
-			m_logger.severe("Exception in DatabaseConnector.addRoom() " + e);
+			m_logger.severe("Exception in DatabaseConnector.addItemToInventory() " + e);
 			retVal = ErrorCode.Exception;
 		}
 		
 		return retVal;
+	}
+	
+	public ErrorCode addQuestToUser(int nQuestID, String strUserName)
+	{
+		ErrorCode retVal = ErrorCode.Success;
+		
+		try
+		{			
+			PreparedStatement pstmt = getConnection().prepareStatement("insert into quest_status values(?,?,?)");
+			pstmt.setString(1, strUserName);
+			pstmt.setInt(2, nQuestID);
+			pstmt.setInt(3, 1);
+			
+			if(0 == pstmt.executeUpdate())
+			{
+				retVal = ErrorCode.InsertFailed;
+				m_logger.severe("Failed to insert quest into quest_status.");
+			}
+			else
+				m_logger.info("Quest" + nQuestID + "added to the quest log of " + strUserName + ".");
+		}
+		catch(Exception e)
+		{
+			m_logger.severe("Exception in DatabaseConnector.addQuestToUser() " + e);
+			retVal = ErrorCode.Exception;
+		}
+		
+		return retVal;
+	}
+	
+	public boolean isUserOnQuestStep(String strUser, int nQuestID, int nQuestStep)
+	{
+		boolean bRet = false;
+		
+		try
+		{
+			PreparedStatement pstmt = getConnection().prepareStatement("select * from quest_status where " +
+																"username = ? && quest_id = ? and step = ?");
+			pstmt.setString(1, strUser);
+			pstmt.setInt(2, nQuestID);
+			pstmt.setInt(3, nQuestStep);
+			
+			ResultSet results = pstmt.executeQuery();
+			
+			if(null != results && results.next())
+			{
+				bRet = true;
+			}
+		}
+		catch(Exception e)
+		{
+			m_logger.severe("Exception in DatabaseConnector::isUserOnQuestStep() " + e);
+			bRet = false;
+		}
+		
+		return bRet;
 	}
 }

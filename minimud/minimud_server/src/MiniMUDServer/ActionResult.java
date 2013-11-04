@@ -1,7 +1,5 @@
 package MiniMUDServer;
 
-import java.util.HashMap;
-
 import MiniMUDShared.RegularExpressions;
 
 public class ActionResult
@@ -13,16 +11,6 @@ public class ActionResult
 	private int m_nValue = 0;
 	
 	private RegularExpressions m_regEx = new RegularExpressions();
-	
-	private HashMap<String,String> m_validTypes = new HashMap<String,String>();
-	
-	public ActionResult()
-	{
-		m_validTypes.put("text_only", "text_only");
-		m_validTypes.put("xp_reward", "xp_reward");
-		m_validTypes.put("gold_reward", "gold_reward");
-		m_validTypes.put("item_reward", "item_reward");
-	}
 	
 	public void setID(int nID)
 	{
@@ -62,8 +50,7 @@ public class ActionResult
 	{
 		boolean bRet = false;
 		
-		bRet = (m_regEx.stringMatchesRegEx(strType, RegularExpressions.RegExID.RESULT_TYPE)
-				&& m_validTypes.containsKey(strType));
+		bRet = (m_regEx.stringMatchesRegEx(strType, RegularExpressions.RegExID.RESULT_TYPE));
 		
 		return bRet;
 	}

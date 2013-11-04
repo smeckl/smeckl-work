@@ -13,18 +13,21 @@ public class PlayerActionMessage extends Message
 		Push,
 		Shoot,
 		Take,
-		Drop
+		Drop,
+		Give
 	}
 	
 	private Action m_action;
 	private String m_strObject;
+	private String m_strSubject;
 	
-	public PlayerActionMessage(Action action, String strObject)
+	public PlayerActionMessage(Action action, String strObject, String strSubject)
 	{
 		super(MessageID.ACTION);
 		
 		setAction(action);
 		setObject(strObject);
+		setSubject(strSubject);
 	}
 	
 	public void setAction(Action action)
@@ -45,6 +48,16 @@ public class PlayerActionMessage extends Message
 	public String getObject()
 	{
 		return m_strObject;
+	}
+	
+	public void setSubject(String strSubject)
+	{
+		m_strSubject = strSubject;
+	}
+	
+	public String getSubject()
+	{
+		return m_strSubject;
 	}
 	
 	public String getActionString()
@@ -92,6 +105,9 @@ public class PlayerActionMessage extends Message
 		case Drop:
 			strOut = "drop";
 			break;
+			
+		case Give:
+			strOut = "give";
 		}
 		
 		return strOut;

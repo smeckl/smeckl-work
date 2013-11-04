@@ -1,6 +1,6 @@
 package MiniMUDServer;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 
 import MiniMUDShared.RegularExpressions;
 
@@ -11,9 +11,8 @@ public class GameObject
 	private String m_strName = "";
 	private String m_strDescription = "";
 
-	
 	private RegularExpressions m_regEx = new RegularExpressions();
-	private HashMap<String, Action> m_actions = new HashMap<String, Action>();
+	private ArrayList<Action> m_actions = new ArrayList<Action>();
 	
 	public void setID(int nID)
 	{
@@ -118,15 +117,45 @@ public class GameObject
 	
 	public void addAction(Action action)
 	{
-		m_actions.put(action.getName(), action);
+		m_actions.add(action);
 	}
 	
-	public Action getAction(String strName)
+	public Action getAction(DatabaseConnector dbConn, String strName, String strUsername)
 	{
 		Action ret = null;
+		Action noDepAction = null;
+		Action depAction = null;
 		
-		if(m_actions.containsKey(strName))
-			ret = m_actions.get(strName);
+		// Loop through the list of actions
+		for(int i = 0; i < m_actions.size(); i++)
+		{
+			Action action = m_actions.get(i);
+			
+			// Does this action match the action name?
+			if(0 == action.getName().compareTo(strName))
+			{
+				// Now make sure the user satisfies any quest dependencies
+				
+				// Does this action have a quest dependency?
+				if(0 == action.getQuestDependencyID()) // no dependency
+				{
+					noDepAction = action;
+				}
+				else // This action has a quest dependency
+				{
+					// See if the user is on that quest and step
+					if(dbConn.isUserOnQuestStep(strUsername, action.getQuestDependencyID(), action.getQuestDependencyStep()))
+					{
+						depAction = action;
+					}
+				}
+			}
+		}
+		
+		if(null != depAction)
+			ret = depAction;
+		else if(null != noDepAction)
+			ret = noDepAction;
 		
 		return ret;
 	}

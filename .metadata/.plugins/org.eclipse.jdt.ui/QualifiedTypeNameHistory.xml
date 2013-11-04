@@ -5,4 +5,5 @@
 <fullyQualifiedTypeName name="MiniMUDServer.DisplayHelper"/>
 <fullyQualifiedTypeName name="MiniMUDServer.DisplayHelper.ErrorCode"/>
 <fullyQualifiedTypeName name="world_builder.XMLNames"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
 </qualifiedTypeNameHistroy>
