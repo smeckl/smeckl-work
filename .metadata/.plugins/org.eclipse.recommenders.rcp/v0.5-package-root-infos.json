@@ -13,6 +13,19 @@
     "javaRuntime": true
   },
   {
+    "symbolicName": "org.apache.commons.lang3",
+    "version": {
+      "major": 3,
+      "minor": 1,
+      "micro": 0,
+      "qualifier": ""
+    },
+    "jarFileFingerprint": "905075e6c80f206bbe6cf1e809d2caa69f420c76",
+    "jarFileModificationDate": "2013-10-25T09:47:23-04:00",
+    "location": "/home/steve/codemunki-gitrepo/minimud/lib/commons-lang3-3.1.jar",
+    "javaRuntime": false
+  },
+  {
     "symbolicName": "jre",
     "version": {
       "major": 1,

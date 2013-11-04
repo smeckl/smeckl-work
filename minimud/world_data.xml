@@ -82,4 +82,18 @@
 		<name>lantern</name>
 		<description>a lantern.  It's a bit rusty, but it still works.</description>
 	</item>
+	<quest>
+		<id>1</id>
+		<name>Welcome to MiniMUD</name>
+		<reward_xp>10</reward_xp>
+		<first_bonus>20</first_bonus>
+		<reward_gold>100</reward_gold>
+		<quest_step>
+			<step_number>1</step_number>
+			<description>Tommy has asked you to pick up the lantern from the table.</description>
+			<hint>type 'take lantern' to pick up the lantern.</hint>
+			<reward_xp>100</reward_xp>
+			<reward_gold>10</reward_gold>
+		</quest_step>
+	</quest>
 </minimud_world>

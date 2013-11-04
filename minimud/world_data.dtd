@@ -1,5 +1,5 @@
 
-<!ELEMENT minimud_world (room+, item+)>
+<!ELEMENT minimud_world (room+, item+, quest+)>
 
 <!ELEMENT room (id, name, description, move+, npc*, object* ) >
 
@@ -23,4 +23,14 @@
 <!ELEMENT type (#PCDATA)>
 
 <!ELEMENT result (type, description, item_id?, value?)>
+
+<!ELEMENT quest (id, name, reward_xp, first_bonus, reward_gold?, reward_item?, quest_step+)>
+<!ELEMENT quest_step (step_number, description, hint, reward_xp, reward_gold?, reward_item?)>
+
+<!ELEMENT reward_gold (#PCDATA)>
+<!ELEMENT reward_xp (#PCDATA)>
+<!ELEMENT reward_item (#PCDATA)>
+<!ELEMENT first_bonus (#PCDATA)>
+<!ELEMENT step_number (#PCDATA)>
+<!ELEMENT hint (#PCDATA)>
 

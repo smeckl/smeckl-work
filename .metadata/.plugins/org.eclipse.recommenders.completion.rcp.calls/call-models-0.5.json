@@ -13,5 +13,10 @@
     "location": "/home/steve/codemunki-gitrepo/minimud/minimud_server/src",
     "status": "UNRESOLVED",
     "error": "No class path info available for \u0027/home/steve/codemunki-gitrepo/minimud/minimud_server/src\u0027. Skipped."
+  },
+  "/home/steve/codemunki-gitrepo/minimud/world_builder/src": {
+    "location": "/home/steve/codemunki-gitrepo/minimud/world_builder/src",
+    "status": "UNRESOLVED",
+    "error": "No class path info available for \u0027/home/steve/codemunki-gitrepo/minimud/world_builder/src\u0027. Skipped."
   }
 }

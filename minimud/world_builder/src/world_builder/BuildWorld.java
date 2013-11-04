@@ -94,6 +94,10 @@ public class BuildWorld
 				m_dbConn.dropTable("moves");
 				m_dbConn.dropTable("npcs");
 				m_dbConn.dropTable("objects");
+				m_dbConn.dropTable("inventory");
+				m_dbConn.dropTable("quests");
+				m_dbConn.dropTable("quest_status");
+				m_dbConn.dropTable("quest_steps");
 				
 				// Build database tables
 				m_dbConn.addTable("CREATE TABLE rooms (ID INT NOT NULL," +
@@ -128,6 +132,20 @@ public class BuildWorld
 				
 				m_dbConn.addTable("CREATE TABLE inventory (ItemID INT NOT NULL, username VARCHAR(32) NOT NULL," +
 									" PRIMARY KEY ( ItemID, username));");
+				
+				m_dbConn.addTable("CREATE TABLE quests (ID INT NOT NULL, name VARCHAR(100) NOT NULL," +
+								  "first_completion_user VARCHAR(30), reward_gold INT NOT NULL," +
+								  "reward_xp INT NOT NULL, reward_item INT, first_bonus INT NOT NULL," +
+								  " PRIMARY KEY (ID));");
+				
+				m_dbConn.addTable("CREATE TABLE quest_status (username VARCHAR(30) NOT NULL," +
+								  "quest_id INT NOT NULL, step INT NOT NULL," +
+								  "PRIMARY KEY (username, quest_id));");
+				
+				m_dbConn.addTable("CREATE TABLE quest_steps (quest_id INT NOT NULL, step_number INT NOT NULL," +
+								  "description VARCHAR(1000) NOT NULL, hint VARCHAR(200) NOT NULL," +
+								  "reward_gold INT, reward_xp INT NOT NULL, reward_item INT," +
+								  "PRIMARY KEY (quest_id, step_number));");
 				
 				// Import world data from XML files
 				WorldImporter worldImp = new WorldImporter(strDataFile, m_dbConn);

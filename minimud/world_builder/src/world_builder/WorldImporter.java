@@ -33,7 +33,8 @@ public class WorldImporter
 		INVALID_MOVE,
 		INVALID_NPC,
 		INVALID_OBJECT,
-		INVALID_ACTION
+		INVALID_ACTION,
+		INVALID_QUEST
 	}
 	
 	private String m_strDataFile;
@@ -42,7 +43,6 @@ public class WorldImporter
 	private int m_nNextObjectId = 1; // Includes NPCs and Items
 	private int m_nNextActionId = 1;
 	private int m_nNextResultId = 1;
-	private int m_nNextItemId = 1;
 	
 	public WorldImporter(String strDataFile, DatabaseConnector dbConn)
 	{
@@ -109,20 +109,24 @@ public class WorldImporter
 			
 				for(int i = 0; i < rootList.getLength(); i++)
 				{
-					Node room = rootList.item(i);
+					Node node = rootList.item(i);
 					
-					String strNodeName = room.getNodeName();
+					String strNodeName = node.getNodeName();
 					
 					// Make sure this is a <room> node
 					if(0 == strNodeName.compareTo(XMLNames.ROOM))
 					{
 						// Process Room node
-						retVal = processRoomElement(room);
+						retVal = processRoomElement(node);
 					}
 					else if(0 == strNodeName.compareTo(XMLNames.ITEM))
 					{
 						// Process item element
-						retVal = processItemElement(room);
+						retVal = processItemElement(node);
+					}
+					else if(0 == strNodeName.compareTo(XMLNames.QUEST))
+					{
+						retVal = processQuestElement(node);
 					}
 				}
 				
@@ -356,6 +360,298 @@ public class WorldImporter
 		catch(Exception e)
 		{
 			System.out.println("Exception in WorldImporter.processNPC(): " + e);
+			retVal = ErrorCode.Exception;
+		}
+		
+		return retVal;	
+	}
+	
+	private ErrorCode processQuestElement(Node quest)
+	{
+		ErrorCode retVal = ErrorCode.Success;
+		
+		RegularExpressions regEx = new RegularExpressions();
+		
+		int nID = 0;
+		String strName = "";
+		int nRewardXP = 0;
+		int nRewardGold = 0;
+		int nRewardItem = 0;
+		int nFirstBonus = 0;
+		
+		boolean bSavedQuest = false;
+		boolean bID = false;
+		boolean bName = false;
+		boolean bRewardXP = false;
+		boolean bRewardGold = false;
+		boolean bRewardItem = false;
+		boolean bFirstBonus = false;
+		boolean bSteps = false;
+		
+		try
+		{
+			NodeList nodes = quest.getChildNodes();
+			
+			for(int i = 0; i < nodes.getLength(); i++)
+			{
+				Node node = nodes.item(i);
+				
+				// Make sure this is an element
+				if (node instanceof Element)
+				{
+					String content = node.getLastChild().getTextContent().trim();
+					
+					String nodeName = node.getNodeName();
+					
+					// If this is an <id> element, then validate and add to item object
+					if(0 == nodeName.compareTo(XMLNames.ID))
+					{
+						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ID))
+						{
+							nID = Integer.parseInt(content);
+							bID = true;
+						}
+						else
+						{
+							retVal = ErrorCode.INVALID_ID;
+							System.out.println("Invalid ID specified.");
+						}
+					}
+					else if(0 == nodeName.compareTo(XMLNames.NAME))
+					{
+						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.NAME))
+						{
+							strName = content;
+							bName = true;
+						}
+						else
+						{
+							retVal = ErrorCode.INVALID_NAME;
+							System.out.println("Invalid name specified.");
+						}
+					}
+					else if(0 == nodeName.compareTo(XMLNames.REWARD_XP))
+					{
+						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ID))
+						{
+							nRewardXP = Integer.parseInt(content);
+							bRewardXP = true;
+						}
+						else
+						{
+							retVal = ErrorCode.INVALID_QUEST;
+							System.out.println("Invalid REWARD_XP specified.");
+						}
+					}
+					else if(0 == nodeName.compareTo(XMLNames.FIRST_BONUS))
+					{
+						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ID))
+						{
+							nFirstBonus = Integer.parseInt(content);
+							bFirstBonus = true;
+						}
+						else
+						{
+							retVal = ErrorCode.INVALID_QUEST;
+							System.out.println("Invalid FIRST_BONUS specified.");
+						}
+					}
+					else if(0 == nodeName.compareTo(XMLNames.REWARD_GOLD))
+					{
+						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ID))
+						{
+							nRewardGold = Integer.parseInt(content);
+							bRewardGold = true;
+						}
+						else
+						{
+							retVal = ErrorCode.INVALID_QUEST;
+							System.out.println("Invalid REWARD_GOLD specified.");
+						}
+					}
+					else if(0 == nodeName.compareTo(XMLNames.REWARD_ITEM))
+					{
+						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ID))
+						{
+							nRewardItem = Integer.parseInt(content);
+							bRewardItem = true;
+						}
+						else
+						{
+							retVal = ErrorCode.INVALID_QUEST;
+							System.out.println("Invalid REWARD_ITEM specified.");
+						}
+					}
+					// If this is a <quest_step> element, then validate and add to questobject
+					else if(0 == nodeName.compareTo(XMLNames.QUEST_STEP))
+					{
+						retVal = processQuestStep(nID, node);
+						
+						if(ErrorCode.Success == retVal)
+							bSteps = true;
+						else
+							System.out.println("Invalid quest_step specified.");
+							
+					}
+				}
+			}
+			
+			if(!bSavedQuest && bName && bID && bRewardXP && bFirstBonus)
+			{
+				getDBconn().addQuest(nID, strName, nRewardXP, nFirstBonus, nRewardGold, nRewardItem);
+				bSavedQuest = true;
+			}
+			
+			if(!bSavedQuest)
+			{
+				retVal = ErrorCode.INVALID_OBJECT;
+				System.out.println("FAILED to import quest element.");
+			}
+		}
+		catch(Exception e)
+		{
+			System.out.println("Exception in WorldImporter.processQuestElement(): " + e);
+			retVal = ErrorCode.Exception;
+		}
+		
+		return retVal;	
+	}
+	
+	private ErrorCode processQuestStep(int nQuestID, Node quest)
+	{
+		ErrorCode retVal = ErrorCode.Success;
+		
+		RegularExpressions regEx = new RegularExpressions();
+		
+		int nID = 0;
+		int nStepNum = 0;
+		String strDescription = "";
+		String strHint = "";
+		int nRewardXP = 0;
+		int nRewardGold = 0;
+		int nRewardItem = 0;
+		int nFirstBonus = 0;
+		
+		boolean bSavedQuestStep = false;
+		boolean bID = false;
+		boolean bStepNum = false;
+		boolean bDescription = false;
+		boolean bHint = false;
+		boolean bRewardXP = false;
+		boolean bRewardGold = false;
+		boolean bRewardItem = false;
+		
+		try
+		{
+			NodeList nodes = quest.getChildNodes();
+			
+			for(int i = 0; i < nodes.getLength(); i++)
+			{
+				Node node = nodes.item(i);
+				
+				// Make sure this is an element
+				if (node instanceof Element)
+				{
+					String content = node.getLastChild().getTextContent().trim();
+					
+					String nodeName = node.getNodeName();
+					
+					if(0 == nodeName.compareTo(XMLNames.STEP_NUMBER))
+					{
+						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ID))
+						{
+							nStepNum = Integer.parseInt(content);
+							bStepNum = true;
+						}
+						else
+						{
+							retVal = ErrorCode.INVALID_QUEST;
+							System.out.println("Invalid step_num specified.");
+						}
+					}
+					else if(0 == nodeName.compareTo(XMLNames.DESCRIPTION))
+					{
+						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.DESCRIPTION))
+						{
+							strDescription = content;
+							bDescription = true;
+						}
+						else
+						{
+							retVal = ErrorCode.INVALID_DESCRIPTION;
+							System.out.println("Invalid description specified.");
+						}
+					}
+					else if(0 == nodeName.compareTo(XMLNames.HINT))
+					{
+						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.HINT))
+						{
+							strHint = content;
+							bHint = true;
+						}
+						else
+						{
+							retVal = ErrorCode.INVALID_DESCRIPTION;
+							System.out.println("Invalid description specified.");
+						}
+					}
+					else if(0 == nodeName.compareTo(XMLNames.REWARD_XP))
+					{
+						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ID))
+						{
+							nRewardXP = Integer.parseInt(content);
+							bRewardXP = true;
+						}
+						else
+						{
+							retVal = ErrorCode.INVALID_QUEST;
+							System.out.println("Invalid REWARD_XP specified.");
+						}
+					}
+					else if(0 == nodeName.compareTo(XMLNames.REWARD_GOLD))
+					{
+						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ID))
+						{
+							nRewardGold = Integer.parseInt(content);
+							bRewardGold = true;
+						}
+						else
+						{
+							retVal = ErrorCode.INVALID_QUEST;
+							System.out.println("Invalid REWARD_GOLD specified.");
+						}
+					}
+					else if(0 == nodeName.compareTo(XMLNames.REWARD_ITEM))
+					{
+						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ID))
+						{
+							nRewardItem = Integer.parseInt(content);
+							bRewardItem = true;
+						}
+						else
+						{
+							retVal = ErrorCode.INVALID_QUEST;
+							System.out.println("Invalid REWARD_ITEM specified.");
+						}
+					}
+				}
+			}
+			
+			if(!bSavedQuestStep && bStepNum && bDescription && bHint && bRewardXP)
+			{
+				getDBconn().addQuestStep(nID, nStepNum, strDescription, strHint, nRewardXP, nRewardGold, nRewardItem);
+				bSavedQuestStep = true;
+			}
+			
+			if(!bSavedQuestStep)
+			{
+				retVal = ErrorCode.INVALID_OBJECT;
+				System.out.println("FAILED to import quest_step element.");
+			}
+		}
+		catch(Exception e)
+		{
+			System.out.println("Exception in WorldImporter.processQuestStep(): " + e);
 			retVal = ErrorCode.Exception;
 		}
 		

@@ -347,4 +347,73 @@ public class DatabaseConnector
 		
 		return retVal;
 	}
+	
+	public ErrorCode addQuest(int nID, String strName, int nRewardXP, int nFirstBonus, int nRewardGold, int nRewardItem)
+	{
+		ErrorCode retVal = ErrorCode.Success;
+		
+		try
+		{
+			System.out.println("Adding new Quest");
+			
+			PreparedStatement pstmt = getConnection().prepareStatement("insert into quests values(?,?,?,?,?,?,?)");
+			pstmt.setInt(1, nID);
+			pstmt.setString(2, strName);
+			pstmt.setString(3, "");
+			pstmt.setInt(4, nRewardGold);
+			pstmt.setInt(5, nRewardXP);
+			pstmt.setInt(6, nRewardItem);
+			pstmt.setInt(7, nFirstBonus);
+			
+			if(0 == pstmt.executeUpdate())
+			{
+				retVal = ErrorCode.InsertFailed;
+				System.out.println("Failed to insert Quest.");
+			}
+			else
+				System.out.println("Quest creation successful.");
+		}
+		catch(Exception e)
+		{
+			System.out.println("Exception in DatabaseConnector.addQuest() " + e);
+			retVal = ErrorCode.Exception;
+		}
+		
+		return retVal;
+	}
+	
+	public ErrorCode addQuestStep(int nID, int nStepNum, String strDescription, String strHint, 
+								  int nRewardXP, int nRewardGold, int nRewardItem)
+	{
+		ErrorCode retVal = ErrorCode.Success;
+		
+		try
+		{
+			System.out.println("Adding new Quest");
+			
+			PreparedStatement pstmt = getConnection().prepareStatement("insert into quest_steps values(?,?,?,?,?,?,?)");
+			pstmt.setInt(1, nID);
+			pstmt.setInt(2, nStepNum);
+			pstmt.setString(3, strDescription);
+			pstmt.setString(4, strHint);
+			pstmt.setInt(5, nRewardGold);
+			pstmt.setInt(6, nRewardXP);
+			pstmt.setInt(7, nRewardItem);
+			
+			if(0 == pstmt.executeUpdate())
+			{
+				retVal = ErrorCode.InsertFailed;
+				System.out.println("FAILED to insert Quest step.");
+			}
+			else
+				System.out.println("Quest Step creation successful.");
+		}
+		catch(Exception e)
+		{
+			System.out.println("Exception in DatabaseConnector.addQuestStep() " + e);
+			retVal = ErrorCode.Exception;
+		}
+		
+		return retVal;
+	}
 }

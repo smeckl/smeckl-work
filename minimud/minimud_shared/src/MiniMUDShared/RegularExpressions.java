@@ -17,7 +17,8 @@ public class RegularExpressions
 		DIRECTION,
 		NPCTEXT,
 		ACTION_TYPE,
-		RESULT_TYPE
+		RESULT_TYPE,
+		HINT
 	}
 	
 	private Map<RegExID, String> m_regExMap = new HashMap<RegExID, String>();
@@ -36,6 +37,7 @@ public class RegularExpressions
 		m_regExMap.put(RegExID.NPCTEXT, "^[a-zA-Z0-9\\-\\.\\,\\:\\?\\!\\'\\\"\\$\\\\ ]{1,1000}$");
 		m_regExMap.put(RegExID.ACTION_TYPE, "^(talk|kick|punch|stab|slash|push|shoot|take)$");
 		m_regExMap.put(RegExID.RESULT_TYPE, "^(text_only|xp_reward|gold_reward|item_reward)$");
+		m_regExMap.put(RegExID.HINT, "^[a-zA-Z0-9\\-\\.\\,\\:\\?\\!\\'\\\"\\$\\\\ ]{1,200}$");
 	}
 	
 	public boolean stringMatchesRegEx(String str, RegExID id)

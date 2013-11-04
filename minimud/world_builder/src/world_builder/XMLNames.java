@@ -22,4 +22,12 @@ public class XMLNames
 	public static String ACTION_RESULTS	= "action_results";
 	public static String PARENT			= "parent";
 	public static String ITEM			= "item";
+	public static String QUEST			= "quest";
+	public static String REWARD_XP		= "reward_xp";
+	public static String REWARD_GOLD	= "reward_gold";
+	public static String REWARD_ITEM	= "reward_item";
+	public static String FIRST_BONUS	= "first_bonus";
+	public static String QUEST_STEP		= "quest_step";
+	public static String HINT			= "hint";
+	public static String STEP_NUMBER	= "step_number";
 }
