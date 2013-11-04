@@ -957,6 +957,8 @@ public class WorldImporter
 		
 		int nID = m_nNextActionId;
 		String strName = "";
+		int nDependencyID = 0;
+		int nDepndencyStep = 0;
 		int nResult = 0;
 		
 		boolean bSavedAction = false;
@@ -978,7 +980,7 @@ public class WorldImporter
 					
 					String nodeName = node.getNodeName();
 					
-					if(!bSavedAction && 0 == nodeName.compareTo(XMLNames.NAME))
+					if(0 == nodeName.compareTo(XMLNames.NAME))
 					{
 						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ACTION_TYPE))
 						{
@@ -989,6 +991,30 @@ public class WorldImporter
 						{
 							retVal = ErrorCode.INVALID_TYPE;
 							System.out.println("Invalid type specified.");
+						}
+					}
+					else if(0 == nodeName.compareTo(XMLNames.QUEST_DEP_ID))
+					{
+						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ID))
+						{
+							nDependencyID = Integer.parseInt(content);
+						}
+						else
+						{
+							retVal = ErrorCode.INVALID_ID;
+							System.out.println("Invalid Quest Dependency ID specified.");
+						}
+					}
+					else if(0 == nodeName.compareTo(XMLNames.QUEST_DEP_STEP))
+					{
+						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ID))
+						{
+							nDepndencyStep = Integer.parseInt(content);
+						}
+						else
+						{
+							retVal = ErrorCode.INVALID_ID;
+							System.out.println("Invalid Quest Step Dependency specified.");
 						}
 					}
 					else if(!bSavedAction && 0 == nodeName.compareTo(XMLNames.RESULT))
@@ -1005,7 +1031,7 @@ public class WorldImporter
 			
 			if(!bSavedAction && bName && bResult)
 			{
-				getDBconn().addAction(nParentID, nID, strName, nResult);
+				getDBconn().addAction(nParentID, nID, strName, nDependencyID, nDepndencyStep, nResult);
 				bSavedAction = true;
 				
 				//Increment Action ID
@@ -1069,7 +1095,7 @@ public class WorldImporter
 						}
 						else
 						{
-							System.out.println("Invalid type specified.");
+							System.out.println("Invalid type specified: " + content);
 						}
 					}
 					else if(!bSavedActionResult && 0 == nodeName.compareTo(XMLNames.DESCRIPTION))
@@ -1125,7 +1151,7 @@ public class WorldImporter
 			
 			if(!bSavedActionResult)
 			{
-				System.out.println("FAILED to import action_result element");
+				System.out.println("FAILED to import action_result element.  Desc = " + strDescription);
 			}
 		}
 		catch(Exception e)

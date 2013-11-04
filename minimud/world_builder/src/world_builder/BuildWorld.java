@@ -113,14 +113,16 @@ public class BuildWorld
 						"description VARCHAR(2000) NOT NULL, intro VARCHAR(1000) NOT NULL, " +
 						"PRIMARY KEY ( ID ) );");
 				
-				m_dbConn.addTable("CREATE TABLE actions ( ID INT NOT NULL, parent INT NOT NULL, name VARCHAR(50) NOT NULL, " +
-						"result INT NOT NULL, PRIMARY KEY ( ID ) );");
+				m_dbConn.addTable("CREATE TABLE actions ( ID INT NOT NULL, parent INT NOT NULL, " +
+						"name VARCHAR(50) NOT NULL, result INT NOT NULL, " +
+						"quest_dependency_id INT, quest_dependency_step INT," +
+						"PRIMARY KEY ( ID ) );");
 				
 				m_dbConn.addTable("CREATE TABLE objects ( ID INT NOT NULL, room INT NOT NULL, name VARCHAR(50) NOT NULL, " +
 						"description VARCHAR(2000) NOT NULL, PRIMARY KEY ( ID ) );");
 				
 				m_dbConn.addTable("CREATE TABLE action_results ( ID INT NOT NULL, parent INT NOT NULL, " +
-						"Type VARCHAR(20) NOT NULL, description VARCHAR(100), " +
+						"Type VARCHAR(20) NOT NULL, description VARCHAR(200), " +
 						"ItemID INT, Value INT, PRIMARY KEY ( ID ) );");
 				
 				m_dbConn.addTable("CREATE TABLE items ( ID INT NOT NULL, name VARCHAR(50) NOT NULL, " +

@@ -16,7 +16,7 @@
 <!ELEMENT object (name, description, action*)>
 <!ELEMENT npc (name, description, intro, action*)>
 <!ELEMENT item (id, name, description)>
-<!ELEMENT action (name, result)>
+<!ELEMENT action (name, quest_dependency_id?, quest_dependency_step?, result)>
 
 <!ELEMENT intro (#PCDATA)>
 <!ELEMENT detail (#PCDATA)>
@@ -27,10 +27,13 @@
 <!ELEMENT quest (id, name, reward_xp, first_bonus, reward_gold?, reward_item?, quest_step+)>
 <!ELEMENT quest_step (step_number, description, hint, reward_xp, reward_gold?, reward_item?)>
 
+<!ELEMENT value (#PCDATA)>
 <!ELEMENT reward_gold (#PCDATA)>
 <!ELEMENT reward_xp (#PCDATA)>
 <!ELEMENT reward_item (#PCDATA)>
 <!ELEMENT first_bonus (#PCDATA)>
 <!ELEMENT step_number (#PCDATA)>
 <!ELEMENT hint (#PCDATA)>
+<!ELEMENT quest_dependency_id (#PCDATA)>
+<!ELEMENT quest_dependency_step (#PCDATA)>
 

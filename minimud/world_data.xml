@@ -34,6 +34,30 @@
 					<description>You push Tommy.  He didn't appear to enjoy it as much as you did.</description>
 				</result>
 			</action>
+			<action>
+				<name>punch</name>
+				<result>
+					<type>text_only</type>
+					<description>You try to punch Tommy the Lip, but miss.  Maybe he's not as drunk as he looks.</description>
+				</result>
+			</action>
+			<action>
+				<name>talk</name>
+				<result>
+					<type>give_quest</type>
+					<value>1</value>
+					<description>Hi.  I'm Tommy.  Welcome to the tavern.  You look new.  You should pick up that lantern over there.  It might come in handy later.</description>
+				</result>
+			</action>
+			<action>
+				<name>talk</name>
+				<quest_dependency_id>1</quest_dependency_id>
+				<quest_dependency_step>1</quest_dependency_step>
+				<result>
+					<type>text_only</type>
+					<description>You should try picking up the lantern.</description>
+				</result>
+			</action>
 		</npc>
 		<object>
 			<name>lantern</name>
@@ -47,9 +71,19 @@
 			</action>
 			<action>
 				<name>take</name>
+				<quest_dependency_id>1</quest_dependency_id>
+				<quest_dependency_step>1</quest_dependency_step>
 				<result>
 					<type>item_reward</type>
 					<description>You take the lantern and add it to your inventory</description>
+					<item_id>1</item_id>
+				</result>
+			</action>
+			<action>
+				<name>take</name>
+				<result>
+					<type>text_only</type>
+					<description>You think this belongs to Tommy.  Maybe you should talk to him before you take it.</description>
 					<item_id>1</item_id>
 				</result>
 			</action>

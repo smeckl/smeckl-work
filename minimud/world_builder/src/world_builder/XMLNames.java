@@ -30,4 +30,6 @@ public class XMLNames
 	public static String QUEST_STEP		= "quest_step";
 	public static String HINT			= "hint";
 	public static String STEP_NUMBER	= "step_number";
+	public static String QUEST_DEP_ID	= "quest_dependency_id";
+	public static String QUEST_DEP_STEP	= "quest_dependency_step";
 }
