@@ -58,6 +58,16 @@
 					<description>You should try picking up the lantern.</description>
 				</result>
 			</action>
+			<action>
+				<name>talk</name>
+				<quest_dependency_id>1</quest_dependency_id>
+				<quest_dependency_step>2</quest_dependency_step>
+				<result>
+					<type>complete_quest</type>
+					<description>Nice work.  You should go adventuring.</description>
+					<value>1</value>
+				</result>
+			</action>
 		</npc>
 		<object>
 			<name>lantern</name>
@@ -77,6 +87,11 @@
 					<type>item_reward</type>
 					<description>You take the lantern and add it to your inventory</description>
 					<item_id>1</item_id>
+				</result>
+				<result>
+					<type>update_quest</type>
+					<description>Talk to Tommy to complete the quest.</description>
+					<value>2</value>
 				</result>
 			</action>
 			<action>

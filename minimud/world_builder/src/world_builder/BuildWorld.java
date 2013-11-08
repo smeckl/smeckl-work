@@ -141,7 +141,7 @@ public class BuildWorld
 								  " PRIMARY KEY (ID));");
 				
 				m_dbConn.addTable("CREATE TABLE quest_status (username VARCHAR(30) NOT NULL," +
-								  "quest_id INT NOT NULL, step INT NOT NULL," +
+								  "quest_id INT NOT NULL, step INT NOT NULL, completed INT NOT NULL, " +
 								  "PRIMARY KEY (username, quest_id));");
 				
 				m_dbConn.addTable("CREATE TABLE quest_steps (quest_id INT NOT NULL, step_number INT NOT NULL," +

@@ -1140,7 +1140,7 @@ public class WorldImporter
 			// ItemID and Value are optional elements
 			if(!bSavedActionResult && bType && bDescription)
 			{
-				getDBconn().addActionResult(nParentID, nID, strType, strDescription, nItemID, nValue);
+				getDBconn().addActionResult(nID, nParentID, strType, strDescription, nItemID, nValue);
 				bSavedActionResult = true;
 				
 				retVal = nID;

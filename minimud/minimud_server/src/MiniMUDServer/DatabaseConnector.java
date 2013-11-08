@@ -400,10 +400,11 @@ public class DatabaseConnector
 		
 		try
 		{			
-			PreparedStatement pstmt = getConnection().prepareStatement("insert into quest_status values(?,?,?)");
+			PreparedStatement pstmt = getConnection().prepareStatement("insert into quest_status values(?,?,?,?)");
 			pstmt.setString(1, strUserName);
 			pstmt.setInt(2, nQuestID);
 			pstmt.setInt(3, 1);
+			pstmt.setInt(4, 0);
 			
 			if(0 == pstmt.executeUpdate())
 			{
@@ -448,5 +449,133 @@ public class DatabaseConnector
 		}
 		
 		return bRet;
+	}
+	
+	public ErrorCode updateUserQuestStep(int nQuestID, int nNewStep, String strUserName)
+	{
+		ErrorCode retVal = ErrorCode.Success;
+		
+		try
+		{			
+			PreparedStatement pstmt = getConnection().prepareStatement("update quest_status set step=?" +
+									" where quest_id=? and username=?");
+			
+			pstmt.setInt(1, nNewStep);
+			pstmt.setInt(2, nQuestID);
+			pstmt.setString(3, strUserName);			
+			
+			if(0 == pstmt.executeUpdate())
+			{
+				retVal = ErrorCode.InsertFailed;
+				m_logger.severe("Failed to update quest_status.");
+			}
+			else
+				m_logger.info("Quest " + nQuestID + " updated to step " + 
+								nNewStep + " for user " + strUserName + ".");
+		}
+		catch(Exception e)
+		{
+			m_logger.severe("Exception in DatabaseConnector.updateUserQuestStep() " + e);
+			retVal = ErrorCode.Exception;
+		}
+		
+		return retVal;
+	}
+	
+	// Retrieves Quest object.  Return value is null if there is an error.
+	public Quest getQuest(int nID)
+	{
+		Quest quest = null;
+		
+		try
+		{
+			PreparedStatement pstmt = getConnection().prepareStatement("select * from quests where ID = ?");
+			pstmt.setInt(1, nID);
+			
+			ResultSet results = pstmt.executeQuery();
+			
+			if(null != results && results.next())
+			{
+				quest = new Quest();
+				
+				quest.setID(results.getInt("ID"));
+				quest.setName(results.getString("name"));
+				
+				String strFC = results.getString("first_completion_user");
+				
+				if(null != strFC)
+					quest.setFirstCompleteUser(strFC);
+				
+				quest.setRewardGold(results.getInt("reward_gold"));
+				quest.setRewardXP(results.getInt("reward_xp"));
+				quest.setRewardItemID(results.getInt("reward_item"));
+				quest.setFirstBonus(results.getInt("first_bonus"));
+			}
+		}
+		catch(Exception e)
+		{
+			m_logger.severe("Exception in DatabaseConnector::getQuest() " + e);
+			quest = null;
+		}
+		
+		return quest;
+	}
+	
+	public ErrorCode setQuestFirstCompletion(int nQuestID, String strUserName)
+	{
+		ErrorCode retVal = ErrorCode.Success;
+		
+		try
+		{			
+			PreparedStatement pstmt = getConnection().prepareStatement("update quests set first_completion_user=?" +
+									" where ID=?");
+			
+			pstmt.setString(1, strUserName);
+			pstmt.setInt(2, nQuestID);		
+			
+			if(0 == pstmt.executeUpdate())
+			{
+				retVal = ErrorCode.InsertFailed;
+				m_logger.severe("Failed to set quest first completion.");
+			}
+			else
+				m_logger.info("Quest " + nQuestID + " first completed by " + strUserName + ".");
+		}
+		catch(Exception e)
+		{
+			m_logger.severe("Exception in DatabaseConnector.setQuestFirstCompletion() " + e);
+			retVal = ErrorCode.Exception;
+		}
+		
+		return retVal;
+	}
+	
+	public ErrorCode setUserQuestCompleted(int nQuestID, String strUserName)
+	{
+		ErrorCode retVal = ErrorCode.Success;
+		
+		try
+		{			
+			PreparedStatement pstmt = getConnection().prepareStatement("update quest_status set completed=1" +
+									" where quest_id=? and username=?");
+			
+			pstmt.setInt(1, nQuestID);
+			pstmt.setString(2, strUserName);		
+			
+			if(0 == pstmt.executeUpdate())
+			{
+				retVal = ErrorCode.InsertFailed;
+				m_logger.severe("Failed to set quest completed.");
+			}
+			else
+				m_logger.info("Quest " + nQuestID + " completed by " + strUserName + ".");
+		}
+		catch(Exception e)
+		{
+			m_logger.severe("Exception in DatabaseConnector.setUserQuestCompleted() " + e);
+			retVal = ErrorCode.Exception;
+		}
+		
+		return retVal;
 	}
 }

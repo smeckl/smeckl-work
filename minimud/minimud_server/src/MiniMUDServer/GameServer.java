@@ -517,6 +517,54 @@ public class GameServer
 										sendUserText(user, result.getDescription());
 									}
 								}
+								else if(0 == result.getType().compareTo("update_quest"))
+								{
+									int nQuestID = action.getQuestDependencyID();
+									int nNewStep = result.getValue();
+									
+									if(0 != nQuestID)
+									{
+										m_dbConn.updateUserQuestStep(nQuestID, nNewStep, user.getUserInfo().getUserName());
+										
+										sendUserText(user, result.getDescription());
+									}
+								}
+								else if(0 == result.getType().compareTo("complete_quest"))
+								{
+									int nQuestID = action.getQuestDependencyID();
+									
+									if(0 != nQuestID)
+									{
+										// Get quest details
+										Quest quest = m_dbConn.getQuest(nQuestID);
+										
+										if(null != quest)
+										{
+											// Get the quest reward values
+											int nRewardGold = quest.getRewardGold();
+											int nRewardXP = quest.getRewardXP();
+											
+											// If this is the first time the quest has been completed
+											if(quest.getFirstCompleteUser().isEmpty())
+											{
+												// Add first completion bonus to the rewards
+												nRewardGold += (nRewardGold * quest.getFirstBonus())/100;
+												
+												nRewardXP += (nRewardXP * quest.getFirstBonus())/100;
+
+												// Set the first completion user
+												m_dbConn.setQuestFirstCompletion(nQuestID, user.getUserInfo().getUserName());
+											}
+											
+											m_dbConn.setUserQuestCompleted(nQuestID, user.getUserInfo().getUserName());
+											
+											// Congratulate the user
+											sendUserText(user, result.getDescription());
+											sendUserText(user, "You receive " + nRewardGold + " gold pieces.");
+											sendUserText(user, "You receive " + nRewardXP + " XP.");
+										}
+									}
+								}
 							}
 						}
 						else
