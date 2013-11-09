@@ -1,7 +1,7 @@
 package world_builder;
 
 
-import MiniMUDShared.RegularExpressions;
+import minimud_shared.RegularExpressions;
 
 public class BuildWorld 
 {

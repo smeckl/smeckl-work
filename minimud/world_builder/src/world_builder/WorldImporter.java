@@ -13,7 +13,7 @@ import org.w3c.dom.Element;
 
 import java.io.File;
 
-import MiniMUDShared.*;
+import minimud_shared.*;
 
 public class WorldImporter
 {
