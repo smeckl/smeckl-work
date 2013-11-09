@@ -26,7 +26,7 @@ public class UserConnectionThread extends Thread
 	
 	// State of this user's session
 	private UserSessionState m_state = UserSessionState.Unauthenticated;
-	private UserInfo m_userInfo = new UserInfo();
+	private UserInfo m_userInfo = null;;
 	
 	// If this is acquired, then we should stop
 	private Semaphore m_stopSem = null;
@@ -39,6 +39,8 @@ public class UserConnectionThread extends Thread
 	
 	// Helper object for sending commands to the user
 	private DisplayHelper m_display = null;
+    
+    private String m_strUsername = "";
 	
 	public enum ErrorCode
 	{
@@ -212,6 +214,15 @@ public class UserConnectionThread extends Thread
 					break;
 				}
 				
+                // Load user info from database into memory.
+               m_userInfo = getDatabaseConnector().loadUserInfo(m_strUsername);
+               
+               if(null == m_userInfo)
+               {
+                   m_logger.severe("UserConnectionThread::run() - Failed to load user record.");
+					break;
+               }
+                
 				// If we got this far, the user is logged in
 				setUserState(UserSessionState.Playing);
 				
@@ -454,8 +465,9 @@ public class UserConnectionThread extends Thread
 		        		m_display.sendCommand(new ServerStatusMessage(ServerStatusMessage.Status.LOGON_SUCCESS));
 		        		
 		        		// Authenticated.  Add this user thread to the game server.
-		        		m_userInfo.setUserName(strUserName);
-	        			getGameServer().addUser(this);
+	        			getGameServer().addUser(this, strUserName);
+                        
+                        m_strUsername = strUserName;
 		        	}
 			        	
 		        	break;
@@ -493,8 +505,9 @@ public class UserConnectionThread extends Thread
 			        			m_display.sendCommand(new ServerStatusMessage(ServerStatusMessage.Status.LOGON_SUCCESS));
 			        			
 			        			// Authenticated.  Add this user thread to the game server.
-			        			m_userInfo.setUserName(strUserName);
-			        			getGameServer().addUser(this);
+			        			getGameServer().addUser(this, strUserName);
+                                
+                                m_strUsername = strUserName;
 			        		}
 			        		else
 			        			m_display.sendText("Login failed.  Please try again.");

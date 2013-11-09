@@ -93,6 +93,11 @@
 					<description>Talk to Tommy to complete the quest.</description>
 					<value>2</value>
 				</result>
+				<result>
+					<type>xp_reward</type>
+					<description>You just completed your first quest step!</description>
+					<value>5</value>
+				</result>
 			</action>
 			<action>
 				<name>take</name>

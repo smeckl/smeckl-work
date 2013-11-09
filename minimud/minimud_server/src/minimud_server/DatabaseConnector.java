@@ -169,9 +169,66 @@ public class DatabaseConnector
 		
 		return retVal;
 	}
+    
+    public synchronized UserInfo loadUserInfo(String strUsername)
+    {
+        UserInfo userInfo = null;
+        
+        try
+		{
+			PreparedStatement pstmt = getConnection().prepareStatement("select * from characters where username = ?");
+			pstmt.setString(1, strUsername);
+			
+			ResultSet results = pstmt.executeQuery();
+			
+			if(results.first())
+			{
+				userInfo = new UserInfo();
+                
+                userInfo.setUserName(results.getString("username"));
+                userInfo.setDescription(results.getString("description"));
+                userInfo.setGold(results.getInt("health"));
+                userInfo.setXP(results.getInt("xp"));
+                userInfo.setHealth(results.getInt("health"));
+			}
+		}
+		catch(Exception e)
+		{
+			m_logger.severe("Exception in DatabaseConnector::loadUserInfo() " + e);
+			userInfo = null;
+		}
+        
+        return userInfo;
+    }
+    
+    public synchronized ErrorCode saveUserState(UserConnectionThread user)
+	{
+		ErrorCode retVal = ErrorCode.Success;
+		
+		try
+		{
+			PreparedStatement pstmt = getConnection().prepareStatement("update characters set gold=?, xp=?, health=?"
+                                                                    + " where username=?");
+			
+            pstmt.setInt(1, user.getUserInfo().getGold());
+            pstmt.setInt(2, user.getUserInfo().getXP());
+            pstmt.setInt(3, user.getUserInfo().getHealth());
+            pstmt.setString(4, user.getUserInfo().getUserName());
+	
+			if(0 == pstmt.executeUpdate())
+				retVal = ErrorCode.InsertFailed;
+		}
+		catch(Exception e)
+		{
+			m_logger.severe("Exception in DatabaseConnector::saveUserState() " + e);
+			retVal = ErrorCode.Exception;
+		}
+		
+		return retVal;
+	}
 	
 	// Retrieves list of rooms.  Return value is null if there is an error.
-	public ResultSet getRooms()
+	public synchronized ResultSet getRooms()
 	{
 		ResultSet results = null;
 		
@@ -191,7 +248,7 @@ public class DatabaseConnector
 	}
 	
 	// Retrieves list of moves.  Return value is null if there is an error.
-	public ResultSet getMovesForRoom(int nRoomID)
+	public synchronized ResultSet getMovesForRoom(int nRoomID)
 	{
 		ResultSet results = null;
 		
@@ -213,7 +270,7 @@ public class DatabaseConnector
 	}
 	
 	// Retrieves list of NPCs.  Return value is null if there is an error.
-	public ResultSet getNPCsForRoom(int nRoomID)
+	public synchronized ResultSet getNPCsForRoom(int nRoomID)
 	{
 		ResultSet results = null;
 		
@@ -235,7 +292,7 @@ public class DatabaseConnector
 	}
 	
 	// Retrieves list of Objects.  Return value is null if there is an error.
-	public ResultSet getObjectsForRoom(int nRoomID)
+	public synchronized ResultSet getObjectsForRoom(int nRoomID)
 	{
 		ResultSet results = null;
 		
@@ -257,7 +314,7 @@ public class DatabaseConnector
 	}
 	
 	// Retrieves list of Actions.  Return value is null if there is an error.
-	public ResultSet getActionsForObject(GameObject obj)
+	public synchronized ResultSet getActionsForObject(GameObject obj)
 	{
 		ResultSet results = null;
 		
@@ -279,32 +336,32 @@ public class DatabaseConnector
 	}
 	
 	// Retrieves the result of an action.  Return value is null if there is an error.
-	public ArrayList<ActionResult> getActionResults(int parentID, int resultID)
+	public synchronized ArrayList<ActionResult> getActionResults(int parentID)
 	{
 		ArrayList<ActionResult> actionResults = new ArrayList<ActionResult>();
 		
 		try
 		{
-			PreparedStatement pstmt = getConnection().prepareStatement("select * from action_results where ID = ? " +
-																		"and parent = ?");
-			pstmt.setInt(1, resultID);
-			pstmt.setInt(2, parentID);
+			PreparedStatement pstmt = getConnection().prepareStatement("select * from action_results where parent = ?");
+			pstmt.setInt(1, parentID);
 			
 			ResultSet results = pstmt.executeQuery();
 			
-			while(null != results && results.next())
-			{
-				ActionResult actionRes = new ActionResult();
-				
-				actionRes.setID(results.getInt("ID"));
-				actionRes.setType(results.getString("type"));
-				actionRes.setDescription(results.getString("description"));
-				actionRes.setItemID(results.getInt("ItemID"));
-				actionRes.setValue(results.getInt("Value"));
-				
-				actionResults.add(actionRes);
-			}
-			
+            if(null != results)
+            {
+                while(results.next())
+                {
+                    ActionResult actionRes = new ActionResult();
+
+                    actionRes.setID(results.getInt("ID"));
+                    actionRes.setType(results.getString("type"));
+                    actionRes.setDescription(results.getString("description"));
+                    actionRes.setItemID(results.getInt("ItemID"));
+                    actionRes.setValue(results.getInt("Value"));
+
+                    actionResults.add(actionRes);
+                }
+            }
 		}
 		catch(Exception e)
 		{
@@ -316,7 +373,7 @@ public class DatabaseConnector
 	}
 	
 	// Retrieves an item.  Return value is null if there is an error.
-	public Item getItem(int nID)
+	public synchronized Item getItem(int nID)
 	{
 		Item item = null;
 		
@@ -347,7 +404,7 @@ public class DatabaseConnector
 	}
 	
 	// Retrieves list of Items for a user.  Return value is null if there is an error.
-	public ResultSet getItemsForUser(String strUser)
+	public synchronized ResultSet getItemsForUser(String strUser)
 	{
 		ResultSet results = null;
 		
@@ -367,7 +424,7 @@ public class DatabaseConnector
 		return results;
 	}
 	
-	public ErrorCode addItemToInventory(int nID, String strUserName)
+	public synchronized ErrorCode addItemToInventory(int nID, String strUserName)
 	{
 		ErrorCode retVal = ErrorCode.Success;
 		
@@ -394,7 +451,7 @@ public class DatabaseConnector
 		return retVal;
 	}
 	
-	public ErrorCode addQuestToUser(int nQuestID, String strUserName)
+	public synchronized ErrorCode addQuestToUser(int nQuestID, String strUserName)
 	{
 		ErrorCode retVal = ErrorCode.Success;
 		
@@ -423,7 +480,7 @@ public class DatabaseConnector
 		return retVal;
 	}
 	
-	public boolean isUserOnQuestStep(String strUser, int nQuestID, int nQuestStep)
+	public synchronized boolean isUserOnQuestStep(String strUser, int nQuestID, int nQuestStep)
 	{
 		boolean bRet = false;
 		
@@ -451,7 +508,7 @@ public class DatabaseConnector
 		return bRet;
 	}
 	
-	public ErrorCode updateUserQuestStep(int nQuestID, int nNewStep, String strUserName)
+	public synchronized ErrorCode updateUserQuestStep(int nQuestID, int nNewStep, String strUserName)
 	{
 		ErrorCode retVal = ErrorCode.Success;
 		
@@ -483,7 +540,7 @@ public class DatabaseConnector
 	}
 	
 	// Retrieves Quest object.  Return value is null if there is an error.
-	public Quest getQuest(int nID)
+	public synchronized Quest getQuest(int nID)
 	{
 		Quest quest = null;
 		
@@ -521,7 +578,7 @@ public class DatabaseConnector
 		return quest;
 	}
 	
-	public ErrorCode setQuestFirstCompletion(int nQuestID, String strUserName)
+	public synchronized ErrorCode setQuestFirstCompletion(int nQuestID, String strUserName)
 	{
 		ErrorCode retVal = ErrorCode.Success;
 		
@@ -550,13 +607,13 @@ public class DatabaseConnector
 		return retVal;
 	}
 	
-	public ErrorCode setUserQuestCompleted(int nQuestID, String strUserName)
+	public synchronized ErrorCode setUserQuestCompleted(int nQuestID, String strUserName)
 	{
 		ErrorCode retVal = ErrorCode.Success;
 		
 		try
 		{			
-			PreparedStatement pstmt = getConnection().prepareStatement("update quest_status set completed=1" +
+			PreparedStatement pstmt = getConnection().prepareStatement("update quest_status set completed=1, step=0" +
 									" where quest_id=? and username=?");
 			
 			pstmt.setInt(1, nQuestID);

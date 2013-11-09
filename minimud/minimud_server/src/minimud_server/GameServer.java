@@ -272,20 +272,20 @@ public class GameServer
 		return retVal;
 	}
 	
-	public void addUser(UserConnectionThread user)
+	public void addUser(UserConnectionThread user, String strName)
 	{
 		// Add the user to the game
-		m_logger.info("Adding user " + user.getUserInfo().getUserName() + " to the game.");
-		m_userMap.put(user.getUserInfo().getUserName(), user);
+		m_logger.info("Adding user " + strName + " to the game.");
+		m_userMap.put(strName, user);
 				
-		m_logger.info("Adding user " + user.getUserInfo().getUserName() + " to starting room " + 
+		m_logger.info("Adding user " + strName + " to starting room " + 
 					  getStartingRoom().getName() + ".");
 		
 		// Set the starting room
 		user.setCurrentRoom(getStartingRoom());
 		
 		// Add the suer to the starting Room
-		getStartingRoom().addUser(user);
+		getStartingRoom().addUser(user, strName);
 	}
 	
 	public void removeUser(UserConnectionThread user)
@@ -391,7 +391,7 @@ public class GameServer
 				curRoom.removeUser(user);
 				
 				// Add the user to the new room
-				nextRoom.addUser(user);
+				nextRoom.addUser(user, user.getUserInfo().getUserName());
 				
 				// Set the new room as the user's current room
 				user.setCurrentRoom(nextRoom);
@@ -462,13 +462,16 @@ public class GameServer
 						// There is a valid action, do it and get the result
 						
 						// Look up the ActionResult from the database
-						ArrayList<ActionResult> results = m_dbConn.getActionResults(action.getID(), action.getResultID());
+						ArrayList<ActionResult> results = m_dbConn.getActionResults(action.getID());
 						
 						if(null != results)
 						{
+                            int nRewardGold = 0;
+							int nRewardXP = 0;
+                                
 							for(int i = 0; i < results.size(); i++)
 							{
-								ActionResult result = results.get(i);
+								ActionResult result = results.get(i);                                                                
 								
 								if(0 == result.getType().compareTo("text_only"))
 								{
@@ -496,13 +499,16 @@ public class GameServer
 								}
 								else if(0 == result.getType().compareTo("xp_reward"))
 								{
-									// TODO:  Add XP to the user
+									nRewardXP += result.getValue();
+                                    
 									sendUserText(user, "Congratulations.  You have earned " + result.getValue()
 												+ " XP!");
 								}
 								else if(0 == result.getType().compareTo("gold_reward"))
 								{
-									// TODO:  Add gold to user
+									// Update user with rewards
+                                    nRewardGold += result.getValue();
+                                    
 									sendUserText(user, "Congratulations.  You have earned " + result.getValue()
 											+ " gold pieces!");
 								}
@@ -541,8 +547,8 @@ public class GameServer
 										if(null != quest)
 										{
 											// Get the quest reward values
-											int nRewardGold = quest.getRewardGold();
-											int nRewardXP = quest.getRewardXP();
+											nRewardGold = quest.getRewardGold();
+											nRewardXP = quest.getRewardXP();
 											
 											// If this is the first time the quest has been completed
 											if(quest.getFirstCompleteUser().isEmpty())
@@ -557,15 +563,21 @@ public class GameServer
 											}
 											
 											m_dbConn.setUserQuestCompleted(nQuestID, user.getUserInfo().getUserName());
-											
+											                                                                                    
 											// Congratulate the user
 											sendUserText(user, result.getDescription());
 											sendUserText(user, "You receive " + nRewardGold + " gold pieces.");
 											sendUserText(user, "You receive " + nRewardXP + " XP.");
 										}
 									}
-								}
-							}
+								}                                                                
+							}    
+                            
+                            // Update user with rewards
+                            user.getUserInfo().setGold(user.getUserInfo().getGold() + nRewardGold);
+                            user.getUserInfo().setXP(user.getUserInfo().getXP() + nRewardXP);
+
+                            m_dbConn.saveUserState(user);
 						}
 						else
 						{

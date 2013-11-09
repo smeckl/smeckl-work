@@ -105,9 +105,9 @@ public class Room
 		return nNextRoom;
 	}
 	
-	public void addUser(UserConnectionThread user)
+	public void addUser(UserConnectionThread user, String strName)
 	{
-		m_users.put(user.getUserInfo().getUserName(), user);
+		m_users.put(strName, user);
 	}
 	
 	public void removeUser(UserConnectionThread user)
