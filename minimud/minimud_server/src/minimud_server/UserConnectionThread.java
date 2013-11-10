@@ -239,7 +239,7 @@ public class UserConnectionThread extends Thread
 					    	// Failed to parse command, let the user know
 					    	m_display.sendText("Invalid command.");
 					    	
-					    	m_logger.info("Received invalid command from user (" + getUserInfo().getUserName() 
+					    	m_logger.info("Received invalid command from user (" + getUserInfo().getName() 
 										  + "): " + inputLine);
 					    }
 			        }		 
@@ -438,7 +438,7 @@ public class UserConnectionThread extends Thread
 		        	byte hash[] = SecurityHelper.hashPassword(strPwd1, salt);
 		        	
 		        	if(DatabaseConnector.ErrorCode.Success !=
-		        				getDatabaseConnector().createNewUser(strUserName, hash, salt))
+		        				getDatabaseConnector().createNewUser(strUserName, hash, salt, 1)) // TODO:  Add Char Type
     				{
 		        		m_logger.info("Failed to create new user");
 		        		retVal = ErrorCode.CreateUserFailed;

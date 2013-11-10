@@ -291,13 +291,13 @@ public class GameServer
 	
 	public void removeUser(UserConnectionThread user)
 	{
-		m_logger.info("Removing user " + user.getUserInfo().getUserName() + " from the game.");
+		m_logger.info("Removing user " + user.getUserInfo().getName() + " from the game.");
 		
 		// Remove the user from their current room
 		user.getCurrentRoom().removeUser(user);
 		
 		// Remove the user from the game
-		m_userMap.remove(user.getUserInfo().getUserName());
+		m_userMap.remove(user.getUserInfo().getName());
 	}
 	
 	public synchronized ErrorCode processUserMessage(UserConnectionThread user, Message msg)
@@ -306,7 +306,7 @@ public class GameServer
 		
 		try
 		{		
-			m_logger.info("Received message from user (" + user.getUserInfo().getUserName() 
+			m_logger.info("Received message from user (" + user.getUserInfo().getName() 
 						  + "): " + msg.serialize());
 			
 			// Process user chat message
@@ -314,7 +314,7 @@ public class GameServer
 			{
 				UserChatMessage userChat = (UserChatMessage)msg;
 				
-				userChat.setFromUser(user.getUserInfo().getUserName());
+				userChat.setFromUser(user.getUserInfo().getName());
 				
 				// Method to handle different types of chat commands
 				retVal = processChatMessage(user, userChat);
@@ -385,7 +385,7 @@ public class GameServer
                     {
                         UserConnectionThread info = userIter.next();
                         
-                        String strChar = padString(info.getUserInfo().getUserName(), 23);
+                        String strChar = padString(info.getUserInfo().getName(), 23);
                         strOut += strChar;
                         colCount++;
                         
@@ -458,7 +458,7 @@ public class GameServer
 				curRoom.removeUser(user);
 				
 				// Add the user to the new room
-				nextRoom.addUser(user, user.getUserInfo().getUserName());
+				nextRoom.addUser(user, user.getUserInfo().getName());
 				
 				// Set the new room as the user's current room
 				user.setCurrentRoom(nextRoom);
@@ -550,7 +550,7 @@ public class GameServer
 				{
 					// Check to see if this NPC has an action matching the name and 
 					// any quest dependencies
-					Action action = obj.getAction(m_dbConn, msg.getActionString(), user.getUserInfo().getUserName());
+					Action action = obj.getAction(m_dbConn, msg.getActionString(), user.getUserInfo().getName());
 					
 					if(null != action)
 					{
@@ -582,7 +582,7 @@ public class GameServer
 									if(null != item)
 									{
 										// Add the item to the user's inventory
-										m_dbConn.addItemToInventory(nItemID, user.getUserInfo().getUserName());
+										m_dbConn.addItemToInventory(nItemID, user.getUserInfo().getName());
 										
 										sendUserText(user, "The " + item.getName() + " has been added to your inventory.");
 									}
@@ -613,7 +613,7 @@ public class GameServer
 									
 									if(0 != nQuestID)
 									{
-										m_dbConn.addQuestToUser(nQuestID, user.getUserInfo().getUserName());
+										m_dbConn.addQuestToUser(nQuestID, user.getUserInfo().getName());
 										
 										sendUserText(user, result.getDescription());
 									}
@@ -625,7 +625,7 @@ public class GameServer
 									
 									if(0 != nQuestID)
 									{
-										m_dbConn.updateUserQuestStep(nQuestID, nNewStep, user.getUserInfo().getUserName());
+										m_dbConn.updateUserQuestStep(nQuestID, nNewStep, user.getUserInfo().getName());
 										
 										sendUserText(user, result.getDescription());
 									}
@@ -654,10 +654,10 @@ public class GameServer
 												nRewardXP += (nRewardXP * quest.getFirstBonus())/100;
 
 												// Set the first completion user
-												m_dbConn.setQuestFirstCompletion(nQuestID, user.getUserInfo().getUserName());
+												m_dbConn.setQuestFirstCompletion(nQuestID, user.getUserInfo().getName());
 											}
 											
-											m_dbConn.setUserQuestCompleted(nQuestID, user.getUserInfo().getUserName());
+											m_dbConn.setUserQuestCompleted(nQuestID, user.getUserInfo().getName());
 											                                                                                    
 											// Congratulate the user
 											sendUserText(user, result.getDescription());
@@ -750,9 +750,9 @@ public class GameServer
                     UserInfo info = users.get(i);                                     
                     
                     if(bGold)
-                        strOut = String.format(strFormat, info.getUserName(), info.getGold());
+                        strOut = String.format(strFormat, info.getName(), info.getGold());
                     else
-                        strOut = String.format(strFormat, info.getUserName(), info.getXP());
+                        strOut = String.format(strFormat, info.getName(), info.getXP());
                         
                     sendUserText(user, strOut);
                 }

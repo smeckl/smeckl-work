@@ -112,7 +112,7 @@ public class Room
 	
 	public void removeUser(UserConnectionThread user)
 	{
-		m_users.remove(user.getUserInfo().getUserName());
+		m_users.remove(user.getUserInfo().getName());
 	}
     
     public Iterator<UserConnectionThread> getUserList()    

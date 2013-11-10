@@ -142,13 +142,14 @@ public class DatabaseConnector
 		return userRec;
 	}
 	
-	public synchronized ErrorCode createNewUser(String strUserName, byte pwdHash[], byte pwdSalt[])
+	public synchronized ErrorCode createNewUser(String strUserName, byte pwdHash[], byte pwdSalt[], int nCharType)
 	{
 		ErrorCode retVal = ErrorCode.Success;
 		
 		try
 		{
-			PreparedStatement pstmt = getConnection().prepareStatement("insert into characters values(?, ?, ?, ?, ?, ?, ?, ?)");
+			PreparedStatement pstmt = getConnection().prepareStatement("insert into characters values(?, ?, ?, ?, "
+                                                                     + "?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			pstmt.setString(1, strUserName);
 			pstmt.setBytes(2,  pwdHash);
 			pstmt.setBytes(3, pwdSalt);
@@ -160,10 +161,15 @@ public class DatabaseConnector
 	    	
 			pstmt.setDate(4, curDate);
 			
-			pstmt.setString(5,  "");
-			pstmt.setInt(6,  0);
-			pstmt.setInt(7, 0);
-			pstmt.setInt(8,  0);
+			pstmt.setString(5,  "");  // Description
+            pstmt.setInt(6, nCharType);  // Char Type
+			pstmt.setInt(7,  0);    // XP
+			pstmt.setInt(8, 0);     // Gold
+			pstmt.setInt(9,  100);    // Health
+            pstmt.setInt(10,  1);    // attack power
+            pstmt.setInt(11,  1);    // magic power
+            pstmt.setInt(12,  10);    // defense
+            pstmt.setInt(13,  5);    // magic_defense
 	
 			if(0 == pstmt.executeUpdate())
 				retVal = ErrorCode.InsertFailed;
@@ -192,11 +198,16 @@ public class DatabaseConnector
 			{
 				userInfo = new UserInfo();
                 
-                userInfo.setUserName(results.getString("username"));
+                userInfo.setName(results.getString("username"));
                 userInfo.setDescription(results.getString("description"));
+                userInfo.setCharType(results.getInt("char_type"));
                 userInfo.setGold(results.getInt("health"));
                 userInfo.setXP(results.getInt("xp"));
                 userInfo.setHealth(results.getInt("health"));
+                userInfo.setAttackPower(results.getInt("attack_power"));
+                userInfo.setMagicPower(results.getInt("magic_power"));
+                userInfo.setDefense(results.getInt("defense"));
+                userInfo.setMagicDefense(results.getInt("magic_defense"));
 			}
 		}
 		catch(Exception e)
@@ -220,7 +231,7 @@ public class DatabaseConnector
             pstmt.setInt(1, user.getUserInfo().getGold());
             pstmt.setInt(2, user.getUserInfo().getXP());
             pstmt.setInt(3, user.getUserInfo().getHealth());
-            pstmt.setString(4, user.getUserInfo().getUserName());
+            pstmt.setString(4, user.getUserInfo().getName());
 	
 			if(0 == pstmt.executeUpdate())
 				retVal = ErrorCode.InsertFailed;
@@ -701,7 +712,7 @@ public class DatabaseConnector
                 {
                     UserInfo info = new UserInfo();
                     
-                    info.setUserName(results.getString("username"));
+                    info.setName(results.getString("username"));
                     info.setGold(results.getInt("gold"));
                     info.setXP(results.getInt("xp"));
                     

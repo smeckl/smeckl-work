@@ -1,26 +1,53 @@
 package minimud_server;
 
-public class UserInfo
+public class UserInfo extends Mob
 {
-	private String m_strUserName = "";
-    private String m_strDescription = "";
-    private int m_nGold = 0;
-    private int m_nXP = 0;
-    private int m_nHealth = 0;
-	
-	public void setUserName(String userName)
-	{
-		m_strUserName = userName;
-	}
-	
-	public String getUserName()
-	{
-		return m_strUserName;
-	}
-    
-    public void setDescription(String strDescription)
+    enum CharType
     {
-        m_strDescription = strDescription;
+        NotSet,
+        Fighter,
+        Mage
+    }
+    
+    private CharType m_charType;
+    private int m_nGold = 0;
+    private int m_nXP;
+    
+    public UserInfo()
+    {
+        super();
+    }
+    
+    public void setCharType(CharType type)
+    {
+        m_charType = type;
+    }
+    
+    public void setCharType(int nType)
+    {
+        switch(nType)
+        {
+            case 0:
+                m_charType = CharType.NotSet;
+                break;
+                
+            case 1:
+                m_charType = CharType.Fighter;
+                break;
+                
+            case 2:
+                m_charType = CharType.Mage;
+                break;
+                
+            default:
+                m_charType = CharType.NotSet;
+                break;
+        }
+    }
+    
+    public CharType getCharType()
+    {
+        return m_charType;
     }
     
     public void setGold(int nGold)
@@ -41,15 +68,5 @@ public class UserInfo
     public int getXP()
     {
         return m_nXP;
-    }
-    
-    public void setHealth(int nHealth)
-    {
-        m_nHealth = nHealth;
-    }
-    
-    public int getHealth()
-    {
-        return m_nHealth;
     }
 }

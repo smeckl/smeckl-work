@@ -130,11 +130,22 @@ public class BuildWorld
 						"description VARCHAR(1000) NOT NULL, PRIMARY KEY ( ID ));");
 				
 				m_dbConn.addTable("CREATE TABLE characters ( username VARCHAR(32) NOT NULL, pwd_hash VARBINARY(100) NOT NULL, " +
-						"pwd_salt VARBINARY(16) NOT NULL, created DATE NOT NULL, description VARCHAR(1000), xp INT, gold INT, " +
-						"health INT, PRIMARY KEY ( username ));");
+						"pwd_salt VARBINARY(16) NOT NULL, created DATE NOT NULL, description VARCHAR(1000), char_type INT NOT NULL," +
+                        "xp INT, gold INT, health INT, attack_power INT NOT NULL, magic_power INT NOT NULL," +
+                        "defense INT NOT NULL, magic_defense INT NOT NULL, " +
+                        "PRIMARY KEY ( username ));");
+                
+                m_dbConn.addTable("CREATE TABLE monsters ( ID INT NOT NULL, name VARCHAR(32) NOT NULL, " +
+                        "description VARCHAR(1000) NOT NULL, " +
+						"health INT NOT NULL, attack_power INT NOT NULL, magic_power INT NOT NULL," +
+                        "defense INT NOT NULL, magic_defense INT NOT NULL, loot_table_id INT NOT NULL, " +
+                        "PRIMARY KEY ( ID ));");
 				
 				m_dbConn.addTable("CREATE TABLE inventory (ItemID INT NOT NULL, username VARCHAR(32) NOT NULL," +
 									" PRIMARY KEY ( ItemID, username));");
+                
+                m_dbConn.addTable("CREATE TABLE loot_table (table_id INT NOT NULL, item_id INT NOT NULL, drop_percent INT NOT NULL, " +
+									" PRIMARY KEY ( table_id ));");
 				
 				m_dbConn.addTable("CREATE TABLE quests (ID INT NOT NULL, name VARCHAR(100) NOT NULL," +
 								  "first_completion_user VARCHAR(30), reward_gold INT NOT NULL," +
