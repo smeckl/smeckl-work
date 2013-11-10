@@ -24,13 +24,17 @@ public class MiniMUDClient
     private static BufferedReader m_serverIn = null;
     private static BufferedReader m_stdIn = null;
     private static Semaphore m_stopSem = new Semaphore(1);
+    private static Object m_rwLock = new Object();
+    
+    private static int SOCKET_WAIT_MS = 100;
 
     public enum ErrorCode
     {
 
         Success,
         Exception,
-        ObjectCreationFailed,}
+        ObjectCreationFailed
+    }
 
     /**
      * @param args
@@ -57,14 +61,11 @@ public class MiniMUDClient
                 while (!m_sslSocket.isClosed() && 1 == m_stopSem.availablePermits())
                 {
                     try
-                    {
+                    {                        
                         // Check for ready input from either the client or server
-                        if(null != (serverInput = m_serverIn.readLine())
-                           || (m_stdIn.ready() && (userInput = m_stdIn.readLine()) != null))
-
+                        if(null != (serverInput = m_serverIn.readLine()))
                         {     
-                            // If we have messages from the server, then process them
-                            if (null != serverInput)
+                            synchronized(m_rwLock)
                             {
                                 do
                                 {
@@ -94,12 +95,7 @@ public class MiniMUDClient
 
                                 System.out.print(">>");
                             }
-                            // If we have input from the user, then send it to the server                     
-                            else if(null != userInput)
-                            {
-                                m_serverOut.println(userInput);
-                            }
-                        }
+                        }                            
                     }
                     catch (SocketTimeoutException e)
                     {
@@ -176,7 +172,7 @@ public class MiniMUDClient
 
             // Creating Client Sockets
             m_sslSocket = (SSLSocket) socketFactory.createSocket(m_serverName, SSL_PORT);
-            m_sslSocket.setSoTimeout(100);
+            m_sslSocket.setSoTimeout(SOCKET_WAIT_MS);
 
             // Initializing the streams for Communication with the Server
             m_serverIn = new BufferedReader(new InputStreamReader(m_sslSocket.getInputStream()));
@@ -292,7 +288,7 @@ public class MiniMUDClient
                     System.out.println("Login successful.");
 
                     // Create and start thread to read user input and send it to the server
-                    UserInputThread userInThread = new UserInputThread(m_sslSocket, m_stopSem);
+                    UserInputThread userInThread = new UserInputThread(m_sslSocket, m_stopSem, m_rwLock);
                     userInThread.start();
                 }
                 else if (ServerStatusMessage.Status.LOGOUT == srvMsg.getStatus())

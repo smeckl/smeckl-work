@@ -21,11 +21,13 @@ public class UserInputThread extends Thread
 	private PrintWriter m_serverOut = null;
 	private BufferedReader m_stdIn = null;
 	private Semaphore m_stopSem = null;
+    private Object m_rwLock = null;
 	
-	public UserInputThread(Socket socket, Semaphore stopSem)
+	public UserInputThread(Socket socket, Semaphore stopSem, Object rwLock)
 	{
 		setSocket(socket);
 		m_stopSem = stopSem;
+        m_rwLock = rwLock;
 	}
 	
 	public void setSocket(Socket socket)
@@ -60,15 +62,17 @@ public class UserInputThread extends Thread
 				
 				while(m_socket.isConnected() 
 						&& 1 == m_stopSem.availablePermits())
-				{
-					if(m_stdIn.ready() 
-						&& (userInput = m_stdIn.readLine()) != null)
-					{
-						if(!userInput.isEmpty())
-							m_serverOut.println(userInput);
-						
-						//showPrompt();
-					}
+				{               
+                    if((userInput = m_stdIn.readLine()) != null)
+                    {
+                        synchronized(m_rwLock)
+                        {
+                            if(!userInput.isEmpty())
+                                m_serverOut.println(userInput);
+
+                            //showPrompt();
+                        }
+                    }
 				}
 				
 				retVal = teardownThread();

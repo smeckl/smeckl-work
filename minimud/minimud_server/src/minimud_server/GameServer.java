@@ -374,6 +374,8 @@ public class GameServer
                     int colCount = 0;
                     String strOut = "";
 
+                    sendUserText(user, "");
+                    sendUserText(user, "");
                     sendUserText(user, "Characters Currently Playing:");
                     sendUserText(user, "________________________________");
                     
@@ -392,6 +394,7 @@ public class GameServer
                             strOut = "";
                         }
                     }
+                    sendUserText(user, "");
                 }
                 else
                 {

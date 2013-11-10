@@ -41,6 +41,8 @@ public class UserConnectionThread extends Thread
 	private DisplayHelper m_display = null;
     
     private String m_strUsername = "";
+    
+    private static int SOCKET_WAIT_MS = 1000;
 	
 	public enum ErrorCode
 	{
@@ -134,24 +136,6 @@ public class UserConnectionThread extends Thread
 		if(null != cur)
 			cur.displayRoom(m_display);
 	}
-	
-	// Determines if there is a message ready to be read
-    public boolean MessageReady()
-    {
-        boolean bRetVal = true;
-        
-        try
-        {
-            bRetVal = m_textIn.ready();
-        }
-        catch(IOException e)
-        {
-            m_logger.severe("Encountered exception in UserConnectionThread::MessageReady(): " + e);
-            bRetVal = false;
-        }
-        
-        return bRetVal;
-    }
     
     // Reads one line of text from the TCP socket
     public String ReceiveMessage()
@@ -229,7 +213,7 @@ public class UserConnectionThread extends Thread
 				// Display the current room's text (set by the GameServer object
 				getCurrentRoom().displayRoom(m_display);
 					
-				m_socket.setSoTimeout(1000); // Don't want reads to block forever
+				m_socket.setSoTimeout(SOCKET_WAIT_MS); // Don't want reads to block forever
 				
 				// Loop until the user logs out or the socket is disconnected
 				while(ErrorCode.Success == retVal 
