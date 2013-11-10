@@ -3,7 +3,7 @@ import java.io.*;
 %}
 
 %token TEXTMSG MESSAGE FROM TO AT PLAYER SERVER REQUEST_INPUT TYPE NORMAL_INPUT PASSWD_INPUT SERVER_STATUS
-%token LOGON_SUCCESS LOGON_FAILED INVALID QUIT EXIT LOGOUT TELL SAY SHOUT WHISPER 
+%token LOGON_SUCCESS LOGON_FAILED INVALID QUIT EXIT LOGOUT TELL SAY SHOUT WHISPER WHO
 %token GO_NORTH GO_SOUTH GO_EAST GO_WEST GO_NORTHEAST GO_NORTHWEST GO_SOUTHEAST GO_SOUTHWEST GO_UP GO_DOWN
 %token CHARNAME CHARLITERAL STRINGLITERAL INT LOOK
 %token KICK PUNCH TALK STAB PUSH SLASH SHOOT TAKE DROP GIVE LEADERS GOLD XP
@@ -124,6 +124,13 @@ chat_message:
       
       	$$ = new MessageParserVal(chatMsg);
 	}
+| WHO
+    {
+        UserChatMessage chatMsg = new UserChatMessage();
+      	chatMsg.setMsgType(UserChatMessage.MsgType.Who);;
+      
+      	$$ = new MessageParserVal(chatMsg);
+    }
 ;
 
 move_message:

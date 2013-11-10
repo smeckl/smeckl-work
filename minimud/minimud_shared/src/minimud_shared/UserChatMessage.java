@@ -11,7 +11,8 @@ public class UserChatMessage extends Message
 		Tell,
 		Say,
 		Shout,
-		Whisper
+		Whisper,
+        Who
 	}
 	
 	private MsgType m_msgType;
@@ -81,6 +82,8 @@ public class UserChatMessage extends Message
 		{
 			strOut = "/whisper " + getToUser() + " \"" + getMessage() + "\"";
 		}
+        else if(MsgType.Who == getMsgType())
+            strOut = "/who";
 		
 		return strOut;
 	}

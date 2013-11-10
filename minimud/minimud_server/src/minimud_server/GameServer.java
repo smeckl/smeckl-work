@@ -317,7 +317,7 @@ public class GameServer
 				userChat.setFromUser(user.getUserInfo().getUserName());
 				
 				// Method to handle different types of chat commands
-				retVal = processChatMessage(userChat);
+				retVal = processChatMessage(user, userChat);
 			}
 			else if(MessageID.MOVE == msg.getMessageId())
 			{
@@ -337,31 +337,92 @@ public class GameServer
 		return retVal;
 	}
 	
-	public ErrorCode processChatMessage(UserChatMessage msg)
+	public ErrorCode processChatMessage(UserConnectionThread user, UserChatMessage msg)
 	{
 		ErrorCode retVal = ErrorCode.Success;
 		
-		if(UserChatMessage.MsgType.Tell == msg.getMsgType())
-		{
-			UserConnectionThread user = m_userMap.get(msg.getToUser());
+        switch(msg.getMsgType())
+        {
+            case Tell:
+            {
+                UserConnectionThread recipient = m_userMap.get(msg.getToUser());
 			
-			if(null != user)
-				user.processGameServerCommand(new ClientShowTextMessage(msg.getFromUser(), msg.getMessage()));
-		}
-		else if(UserChatMessage.MsgType.Say == msg.getMsgType())
-		{
-			Iterator<UserConnectionThread> userIter = m_userMap.values().iterator();
+                if(null != recipient)
+                    recipient.processGameServerCommand(new ClientShowTextMessage(msg.getFromUser(), msg.getMessage()));
+            }
+                break;
+                
+            case Say:
+            {
+                Iterator<UserConnectionThread> userIter = m_userMap.values().iterator();
 			
-			while(userIter.hasNext())
-			{
-				UserConnectionThread user = userIter.next();
-				
-				user.processGameServerCommand(new ClientShowTextMessage("server", "Invalid chat message"));
-			}
-		}
+                while(userIter.hasNext())
+                {
+                    UserConnectionThread recipient = userIter.next();
+
+                    recipient.processGameServerCommand(new ClientShowTextMessage("server", "Invalid chat message"));
+                }
+            }
+                break;
+                
+            case Who:
+            {
+                ArrayList<UserInfo> characters = m_dbConn.getSortedUserList(DatabaseConnector.SortBy.User);
+                
+                if(null != characters)
+                {
+                    int colCount = 0;
+                    String strOut = "";
+
+                    sendUserText(user, "Characters Currently Playing:");
+                    sendUserText(user, "________________________________");
+                    
+                    for(int i = 0; i < characters.size(); i++)
+                    {
+                        UserInfo info = characters.get(i);
+                        
+                        String strChar = padString(info.getUserName(), 23);
+                        strOut += strChar;
+                        colCount++;
+                        
+                        if(3 == colCount || i >= (characters.size() - 1))
+                        {
+                            sendUserText(user, strOut);
+                            colCount = 0;
+                            strOut = "";
+                        }
+                    }
+                }
+                else
+                {
+                    m_logger.severe("FAILED to load list of characters.");
+                    retVal = ErrorCode.Exception;
+                }
+            }
+                break;
+        }
 		
 		return retVal;
 	}
+    
+    private String padString(String str, int nTotalLen)
+    {
+        String strOut = "";
+        
+        if(str.length() >= nTotalLen)
+            strOut = str;
+        else
+        {
+            strOut = str;
+            
+            for(int i = 0; i < (nTotalLen-str.length()); i++)
+            {
+                strOut += " ";
+            }
+        }
+        
+        return strOut;
+    }
 	
 	public ErrorCode processMoveMessage(UserConnectionThread user, PlayerMoveMessage msg)
 	{

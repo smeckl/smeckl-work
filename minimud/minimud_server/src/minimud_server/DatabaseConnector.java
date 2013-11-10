@@ -15,7 +15,8 @@ public class DatabaseConnector
     public enum SortBy
     {
         Gold,
-        XP
+        XP,
+        User
     }
 	
 	private Connection m_conn;
@@ -684,6 +685,10 @@ public class DatabaseConnector
             else if(SortBy.XP == sortBy)
             {
                 sqlString = "select * from characters order by xp desc";
+            }
+            else if(SortBy.User == sortBy)
+            {
+                sqlString = "select * from characters order by username";
             }
             
 			PreparedStatement pstmt = getConnection().prepareStatement(sqlString);

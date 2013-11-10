@@ -72,6 +72,7 @@ drop			{yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.D
 leaders         {yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.LEADERS;}
 gold            {yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.GOLD;}
 xp              {yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.XP;}
+\/who           {yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.WHO;}
 
 \,		{return (int)yycharat(0);}
 \=		{return (int)yycharat(0);}
