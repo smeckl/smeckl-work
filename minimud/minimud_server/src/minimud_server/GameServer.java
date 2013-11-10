@@ -367,9 +367,9 @@ public class GameServer
                 
             case Who:
             {
-                ArrayList<UserInfo> characters = m_dbConn.getSortedUserList(DatabaseConnector.SortBy.User);
+                Iterator<UserConnectionThread> userIter = m_userMap.values().iterator();
                 
-                if(null != characters)
+                if(null != userIter)
                 {
                     int colCount = 0;
                     String strOut = "";
@@ -377,15 +377,15 @@ public class GameServer
                     sendUserText(user, "Characters Currently Playing:");
                     sendUserText(user, "________________________________");
                     
-                    for(int i = 0; i < characters.size(); i++)
+                    while(userIter.hasNext())
                     {
-                        UserInfo info = characters.get(i);
+                        UserConnectionThread info = userIter.next();
                         
-                        String strChar = padString(info.getUserName(), 23);
+                        String strChar = padString(info.getUserInfo().getUserName(), 23);
                         strOut += strChar;
                         colCount++;
                         
-                        if(3 == colCount || i >= (characters.size() - 1))
+                        if(3 == colCount || !userIter.hasNext())
                         {
                             sendUserText(user, strOut);
                             colCount = 0;
