@@ -114,6 +114,11 @@ public class Room
 	{
 		m_users.remove(user.getUserInfo().getUserName());
 	}
+    
+    public Iterator<UserConnectionThread> getUserList()    
+    {
+        return m_users.values().iterator();
+    }
 	
 	public void addNPC(NPC npc)
 	{

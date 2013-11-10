@@ -354,13 +354,15 @@ public class GameServer
                 
             case Say:
             {
-                Iterator<UserConnectionThread> userIter = m_userMap.values().iterator();
+                Room curRoom = user.getCurrentRoom();
+                
+                Iterator<UserConnectionThread> userIter = curRoom.getUserList();
 			
                 while(userIter.hasNext())
                 {
                     UserConnectionThread recipient = userIter.next();
 
-                    recipient.processGameServerCommand(new ClientShowTextMessage("server", "Invalid chat message"));
+                    recipient.processGameServerCommand(new ClientShowTextMessage(msg.getFromUser(), msg.getMessage()));
                 }
             }
                 break;

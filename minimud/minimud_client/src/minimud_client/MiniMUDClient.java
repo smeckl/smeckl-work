@@ -57,6 +57,7 @@ public class MiniMUDClient
 
                 String serverInput = null;
                 String userInput = null;
+                boolean bMsgDisplayedText = false;
 
                 while (!m_sslSocket.isClosed() && 1 == m_stopSem.availablePermits())
                 {
@@ -76,7 +77,7 @@ public class MiniMUDClient
 
                                         if (null != msg)
                                         {
-                                            executeServerCommand(msg);
+                                            bMsgDisplayedText = executeServerCommand(msg);
                                         }
 
                                         serverInput = m_serverIn.readLine();
@@ -88,12 +89,13 @@ public class MiniMUDClient
                                     catch (Exception e)
                                     {
                                         System.out.println("Invalid server message received.");
-                                    }
+                                    }                                 
                                 }
                                 while (null != serverInput
                                         && (1 == m_stopSem.availablePermits()));
 
-                                System.out.print(">>");
+                                if(bMsgDisplayedText)
+                                    System.out.print(">>");
                             }
                         }                            
                     }
@@ -101,6 +103,8 @@ public class MiniMUDClient
                     {
                         // Do nothing
                     }
+                    
+                    bMsgDisplayedText = false;
                 }
 
                 retVal = teardownClient();
@@ -241,15 +245,16 @@ public class MiniMUDClient
         return msg;
     }
 
-    private static ErrorCode executeServerCommand(Message msg)
+    private static boolean executeServerCommand(Message msg)
     {
-        ErrorCode retVal = ErrorCode.Success;
+        boolean bMsgDisplayedText = false;
 
         try
         {
             if (MessageID.CLIENT_SHOW_TEXT == msg.getMessageId())
             {
                 System.out.println(msg.getClientDisplaytext());
+                bMsgDisplayedText = true;
             }
             else if (MessageID.CLIENT_REQUEST_INPUT == msg.getMessageId())
             {
@@ -290,6 +295,8 @@ public class MiniMUDClient
                     // Create and start thread to read user input and send it to the server
                     UserInputThread userInThread = new UserInputThread(m_sslSocket, m_stopSem, m_rwLock);
                     userInThread.start();
+                    
+                    bMsgDisplayedText = true;
                 }
                 else if (ServerStatusMessage.Status.LOGOUT == srvMsg.getStatus())
                 {
@@ -305,9 +312,9 @@ public class MiniMUDClient
         }
         catch (Exception e)
         {
-            retVal = ErrorCode.Exception;
+            bMsgDisplayedText = false;
         }
 
-        return retVal;
+        return bMsgDisplayedText;
     }
 }
