@@ -6,7 +6,7 @@ import java.io.*;
 %token LOGON_SUCCESS LOGON_FAILED INVALID QUIT EXIT LOGOUT TELL SAY SHOUT WHISPER 
 %token GO_NORTH GO_SOUTH GO_EAST GO_WEST GO_NORTHEAST GO_NORTHWEST GO_SOUTHEAST GO_SOUTHWEST GO_UP GO_DOWN
 %token CHARNAME CHARLITERAL STRINGLITERAL INT LOOK
-%token KICK PUNCH TALK STAB PUSH SLASH SHOOT TAKE DROP
+%token KICK PUNCH TALK STAB PUSH SLASH SHOOT TAKE DROP GIVE LEADERS GOLD XP
 %%
 
 message:
@@ -229,6 +229,18 @@ action_message:
 | SHOOT CHARNAME
 	{
 		$$ = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Shoot, $2.sval, ""));
+	}
+| LEADERS
+	{
+		$$ = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Leaders, "", ""));
+	}
+| LEADERS GOLD
+	{
+		$$ = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Leaders, "gold", ""));
+	}
+| LEADERS XP
+	{
+		$$ = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Leaders, "xp", ""));
 	}
 ;
 

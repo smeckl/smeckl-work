@@ -116,6 +116,7 @@ public class BuildWorld
 				m_dbConn.addTable("CREATE TABLE actions ( ID INT NOT NULL, parent INT NOT NULL, " +
 						"name VARCHAR(50) NOT NULL, result INT NOT NULL, " +
 						"quest_dependency_id INT, quest_dependency_step INT," +
+                        "quest_dependency_complete INT, " +
 						"PRIMARY KEY ( ID ) );");
 				
 				m_dbConn.addTable("CREATE TABLE objects ( ID INT NOT NULL, room INT NOT NULL, name VARCHAR(50) NOT NULL, " +

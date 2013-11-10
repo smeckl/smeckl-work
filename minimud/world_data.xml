@@ -68,6 +68,14 @@
 					<value>1</value>
 				</result>
 			</action>
+			<action>
+				<name>talk</name>
+				<quest_dependency_complete>1</quest_dependency_complete>
+				<result>
+					<type>text_only</type>
+					<description>Now that you have completed your first quest, maybe you should try traveling.  Type 'north' or 'west' to check out the adjacent areas.</description>
+				</result>
+			</action>
 		</npc>
 		<object>
 			<name>lantern</name>

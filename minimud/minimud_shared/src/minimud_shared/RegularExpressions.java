@@ -19,7 +19,8 @@ public class RegularExpressions
 		ACTION_TYPE,
 		RESULT_TYPE,
 		HINT,
-		ACTION_RESULT_DESC
+		ACTION_RESULT_DESC,
+        QUEST_DEP_COMPLETE
 	}
 	
 	private Map<RegExID, String> m_regExMap = new HashMap<RegExID, String>();
@@ -40,6 +41,7 @@ public class RegularExpressions
 		m_regExMap.put(RegExID.RESULT_TYPE, "^(text_only|xp_reward|give_quest|update_quest|complete_quest|gold_reward|item_reward)$");
 		m_regExMap.put(RegExID.HINT, "^[a-zA-Z0-9\\-\\.\\,\\:\\?\\!\\'\\\"\\$\\\\ ]{1,200}$");
 		m_regExMap.put(RegExID.ACTION_RESULT_DESC, "^[a-zA-Z0-9\\-\\.\\,\\:\\?\\!\\'\\\"\\$\\\\ ]{1,200}$");
+        m_regExMap.put(RegExID.QUEST_DEP_COMPLETE, "^(0|1)$");
 	}
 	
 	public boolean stringMatchesRegEx(String str, RegExID id)

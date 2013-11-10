@@ -219,7 +219,6 @@ public class MiniMUDClient
         return retVal;
     }
 
-    @SuppressWarnings("deprecation")
     private static Message parseServerCommand(String strMsg)
     {
         Message msg = null;
@@ -231,6 +230,11 @@ public class MiniMUDClient
             parser.parse();
 
             msg = parser.getLastMessage();
+        }
+        catch(java.lang.Error e)
+        {
+            System.out.println("Invalid Server Message.");
+            msg = null;
         }
         catch (Exception e)
         {

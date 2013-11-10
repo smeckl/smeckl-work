@@ -11,6 +11,12 @@ public class DatabaseConnector
 		Exception,
 		InsertFailed
 	}
+    
+    public enum SortBy
+    {
+        Gold,
+        XP
+    }
 	
 	private Connection m_conn;
 
@@ -634,5 +640,76 @@ public class DatabaseConnector
 		}
 		
 		return retVal;
+	}
+    
+    public synchronized boolean userCompletedQuest(int nQuestID, String strUserName)
+	{
+		boolean bRet = false;
+		
+		try
+		{
+			PreparedStatement pstmt = getConnection().prepareStatement("select * from quest_status where " +
+																"username = ? && quest_id = ? and completed = 1");
+			pstmt.setString(1, strUserName);
+			pstmt.setInt(2, nQuestID);
+			
+			ResultSet results = pstmt.executeQuery();
+			
+			if(null != results && results.next())
+			{
+				bRet = true;
+			}
+		}
+		catch(Exception e)
+		{
+			m_logger.severe("Exception in DatabaseConnector::userCompletedQuest() " + e);
+			bRet = false;
+		}
+		
+		return bRet;
+	}
+    
+    public synchronized ArrayList<UserInfo> getSortedUserList(SortBy sortBy)
+	{
+		ArrayList<UserInfo> actionResults = new ArrayList<UserInfo>();
+		
+		try
+		{
+            String sqlString = "";
+            
+            if(SortBy.Gold == sortBy)
+            {
+                sqlString = "select * from characters order by gold desc";
+            }
+            else if(SortBy.XP == sortBy)
+            {
+                sqlString = "select * from characters order by xp desc";
+            }
+            
+			PreparedStatement pstmt = getConnection().prepareStatement(sqlString);
+			
+			ResultSet results = pstmt.executeQuery();
+			
+            if(null != results)
+            {
+                while(results.next())
+                {
+                    UserInfo info = new UserInfo();
+                    
+                    info.setUserName(results.getString("username"));
+                    info.setGold(results.getInt("gold"));
+                    info.setXP(results.getInt("xp"));
+                    
+                    actionResults.add(info); 
+                }
+            }
+		}
+		catch(Exception e)
+		{
+			m_logger.severe("Exception in DatabaseConnector::getSortedUserList() " + e);
+			actionResults = null;
+		}
+		
+		return actionResults;
 	}
 }

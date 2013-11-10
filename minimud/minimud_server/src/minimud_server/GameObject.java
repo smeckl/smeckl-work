@@ -137,17 +137,25 @@ public class GameObject
 				// Now make sure the user satisfies any quest dependencies
 				
 				// Does this action have a quest dependency?
-				if(0 == action.getQuestDependencyID()) // no dependency
-				{
-					noDepAction = action;
-				}
-				else // This action has a quest dependency
+				
+				if(0 != action.getQuestDependencyID()) // This action has a quest dependency
 				{
 					// See if the user is on that quest and step
 					if(dbConn.isUserOnQuestStep(strUsername, action.getQuestDependencyID(), action.getQuestDependencyStep()))
 					{
 						depAction = action;
 					}
+				}
+                else if(0 != action.getQuestDependencyCompletion())
+                {
+                    if(dbConn.userCompletedQuest(action.getQuestDependencyCompletion(), strUsername))
+                    {
+                        depAction = action;
+                    }
+                }
+                else // no dependency
+				{
+					noDepAction = action;
 				}
 			}
 		}

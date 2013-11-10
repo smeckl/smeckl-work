@@ -1,7 +1,7 @@
 genparser: 
-	java -cp ./JFlex.jar JFlex.Main ./MiniMUDShared/MessageScanner.jflex
-	./yacc.linux -Jpackage=MiniMUDShared -Jclass=MessageParser ./MiniMUDShared/MessageParser.y
-	mv MessageParser*.java ./MiniMUDShared/
-	javac ./MiniMUDShared/MessageParserVal.java
-	javac ./MiniMUDShared/MessageParser.java 
-	javac ./MiniMUDShared/MessageScanner.java
+	java -cp ./JFlex.jar JFlex.Main ./minimud_shared/MessageScanner.jflex
+	./yacc.linux -Jpackage=minimud_shared -Jclass=MessageParser ./minimud_shared/MessageParser.y
+	mv MessageParser*.java ./minimud_shared/
+	javac ./minimud_shared/MessageParserVal.java
+	javac ./minimud_shared/MessageParser.java 
+	javac ./minimud_shared/MessageScanner.java

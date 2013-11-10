@@ -959,6 +959,7 @@ public class WorldImporter
 		String strName = "";
 		int nDependencyID = 0;
 		int nDepndencyStep = 0;
+        int nDepdencyComplete = 0;
 		int nResult = 0;
 		
 		boolean bSavedAction = false;
@@ -1017,6 +1018,18 @@ public class WorldImporter
 							System.out.println("Invalid Quest Step Dependency specified.");
 						}
 					}
+                    else if(0 == nodeName.compareTo(XMLNames.QUEST_DEP_COMPLETE))
+					{
+						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.QUEST_DEP_COMPLETE))
+						{
+							nDepdencyComplete = Integer.parseInt(content);
+						}
+						else
+						{
+							retVal = ErrorCode.INVALID_ID;
+							System.out.println("Invalid Quest Step Completion specified.");
+						}
+					}
 					else if(!bSavedAction && 0 == nodeName.compareTo(XMLNames.RESULT))
 					{
 						nResult = processActionResult(nID, node);
@@ -1031,7 +1044,7 @@ public class WorldImporter
 			
 			if(!bSavedAction && bName && bResult)
 			{
-				getDBconn().addAction(nParentID, nID, strName, nDependencyID, nDepndencyStep, nResult);
+				getDBconn().addAction(nParentID, nID, strName, nDependencyID, nDepndencyStep, nDepdencyComplete, nResult);
 				bSavedAction = true;
 				
 				//Increment Action ID

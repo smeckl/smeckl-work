@@ -14,7 +14,8 @@ public class PlayerActionMessage extends Message
 		Shoot,
 		Take,
 		Drop,
-		Give
+		Give,
+        Leaders
 	}
 	
 	private Action m_action;
@@ -108,6 +109,11 @@ public class PlayerActionMessage extends Message
 			
 		case Give:
 			strOut = "give";
+            break;
+            
+        case Leaders:
+            strOut = "leaders";
+            break;
 		}
 		
 		return strOut;

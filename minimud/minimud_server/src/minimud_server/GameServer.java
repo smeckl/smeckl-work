@@ -250,6 +250,7 @@ public class GameServer
 				action.setResult(actions.getInt("result"));
 				action.setQuestDependencyID(actions.getInt("quest_dependency_id"));
 				action.setQuestDependencyStep(actions.getInt("quest_dependency_step"));
+                action.setQuestDependencyCompletion(actions.getInt("quest_dependency_complete"));
 				
 				// Only add the move if it is valid
 				if(action.isValid())
@@ -410,6 +411,34 @@ public class GameServer
 		
 		switch(msg.getAction())
 		{
+        case Leaders:
+        {
+           boolean bLeadersGold = false;
+           boolean bLeadersXP = false;
+           
+           if(0 == msg.getObject().compareTo("gold"))
+           {
+               bLeadersGold = true;
+           }
+           else if(0 == msg.getObject().compareTo("xp"))
+           {
+               bLeadersXP = true;
+           }
+           else
+           {
+               bLeadersGold = true;
+               bLeadersXP = true;
+           }
+           
+           if(bLeadersGold)
+                showLeaderBoard(user, true);
+           
+           if(bLeadersXP)
+               showLeaderBoard(user, false);
+           
+           sendUserText(user, "");
+        }
+            break;
 		case Look:
 			if(msg.getObject().isEmpty())
 			{
@@ -612,4 +641,63 @@ public class GameServer
 		ClientShowTextMessage clMsg = new ClientShowTextMessage("server", strMsg);
 		user.processGameServerCommand(clMsg);
 	}
+    
+    private ErrorCode showLeaderBoard (UserConnectionThread user, boolean bGold)
+    {
+        ErrorCode retVal = ErrorCode.Success;
+        
+        String strFormat = "%32s\t%d";
+        
+        try
+        {
+            ArrayList<UserInfo> users = m_dbConn.getSortedUserList(bGold ? DatabaseConnector.SortBy.Gold : DatabaseConnector.SortBy.XP);  
+            
+            if(null != users)
+            {
+                sendUserText(user, "");
+                sendUserText(user, "");
+                
+                String strOut = "";
+                
+                if(bGold)
+                {
+                    strOut = String.format("%34s", "Leaderboard by Gold:");
+                    sendUserText(user, strOut);
+                    
+                    strOut = String.format("%32s\t%s", "Character", "Gold");
+                    sendUserText(user, strOut);
+                }
+                else
+                {
+                    strOut = String.format("%34s", "Leaderboard by Experience Points:");
+                    sendUserText(user, strOut);
+                    
+                    strOut = String.format("%32s\t%s", "Character", "Experience Points");
+                    sendUserText(user, strOut);
+                }
+                
+                strOut = String.format("%32s\t%s", "_________", "_________________");
+                sendUserText(user, strOut);
+                
+                for(int i = 0; i < users.size() && i < 10; i++)
+                {
+                    UserInfo info = users.get(i);                                     
+                    
+                    if(bGold)
+                        strOut = String.format(strFormat, info.getUserName(), info.getGold());
+                    else
+                        strOut = String.format(strFormat, info.getUserName(), info.getXP());
+                        
+                    sendUserText(user, strOut);
+                }
+            }
+        }
+        catch(Exception e)
+        {
+            m_logger.severe("Exception caught in GameServer.sendUserText(): " + e);
+            retVal = ErrorCode.Exception;
+        }
+        
+        return retVal;
+    }
 }

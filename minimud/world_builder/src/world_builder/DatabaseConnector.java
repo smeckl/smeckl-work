@@ -221,7 +221,7 @@ public class DatabaseConnector
 		return retVal;
 	}
 	
-	public ErrorCode addAction(int nParentID, int nID, String strName, int nDepID, int nDepStep, int nResult)
+	public ErrorCode addAction(int nParentID, int nID, String strName, int nDepID, int nDepStep, int nDepCompl, int nResult)
 	{
 		ErrorCode retVal = ErrorCode.Success;
 		
@@ -229,13 +229,14 @@ public class DatabaseConnector
 		{
 			System.out.println("Adding new Action");
 			
-			PreparedStatement pstmt = getConnection().prepareStatement("insert into actions values(?,?,?,?,?,?)");
+			PreparedStatement pstmt = getConnection().prepareStatement("insert into actions values(?,?,?,?,?,?,?)");
 			pstmt.setInt(1, nID);
 			pstmt.setInt(2, nParentID);
 			pstmt.setString(3,  strName);
 			pstmt.setInt(4, nResult);
 			pstmt.setInt(5, nDepID);
 			pstmt.setInt(6, nDepStep);
+            pstmt.setInt(7, nDepCompl);
 			
 			if(0 == pstmt.executeUpdate())
 			{

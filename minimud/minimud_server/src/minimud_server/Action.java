@@ -9,6 +9,7 @@ public class Action
 	private int m_nResultID = 0;
 	private int m_nQuestDependencyID = 0;
 	private int m_nQuestDependencyStep = 0;
+    private int m_nQuestDependencyCompletion = 0;
 	
 	private RegularExpressions m_regEx = new RegularExpressions();
 	
@@ -127,6 +128,30 @@ public class Action
 		return (getQuestDependencyID() >= 0 && getQuestDependencyID() < 100);
 	}
 	
+	public void setQuestDependencyCompletion(int nQuestDependencyCompletion)
+	{
+		m_nQuestDependencyCompletion = nQuestDependencyCompletion;
+	}
+	
+	public int getQuestDependencyCompletion()
+	{
+		return m_nQuestDependencyCompletion;
+	}
+	
+	public boolean isValidQuestDependencyCompletion(String strQuestDependencyCompletion)
+	{
+		boolean bRet = false;
+		
+		bRet = m_regEx.stringMatchesRegEx(strQuestDependencyCompletion, RegularExpressions.RegExID.ID);
+		
+		return bRet;
+	}
+	
+	public boolean isValidQuestDependencyCompletion(int nQuestDependencyCompletion)
+	{
+		return (getQuestDependencyCompletion() == 0 || getQuestDependencyCompletion() == 1);
+	}
+	
 	public boolean isValid()
 	{
 		boolean bValid = false;
@@ -135,7 +160,8 @@ public class Action
 				&& isValidName(getName())
 				&& isValidResultID(getResultID())
 				&& isValidQuestDependencyID(getQuestDependencyID())
-				&& isValidQuestDependencyStep(getQuestDependencyStep()))
+				&& isValidQuestDependencyStep(getQuestDependencyStep())
+                && isValidQuestDependencyCompletion(getQuestDependencyCompletion()))
 		{
 			bValid = true;
 		}

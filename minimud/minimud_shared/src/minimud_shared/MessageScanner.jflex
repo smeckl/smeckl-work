@@ -1,4 +1,4 @@
-package MiniMUDShared;
+package minimud_shared;
 
 %%
 %class MessageScanner 
@@ -69,6 +69,9 @@ push			{yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.P
 shoot			{yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.SHOOT;}
 take			{yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.TAKE;}
 drop			{yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.DROP;}
+leaders         {yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.LEADERS;}
+gold            {yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.GOLD;}
+xp              {yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.XP;}
 
 \,		{return (int)yycharat(0);}
 \=		{return (int)yycharat(0);}
@@ -76,8 +79,8 @@ drop			{yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.D
 \(		{return (int)yycharat(0);}
 \)		{return (int)yycharat(0);}
 
-\'[a-zA-Z0-9\,\+\-\!\@\#\$\%\^\&\*\(\)\{\}\[\]\;\:\.\<\>\?\/\~\" ]*\'	{yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.CHARLITERAL;}
-\"[a-zA-Z0-9\,\+\-\!\@\#\$\%\^\&\*\(\)\{\}\[\]\;\:\.\<\>\?\/\~\' ]*\"	{yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.STRINGLITERAL;}
+\'[a-zA-Z0-9\,\+\-\!\@\#\$\%\^\&\*\(\)\{\}\[\]\;\:\.\<\>\?\/\~\"\t_ ]*\'	{yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.CHARLITERAL;}
+\"[a-zA-Z0-9\,\+\-\!\@\#\$\%\^\&\*\(\)\{\}\[\]\;\:\.\<\>\?\/\~\'\t_ ]*\"	{yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.STRINGLITERAL;}
 
 [a-zA-Z][a-zA-Z0-9]{1,31}	{yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.CHARNAME;}
 [0-9]*		{yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.INT;}
