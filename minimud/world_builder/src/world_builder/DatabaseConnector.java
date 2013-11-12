@@ -419,4 +419,41 @@ public class DatabaseConnector
 		
 		return retVal;
 	}
+    
+    public ErrorCode addMonster(int nID, String strName, String strDescription, int nHealth,
+                            int nAttackPower, int nMagicPower, int nDefense, int nMagicDefense, int nLootTableID)
+    {
+        ErrorCode retVal = ErrorCode.Success;
+		
+		try
+		{
+			System.out.println("Adding new Monster");
+			
+			PreparedStatement pstmt = getConnection().prepareStatement("insert into monsters values(?,?,?,?,?,?,?,?,?)");
+			pstmt.setInt(1, nID);
+			pstmt.setString(2, strName);
+			pstmt.setString(3, strDescription);
+			pstmt.setInt(4, nHealth);
+			pstmt.setInt(5, nAttackPower);
+			pstmt.setInt(6, nMagicPower);
+			pstmt.setInt(7, nDefense);
+            pstmt.setInt(8, nMagicDefense);
+            pstmt.setInt(9, nLootTableID);
+			
+			if(0 == pstmt.executeUpdate())
+			{
+				retVal = ErrorCode.InsertFailed;
+				System.out.println("FAILED to insert MONSTER.");
+			}
+			else
+				System.out.println("Monster creation successful.");
+		}
+		catch(Exception e)
+		{
+			System.out.println("Exception in DatabaseConnector.addMonster() " + e);
+			retVal = ErrorCode.Exception;
+		}
+		
+		return retVal;
+    }
 }

@@ -20,7 +20,8 @@ public class RegularExpressions
 		RESULT_TYPE,
 		HINT,
 		ACTION_RESULT_DESC,
-        QUEST_DEP_COMPLETE
+        QUEST_DEP_COMPLETE,
+        POSITIVE_INT
 	}
 	
 	private Map<RegExID, String> m_regExMap = new HashMap<RegExID, String>();
@@ -42,6 +43,7 @@ public class RegularExpressions
 		m_regExMap.put(RegExID.HINT, "^[a-zA-Z0-9\\-\\.\\,\\:\\?\\!\\'\\\"\\$\\\\ ]{1,200}$");
 		m_regExMap.put(RegExID.ACTION_RESULT_DESC, "^[a-zA-Z0-9\\-\\.\\,\\:\\?\\!\\'\\\"\\$\\\\ ]{1,200}$");
         m_regExMap.put(RegExID.QUEST_DEP_COMPLETE, "^(0|1)$");
+        m_regExMap.put(RegExID.POSITIVE_INT, "^[1-9][0-9]*$");
 	}
 	
 	public boolean stringMatchesRegEx(String str, RegExID id)

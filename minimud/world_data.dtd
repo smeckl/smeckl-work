@@ -1,7 +1,7 @@
 
-<!ELEMENT minimud_world (room+, item+, quest+)>
+<!ELEMENT minimud_world (room+, item+, quest+, monster*)>
 
-<!ELEMENT room (id, name, description, move+, npc*, object* ) >
+<!ELEMENT room (id, name, description, move+, npc*, object*, monster_id? ) >
 
 <!ELEMENT id (#PCDATA)>
 <!ELEMENT item_id (#PCDATA)>
@@ -37,5 +37,13 @@
 <!ELEMENT quest_dependency_id (#PCDATA)>
 <!ELEMENT quest_dependency_step (#PCDATA)>
 <!ELEMENT quest_dependency_complete (#PCDATA)>
+
+<!ELEMENT monster (id, name, description, health, attack_power, magic_power, defense, magic_defense, loot_table_id)>
+<!ELEMENT health (#PCDATA)>
+<!ELEMENT attack_power (#PCDATA)>
+<!ELEMENT magic_power (#PCDATA)>
+<!ELEMENT defense (#PCDATA)>
+<!ELEMENT magic_defense (#PCDATA)>
+<!ELEMENT loot_table_id (#PCDATA)>
 
 

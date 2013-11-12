@@ -158,4 +158,27 @@
 			<reward_gold>10</reward_gold>
 		</quest_step>
 	</quest>
+
+	<monster>
+		<id>1</id>
+		<name>Imp</name>
+		<description>what looks like the fiery manifestation of Hell...in a bite-sized package.</description>
+		<health>20</health>
+		<attack_power>1</attack_power>
+		<magic_power>1</magic_power>
+		<defense>1</defense>
+		<magic_defense>1</magic_defense>
+		<loot_table_id>1</loot_table_id>
+	</monster>
+	<monster>
+		<id>2</id>
+		<name>Ratter</name>
+		<description>a giant bi-pedal rat or a smallish furry man with a pointy nose.  It's hard tell.</description>
+		<health>20</health>
+		<attack_power>1</attack_power>
+		<magic_power>1</magic_power>
+		<defense>1</defense>
+		<magic_defense>1</magic_defense>
+		<loot_table_id>1</loot_table_id>
+	</monster>
 </minimud_world>

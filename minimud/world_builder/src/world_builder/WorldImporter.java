@@ -34,7 +34,8 @@ public class WorldImporter
 		INVALID_NPC,
 		INVALID_OBJECT,
 		INVALID_ACTION,
-		INVALID_QUEST
+		INVALID_QUEST,
+        INVALID_NUMBER
 	}
 	
 	private String m_strDataFile;
@@ -128,6 +129,10 @@ public class WorldImporter
 					{
 						retVal = processQuestElement(node);
 					}
+                    else if(0 == strNodeName.compareTo(XMLNames.MONSTER))
+                    {
+                        retVal = processMonsterElement(node);
+                    }
 				}
 				
 				break;
@@ -516,6 +521,192 @@ public class WorldImporter
 		
 		return retVal;	
 	}
+    
+    private ErrorCode processMonsterElement(Node monster)
+    {
+        ErrorCode retVal = ErrorCode.Success;
+		
+		RegularExpressions regEx = new RegularExpressions();
+		
+		int nID = 0;
+		String strName = "";
+        String strDescription = "";
+        int nHealth = 0;
+        int nAttackPower = 0;
+        int nMagicPower = 0;
+        int nDefense = 0;
+        int nMagicDefense = 0;
+        int nLootTableID = 0;
+        
+        boolean bSavedMonster = false;
+        boolean bID = false;
+        boolean bName = false;
+        boolean bDescription = false;
+        boolean bHealth = false;
+        boolean bAttackPower = false;
+        boolean bMagicPower = false;
+        boolean bDefense = false;
+        boolean bMagicDefense = false;
+        boolean bLootTableID = false;
+        
+        try
+        {
+            NodeList nodes = monster.getChildNodes();
+			
+			for(int i = 0; i < nodes.getLength(); i++)
+			{
+				Node node = nodes.item(i);
+				
+				// Make sure this is an element
+				if (node instanceof Element)
+				{
+					String content = node.getLastChild().getTextContent().trim();
+					
+					String nodeName = node.getNodeName();
+                    
+                    if(0 == nodeName.compareTo(XMLNames.ID))
+					{
+						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ID))
+						{
+							nID = Integer.parseInt(content);
+							bID = true;
+						}
+						else
+						{
+							retVal = ErrorCode.INVALID_ID;
+							System.out.println("Invalid ID specified.");
+						}
+					}
+					else if(0 == nodeName.compareTo(XMLNames.NAME))
+					{
+						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.NAME))
+						{
+							strName = content;
+							bName = true;
+						}
+						else
+						{
+							retVal = ErrorCode.INVALID_NAME;
+							System.out.println("Invalid name specified.");
+						}
+					}
+                    else if(0 == nodeName.compareTo(XMLNames.DESCRIPTION))
+					{
+						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.DESCRIPTION))
+						{
+							strDescription = content;
+							bDescription = true;
+						}
+						else
+						{
+							retVal = ErrorCode.INVALID_DESCRIPTION;
+							System.out.println("Invalid description specified.");
+						}
+					}
+                    else if(0 == nodeName.compareTo(XMLNames.HEALTH))
+					{
+						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.POSITIVE_INT))
+						{
+							nHealth = Integer.parseInt(content);
+							bHealth = true;
+						}
+						else
+						{
+							retVal = ErrorCode.INVALID_NUMBER;
+							System.out.println("Invalid HEALTH specified.");
+						}
+					}
+                    else if(0 == nodeName.compareTo(XMLNames.ATTACK_POWER))
+					{
+						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.POSITIVE_INT))
+						{
+							nAttackPower = Integer.parseInt(content);
+							bAttackPower = true;
+						}
+						else
+						{
+							retVal = ErrorCode.INVALID_NUMBER;
+							System.out.println("Invalid ATTACK POWER specified.");
+						}
+					}
+                    else if(0 == nodeName.compareTo(XMLNames.MAGIC_POWER))
+					{
+						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.POSITIVE_INT))
+						{
+							nMagicPower = Integer.parseInt(content);
+							bMagicPower = true;
+						}
+						else
+						{
+							retVal = ErrorCode.INVALID_NUMBER;
+							System.out.println("Invalid ATTACK POWER specified.");
+						}
+					}
+                    else if(0 == nodeName.compareTo(XMLNames.DEFENSE))
+					{
+						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.POSITIVE_INT))
+						{
+							nDefense = Integer.parseInt(content);
+							bDefense = true;
+						}
+						else
+						{
+							retVal = ErrorCode.INVALID_NUMBER;
+							System.out.println("Invalid DEFENSE specified.");
+						}
+					}
+                    else if(0 == nodeName.compareTo(XMLNames.MAGIC_DEFENSE))
+					{
+						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.POSITIVE_INT))
+						{
+							nMagicDefense = Integer.parseInt(content);
+							bMagicDefense = true;
+						}
+						else
+						{
+							retVal = ErrorCode.INVALID_NUMBER;
+							System.out.println("Invalid MAGIC DEFENSE specified.");
+						}
+					}
+                    else if(0 == nodeName.compareTo(XMLNames.LOOT_TABLE))
+					{
+						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.POSITIVE_INT))
+						{
+							nLootTableID = Integer.parseInt(content);
+							bLootTableID = true;
+						}
+						else
+						{
+							retVal = ErrorCode.INVALID_NUMBER;
+							System.out.println("Invalid LOOT TABLE ID specified.");
+						}
+					}
+                }                                
+            }
+            
+            if(!bSavedMonster && bID && bName && bDescription && bHealth && bAttackPower && bMagicPower
+                        && bDefense && bMagicDefense && bLootTableID)
+            {
+                getDBconn().addMonster(nID, strName, strDescription, nHealth,
+                        nAttackPower, nMagicPower, nDefense, nMagicDefense, nLootTableID);
+
+                bSavedMonster = true;
+            }
+
+            if(!bSavedMonster)
+            {
+                retVal = ErrorCode.INVALID_OBJECT;
+                System.out.println("FAILED to import MONSTER element.");
+            }
+        }
+		catch(Exception e)
+		{
+			System.out.println("Exception in WorldImporter.processQuestElement(): " + e);
+			retVal = ErrorCode.Exception;
+		}
+        
+        return retVal;
+    }
 	
 	private ErrorCode processQuestStep(int nQuestID, Node quest)
 	{
