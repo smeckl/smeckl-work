@@ -25,7 +25,7 @@ public class Room
 	private HashMap<String, UserConnectionThread> m_users = new HashMap<String, UserConnectionThread>();
 	private HashMap<String, NPC> m_npcs = new HashMap<String, NPC>();
 	private HashMap<String, GameObject> m_objects = new HashMap<String, GameObject>();
-    private HashMap<Integer, Monster> m_Monsters = new HashMap<Integer, Monster>();
+    private HashMap<String, Monster> m_Monsters = new HashMap<String, Monster>();
 	
 	public void setID(int nID)
 	{
@@ -153,7 +153,7 @@ public class Room
     
     public void addMonster(Monster monster)
     {
-        m_Monsters.put(monster.getID(), monster);
+        m_Monsters.put(monster.getName(), monster);
     }
 	
 	public boolean isValid()
@@ -168,6 +168,16 @@ public class Room
 		}
 		
 		return bValid;
+	}
+    
+    public Monster getMonster(String strName)
+	{
+		Monster monster = null;
+				
+		if(m_Monsters.containsKey(strName))	
+			monster = m_Monsters.get(strName);
+		
+		return monster;
 	}
 	
 	public ErrorCode displayRoom(DisplayHelper display)
@@ -193,8 +203,50 @@ public class Room
 				
 				display.sendText("You see " + npc.getName());
 			}
+            
+            // Show Monsters
+			Iterator<Monster> monsterIter = m_Monsters.values().iterator();
+			
+			while(monsterIter.hasNext())
+			{
+				Monster monster = monsterIter.next();
+				
+                if(Monster.State.Open == monster.getState())
+                    display.sendText("A " + monster.getName() + " stalks around the room.");
+			}
 		}
 		
 		return retVal;
 	}
+    
+    public ErrorCode refreshState()
+    {
+        ErrorCode retVal = ErrorCode.Success;
+        
+        // Refresh Monsters
+        Iterator<Monster> monsterIter = m_Monsters.values().iterator();
+        boolean bMonsterChanges = false;
+        
+        while(monsterIter.hasNext())
+        {
+            Monster monster = monsterIter.next();
+
+            bMonsterChanges = monster.refreshState();
+            
+            if(bMonsterChanges)
+            {
+                Iterator<UserConnectionThread> users = m_users.values().iterator();
+
+                while(users.hasNext())
+                {
+                    UserConnectionThread user = users.next();
+
+                    if(Monster.State.Open == monster.getState())
+                        GameServer.sendUserText(user, "A " + monster.getName() + " stalks around the room.");
+                }
+            }
+        }
+        
+        return retVal;
+    }
 }

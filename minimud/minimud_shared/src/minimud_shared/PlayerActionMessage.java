@@ -12,6 +12,7 @@ public class PlayerActionMessage extends Message
 		Slash,
 		Push,
 		Shoot,
+        Attack,
 		Take,
 		Drop,
 		Give,
@@ -99,6 +100,10 @@ public class PlayerActionMessage extends Message
 			strOut = "shoot";
 			break;
 		
+        case Attack:
+            strOut = "attack";
+            break;
+            
 		case Take:
 			strOut = "take";
 			break;

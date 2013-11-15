@@ -36,6 +36,7 @@ public class GameServer implements ActionListener
 		m_logger = logger;
 		m_dbConn = dbConn;
         
+        // Set up a timer to trigger game state refreshes
         m_syncTimer.setRepeats(true);
         m_syncTimer.start();
 	}
@@ -53,6 +54,7 @@ public class GameServer implements ActionListener
                 Room room = roomIter.next();
                 
                 // Tell room to refresh internal state.
+                room.refreshState();
             }
         }
         catch(Exception e)
@@ -591,9 +593,26 @@ public class GameServer implements ActionListener
 				break;
 			}
 
+        case Attack:
+        {
+            Room room = user.getCurrentRoom();
+            
+            Monster monster = room.getMonster(msg.getObject());
+            
+            if(null != monster)
+            {
+                monster.simulateFight(user);
+            }
+            else
+            {
+                // There is no valid result.  Tell the user.
+				sendUserText(user, "You can't attack that.");
+            }
+        }
+            break;
+            
 		// If the Look action is aimed at an object or NPC, then
 		// We want to fall through to the next case.
-			
 		case Talk:	
 		case Punch:	
 		case Kick:	
@@ -780,7 +799,7 @@ public class GameServer implements ActionListener
 		return retVal;
 	}
 	
-	private static void sendUserText(UserConnectionThread user, String strMsg)
+	public static void sendUserText(UserConnectionThread user, String strMsg)
 	{
 		ClientShowTextMessage clMsg = new ClientShowTextMessage("server", strMsg);
 		user.processGameServerCommand(clMsg);

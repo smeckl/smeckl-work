@@ -126,8 +126,7 @@
 			<direction>east</direction>
 			<next_room_id>1</next_room_id>
 			<description>Tavern door</description>
-		</move>
-		<monster_id>1</monster_id>	
+		</move>	
 	</room>
 
 	<room>
@@ -138,7 +137,8 @@
 			<direction>south</direction>
 			<next_room_id>1</next_room_id>
 			<description>Tavern door</description>
-		</move>			
+		</move>	
+		<monster_id>1</monster_id>		
 	</room>
 	<item>
 		<id>1</id>

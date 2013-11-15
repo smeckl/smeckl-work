@@ -49,6 +49,7 @@ logout			{yyparser.yylval = new MessageParserVal(yytext()); return MessageParser
 \/say			{yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.SAY;}
 \/shout			{yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.SHOUT;}
 \/whisper		{yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.WHISPER;}
+\/who           {yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.WHO;}
 north			{yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.GO_NORTH;}
 south			{yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.GO_SOUTH;}
 east			{yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.GO_EAST;}
@@ -69,10 +70,10 @@ push			{yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.P
 shoot			{yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.SHOOT;}
 take			{yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.TAKE;}
 drop			{yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.DROP;}
+attack          {yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.ATTACK;}
 leaders         {yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.LEADERS;}
 gold            {yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.GOLD;}
 xp              {yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.XP;}
-\/who           {yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.WHO;}
 
 \,		{return (int)yycharat(0);}
 \=		{return (int)yycharat(0);}
