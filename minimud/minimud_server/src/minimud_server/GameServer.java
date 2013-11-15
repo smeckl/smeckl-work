@@ -3,9 +3,12 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.Timer;
 import minimud_shared.*;
 
-public class GameServer
+public class GameServer implements ActionListener
 {
 	public enum ErrorCode
 	{
@@ -14,6 +17,8 @@ public class GameServer
 		ObjectCreationFailed,
 		MsgPostFailed
 	}
+    
+    private static int GAME_SYNC_INTERVAL = (60*1000);
 	
 	private HashMap<String, UserConnectionThread> m_userMap = new HashMap<String, UserConnectionThread>();
 	private HashMap<Integer, Room> m_Rooms = new HashMap<Integer, Room>();
@@ -23,12 +28,38 @@ public class GameServer
 	private DatabaseConnector m_dbConn = null;
 	
 	private Room m_startingRoom = null;
+    
+    private Timer m_syncTimer = new Timer(GAME_SYNC_INTERVAL, (ActionListener)this);
 	
 	public GameServer(DatabaseConnector dbConn, MMLogger logger)
 	{
 		m_logger = logger;
 		m_dbConn = dbConn;
+        
+        m_syncTimer.setRepeats(true);
+        m_syncTimer.start();
 	}
+    
+    // Action performed on an interval timer.  Do all actions required to update
+    // the game world
+    public void actionPerformed(ActionEvent ae) 
+    {
+        try
+        {
+            Iterator<Room> roomIter = m_Rooms.values().iterator();
+            
+            while(roomIter.hasNext())
+            {
+                Room room = roomIter.next();
+                
+                // Tell room to refresh internal state.
+            }
+        }
+        catch(Exception e)
+        {
+            
+        }
+    }
 	
 	private void setStartingRoom(Room startingRoom)
 	{
