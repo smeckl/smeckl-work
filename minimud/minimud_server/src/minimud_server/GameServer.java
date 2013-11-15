@@ -84,6 +84,15 @@ public class GameServer
 						m_logger.severe("Failed to load Objects into room object.");
 						break;
 					}
+                    
+                    retVal = loadMonstersIntoRoom(newRoom);
+                    
+                    if(ErrorCode.Success != retVal)
+                    {
+                        m_logger.severe("FAILED to load monsters into room object.");
+                        
+                        break;
+                    }
 					
 					// Add the room to the 
 					m_Rooms.put(new Integer(newRoom.getID()), newRoom);
@@ -220,6 +229,44 @@ public class GameServer
 				if(obj.isValid())
 				{
 					room.addObject(obj);													
+				}
+			}
+		}
+		catch(Exception e)
+		{
+			retVal = ErrorCode.Exception;		
+			m_logger.severe("Exception caught in GameServer.loadObjectsIntoRoom()");
+		}
+		
+		return retVal;
+	}
+    
+    private ErrorCode loadMonstersIntoRoom(Room room)
+	{
+		ErrorCode retVal = ErrorCode.Success;
+		
+		try
+		{
+			// Now, load all of the NPCs for the room
+			ResultSet objects = m_dbConn.getMonstersForRoom(room.getID());
+			
+			while(null != objects && objects.next())
+			{
+				Monster monster = new Monster();
+				
+                monster.setID(objects.getInt("ID"));
+				monster.setName(objects.getString("name"));
+                monster.setDescription(objects.getString("description"));
+                monster.setHealth(objects.getInt("health"));
+                monster.setAttackPower(objects.getInt("attack_power"));
+                monster.setMagicPower(objects.getInt("magic_power"));
+                monster.setDefense(objects.getInt("defense"));
+                monster.setMagicDefense(objects.getInt("magic_defense"));
+                
+				// Only add the move if it is valid
+				if(monster.isValid())
+				{
+					room.addMonster(monster);													
 				}
 			}
 		}

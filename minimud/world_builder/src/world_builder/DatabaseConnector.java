@@ -456,4 +456,33 @@ public class DatabaseConnector
 		
 		return retVal;
     }
+    
+    public ErrorCode addMonsterLocation(int nMonsterID, int nRoomID)
+    {
+        ErrorCode retVal = ErrorCode.Success;
+		
+		try
+		{
+			System.out.println("Adding new Monster");
+			
+			PreparedStatement pstmt = getConnection().prepareStatement("insert into monster_locs values(?,?)");
+			pstmt.setInt(1, nMonsterID);
+            pstmt.setInt(2, nRoomID);
+			
+			if(0 == pstmt.executeUpdate())
+			{
+				retVal = ErrorCode.InsertFailed;
+				System.out.println("FAILED to insert MONSTER LOC.");
+			}
+			else
+				System.out.println("Monster location record creation successful.");
+		}
+		catch(Exception e)
+		{
+			System.out.println("Exception in DatabaseConnector.addMonsterLocation() " + e);
+			retVal = ErrorCode.Exception;
+		}
+		
+		return retVal;
+    }
 }

@@ -34,6 +34,7 @@ public class XMLNames
 	public static String QUEST_DEP_STEP	= "quest_dependency_step";
     public static String QUEST_DEP_COMPLETE = "quest_dependency_complete";
     public static String MONSTER        = "monster";
+    public static String MONSTER_ID     = "monster_id";
     public static String HEALTH         = "health";
     public static String ATTACK_POWER   = "attack_power";
     public static String MAGIC_POWER    = "magic_power";

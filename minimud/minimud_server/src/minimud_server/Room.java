@@ -25,6 +25,7 @@ public class Room
 	private HashMap<String, UserConnectionThread> m_users = new HashMap<String, UserConnectionThread>();
 	private HashMap<String, NPC> m_npcs = new HashMap<String, NPC>();
 	private HashMap<String, GameObject> m_objects = new HashMap<String, GameObject>();
+    private HashMap<Integer, Monster> m_Monsters = new HashMap<Integer, Monster>();
 	
 	public void setID(int nID)
 	{
@@ -149,6 +150,11 @@ public class Room
 		
 		return obj;
 	}
+    
+    public void addMonster(Monster monster)
+    {
+        m_Monsters.put(monster.getID(), monster);
+    }
 	
 	public boolean isValid()
 	{

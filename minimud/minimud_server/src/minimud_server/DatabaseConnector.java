@@ -330,8 +330,32 @@ public class DatabaseConnector
 		
 		return results;
 	}
+    
+    // Retrieves list of monsters for a room.  Return value is null if there is an error.
+	public synchronized ResultSet getMonstersForRoom(int nRoomID)
+	{
+		ResultSet results = null;
+		
+		try
+		{
+			PreparedStatement pstmt = getConnection().prepareStatement("select monsters.* from monsters "
+                    + "left join monster_locs on monsters.ID = monster_locs.monster_id where monster_locs.room_id = ?");
+            
+			pstmt.setInt(1, nRoomID);
+			
+			results = pstmt.executeQuery();
+			
+		}
+		catch(Exception e)
+		{
+			m_logger.severe("Exception in DatabaseConnector::getMonstersForRoom() " + e);
+			results = null;
+		}
+		
+		return results;
+	}
 	
-	// Retrieves list of Actions.  Return value is null if there is an error.
+	// Retrieves list of Actions for an object.  Return value is null if there is an error.
 	public synchronized ResultSet getActionsForObject(GameObject obj)
 	{
 		ResultSet results = null;

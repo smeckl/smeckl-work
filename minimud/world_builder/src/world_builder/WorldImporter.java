@@ -254,6 +254,13 @@ public class WorldImporter
 							System.out.println("Invalid object specified.");
 							
 					}
+                    // If this is a <monster_id> element, then validate and add to the monster_locs table
+					else if(0 == nodeName.compareTo(XMLNames.MONSTER_ID))
+					{
+						int nMonsterID = Integer.parseInt(content);
+						
+						m_dbConn.addMonsterLocation(nMonsterID, nID);		
+					}
 				}
 			}
 			

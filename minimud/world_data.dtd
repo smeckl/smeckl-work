@@ -1,12 +1,13 @@
 
 <!ELEMENT minimud_world (room+, item+, quest+, monster*)>
 
-<!ELEMENT room (id, name, description, move+, npc*, object*, monster_id? ) >
+<!ELEMENT room (id, name, description, move+, npc*, object*, monster_id* ) >
 
 <!ELEMENT id (#PCDATA)>
 <!ELEMENT item_id (#PCDATA)>
 <!ELEMENT name (#PCDATA)>
 <!ELEMENT description (#PCDATA)>
+<!ELEMENT monster_id (#PCDATA)>
 
 <!ELEMENT move ( direction, next_room_id, description )>
 
