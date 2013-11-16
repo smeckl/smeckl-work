@@ -44,6 +44,9 @@ public class WorldImporter
 	private int m_nNextObjectId = 1; // Includes NPCs and Items
 	private int m_nNextActionId = 1;
 	private int m_nNextResultId = 1;
+    
+    RegularExpressions m_regEx = new RegularExpressions();
+    RangeChecker m_rangeCheck = new RangeChecker();
 	
 	public WorldImporter(String strDataFile, DatabaseConnector dbConn)
 	{
@@ -162,7 +165,6 @@ public class WorldImporter
 		boolean bNPCs = false;
 		boolean bObjects = false;
 		
-		RegularExpressions regEx = new RegularExpressions();
 		
 		try
 		{
@@ -182,10 +184,12 @@ public class WorldImporter
 					// If this is an <id> element, then validate and add to Room object
 					if(0 == nodeName.compareTo(XMLNames.ID))
 					{
-						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ID))
+						if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ID))
 						{
 							nID = Integer.parseInt(content);
-							bID = true;
+                            
+                            if(m_rangeCheck.checkRange(RangeChecker.RangeID.ID, nID))
+                                bID = true;
 						}
 						else
 						{
@@ -196,7 +200,7 @@ public class WorldImporter
 					// If this is a <name> element, then validate and add to Room object
 					else if(0 == nodeName.compareTo(XMLNames.NAME))
 					{
-						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.NAME))
+						if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.NAME))
 						{
 							strName = content;
 							bName = true;
@@ -210,7 +214,7 @@ public class WorldImporter
 					// If this is a <description> element, then validate and add to Room object
 					else if(0 == nodeName.compareTo(XMLNames.DESCRIPTION))
 					{
-						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.DESCRIPTION))
+						if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.DESCRIPTION))
 						{
 							strDescription = content;
 							bDescription = true;
@@ -257,9 +261,18 @@ public class WorldImporter
                     // If this is a <monster_id> element, then validate and add to the monster_locs table
 					else if(0 == nodeName.compareTo(XMLNames.MONSTER_ID))
 					{
-						int nMonsterID = Integer.parseInt(content);
-						
-						m_dbConn.addMonsterLocation(nMonsterID, nID);		
+                        if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ID))
+						{
+							int nMonsterID = Integer.parseInt(content);
+                            
+                            if(m_rangeCheck.checkRange(RangeChecker.RangeID.ID, nMonsterID))
+                                m_dbConn.addMonsterLocation(nMonsterID, nID);
+						}
+						else
+						{
+							retVal = ErrorCode.INVALID_ID;
+							System.out.println("Invalid monster_id specified.");
+						}		
 					}
 				}
 			}
@@ -289,8 +302,6 @@ public class WorldImporter
 	{
 		ErrorCode retVal = ErrorCode.Success;
 		
-		RegularExpressions regEx = new RegularExpressions();
-		
 		int nID = 0;
 		String strName = "";
 		String strDescription = "";
@@ -318,10 +329,12 @@ public class WorldImporter
 					// If this is an <id> element, then validate and add to item object
 					if(!bSavedItem && 0 == nodeName.compareTo(XMLNames.ID))
 					{
-						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ID))
+						if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ID))
 						{
 							nID = Integer.parseInt(content);
-							bID = true;
+                            
+                            if(m_rangeCheck.checkRange(RangeChecker.RangeID.ID, nID))
+                                bID = true;
 						}
 						else
 						{
@@ -331,7 +344,7 @@ public class WorldImporter
 					}
 					else if(!bSavedItem && 0 == nodeName.compareTo(XMLNames.NAME))
 					{
-						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.NAME))
+						if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.NAME))
 						{
 							strName = content;
 							bName = true;
@@ -344,7 +357,7 @@ public class WorldImporter
 					}
 					else if(!bSavedItem && 0 == nodeName.compareTo(XMLNames.DESCRIPTION))
 					{
-						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.DESCRIPTION))
+						if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.DESCRIPTION))
 						{
 							strDescription = content;
 							bDescription = true;
@@ -382,8 +395,6 @@ public class WorldImporter
 	{
 		ErrorCode retVal = ErrorCode.Success;
 		
-		RegularExpressions regEx = new RegularExpressions();
-		
 		int nID = 0;
 		String strName = "";
 		int nRewardXP = 0;
@@ -399,6 +410,7 @@ public class WorldImporter
 		boolean bRewardItem = false;
 		boolean bFirstBonus = false;
 		boolean bSteps = false;
+        boolean bError = false;
 		
 		try
 		{
@@ -418,10 +430,12 @@ public class WorldImporter
 					// If this is an <id> element, then validate and add to item object
 					if(0 == nodeName.compareTo(XMLNames.ID))
 					{
-						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ID))
+						if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ID))
 						{
 							nID = Integer.parseInt(content);
-							bID = true;
+                            
+                            if(m_rangeCheck.checkRange(RangeChecker.RangeID.ID, nID))
+                                bID = true;
 						}
 						else
 						{
@@ -431,7 +445,7 @@ public class WorldImporter
 					}
 					else if(0 == nodeName.compareTo(XMLNames.NAME))
 					{
-						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.NAME))
+						if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.NAME))
 						{
 							strName = content;
 							bName = true;
@@ -444,10 +458,14 @@ public class WorldImporter
 					}
 					else if(0 == nodeName.compareTo(XMLNames.REWARD_XP))
 					{
-						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ID))
+						if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.POSITIVE_INT))
 						{
 							nRewardXP = Integer.parseInt(content);
-							bRewardXP = true;
+                            
+                            if(m_rangeCheck.checkRange(RangeChecker.RangeID.REWARD_XP, nRewardXP))
+                                bRewardXP = true;
+                            else
+                                bError = true;
 						}
 						else
 						{
@@ -457,10 +475,14 @@ public class WorldImporter
 					}
 					else if(0 == nodeName.compareTo(XMLNames.FIRST_BONUS))
 					{
-						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ID))
-						{
+						if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.POSITIVE_INT))
+						{                            
 							nFirstBonus = Integer.parseInt(content);
-							bFirstBonus = true;
+                            
+                            if(m_rangeCheck.checkRange(RangeChecker.RangeID.FIRST_BONUS, nFirstBonus))
+                                bFirstBonus = true;
+                            else
+                                bError = true;
 						}
 						else
 						{
@@ -470,10 +492,14 @@ public class WorldImporter
 					}
 					else if(0 == nodeName.compareTo(XMLNames.REWARD_GOLD))
 					{
-						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ID))
+						if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.POSITIVE_INT))
 						{
 							nRewardGold = Integer.parseInt(content);
-							bRewardGold = true;
+                            
+                            if(m_rangeCheck.checkRange(RangeChecker.RangeID.REWARD_GOLD, nRewardGold))
+                                bRewardGold = true;
+                            else
+                                bError = true;
 						}
 						else
 						{
@@ -483,10 +509,14 @@ public class WorldImporter
 					}
 					else if(0 == nodeName.compareTo(XMLNames.REWARD_ITEM))
 					{
-						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ID))
+						if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ID))
 						{
 							nRewardItem = Integer.parseInt(content);
-							bRewardItem = true;
+                            
+                            if(m_rangeCheck.checkRange(RangeChecker.RangeID.ID, nRewardItem))
+                                bRewardItem = true;
+                            else
+                                bError = true;
 						}
 						else
 						{
@@ -508,7 +538,7 @@ public class WorldImporter
 				}
 			}
 			
-			if(!bSavedQuest && bName && bID && bRewardXP && bFirstBonus)
+			if(!bError && !bSavedQuest && bName && bID && bRewardXP && bFirstBonus)
 			{
 				getDBconn().addQuest(nID, strName, nRewardXP, nFirstBonus, nRewardGold, nRewardItem);
 				bSavedQuest = true;
@@ -533,8 +563,6 @@ public class WorldImporter
     {
         ErrorCode retVal = ErrorCode.Success;
 		
-		RegularExpressions regEx = new RegularExpressions();
-		
 		int nID = 0;
 		String strName = "";
         String strDescription = "";
@@ -555,6 +583,7 @@ public class WorldImporter
         boolean bDefense = false;
         boolean bMagicDefense = false;
         boolean bLootTableID = false;
+        boolean bError = false;
         
         try
         {
@@ -573,10 +602,12 @@ public class WorldImporter
                     
                     if(0 == nodeName.compareTo(XMLNames.ID))
 					{
-						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ID))
+						if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ID))
 						{
 							nID = Integer.parseInt(content);
-							bID = true;
+                            
+                            if(m_rangeCheck.checkRange(RangeChecker.RangeID.ID, nID))
+                                bID = true;
 						}
 						else
 						{
@@ -586,7 +617,7 @@ public class WorldImporter
 					}
 					else if(0 == nodeName.compareTo(XMLNames.NAME))
 					{
-						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.NAME))
+						if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.NAME))
 						{
 							strName = content;
 							bName = true;
@@ -599,7 +630,7 @@ public class WorldImporter
 					}
                     else if(0 == nodeName.compareTo(XMLNames.DESCRIPTION))
 					{
-						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.DESCRIPTION))
+						if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.DESCRIPTION))
 						{
 							strDescription = content;
 							bDescription = true;
@@ -612,10 +643,14 @@ public class WorldImporter
 					}
                     else if(0 == nodeName.compareTo(XMLNames.HEALTH))
 					{
-						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.POSITIVE_INT))
+						if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.POSITIVE_INT))
 						{
 							nHealth = Integer.parseInt(content);
-							bHealth = true;
+                            
+                            if(m_rangeCheck.checkRange(RangeChecker.RangeID.HEALTH, nHealth))
+                                bHealth = true;
+                            else
+                                bError = true;
 						}
 						else
 						{
@@ -625,10 +660,14 @@ public class WorldImporter
 					}
                     else if(0 == nodeName.compareTo(XMLNames.ATTACK_POWER))
 					{
-						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.POSITIVE_INT))
+						if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.POSITIVE_INT))
 						{
 							nAttackPower = Integer.parseInt(content);
-							bAttackPower = true;
+                            
+                            if(m_rangeCheck.checkRange(RangeChecker.RangeID.ATTACK_POWER, nAttackPower))
+                                bAttackPower = true;
+                            else
+                                bError = true;
 						}
 						else
 						{
@@ -638,10 +677,14 @@ public class WorldImporter
 					}
                     else if(0 == nodeName.compareTo(XMLNames.MAGIC_POWER))
 					{
-						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.POSITIVE_INT))
+						if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.POSITIVE_INT))
 						{
 							nMagicPower = Integer.parseInt(content);
-							bMagicPower = true;
+                            
+                            if(m_rangeCheck.checkRange(RangeChecker.RangeID.MAGIC_POWER, nMagicPower))
+                                bMagicPower = true;
+                            else 
+                                bError = true;
 						}
 						else
 						{
@@ -651,10 +694,14 @@ public class WorldImporter
 					}
                     else if(0 == nodeName.compareTo(XMLNames.DEFENSE))
 					{
-						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.POSITIVE_INT))
+						if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.POSITIVE_INT))
 						{
 							nDefense = Integer.parseInt(content);
-							bDefense = true;
+                            
+                            if(m_rangeCheck.checkRange(RangeChecker.RangeID.DEFENSE, nDefense))
+                                bDefense = true;
+                            else 
+                                bError = true;
 						}
 						else
 						{
@@ -664,10 +711,14 @@ public class WorldImporter
 					}
                     else if(0 == nodeName.compareTo(XMLNames.MAGIC_DEFENSE))
 					{
-						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.POSITIVE_INT))
+						if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.POSITIVE_INT))
 						{
 							nMagicDefense = Integer.parseInt(content);
-							bMagicDefense = true;
+                            
+                            if(m_rangeCheck.checkRange(RangeChecker.RangeID.MAGIC_DEFENSE, nMagicDefense))
+                                bMagicDefense = true;
+                            else
+                                bError = true;
 						}
 						else
 						{
@@ -677,10 +728,14 @@ public class WorldImporter
 					}
                     else if(0 == nodeName.compareTo(XMLNames.LOOT_TABLE))
 					{
-						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.POSITIVE_INT))
+						if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ID))
 						{
 							nLootTableID = Integer.parseInt(content);
-							bLootTableID = true;
+                            
+                            if(m_rangeCheck.checkRange(RangeChecker.RangeID.ID, nLootTableID))
+                                bLootTableID = true;
+                            else
+                                bError = true;
 						}
 						else
 						{
@@ -691,7 +746,7 @@ public class WorldImporter
                 }                                
             }
             
-            if(!bSavedMonster && bID && bName && bDescription && bHealth && bAttackPower && bMagicPower
+            if(!bError && !bSavedMonster && bID && bName && bDescription && bHealth && bAttackPower && bMagicPower
                         && bDefense && bMagicDefense && bLootTableID)
             {
                 getDBconn().addMonster(nID, strName, strDescription, nHealth,
@@ -708,7 +763,7 @@ public class WorldImporter
         }
 		catch(Exception e)
 		{
-			System.out.println("Exception in WorldImporter.processQuestElement(): " + e);
+			System.out.println("Exception in WorldImporter.processMonsterElement(): " + e);
 			retVal = ErrorCode.Exception;
 		}
         
@@ -718,8 +773,6 @@ public class WorldImporter
 	private ErrorCode processQuestStep(int nQuestID, Node quest)
 	{
 		ErrorCode retVal = ErrorCode.Success;
-		
-		RegularExpressions regEx = new RegularExpressions();
 		
 		int nID = 0;
 		int nStepNum = 0;
@@ -738,6 +791,7 @@ public class WorldImporter
 		boolean bRewardXP = false;
 		boolean bRewardGold = false;
 		boolean bRewardItem = false;
+        boolean bError = false;
 		
 		try
 		{
@@ -756,10 +810,14 @@ public class WorldImporter
 					
 					if(0 == nodeName.compareTo(XMLNames.STEP_NUMBER))
 					{
-						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ID))
+						if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.POSITIVE_INT))
 						{
 							nStepNum = Integer.parseInt(content);
-							bStepNum = true;
+                            
+                            if(m_rangeCheck.checkRange(RangeChecker.RangeID.QUEST_STEP_NUM, nStepNum))
+                                bStepNum = true;
+                            else
+                                bError = true;
 						}
 						else
 						{
@@ -769,7 +827,7 @@ public class WorldImporter
 					}
 					else if(0 == nodeName.compareTo(XMLNames.DESCRIPTION))
 					{
-						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.DESCRIPTION))
+						if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.DESCRIPTION))
 						{
 							strDescription = content;
 							bDescription = true;
@@ -782,7 +840,7 @@ public class WorldImporter
 					}
 					else if(0 == nodeName.compareTo(XMLNames.HINT))
 					{
-						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.HINT))
+						if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.HINT))
 						{
 							strHint = content;
 							bHint = true;
@@ -795,10 +853,14 @@ public class WorldImporter
 					}
 					else if(0 == nodeName.compareTo(XMLNames.REWARD_XP))
 					{
-						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ID))
+						if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.POSITIVE_INT))
 						{
 							nRewardXP = Integer.parseInt(content);
-							bRewardXP = true;
+                            
+                            if(m_rangeCheck.checkRange(RangeChecker.RangeID.REWARD_XP, nRewardXP))
+                                bRewardXP = true;
+                            else
+                                bError = true;
 						}
 						else
 						{
@@ -808,10 +870,14 @@ public class WorldImporter
 					}
 					else if(0 == nodeName.compareTo(XMLNames.REWARD_GOLD))
 					{
-						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ID))
+						if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.POSITIVE_INT))
 						{
 							nRewardGold = Integer.parseInt(content);
-							bRewardGold = true;
+                            
+                            if(m_rangeCheck.checkRange(RangeChecker.RangeID.REWARD_GOLD, nRewardGold))
+                                bRewardGold = true;
+                            else
+                                bError = true;
 						}
 						else
 						{
@@ -821,10 +887,14 @@ public class WorldImporter
 					}
 					else if(0 == nodeName.compareTo(XMLNames.REWARD_ITEM))
 					{
-						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ID))
+						if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ID))
 						{
 							nRewardItem = Integer.parseInt(content);
-							bRewardItem = true;
+                            
+                            if(m_rangeCheck.checkRange(RangeChecker.RangeID.ID, nRewardItem))
+                                bRewardItem = true;
+                            else
+                                bError = true;
 						}
 						else
 						{
@@ -835,7 +905,7 @@ public class WorldImporter
 				}
 			}
 			
-			if(!bSavedQuestStep && bStepNum && bDescription && bHint && bRewardXP)
+			if(!bError && !bSavedQuestStep && bStepNum && bDescription && bHint && bRewardXP)
 			{
 				getDBconn().addQuestStep(nID, nStepNum, strDescription, strHint, nRewardXP, nRewardGold, nRewardItem);
 				bSavedQuestStep = true;
@@ -860,8 +930,6 @@ public class WorldImporter
 	{
 		ErrorCode retVal = ErrorCode.Success;
 		
-		RegularExpressions regEx = new RegularExpressions();
-		
 		String strDirection = "";
 		int nNextRoomID = 0;
 		String strDescription = "";
@@ -870,6 +938,7 @@ public class WorldImporter
 		boolean bDirection = false;
 		boolean bNextRoomID = false;
 		boolean bDescription = false;
+        boolean bError = false;
 		
 		try
 		{
@@ -888,7 +957,7 @@ public class WorldImporter
 					
 					if(!bSavedMove && 0 == nodeName.compareTo(XMLNames.DIRECTION))
 					{
-						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.DIRECTION))
+						if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.DIRECTION))
 						{
 							strDirection = content;
 							bDirection = true;
@@ -901,10 +970,14 @@ public class WorldImporter
 					}
 					else if(!bSavedMove && 0 == nodeName.compareTo(XMLNames.NEXT_ROOM_ID))
 					{
-						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ID))
+						if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ID))
 						{
 							nNextRoomID = Integer.parseInt(content);
-							bNextRoomID = true;
+                            
+                            if(m_rangeCheck.checkRange(RangeChecker.RangeID.ID, nNextRoomID))
+                                bNextRoomID = true;
+                            else 
+                                bError = true;
 						}
 						else
 						{
@@ -914,7 +987,7 @@ public class WorldImporter
 					}
 					else if(!bSavedMove && 0 == nodeName.compareTo(XMLNames.DESCRIPTION))
 					{
-						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.DESCRIPTION))
+						if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.DESCRIPTION))
 						{
 							strDescription = content;
 							bDescription = true;
@@ -926,7 +999,7 @@ public class WorldImporter
 						}
 					}
 					
-					if(bDirection && bNextRoomID && bDescription)
+					if(!bError && bDirection && bNextRoomID && bDescription)
 					{
 						getDBconn().addMove(nID, strDirection, nNextRoomID, strDescription);
 						bSavedMove = true;
@@ -952,8 +1025,6 @@ public class WorldImporter
 	private ErrorCode processNPC(int nRoomID, Node move)
 	{
 		ErrorCode retVal = ErrorCode.Success;
-		
-		RegularExpressions regEx = new RegularExpressions();
 		
 		int nNpcID = m_nNextObjectId;
 		String strName = "";
@@ -983,7 +1054,7 @@ public class WorldImporter
 					
 					if(0 == nodeName.compareTo(XMLNames.NAME))
 					{
-						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.NAME))
+						if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.NAME))
 						{
 							strName = content;
 							bName = true;
@@ -996,7 +1067,7 @@ public class WorldImporter
 					}
 					else if(0 == nodeName.compareTo(XMLNames.DESCRIPTION))
 					{
-						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.DESCRIPTION))
+						if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.DESCRIPTION))
 						{
 							strDescription = content;
 							bDescription = true;
@@ -1009,7 +1080,7 @@ public class WorldImporter
 					}
 					else if(0 == nodeName.compareTo(XMLNames.INTRO))
 					{
-						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.NPCTEXT))
+						if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.NPCTEXT))
 						{
 							strIntro = content;
 							bIntro = true;
@@ -1060,8 +1131,6 @@ public class WorldImporter
 	{
 		ErrorCode retVal = ErrorCode.Success;
 		
-		RegularExpressions regEx = new RegularExpressions();
-		
 		int nObjectID = m_nNextObjectId;
 		String strName = "";
 		String strDescription = "";
@@ -1088,7 +1157,7 @@ public class WorldImporter
 					
 					if(!bSavedObject && 0 == nodeName.compareTo(XMLNames.NAME))
 					{
-						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.NAME))
+						if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.NAME))
 						{
 							strName = content;
 							bName = true;
@@ -1101,7 +1170,7 @@ public class WorldImporter
 					}
 					else if(!bSavedObject && 0 == nodeName.compareTo(XMLNames.DESCRIPTION))
 					{
-						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.DESCRIPTION))
+						if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.DESCRIPTION))
 						{
 							strDescription = content;
 							bDescription = true;
@@ -1151,8 +1220,6 @@ public class WorldImporter
 	{
 		ErrorCode retVal = ErrorCode.Success;
 		
-		RegularExpressions regEx = new RegularExpressions();
-		
 		int nID = m_nNextActionId;
 		String strName = "";
 		int nDependencyID = 0;
@@ -1163,6 +1230,7 @@ public class WorldImporter
 		boolean bSavedAction = false;
 		boolean bName = false;
 		boolean bResult = false;
+        boolean bError = false;
 		
 		try
 		{
@@ -1181,7 +1249,7 @@ public class WorldImporter
 					
 					if(0 == nodeName.compareTo(XMLNames.NAME))
 					{
-						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ACTION_TYPE))
+						if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ACTION_TYPE))
 						{
 							strName = content;
 							bName = true;
@@ -1194,9 +1262,12 @@ public class WorldImporter
 					}
 					else if(0 == nodeName.compareTo(XMLNames.QUEST_DEP_ID))
 					{
-						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ID))
+						if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ID))
 						{
 							nDependencyID = Integer.parseInt(content);
+                            
+                            if(!m_rangeCheck.checkRange(RangeChecker.RangeID.ATTACK_POWER, nDependencyID))
+                                bError = true;
 						}
 						else
 						{
@@ -1206,9 +1277,12 @@ public class WorldImporter
 					}
 					else if(0 == nodeName.compareTo(XMLNames.QUEST_DEP_STEP))
 					{
-						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ID))
+						if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.POSITIVE_INT))
 						{
 							nDepndencyStep = Integer.parseInt(content);
+                            
+                            if(!m_rangeCheck.checkRange(RangeChecker.RangeID.QUEST_STEP_NUM, nDependencyID))
+                                bError = true;
 						}
 						else
 						{
@@ -1218,7 +1292,7 @@ public class WorldImporter
 					}
                     else if(0 == nodeName.compareTo(XMLNames.QUEST_DEP_COMPLETE))
 					{
-						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.QUEST_DEP_COMPLETE))
+						if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.QUEST_DEP_COMPLETE))
 						{
 							nDepdencyComplete = Integer.parseInt(content);
 						}
@@ -1228,7 +1302,7 @@ public class WorldImporter
 							System.out.println("Invalid Quest Step Completion specified.");
 						}
 					}
-					else if(!bSavedAction && 0 == nodeName.compareTo(XMLNames.RESULT))
+					else if(!bError && !bSavedAction && 0 == nodeName.compareTo(XMLNames.RESULT))
 					{
 						nResult = processActionResult(nID, node);
 						
@@ -1268,8 +1342,6 @@ public class WorldImporter
 	{
 		int retVal = 0;
 		
-		RegularExpressions regEx = new RegularExpressions();
-		
 		int nID = m_nNextResultId;
 		String strType = "";
 		String strDescription = "";
@@ -1281,6 +1353,7 @@ public class WorldImporter
 		boolean bDescription = false;
 		boolean bItemID = false;
 		boolean bValue = false;
+        boolean bError = false;
 		
 		try
 		{
@@ -1299,7 +1372,7 @@ public class WorldImporter
 					
 					if(!bSavedActionResult && 0 == nodeName.compareTo(XMLNames.TYPE))
 					{
-						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.RESULT_TYPE))
+						if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.RESULT_TYPE))
 						{
 							strType = content;
 							bType = true;
@@ -1311,7 +1384,7 @@ public class WorldImporter
 					}
 					else if(!bSavedActionResult && 0 == nodeName.compareTo(XMLNames.DESCRIPTION))
 					{
-						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.DESCRIPTION))
+						if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.DESCRIPTION))
 						{
 							strDescription = content;
 							bDescription = true;
@@ -1323,10 +1396,14 @@ public class WorldImporter
 					}
 					else if(!bSavedActionResult && 0 == nodeName.compareTo(XMLNames.ITEM_ID))
 					{
-						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ID))
+						if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ID))
 						{
 							nItemID = Integer.parseInt(content);
-							bItemID = true;
+                            
+                            if(m_rangeCheck.checkRange(RangeChecker.RangeID.ID, nItemID))
+                                bItemID = true;
+                            else
+                                bError = true;
 						}
 						else
 						{
@@ -1335,10 +1412,14 @@ public class WorldImporter
 					}
 					else if(!bSavedActionResult && 0 == nodeName.compareTo(XMLNames.VALUE))
 					{
-						if(regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ID))
+						if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.POSITIVE_INT))
 						{
 							nValue = Integer.parseInt(content);
-							bValue = true;
+                            
+                            if(m_rangeCheck.checkRange(RangeChecker.RangeID.REWARD_GOLD, nValue))
+                                bValue = true;
+                            else
+                                bError = true;
 						}
 						else
 						{
@@ -1349,7 +1430,7 @@ public class WorldImporter
 			}
 			
 			// ItemID and Value are optional elements
-			if(!bSavedActionResult && bType && bDescription)
+			if(!bError && !bSavedActionResult && bType && bDescription)
 			{
 				getDBconn().addActionResult(nID, nParentID, strType, strDescription, nItemID, nValue);
 				bSavedActionResult = true;

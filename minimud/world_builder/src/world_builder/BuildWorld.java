@@ -99,6 +99,7 @@ public class BuildWorld
 				m_dbConn.dropTable("quest_status");
 				m_dbConn.dropTable("quest_steps");
                 m_dbConn.dropTable("monsters");
+                m_dbConn.dropTable("monster_locs");
 				
 				// Build database tables
 				m_dbConn.addTable("CREATE TABLE rooms (ID INT NOT NULL," +
