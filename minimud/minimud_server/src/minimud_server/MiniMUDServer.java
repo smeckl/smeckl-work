@@ -36,7 +36,7 @@ public class MiniMUDServer
 		
 		while(true)
 		{
-			if(args.length < 4)
+			if(args.length < 3)
 			{
 				System.out.println("Invalid number of arguments.");
 				break;
@@ -75,28 +75,31 @@ public class MiniMUDServer
 				System.out.println("Invalid user name.");
 				break;
 			}
-			
-			// Validate password format
-			if(regEx.stringMatchesRegEx(args[3], RegularExpressions.RegExID.PASSWORD))
-			{
-				strPassword = args[3];
-			}
-			else
-			{
-				System.out.println("Invalid password format.");
-				break;
-			}
+            
+            // Have the user enter the password
+            System.out.print("Enter the password to the database: ");
+            
+            char szPwd[] = System.console().readPassword();
+
+            if (null != szPwd)
+            {
+                strPassword = new String(szPwd);
+            }
+            else
+            {
+                System.out.println("Invalid login credentials.");
+                break;
+            }
 			
 			try
 			{			
 				// If a log file was specified, then use it
-				if(args.length == 5)
+				if(args.length == 4)
 				{
-					strLogFile = args[4];
+					strLogFile = args[3];
 					
 					logger = new MMLogger(strLogFile);
 				}
-			
 						
 			    // Connect to the database
 				m_dbConn = new DatabaseConnector(strDBServer, nPort, strUser, strPassword, logger);

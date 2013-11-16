@@ -24,7 +24,7 @@ public class BuildWorld
 		
 		while(true)
 		{
-			if(args.length < 4)
+			if(args.length < 3)
 			{
 				System.out.println("Invalid number of arguments.");
 				break;
@@ -64,21 +64,25 @@ public class BuildWorld
 				break;
 			}
 			
-			// Validate password format
-			if(regEx.stringMatchesRegEx(args[3], RegularExpressions.RegExID.PASSWORD))
+			if(args.length == 4)
 			{
-				strPassword = args[3];
+				strDataFile = args[3];
 			}
-			else
-			{
-				System.out.println("Invalid password format.");
-				break;
-			}
-			
-			if(args.length == 5)
-			{
-				strDataFile = args[4];
-			}
+            
+            // Have the user enter the password
+            System.out.print("Enter the password to the database: ");
+            
+            char szPwd[] = System.console().readPassword();
+
+            if (null != szPwd)
+            {
+                strPassword = new String(szPwd);
+            }
+            else
+            {
+                System.out.println("Invalid login credentials.");
+                break;
+            }
 			
 			try
 			{	
