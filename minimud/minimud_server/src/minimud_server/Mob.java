@@ -20,6 +20,7 @@ public class Mob
 	private String m_strName = "";
     private String m_strDescription = "";
     private int m_nHealth = 0;
+    private int m_nMaxHealth = 0;
     private int m_nAttackPower = 0;
     private int m_nMagicPower = 0;
     private int m_nDefense = 0;
@@ -87,6 +88,27 @@ public class Mob
     }
     
     public boolean isValidHealth(int nHealth)
+    {
+        return rangeCheck.checkRange(RangeChecker.RangeID.HEALTH, nHealth);
+    }
+    
+    public void setMaxHealth(int nHealth)
+    {
+        m_nMaxHealth = nHealth;
+    }
+    
+    public int getMaxHealth()
+    {
+        return m_nMaxHealth;
+    }
+    
+    public boolean isValidMaxHealth(String strHealth)
+    {
+        return (regEx.stringMatchesRegEx(strHealth, RegularExpressions.RegExID.POSITIVE_INT))
+                && isValidHealth(Integer.parseInt(strHealth));
+    }
+    
+    public boolean isValidMaxHealth(int nHealth)
     {
         return rangeCheck.checkRange(RangeChecker.RangeID.HEALTH, nHealth);
     }

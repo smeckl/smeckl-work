@@ -1,17 +1,25 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package minimud_server;
 
-import minimud_shared.RegularExpressions;
 import minimud_shared.RangeChecker;
+import minimud_shared.RegularExpressions;
 
-public class Quest
+/**
+ *
+ * @author steve
+ */
+public class QuestStep
 {
-	private int m_nID = 0;
-	private String m_strName = "";
-	private String m_strFirstCompleteUser = "";
+    private int m_nID = 0;
+    private int m_nStep = 0;
+    private String m_strDescription = "";
+    private String m_strHint = "";
 	private int m_nRewardItemID = 0;
 	private int m_nRewardGold = 0;
 	private int m_nRewardXP = 0;
-	private int m_nFirstBonus = 0;
 	
 	private RegularExpressions m_regEx = new RegularExpressions();
     private RangeChecker m_rangeCheck = new RangeChecker();
@@ -39,44 +47,60 @@ public class Quest
 	{
 		return m_rangeCheck.checkRange(RangeChecker.RangeID.ID, nID);
 	}
-	
-	public void setName(String strName)
-	{
-		m_strName = strName;
-	}
-	
-	public String getName()
-	{
-		return m_strName;
-	}
-	
-	public boolean isValidName(String strName)
+    
+    public void setStep(int nStep)
+    {
+        m_nStep = nStep;
+    }
+    
+    public int getStep()
+    {
+        return m_nStep;
+    }
+    
+    public boolean isValidStep(String strStep)
 	{
 		boolean bRet = false;
 		
-		bRet = (m_regEx.stringMatchesRegEx(strName, RegularExpressions.RegExID.NAME));
+		bRet = m_regEx.stringMatchesRegEx(strStep, RegularExpressions.RegExID.POSITIVE_INT);
 		
 		return bRet;
 	}
 	
-	public void setFirstCompleteUser(String strFirstCompleteUser)
+	public boolean isValidStep(int nStep)
 	{
-		m_strFirstCompleteUser = strFirstCompleteUser;
+		return m_rangeCheck.checkRange(RangeChecker.RangeID.QUEST_STEP_NUM, nStep);
 	}
-	
-	public String getFirstCompleteUser()
-	{
-		return m_strFirstCompleteUser;
-	}
-	
-	public boolean isValidFirstCompleteUser(String strFirstCompleteUser)
-	{
-		boolean bRet = false;
-		
-		bRet = (m_regEx.stringMatchesRegEx(strFirstCompleteUser, RegularExpressions.RegExID.USERNAME));
-		
-		return bRet;
-	}
+    
+    public void setDescription(String strDescription)
+    {
+        m_strDescription = strDescription;
+    }
+    
+    public String getDescription()
+    {
+        return m_strDescription;
+    }
+    
+    public boolean isValidDescription(String strDescription)
+    {
+        return m_regEx.stringMatchesRegEx(strDescription, RegularExpressions.RegExID.DESCRIPTION);
+    }
+    
+    public void setHint(String strHint)
+    {
+        m_strHint = strHint;
+    }
+    
+    public String getHint()
+    {
+        return m_strHint;
+    }
+    
+    public boolean isValidHint(String strHint)
+    {
+        return m_regEx.stringMatchesRegEx(strHint, RegularExpressions.RegExID.HINT);
+    }
 	
 	public void setRewardItemID(int nID)
 	{
@@ -149,39 +173,15 @@ public class Quest
 	{
 		return m_rangeCheck.checkRange(RangeChecker.RangeID.REWARD_XP, nRewardXP);
 	}
-	
-	public void setFirstBonus(int nFirstBonus)
-	{
-		m_nFirstBonus = nFirstBonus;
-	}
-	
-	public int getFirstBonus()
-	{
-		return m_nFirstBonus;
-	}
-	
-	public boolean isValidFirstBonus(String strFirstBonus)
-	{
-		boolean bRet = false;
-		
-		bRet = m_regEx.stringMatchesRegEx(strFirstBonus, RegularExpressions.RegExID.ID);
-		
-		return bRet;
-	}
-	
-	public boolean isValidFirstBonus(int nFirstBonus)
-	{
-		return m_rangeCheck.checkRange(RangeChecker.RangeID.FIRST_BONUS, nFirstBonus);
-	}
     
     public boolean isValid()
     {
         return (isValidID(getID())
-                && isValidName(getName())
-                && isValidRewardGold(getRewardGold())
-                && isValidRewardXP(getRewardXP())
+                && isValidStep(getStep())
+                && isValidDescription(getDescription())
+                && isValidHint(getHint())
                 && isValidRewardItemID(getRewardItemID())
-                && isValidFirstBonus(getFirstBonus())
-                && isValidFirstCompleteUser(getFirstCompleteUser()));
+                && isValidRewardGold(getRewardGold())
+                && isValidRewardXP(getRewardXP()));
     }
 }

@@ -26,7 +26,7 @@ public class UserConnectionThread extends Thread
 	
 	// State of this user's session
 	private UserSessionState m_state = UserSessionState.Unauthenticated;
-	private UserInfo m_userInfo = null;;
+	private UserInfo m_userInfo = null;
 	
 	// If this is acquired, then we should stop
 	private Semaphore m_stopSem = null;

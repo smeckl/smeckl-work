@@ -149,7 +149,7 @@ public class DatabaseConnector
 		try
 		{
 			PreparedStatement pstmt = getConnection().prepareStatement("insert into characters values(?, ?, ?, ?, "
-                                                                     + "?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                                                                     + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			pstmt.setString(1, strUserName);
 			pstmt.setBytes(2,  pwdHash);
 			pstmt.setBytes(3, pwdSalt);
@@ -166,10 +166,11 @@ public class DatabaseConnector
 			pstmt.setInt(7,  0);    // XP
 			pstmt.setInt(8, 0);     // Gold
 			pstmt.setInt(9,  100);    // Health
-            pstmt.setInt(10,  1);    // attack power
-            pstmt.setInt(11,  1);    // magic power
-            pstmt.setInt(12,  10);    // defense
-            pstmt.setInt(13,  5);    // magic_defense
+            pstmt.setInt(10, 100);  // Max Halth
+            pstmt.setInt(11,  1);    // attack power
+            pstmt.setInt(12,  1);    // magic power
+            pstmt.setInt(13,  10);    // defense
+            pstmt.setInt(14,  5);    // magic_defense
 	
 			if(0 == pstmt.executeUpdate())
 				retVal = ErrorCode.InsertFailed;
@@ -712,6 +713,41 @@ public class DatabaseConnector
 		
 		return bRet;
 	}
+    
+    public QuestStep getQuestStep(int nQuestID, int nQuestStep)
+    {
+        QuestStep step = null;
+		
+		try
+		{
+			PreparedStatement pstmt = getConnection().prepareStatement("select * from quest_steps where quest_id = ?"
+                    + " and step_number = ?");
+			pstmt.setInt(1, nQuestID);
+            pstmt.setInt(2, nQuestStep);
+			
+			ResultSet results = pstmt.executeQuery();
+			
+			if(null != results && results.next())
+			{
+				step = new QuestStep();
+				
+				step.setID(results.getInt("quest_id"));
+                step.setStep(results.getInt("step_number"));
+                step.setDescription(results.getString("description"));
+                step.setHint(results.getString("hint"));
+				step.setRewardGold(results.getInt("reward_gold"));
+				step.setRewardXP(results.getInt("reward_xp"));
+				step.setRewardItemID(results.getInt("reward_item"));
+			}
+		}
+		catch(Exception e)
+		{
+			m_logger.severe("Exception in DatabaseConnector::getQuestStep() " + e);
+			step = null;
+		}
+		
+		return step;
+    }
     
     public synchronized ArrayList<UserInfo> getSortedUserList(SortBy sortBy)
 	{

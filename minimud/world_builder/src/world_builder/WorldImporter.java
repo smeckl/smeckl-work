@@ -436,7 +436,7 @@ public class WorldImporter
 		}
 		catch(Exception e)
 		{
-			System.out.println("Exception in WorldImporter.processNPC(): " + e);
+			System.out.println("Exception in WorldImporter.processItemElement(): " + e);
 			retVal = ErrorCode.Exception;
 		}
 		
@@ -897,7 +897,6 @@ public class WorldImporter
 	{
 		ErrorCode retVal = ErrorCode.Success;
 		
-		int nID = 0;
 		int nStepNum = 0;
 		String strDescription = "";
 		String strHint = "";
@@ -1030,7 +1029,7 @@ public class WorldImporter
 			
 			if(!bError && !bSavedQuestStep && bStepNum && bDescription && bHint && bRewardXP)
 			{
-				getDBconn().addQuestStep(nID, nStepNum, strDescription, strHint, nRewardXP, nRewardGold, nRewardItem);
+				getDBconn().addQuestStep(nQuestID, nStepNum, strDescription, strHint, nRewardXP, nRewardGold, nRewardItem);
 				bSavedQuestStep = true;
 			}
 			
@@ -1332,7 +1331,7 @@ public class WorldImporter
 		}
 		catch(Exception e)
 		{
-			System.out.println("Exception in WorldImporter.processNPC(): " + e);
+			System.out.println("Exception in WorldImporter.processObject(): " + e);
 			retVal = ErrorCode.Exception;
 		}
 		
@@ -1454,7 +1453,7 @@ public class WorldImporter
 		}
 		catch(Exception e)
 		{
-			System.out.println("Exception in WorldImporter.processNPC(): " + e);
+			System.out.println("Exception in WorldImporter.processAction(): " + e);
 			retVal = ErrorCode.Exception;
 		}
 		
@@ -1571,7 +1570,7 @@ public class WorldImporter
 		}
 		catch(Exception e)
 		{
-			System.out.println("Exception in WorldImporter.processNPC(): " + e);
+			System.out.println("Exception in WorldImporter.processActionResult(): " + e);
 			retVal = 0;
 		}
 		

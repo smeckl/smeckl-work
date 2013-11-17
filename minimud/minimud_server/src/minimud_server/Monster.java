@@ -27,9 +27,16 @@ public class Monster extends Mob
         Dead
     }
     
+    public enum Winner
+    {
+        Player,
+        Monster
+    }
+    
     private State m_state = Monster.State.Open;
     private Calendar m_respawnTime = new GregorianCalendar();
     
+    private int m_nLootTableID = 0;
     private int m_nKillXP = 0;
     private int m_nKillGold = 0;
     private int m_nUpdateQuestID = 0;
@@ -43,34 +50,19 @@ public class Monster extends Mob
     public synchronized void setState(State state)
     {
         m_state = state;
+        
+        // If the monster is dead, then calculate the respawn time
+        if(State.Dead == state || State.Open == state)
+        {
+            // Calculate the next respawn time
+            m_respawnTime.setTime(new Date());
+            m_respawnTime.add(Calendar.MINUTE, 2);
+        }
     }
     
     public synchronized State getState()
     {
         return m_state;
-    }
-    
-    public synchronized ErrorCode simulateFight(UserConnectionThread user)
-    {
-        ErrorCode retVal = ErrorCode.Success;
-        
-        // Can only attack if the monster is alive and nobody else is attacking it
-        if(Monster.State.Open == getState())
-        {
-            // Mark the monster as in combat
-            setState(Monster.State.InCombat);
-            
-            GameServer.sendUserText(user, "You attack the " + getName());
-
-            // Mark the monster as dead
-            setState(Monster.State.Dead);
-
-            // Calculate the next respawn time
-            m_respawnTime.setTime(new Date());
-            m_respawnTime.add(Calendar.MINUTE, 2);
-        }
-        
-        return retVal;
     }
     
     public synchronized boolean refreshState()
@@ -87,12 +79,29 @@ public class Monster extends Mob
             //Check to see if current time is after the next respawn time
             if(now.after(m_respawnTime))
             {
+                // Reset health to max health and set state to Open
+                setHealth(getMaxHealth());
                 setState(Monster.State.Open);
                 bRet = true;
             }
         }
         
         return bRet;
+    }
+    
+    public void setLootTableID(int nID)
+    {
+        m_nLootTableID = nID;
+    }
+    
+    public int getLootTableID()
+    {
+        return m_nLootTableID;
+    }
+    
+    public boolean isValidLootTableID(int nID)
+    {
+        return rangeCheck.checkRange(RangeID.ID, nID);
     }
     
     public void setKillXP(int nXP)
@@ -158,7 +167,17 @@ public class Monster extends Mob
     public boolean isValid()
     {
         return (super.isValid()
+                && isValidLootTableID(getLootTableID())
                 && isValidKillXP(getKillXP())
                 && isValidKillGold(getKillGold()));
+    }
+    
+    private Winner runSimulation(UserConnectionThread user)
+    {
+        Winner winner = Winner.Player;
+        
+        
+        
+        return winner;
     }
 }

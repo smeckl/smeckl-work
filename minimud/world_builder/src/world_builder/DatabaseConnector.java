@@ -463,20 +463,21 @@ public class DatabaseConnector
 		{
 			System.out.println("Adding new Monster");
 			
-			PreparedStatement pstmt = getConnection().prepareStatement("insert into monsters values(?,?,?,?,?,?,?,?,?,?,?,?,?)");
+			PreparedStatement pstmt = getConnection().prepareStatement("insert into monsters values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 			pstmt.setInt(1, nID);
 			pstmt.setString(2, strName);
 			pstmt.setString(3, strDescription);
 			pstmt.setInt(4, nHealth);
-			pstmt.setInt(5, nAttackPower);
-			pstmt.setInt(6, nMagicPower);
-			pstmt.setInt(7, nDefense);
-            pstmt.setInt(8, nMagicDefense);
-            pstmt.setInt(9, nLootTableID);
-            pstmt.setInt(10, nKillXP);
-            pstmt.setInt(11, nKillGold);
-            pstmt.setInt(12, nUpdateQuestID);
-            pstmt.setInt(13, nUpdateQuestStep);
+            pstmt.setInt(5, nHealth);
+			pstmt.setInt(6, nAttackPower);
+			pstmt.setInt(7, nMagicPower);
+			pstmt.setInt(8, nDefense);
+            pstmt.setInt(9, nMagicDefense);
+            pstmt.setInt(10, nLootTableID);
+            pstmt.setInt(11, nKillXP);
+            pstmt.setInt(12, nKillGold);
+            pstmt.setInt(13, nUpdateQuestID);
+            pstmt.setInt(14, nUpdateQuestStep);
 			
 			if(0 == pstmt.executeUpdate())
 			{

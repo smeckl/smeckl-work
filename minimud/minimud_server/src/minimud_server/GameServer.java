@@ -18,6 +18,13 @@ public class GameServer implements ActionListener
 		MsgPostFailed
 	}
     
+    private enum FightWinner
+    {
+        Invalid,
+        Player,
+        Monster
+    }
+    
     private static int GAME_SYNC_INTERVAL = (60*1000);
 	
 	private HashMap<String, UserConnectionThread> m_userMap = new HashMap<String, UserConnectionThread>();
@@ -301,6 +308,7 @@ public class GameServer implements ActionListener
                 monster.setMagicPower(objects.getInt("magic_power"));
                 monster.setDefense(objects.getInt("defense"));
                 monster.setMagicDefense(objects.getInt("magic_defense"));
+                monster.setLootTableID(objects.getInt("loot_table_id"));
                 monster.setKillGold(objects.getInt("kill_gold"));
                 monster.setKillXP(objects.getInt("kill_xp"));
                 monster.setUpdateQuestID(objects.getInt("update_quest_id"));
@@ -650,7 +658,7 @@ public class GameServer implements ActionListener
 
                 if(bValidMonster && bValidWeapon)
                 {
-                    monster.simulateFight(user);
+                    simulateFight(user, monster);
                 }
             }
             catch(Exception e)
@@ -850,8 +858,10 @@ public class GameServer implements ActionListener
 									if(0 != nQuestID)
 									{
 										m_dbConn.updateUserQuestStep(nQuestID, nNewStep, user.getUserInfo().getName());
+                                        
+                                        QuestStep step = m_dbConn.getQuestStep(nQuestID, nNewStep);
 										
-										sendUserText(user, result.getDescription());
+										sendUserText(user, step.getDescription());
 									}
 								}
 								else if(0 == result.getType().compareTo("complete_quest"))
@@ -925,6 +935,89 @@ public class GameServer implements ActionListener
 		
 		return retVal;
 	}
+    
+    public synchronized FightWinner simulateFight(UserConnectionThread user, Monster monster)
+    {
+        FightWinner winner = FightWinner.Invalid;
+        
+        // Can only attack if the monster is alive and nobody else is attacking it
+        if(Monster.State.Open == monster.getState())
+        {
+            // Mark the monster as in combat
+            monster.setState(Monster.State.InCombat);
+            
+            sendUserText(user, "You attack the " + monster.getName());
+
+            winner = FightWinner.Player;
+            
+            // If the Player wins, give them their gold, xp, and loot
+            if(FightWinner.Player == winner)
+            {                  
+                // Mark the monster as dead
+                monster.setState(Monster.State.Dead);
+                
+                sendUserText(user, "You killed the " + monster.getName());
+                
+                user.getUserInfo().setGold( user.getUserInfo().getGold() + monster.getKillGold());
+                sendUserText(user, "You earned " + monster.getKillGold() + " gold!");
+                
+                user.getUserInfo().setXP( user.getUserInfo().getXP() + monster.getKillXP());
+                sendUserText(user, "You earned " + monster.getKillXP() + " XP!");
+                
+                // If a quest needs to be updated, then udpate it
+                if(0 != monster.getUpdateQuestID() && 0 != monster.getUpdateQuestStep())
+                {
+                    m_dbConn.updateUserQuestStep(monster.getUpdateQuestID(), monster.getUpdateQuestStep(), 
+                            user.getUserInfo().getName());
+                    
+                    // Display the new quest step text
+                    QuestStep step = m_dbConn.getQuestStep(monster.getUpdateQuestID(), monster.getUpdateQuestStep());					
+					sendUserText(user, step.getDescription());
+                }
+                
+                // TODO:  Roll on loot in the loot table
+                //Item item = rollForLoot(monster.getLootTableID()); 
+            }
+            // If the monster wins
+            else
+            {
+                sendUserText(user, "You have died!");
+                
+                // Reset the monster's state to open
+                monster.setState(Monster.State.Open);
+                
+                // Set user's health to half of max health
+                user.getUserInfo().setHealth(user.getUserInfo().getMaxHealth()/2);
+                
+                // Move the user to the Tavern
+                // Remove them from current room
+                Room curRoom = user.getCurrentRoom();
+                curRoom.removeUser(user);
+                
+                // Set the user's starting room
+                user.setCurrentRoom(getStartingRoom());
+
+                // Add the user to the starting Room
+                getStartingRoom().addUser(user, user.getUserInfo().getName());
+                
+                // Show the new room text
+                user.displayCurrentRoom();
+            }
+        }
+        else
+            sendUserText(user, "You can't attack the " + monster.getName() + " because it is fighting someone else.");
+        
+        return winner;
+    }
+    
+    public Item rollForLoot(int nLootTableID)
+    {
+        Item item = null;
+        
+        
+        
+        return item;
+    }
 	
 	public static void sendUserText(UserConnectionThread user, String strMsg)
 	{

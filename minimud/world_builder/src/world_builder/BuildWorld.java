@@ -64,28 +64,34 @@ public class BuildWorld
 				break;
 			}
 			
-			if(args.length == 4)
-			{
-				strDataFile = args[3];
-			}
-            
-            // Have the user enter the password
-            System.out.print("Enter the password to the database: ");
-            
-            char szPwd[] = System.console().readPassword();
-
-            if (null != szPwd)
+			if(args.length == 5)
             {
-                strPassword = new String(szPwd);
+                strPassword = args[3];
+                
+                strDataFile = args[4];
             }
             else
             {
-                System.out.println("Invalid login credentials.");
-                break;
+                // Have the user enter the password
+                System.out.print("Enter the password to the database: ");
+
+                char szPwd[] = System.console().readPassword();
+
+                if (null != szPwd)
+                {
+                    strPassword = new String(szPwd);
+                }
+                else
+                {
+                    System.out.println("Invalid login credentials.");
+                    break;
+                }
+                
+                strDataFile = args[3];
             }
 			
 			try
-			{	
+			{	                
 				m_dbConn = new DatabaseConnector(strDBServer, nPort, strUser, strPassword);
 				m_dbConn.connect();
 				
@@ -138,13 +144,13 @@ public class BuildWorld
 				
 				m_dbConn.addTable("CREATE TABLE characters ( username VARCHAR(32) NOT NULL, pwd_hash VARBINARY(100) NOT NULL, " +
 						"pwd_salt VARBINARY(16) NOT NULL, created DATE NOT NULL, description VARCHAR(1000), char_type INT NOT NULL," +
-                        "xp INT, gold INT, health INT, attack_power INT NOT NULL, magic_power INT NOT NULL," +
-                        "defense INT NOT NULL, magic_defense INT NOT NULL, " +
+                        "xp INT, gold INT, health INT NOT NULL, max_health INT NOT NULL, attack_power INT NOT NULL, " +
+                        "magic_power INT NOT NULL, defense INT NOT NULL, magic_defense INT NOT NULL, " +
                         "PRIMARY KEY ( username ));");
                 
                 m_dbConn.addTable("CREATE TABLE monsters ( ID INT NOT NULL, name VARCHAR(32) NOT NULL, " +
                         "description VARCHAR(1000) NOT NULL, " +
-						"health INT NOT NULL, attack_power INT NOT NULL, magic_power INT NOT NULL," +
+						"health INT NOT NULL, max_health INT NOT NULL, attack_power INT NOT NULL, magic_power INT NOT NULL," +
                         "defense INT NOT NULL, magic_defense INT NOT NULL, loot_table_id INT NOT NULL, " +
                         "kill_xp INT NOT NULL, kill_gold INT NOT NULL, update_quest_id INT NOT NULL," +
                         "update_quest_step INT NOT NULL, " +

@@ -44,7 +44,7 @@ public class RegularExpressions
 		m_regExMap.put(RegExID.RESULT_TYPE, "^(text_only|xp_reward|give_quest|update_quest|complete_quest|gold_reward|item_reward)$");
 		m_regExMap.put(RegExID.HINT, "^[a-zA-Z0-9\\-\\.\\,\\:\\?\\!\\'\\\"\\$\\\\ ]{1,200}$");
 		m_regExMap.put(RegExID.ACTION_RESULT_DESC, "^[a-zA-Z0-9\\-\\.\\,\\:\\?\\!\\'\\\"\\$\\\\ ]{1,200}$");
-        m_regExMap.put(RegExID.QUEST_DEP_COMPLETE, "^(0|1)$");
+        m_regExMap.put(RegExID.QUEST_DEP_COMPLETE, "^[1-9][0-9]*$");
         m_regExMap.put(RegExID.POSITIVE_INT, "^[1-9][0-9]*$");
         m_regExMap.put(RegExID.WEAPON, "^(0|1)$");
         m_regExMap.put(RegExID.DAMAGE_TYPE, "^(piercing|slashing|bashing)$");

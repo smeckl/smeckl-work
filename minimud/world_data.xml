@@ -72,8 +72,27 @@
 				<name>talk</name>
 				<quest_dependency_complete>1</quest_dependency_complete>
 				<result>
+					<type>give_quest</type>
+					<value>2</value>
+					<description>Now that you have a lantern, check out the storeroom to the north.</description>
+				</result>
+			</action>
+			<action>
+				<name>talk</name>
+				<quest_dependency_id>2</quest_dependency_id>
+				<quest_dependency_step>2</quest_dependency_step>
+				<result>
+					<type>complete_quest</type>
+					<description>Nice work.  I don't have any other jobs for you.  You should go adventuring.</description>
+					<value>2</value>
+				</result>
+			</action>
+			<action>
+				<name>talk</name>
+				<quest_dependency_complete>2</quest_dependency_complete>
+				<result>
 					<type>text_only</type>
-					<description>Now that you have completed your first quest, maybe you should try traveling.  Type 'north' or 'west' to check out the adjacent areas.</description>
+					<description>Now that you have completed your first quests, maybe you should try traveling.  Type 'north' or 'west' to check out the adjacent areas.</description>
 				</result>
 			</action>
 		</npc>
@@ -98,7 +117,7 @@
 				</result>
 				<result>
 					<type>update_quest</type>
-					<description>Talk to Tommy to complete the quest.</description>
+					<description>Talk to Tommy.</description>
 					<value>2</value>
 				</result>
 				<result>
@@ -179,6 +198,35 @@
 			<reward_xp>100</reward_xp>
 			<reward_gold>10</reward_gold>
 		</quest_step>
+		<quest_step>
+			<step_number>2</step_number>
+			<description>Talk to Tommy to complete the quest.</description>
+			<hint>this one's easy.</hint>
+			<reward_xp>100</reward_xp>
+			<reward_gold>10</reward_gold>
+		</quest_step>
+	</quest>
+
+	<quest>
+		<id>2</id>
+		<name>Satanic Storeroom</name>
+		<reward_xp>10</reward_xp>
+		<first_bonus>20</first_bonus>
+		<reward_gold>100</reward_gold>
+		<quest_step>
+			<step_number>1</step_number>
+			<description>Tommy has asked you to check out the storeroom.</description>
+			<hint>type 'north' to go to the storeroom and check it out.</hint>
+			<reward_xp>100</reward_xp>
+			<reward_gold>10</reward_gold>
+		</quest_step>
+		<quest_step>
+			<step_number>2</step_number>
+			<description>Now that you have cleared out the storeroom, let Tommy know.</description>
+			<hint>Go talk to Tommy and let him know you cleared out the storeroom.</hint>
+			<reward_xp>10</reward_xp>
+			<reward_gold>10</reward_gold>
+		</quest_step>
 	</quest>
 
 	<monster>
@@ -193,6 +241,8 @@
 		<loot_table_id>1</loot_table_id>
 		<kill_xp>10</kill_xp>
 		<kill_gold>10</kill_gold>
+		<update_quest_id>2</update_quest_id>
+		<update_quest_step>2</update_quest_step>
 	</monster>
 	<monster>
 		<id>2</id>

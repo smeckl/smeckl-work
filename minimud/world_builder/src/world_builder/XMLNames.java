@@ -45,6 +45,7 @@ public class XMLNames
     public static String KILL_GOLD      = "kill_gold";
     public static String UPDATE_QUEST_ID    = "update_quest_id";
     public static String UPDATE_QUEST_STEP  = "update_quest_step";
+    public static String UPDATE_QUEST_TEXT  = "update_quest_text";
     public static String WEAPON         = "weapon";
     public static String DAMAGE_TYPE    = "damage_type";
     public static String DAMAGE         = "damage";
