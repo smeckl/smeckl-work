@@ -328,10 +328,43 @@ public class DatabaseConnector
 		{
 			System.out.println("Adding new Item");
 			
-			PreparedStatement pstmt = getConnection().prepareStatement("insert into items values(?, ?, ?)");
+			PreparedStatement pstmt = getConnection().prepareStatement("insert into items values(?, ?, ?, 0, null, null)");
 			pstmt.setInt(1, nID);
 			pstmt.setString(2, strName);
 			pstmt.setString(3, strDescription);
+
+			
+			if(0 == pstmt.executeUpdate())
+			{
+				retVal = ErrorCode.InsertFailed;
+				System.out.println("Failed to insert Item.");
+			}
+			else
+				System.out.println("Item creation successful.");
+		}
+		catch(Exception e)
+		{
+			System.out.println("Exception in DatabaseConnector.addItem() " + e);
+			retVal = ErrorCode.Exception;
+		}
+		
+		return retVal;
+	}
+    
+    public ErrorCode addItem(int nID, String strName, String strDescription, String strDamageType, int nDamage)
+	{
+		ErrorCode retVal = ErrorCode.Success;
+		
+		try
+		{
+			System.out.println("Adding new Item");
+			
+			PreparedStatement pstmt = getConnection().prepareStatement("insert into items values(?, ?, ?, 1, ?, ?)");
+			pstmt.setInt(1, nID);
+			pstmt.setString(2, strName);
+			pstmt.setString(3, strDescription);
+            pstmt.setString(4, strDamageType);
+            pstmt.setInt(5, nDamage);
 
 			
 			if(0 == pstmt.executeUpdate())

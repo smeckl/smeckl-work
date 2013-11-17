@@ -132,18 +132,39 @@
 	<room>
 		<id>3</id>
 		<name>Storeroom</name>
-		<description>You quietly sneak into the storeroom.  It is lined with the skulls of sacrificed animals.  There is a pentagram painted on the floor in blood.  You wonder what exactly is in the meat pie.  To the south is the door back into the main Tavern.</description>
+		<description>You quietly sneak into the storeroom.  It is lined with the skulls of sacrificed animals.  There is a pentagram painted on the floor in blood.  You wonder what exactly is in the meat pie.  To the south is the door back into the main Tavern.  There is a dagger on the floor.</description>
 		<move>
 			<direction>south</direction>
 			<next_room_id>1</next_room_id>
 			<description>Tavern door</description>
 		</move>	
+		<object>
+			<name>dagger</name>
+			<description>a shiny dagger, covered in dried blood.  It must have been used on the animals.</description>
+			<action>
+				<name>take</name>
+				<result>
+					<type>item_reward</type>
+					<description>You take the dagger and add it to your inventory</description>
+					<item_id>2</item_id>
+				</result>
+			</action>
+		</object>
 		<monster_id>1</monster_id>		
 	</room>
 	<item>
 		<id>1</id>
 		<name>lantern</name>
 		<description>a lantern.  It's a bit rusty, but it still works.</description>
+		<weapon>0</weapon>
+	</item>
+	<item>
+		<id>2</id>
+		<name>dagger</name>
+		<description>a shiny, stabby dagger.</description>
+		<weapon>1</weapon>
+		<damage_type>piercing</damage_type>
+		<damage>20</damage>
 	</item>
 	<quest>
 		<id>1</id>

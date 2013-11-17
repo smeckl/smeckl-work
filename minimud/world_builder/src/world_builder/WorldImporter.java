@@ -305,11 +305,15 @@ public class WorldImporter
 		int nID = 0;
 		String strName = "";
 		String strDescription = "";
+        boolean bWeapon = false;
+        String strDamageType = "";
+        int nDamage = 0;
 		
 		boolean bSavedItem = false;
 		boolean bID = false;
 		boolean bName = false;
 		boolean bDescription = false;
+        boolean bError = false;
 		
 		try
 		{
@@ -327,7 +331,7 @@ public class WorldImporter
 					String nodeName = node.getNodeName();
 					
 					// If this is an <id> element, then validate and add to item object
-					if(!bSavedItem && 0 == nodeName.compareTo(XMLNames.ID))
+					if(0 == nodeName.compareTo(XMLNames.ID))
 					{
 						if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ID))
 						{
@@ -342,7 +346,7 @@ public class WorldImporter
 							System.out.println("Invalid ID specified.");
 						}
 					}
-					else if(!bSavedItem && 0 == nodeName.compareTo(XMLNames.NAME))
+					else if(0 == nodeName.compareTo(XMLNames.NAME))
 					{
 						if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.NAME))
 						{
@@ -355,7 +359,7 @@ public class WorldImporter
 							System.out.println("Invalid name specified.");
 						}
 					}
-					else if(!bSavedItem && 0 == nodeName.compareTo(XMLNames.DESCRIPTION))
+					else if(0 == nodeName.compareTo(XMLNames.DESCRIPTION))
 					{
 						if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.DESCRIPTION))
 						{
@@ -368,13 +372,61 @@ public class WorldImporter
 							System.out.println("Invalid description specified.");
 						}
 					}
-				}
-				if(!bSavedItem && bName && bDescription && bID)
-				{
-					getDBconn().addItem(nID, strName, strDescription);
-					bSavedItem = true;
-				}
+                    else if(0 == nodeName.compareTo(XMLNames.WEAPON))
+                    {                       
+                        if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.WEAPON))
+                        {
+                            int nWeapon = Integer.parseInt(content);
+                            
+                            if(1 == nWeapon)
+                                bWeapon = true;
+                        }
+                        else
+						{
+							retVal = ErrorCode.INVALID_TYPE;
+							System.out.println("Invalid <weapon> element specified.");
+						}
+                    }
+                    else if(0 == nodeName.compareTo(XMLNames.DAMAGE_TYPE))
+                    {
+                        if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.DAMAGE_TYPE))
+                        {
+                            strDamageType = content;
+                        }
+                        else
+						{
+							retVal = ErrorCode.INVALID_TYPE;
+							System.out.println("Invalid <damage_type> specified.");
+						}
+                    }
+                    else if(0 == nodeName.compareTo(XMLNames.DAMAGE))
+                    {
+                        if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.POSITIVE_INT))
+                        {
+                            nDamage = Integer.parseInt(content);
+                            
+                            if(!m_rangeCheck.checkRange(RangeChecker.RangeID.DAMAGE, nDamage))
+                                bError = true;
+                        }
+                        else
+						{
+							retVal = ErrorCode.INVALID_TYPE;
+							System.out.println("Invalid <damage> specified.");
+						}
+                    }
+				}                                
 			}
+            
+            if(!bError && !bSavedItem && bName && bDescription && bID && bWeapon)
+            {
+                getDBconn().addItem(nID, strName, strDescription, strDamageType, nDamage);
+                bSavedItem = true;
+            }
+            else if(!bSavedItem && bName && bDescription && bID)
+            {
+                getDBconn().addItem(nID, strName, strDescription);
+                bSavedItem = true;
+            }
 			
 			if(!bSavedItem)
 			{

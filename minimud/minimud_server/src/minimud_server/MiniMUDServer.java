@@ -76,30 +76,32 @@ public class MiniMUDServer
 				break;
 			}
             
-            // Have the user enter the password
-            System.out.print("Enter the password to the database: ");
-            
-            char szPwd[] = System.console().readPassword();
-
-            if (null != szPwd)
+            // If a log file was specified, then use it
+            if(args.length == 4)
             {
-                strPassword = new String(szPwd);
+                strPassword = args[3];
             }
             else
             {
-                System.out.println("Invalid login credentials.");
-                break;
+                // Have the user enter the password
+                System.out.print("Enter the password to the database: ");
+
+                char szPwd[] = System.console().readPassword();
+
+                if (null != szPwd)
+                {
+                    strPassword = new String(szPwd);
+                }
+                else
+                {
+                    System.out.println("Invalid login credentials.");
+                    break;
+                }
             }
 			
 			try
-			{			
-				// If a log file was specified, then use it
-				if(args.length == 4)
-				{
-					strLogFile = args[3];
-					
-					logger = new MMLogger(strLogFile);
-				}
+			{				
+				logger = new MMLogger(null);
 						
 			    // Connect to the database
 				m_dbConn = new DatabaseConnector(strDBServer, nPort, strUser, strPassword, logger);

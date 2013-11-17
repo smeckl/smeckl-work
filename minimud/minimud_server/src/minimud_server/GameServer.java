@@ -91,9 +91,12 @@ public class GameServer implements ActionListener
 				newRoom.setName(rooms.getString("name"));
 				newRoom.setDescription(rooms.getString("description"));
 				
+                m_logger.info("Loading room " + newRoom.getID());
+                
 				// Make sure that the data fields are valid
 				if(newRoom.isValid())
 				{		
+                    m_logger.info("Loading moves into room.");
 					retVal = loadMovesIntoRoom(newRoom);
 					
 					if(ErrorCode.Success != retVal)
@@ -102,6 +105,7 @@ public class GameServer implements ActionListener
 						break;
 					}
 					
+                    m_logger.info("Loading NPCs into room.");
 					retVal = loadNPCsIntoRoom(newRoom);
 					
 					if(ErrorCode.Success != retVal)
@@ -110,6 +114,7 @@ public class GameServer implements ActionListener
 						break;
 					}
 					
+                    m_logger.info("Loading objects into room.");
 					retVal = loadObjectsIntoRoom(newRoom);
 					
 					if(ErrorCode.Success != retVal)
@@ -118,6 +123,7 @@ public class GameServer implements ActionListener
 						break;
 					}
                     
+                    m_logger.info("Loading monsters into room.");
                     retVal = loadMonstersIntoRoom(newRoom);
                     
                     if(ErrorCode.Success != retVal)
@@ -585,14 +591,7 @@ public class GameServer implements ActionListener
            sendUserText(user, "");
         }
             break;
-		case Look:
-			if(msg.getObject().isEmpty())
-			{
-				// Display the user's current room
-				user.displayCurrentRoom();
-				break;
-			}
-
+           
         case Attack:
         {
             Room room = user.getCurrentRoom();
@@ -609,6 +608,47 @@ public class GameServer implements ActionListener
 				sendUserText(user, "You can't attack that.");
             }
         }
+            break;
+           
+		case Look:
+			if(msg.getObject().isEmpty())
+			{
+				// Display the user's current room
+				user.displayCurrentRoom();
+			}
+            else
+            {
+                Room room = user.getCurrentRoom();
+                boolean bShowedSomething = false;
+			
+                // See if there is a valid NPC in the room
+                NPC npc = room.getNPC(msg.getObject());
+                
+                if(null != npc)
+                {
+                    sendUserText(user, "You see " + npc.getDescription());
+                    bShowedSomething = true;
+                }
+                
+                GameObject obj = room.getObject(msg.getObject());
+                
+                if(null != obj)
+                {
+                    sendUserText(user, "You see " + obj.getDescription());
+                    bShowedSomething = true;
+                }
+                
+                Monster monster = room.getMonster(msg.getObject());
+                
+                if(null != monster)
+                {
+                    sendUserText(user, "You see " + monster.getDescription());
+                    bShowedSomething = true;
+                }  
+                
+                if(!bShowedSomething)
+                    sendUserText(user, "You don't see anything.");
+            }
             break;
             
 		// If the Look action is aimed at an object or NPC, then
@@ -629,12 +669,21 @@ public class GameServer implements ActionListener
 			NPC npc = room.getNPC(msg.getObject());
 			GameObject obj = null;
 			
+            m_logger.info("Attempting action on " + msg.getObject());
+            
 			if(null == npc)
 			{
+                m_logger.info("No NPC with that name.  Try an object.");
 				obj = room.getObject(msg.getObject());
+                
+                if(null == obj)
+                    m_logger.info("That object doesn't exist.");
 			}
 			else
+            {
+                m_logger.info("Taking action on NPC.");
 				obj = npc;
+            }
 			
 			if(null != obj)
 			{

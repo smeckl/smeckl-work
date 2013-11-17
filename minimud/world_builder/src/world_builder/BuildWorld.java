@@ -133,7 +133,8 @@ public class BuildWorld
 						"ItemID INT, Value INT, PRIMARY KEY ( ID ) );");
 				
 				m_dbConn.addTable("CREATE TABLE items ( ID INT NOT NULL, name VARCHAR(50) NOT NULL, " +
-						"description VARCHAR(1000) NOT NULL, PRIMARY KEY ( ID ));");
+						"description VARCHAR(1000) NOT NULL, weapon INT, damage_type VARCHAR(10), damage INT, "
+                        + "PRIMARY KEY ( ID ));");
 				
 				m_dbConn.addTable("CREATE TABLE characters ( username VARCHAR(32) NOT NULL, pwd_hash VARBINARY(100) NOT NULL, " +
 						"pwd_salt VARBINARY(16) NOT NULL, created DATE NOT NULL, description VARCHAR(1000), char_type INT NOT NULL," +
