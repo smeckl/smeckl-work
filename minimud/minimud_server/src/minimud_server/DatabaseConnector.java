@@ -432,13 +432,21 @@ public class DatabaseConnector
 				
 				item.setID(results.getInt("ID"));
 				item.setName(results.getString("name"));
-				item.setDescription(results.getString("description"));
+				item.setDescription(results.getString("description"));               
+                item.setIsWeapon(1 == results.getInt("weapon"));
+                
+                String strDamageType = results.getString("damage_type");
+                
+                if(null != strDamageType)
+                    item.setDamageType(strDamageType);
+                
+                item.setDamage(results.getInt("damage"));
 			}
 			
 		}
 		catch(Exception e)
 		{
-			m_logger.severe("Exception in DatabaseConnector::getActionResult() " + e);
+			m_logger.severe("Exception in DatabaseConnector::getItem() " + e);
 			item = null;
 		}
 		

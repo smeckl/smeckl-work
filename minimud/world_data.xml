@@ -191,6 +191,8 @@
 		<defense>1</defense>
 		<magic_defense>1</magic_defense>
 		<loot_table_id>1</loot_table_id>
+		<kill_xp>10</kill_xp>
+		<kill_gold>10</kill_gold>
 	</monster>
 	<monster>
 		<id>2</id>
@@ -202,5 +204,7 @@
 		<defense>1</defense>
 		<magic_defense>1</magic_defense>
 		<loot_table_id>1</loot_table_id>
+		<kill_xp>10</kill_xp>
+		<kill_gold>10</kill_gold>
 	</monster>
 </minimud_world>

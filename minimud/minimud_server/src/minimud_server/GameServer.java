@@ -301,6 +301,10 @@ public class GameServer implements ActionListener
                 monster.setMagicPower(objects.getInt("magic_power"));
                 monster.setDefense(objects.getInt("defense"));
                 monster.setMagicDefense(objects.getInt("magic_defense"));
+                monster.setKillGold(objects.getInt("kill_gold"));
+                monster.setKillXP(objects.getInt("kill_xp"));
+                monster.setUpdateQuestID(objects.getInt("update_quest_id"));
+                monster.setUpdateQuestStep(objects.getInt("update_quest_step"));
                 
 				// Only add the move if it is valid
 				if(monster.isValid())
@@ -596,16 +600,63 @@ public class GameServer implements ActionListener
         {
             Room room = user.getCurrentRoom();
             
+            boolean bValidMonster = false;
+            boolean bValidWeapon = false;
+            
+            // See if we have a valid monster
             Monster monster = room.getMonster(msg.getObject());
             
             if(null != monster)
             {
-                monster.simulateFight(user);
+                bValidMonster = true;   
             }
-            else
+            else       
             {
-                // There is no valid result.  Tell the user.
 				sendUserText(user, "You can't attack that.");
+            }
+            
+            try
+            {
+                ResultSet results = m_dbConn.getItemsForUser(user.getUserInfo().getName());
+
+                if(null != results)
+                {
+                    while(results.next())
+                    {
+                        Item item = m_dbConn.getItem(results.getInt("ItemID"));
+
+                        if(null != item)
+                        {
+                            if(0 == item.getName().compareTo(msg.getSubject()))
+                            {
+                                if(item.getIsWeapon())
+                                {
+                                    bValidWeapon = true;
+                                    break;
+                                }
+                                else
+                                {
+                                    sendUserText(user, "You can't attack with that.");
+                                }
+                                    
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    sendUserText(user, "You can't attack with that.");
+                }
+
+                if(bValidMonster && bValidWeapon)
+                {
+                    monster.simulateFight(user);
+                }
+            }
+            catch(Exception e)
+            {
+                m_logger.severe("Unhandled exception in GameServer.processActionMessage():  " + e);
+
             }
         }
             break;
@@ -651,6 +702,33 @@ public class GameServer implements ActionListener
             }
             break;
             
+        case Inventory:
+        {
+            try
+            {
+                ResultSet results = m_dbConn.getItemsForUser(user.getUserInfo().getName());
+
+                sendUserText(user, "Items in your inventory:");
+                sendUserText(user, "--------------------------------");
+                
+                while(results.next())
+                {
+                    int nItemID = results.getInt("ItemID");
+
+                    Item item = m_dbConn.getItem(nItemID);
+                    
+                    if(null != item)
+                    {
+                        sendUserText(user, item.getName());
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                m_logger.severe("Failed to load inventory items for user: " + e);
+            }
+        }    
+            break;
 		// If the Look action is aimed at an object or NPC, then
 		// We want to fall through to the next case.
 		case Talk:	

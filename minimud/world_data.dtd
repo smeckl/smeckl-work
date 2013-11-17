@@ -39,7 +39,7 @@
 <!ELEMENT quest_dependency_step (#PCDATA)>
 <!ELEMENT quest_dependency_complete (#PCDATA)>
 
-<!ELEMENT monster (id, name, description, health, attack_power, magic_power, defense, magic_defense, loot_table_id)>
+<!ELEMENT monster (id, name, description, health, attack_power, magic_power, defense, magic_defense, loot_table_id, kill_xp, kill_gold, update_quest_id?, update_quest_step? )>
 <!ELEMENT health (#PCDATA)>
 <!ELEMENT attack_power (#PCDATA)>
 <!ELEMENT magic_power (#PCDATA)>

@@ -454,7 +454,8 @@ public class DatabaseConnector
 	}
     
     public ErrorCode addMonster(int nID, String strName, String strDescription, int nHealth,
-                            int nAttackPower, int nMagicPower, int nDefense, int nMagicDefense, int nLootTableID)
+                            int nAttackPower, int nMagicPower, int nDefense, int nMagicDefense, int nLootTableID,
+                            int nKillXP, int nKillGold, int nUpdateQuestID, int nUpdateQuestStep)
     {
         ErrorCode retVal = ErrorCode.Success;
 		
@@ -462,7 +463,7 @@ public class DatabaseConnector
 		{
 			System.out.println("Adding new Monster");
 			
-			PreparedStatement pstmt = getConnection().prepareStatement("insert into monsters values(?,?,?,?,?,?,?,?,?)");
+			PreparedStatement pstmt = getConnection().prepareStatement("insert into monsters values(?,?,?,?,?,?,?,?,?,?,?,?,?)");
 			pstmt.setInt(1, nID);
 			pstmt.setString(2, strName);
 			pstmt.setString(3, strDescription);
@@ -472,6 +473,10 @@ public class DatabaseConnector
 			pstmt.setInt(7, nDefense);
             pstmt.setInt(8, nMagicDefense);
             pstmt.setInt(9, nLootTableID);
+            pstmt.setInt(10, nKillXP);
+            pstmt.setInt(11, nKillGold);
+            pstmt.setInt(12, nUpdateQuestID);
+            pstmt.setInt(13, nUpdateQuestStep);
 			
 			if(0 == pstmt.executeUpdate())
 			{

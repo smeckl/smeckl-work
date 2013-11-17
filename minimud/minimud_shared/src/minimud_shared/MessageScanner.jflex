@@ -71,9 +71,12 @@ shoot			{yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.
 take			{yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.TAKE;}
 drop			{yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.DROP;}
 attack          {yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.ATTACK;}
-leaders         {yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.LEADERS;}
+\/leaders       {yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.LEADERS;}
 gold            {yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.GOLD;}
 xp              {yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.XP;}
+with            {yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.WITH;}
+\/inventory     {yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.INVENTORY;}
+\/help          {yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.HELP;}
 
 \,		{return (int)yycharat(0);}
 \=		{return (int)yycharat(0);}

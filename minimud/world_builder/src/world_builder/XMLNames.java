@@ -41,6 +41,10 @@ public class XMLNames
     public static String DEFENSE        = "defense";
     public static String MAGIC_DEFENSE  = "magic_defense";
     public static String LOOT_TABLE     = "loot_table_id";
+    public static String KILL_XP        = "kill_xp";
+    public static String KILL_GOLD      = "kill_gold";
+    public static String UPDATE_QUEST_ID    = "update_quest_id";
+    public static String UPDATE_QUEST_STEP  = "update_quest_step";
     public static String WEAPON         = "weapon";
     public static String DAMAGE_TYPE    = "damage_type";
     public static String DAMAGE         = "damage";

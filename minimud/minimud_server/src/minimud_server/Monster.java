@@ -7,6 +7,7 @@ package minimud_server;
 import java.util.Date;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import minimud_shared.RangeChecker.RangeID;
 /**
  *
  * @author steve
@@ -28,6 +29,11 @@ public class Monster extends Mob
     
     private State m_state = Monster.State.Open;
     private Calendar m_respawnTime = new GregorianCalendar();
+    
+    private int m_nKillXP = 0;
+    private int m_nKillGold = 0;
+    private int m_nUpdateQuestID = 0;
+    private int m_nUpdateQuestStep = 0;
     
     public Monster()
     {
@@ -87,5 +93,72 @@ public class Monster extends Mob
         }
         
         return bRet;
+    }
+    
+    public void setKillXP(int nXP)
+    {
+        m_nKillXP = nXP;
+    }
+    
+    public int getKillXP()
+    {
+        return m_nKillXP;
+    }
+    
+    public boolean isValidKillXP(int nKillXP)
+    {
+        return rangeCheck.checkRange(RangeID.REWARD_XP, nKillXP);
+    }
+    
+    public void setKillGold(int nGold)
+    {
+        m_nKillGold = nGold;
+    }
+    
+    public int getKillGold()
+    {
+        return m_nKillGold;
+    }
+    
+    public boolean isValidKillGold(int nGold)
+    {
+        return rangeCheck.checkRange(RangeID.REWARD_GOLD, nGold);
+    }
+    
+    public void setUpdateQuestID(int nID)
+    {
+        m_nUpdateQuestID = nID;
+    }
+     
+    public int getUpdateQuestID()
+    {
+        return m_nUpdateQuestID;
+    }
+    
+    public boolean isValidUpdateQuestID(int nID)
+    {
+        return rangeCheck.checkRange(RangeID.ID, nID);
+    }
+    
+    public void setUpdateQuestStep(int nStep)
+    {
+        m_nUpdateQuestStep = nStep;
+    }
+    
+    public int getUpdateQuestStep()
+    {
+        return m_nUpdateQuestStep;
+    }
+    
+    public boolean isValidUpdateQuestStep(int nStep)
+    {
+        return rangeCheck.checkRange(RangeID.QUEST_STEP_NUM, nStep);
+    }
+    
+    public boolean isValid()
+    {
+        return (super.isValid()
+                && isValidKillXP(getKillXP())
+                && isValidKillGold(getKillGold()));
     }
 }

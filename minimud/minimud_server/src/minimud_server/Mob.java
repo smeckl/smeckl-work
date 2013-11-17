@@ -5,6 +5,7 @@
 package minimud_server;
 
 import minimud_shared.RegularExpressions;
+import minimud_shared.RangeChecker;
 
 /**
  *
@@ -12,7 +13,8 @@ import minimud_shared.RegularExpressions;
  */
 public class Mob
 {
-    RegularExpressions regEx = new RegularExpressions();
+    protected RegularExpressions regEx = new RegularExpressions();
+    protected RangeChecker rangeCheck = new RangeChecker();
     
     private int m_nID = 0;
 	private String m_strName = "";
@@ -35,7 +37,7 @@ public class Mob
     
     public boolean isValidID(int nID)
     {
-        return (nID > 0 && nID < 100);
+        return rangeCheck.checkRange(RangeChecker.RangeID.ID, nID);
     }
     
 	public void setName(String name)
@@ -86,7 +88,7 @@ public class Mob
     
     public boolean isValidHealth(int nHealth)
     {
-        return (nHealth >= 0 && nHealth < 1000);
+        return rangeCheck.checkRange(RangeChecker.RangeID.HEALTH, nHealth);
     }
     
     public void setAttackPower(int nAttackPower)
@@ -107,7 +109,7 @@ public class Mob
     
     public boolean isValidAttackPower(int nAttackPower)
     {
-        return (nAttackPower >= 0 && nAttackPower < 100);
+        return rangeCheck.checkRange(RangeChecker.RangeID.ATTACK_POWER, nAttackPower);
     }
     
     public void setMagicPower(int nMagicPower)
@@ -128,7 +130,7 @@ public class Mob
     
     public boolean isValidMagicPower(int nMagicPower)
     {
-        return (nMagicPower >= 0 && nMagicPower < 100);
+        return rangeCheck.checkRange(RangeChecker.RangeID.MAGIC_POWER, nMagicPower);
     }
     
     public void setDefense(int nDefense)
@@ -144,7 +146,7 @@ public class Mob
     
     public boolean isValidDefense(int nDefense)
     {
-        return (nDefense >= 0 && nDefense < 100);
+        return rangeCheck.checkRange(RangeChecker.RangeID.DEFENSE, nDefense);
     }
     
     public int getDefense()
@@ -170,7 +172,7 @@ public class Mob
     
     public boolean isValidMagicDefense(int nMagicDefense)
     {
-        return (nMagicDefense >= 0 && nMagicDefense < 100);
+        return rangeCheck.checkRange(RangeChecker.RangeID.MAGIC_DEFENSE, nMagicDefense);
     }
     
     public boolean isValid()

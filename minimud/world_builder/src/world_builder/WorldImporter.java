@@ -624,6 +624,10 @@ public class WorldImporter
         int nDefense = 0;
         int nMagicDefense = 0;
         int nLootTableID = 0;
+        int nKillXP = 0;
+        int nKillGold = 0;
+        int nUpdateQuestID = 0;
+        int nUpdateQuestStep = 0;
         
         boolean bSavedMonster = false;
         boolean bID = false;
@@ -635,6 +639,8 @@ public class WorldImporter
         boolean bDefense = false;
         boolean bMagicDefense = false;
         boolean bLootTableID = false;
+        boolean bKillXP = false;
+        boolean bKillGold = false;
         boolean bError = false;
         
         try
@@ -795,14 +801,79 @@ public class WorldImporter
 							System.out.println("Invalid LOOT TABLE ID specified.");
 						}
 					}
+                    else if(0 == nodeName.compareTo(XMLNames.KILL_XP))
+					{
+						if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.POSITIVE_INT))
+						{
+							nKillXP = Integer.parseInt(content);
+                            
+                            if(m_rangeCheck.checkRange(RangeChecker.RangeID.REWARD_XP, nKillXP))
+                                bKillXP = true;
+                            else
+                                bError = true;
+						}
+						else
+						{
+							retVal = ErrorCode.INVALID_NUMBER;
+							System.out.println("Invalid KILL XP specified.");
+						}
+					}
+                    else if(0 == nodeName.compareTo(XMLNames.KILL_GOLD))
+					{
+						if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.POSITIVE_INT))
+						{
+							nKillGold = Integer.parseInt(content);
+                            
+                            if(m_rangeCheck.checkRange(RangeChecker.RangeID.REWARD_XP, nKillGold))
+                                bKillGold = true;
+                            else
+                                bError = true;
+						}
+						else
+						{
+							retVal = ErrorCode.INVALID_NUMBER;
+							System.out.println("Invalid KILL GOLD specified.");
+						}
+					}
+                    else if(0 == nodeName.compareTo(XMLNames.UPDATE_QUEST_ID))
+					{
+						if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.POSITIVE_INT))
+						{
+							nUpdateQuestID = Integer.parseInt(content);
+                            
+                            if(!m_rangeCheck.checkRange(RangeChecker.RangeID.REWARD_XP, nUpdateQuestID))                                
+                                bError = true;
+						}
+						else
+						{
+							retVal = ErrorCode.INVALID_NUMBER;
+							System.out.println("Invalid UPDATE QUEST ID specified.");
+						}
+					}
+                    else if(0 == nodeName.compareTo(XMLNames.UPDATE_QUEST_STEP))
+					{
+						if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.POSITIVE_INT))
+						{
+							nUpdateQuestStep = Integer.parseInt(content);
+                            
+                            if(!m_rangeCheck.checkRange(RangeChecker.RangeID.REWARD_XP, nUpdateQuestStep))                                
+                                bError = true;
+						}
+						else
+						{
+							retVal = ErrorCode.INVALID_NUMBER;
+							System.out.println("Invalid UPDATE QUEST STEP specified.");
+						}
+					}
                 }                                
             }
             
             if(!bError && !bSavedMonster && bID && bName && bDescription && bHealth && bAttackPower && bMagicPower
-                        && bDefense && bMagicDefense && bLootTableID)
+                        && bDefense && bMagicDefense && bLootTableID && bKillXP && bKillGold)
             {
                 getDBconn().addMonster(nID, strName, strDescription, nHealth,
-                        nAttackPower, nMagicPower, nDefense, nMagicDefense, nLootTableID);
+                        nAttackPower, nMagicPower, nDefense, nMagicDefense, nLootTableID,
+                        nKillXP, nKillGold, nUpdateQuestID, nUpdateQuestStep);
 
                 bSavedMonster = true;
             }

@@ -6,7 +6,7 @@ import java.io.*;
 %token LOGON_SUCCESS LOGON_FAILED INVALID QUIT EXIT LOGOUT TELL SAY SHOUT WHISPER WHO
 %token GO_NORTH GO_SOUTH GO_EAST GO_WEST GO_NORTHEAST GO_NORTHWEST GO_SOUTHEAST GO_SOUTHWEST GO_UP GO_DOWN
 %token CHARNAME CHARLITERAL STRINGLITERAL INT LOOK
-%token KICK PUNCH TALK STAB PUSH SLASH SHOOT TAKE DROP ATTACK GIVE LEADERS GOLD XP
+%token KICK PUNCH TALK STAB PUSH SLASH SHOOT TAKE DROP ATTACK GIVE LEADERS GOLD XP WITH INVENTORY HELP
 %%
 
 message:
@@ -237,9 +237,9 @@ action_message:
 	{
 		$$ = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Shoot, $2.sval, ""));
 	}
-| ATTACK CHARNAME
+| ATTACK CHARNAME WITH CHARNAME
 	{
-		$$ = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Attack, $2.sval, ""));
+		$$ = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Attack, $2.sval, $4.sval));
 	}
 | LEADERS
 	{
@@ -252,6 +252,14 @@ action_message:
 | LEADERS XP
 	{
 		$$ = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Leaders, "xp", ""));
+	}
+| INVENTORY
+	{
+		$$ = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Inventory, "", ""));
+	}
+| HELP
+	{
+		$$ = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Help, "", ""));
 	}
 ;
 
