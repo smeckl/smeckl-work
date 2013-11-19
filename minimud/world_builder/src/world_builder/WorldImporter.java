@@ -312,6 +312,7 @@ public class WorldImporter
         boolean bWeapon = false;
         String strDamageType = "";
         int nDamage = 0;
+        String strEffect = "";
 		
 		boolean bSavedItem = false;
 		boolean bID = false;
@@ -418,6 +419,18 @@ public class WorldImporter
 							System.out.println("Invalid <damage> specified.");
 						}
                     }
+                    else if(0 == nodeName.compareTo(XMLNames.EFFECT))
+					{
+						if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.EFFECT))
+						{
+							strEffect = content;
+						}
+						else
+						{
+							retVal = ErrorCode.INVALID_NAME;
+							System.out.println("Invalid <effect> specified.");
+						}
+					}
 				}                                
 			}
             
@@ -428,7 +441,7 @@ public class WorldImporter
             }
             else if(!bSavedItem && bName && bDescription && bID)
             {
-                getDBconn().addItem(nID, strName, strDescription);
+                getDBconn().addItem(nID, strName, strDescription, strEffect);
                 bSavedItem = true;
             }
 			

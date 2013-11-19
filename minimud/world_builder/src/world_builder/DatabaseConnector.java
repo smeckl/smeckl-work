@@ -320,7 +320,7 @@ public class DatabaseConnector
 		return retVal;
 	}
 	
-	public ErrorCode addItem(int nID, String strName, String strDescription)
+	public ErrorCode addItem(int nID, String strName, String strDescription, String strEffect)
 	{
 		ErrorCode retVal = ErrorCode.Success;
 		
@@ -328,10 +328,11 @@ public class DatabaseConnector
 		{
 			System.out.println("Adding new Item");
 			
-			PreparedStatement pstmt = getConnection().prepareStatement("insert into items values(?, ?, ?, 0, null, null)");
+			PreparedStatement pstmt = getConnection().prepareStatement("insert into items values(?, ?, ?, 0, null, null, ?)");
 			pstmt.setInt(1, nID);
 			pstmt.setString(2, strName);
 			pstmt.setString(3, strDescription);
+            pstmt.setString(4, strEffect);
 
 			
 			if(0 == pstmt.executeUpdate())
@@ -359,7 +360,7 @@ public class DatabaseConnector
 		{
 			System.out.println("Adding new Item");
 			
-			PreparedStatement pstmt = getConnection().prepareStatement("insert into items values(?, ?, ?, 1, ?, ?)");
+			PreparedStatement pstmt = getConnection().prepareStatement("insert into items values(?, ?, ?, 1, ?, ?,null)");
 			pstmt.setInt(1, nID);
 			pstmt.setString(2, strName);
 			pstmt.setString(3, strDescription);

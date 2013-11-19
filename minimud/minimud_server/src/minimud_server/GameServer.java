@@ -781,6 +781,31 @@ public class GameServer implements ActionListener
         }
             break;
             
+        case UseItem:
+        {
+            // Get object from inventory
+            Item item = m_dbConn.getItemForUser(user.getUserInfo().getName(), msg.getObject());
+            
+            if(null != item)
+            {
+                switch(item.getEffect())
+                {
+                    case GiveHealth:
+                        int nHealthGained = (int)(0.2 * user.getUserInfo().getMaxHealth());
+                        user.getUserInfo().setHealth(nHealthGained);
+                        
+                        sendUserText(user, "You gained " + nHealthGained + " health!");
+                        break;
+                }
+                
+                // TODO:  Remove item from inventory
+                
+            }
+            else
+                sendUserText(user, "You can't use that.");
+        }
+            break;
+            
 		// If the Look action is aimed at an object or NPC, then
 		// We want to fall through to the next case.
 		case Talk:	

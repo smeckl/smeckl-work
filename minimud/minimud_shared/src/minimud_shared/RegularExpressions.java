@@ -23,7 +23,8 @@ public class RegularExpressions
         QUEST_DEP_COMPLETE,
         POSITIVE_INT,
         WEAPON,
-        DAMAGE_TYPE
+        DAMAGE_TYPE,
+        EFFECT
 	}
 	
 	private Map<RegExID, String> m_regExMap = new HashMap<RegExID, String>();
@@ -48,6 +49,7 @@ public class RegularExpressions
         m_regExMap.put(RegExID.POSITIVE_INT, "^[1-9][0-9]*$");
         m_regExMap.put(RegExID.WEAPON, "^(0|1)$");
         m_regExMap.put(RegExID.DAMAGE_TYPE, "^(piercing|slashing|bashing|magic)$");
+        m_regExMap.put(RegExID.EFFECT, "^(give_health)$");
 	}
 	
 	public boolean stringMatchesRegEx(String str, RegExID id)

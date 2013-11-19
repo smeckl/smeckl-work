@@ -16,12 +16,19 @@ public class Item
         Magic
     }
     
+    public enum Effect
+    {
+        NotSet,
+        GiveHealth
+    }
+    
 	private int m_nID = 0;
 	private String m_strName = "";
 	private String m_strDescription = "";
     private boolean m_bIsWeapon = false;
     private DamageType m_damageType = DamageType.NotSet;
     private int m_nDamage = -1;
+    private Effect m_effect = Effect.NotSet;
 	
 	private RegularExpressions m_regEx = new RegularExpressions();
     private RangeChecker m_rangeCheck = new RangeChecker();
@@ -165,6 +172,27 @@ public class Item
     public DamageType getDamageType()
     {
         return m_damageType;
+    }
+    
+    public void setEffect(String strEffect)
+    {
+        if(m_regEx.stringMatchesRegEx(strEffect, RegularExpressions.RegExID.EFFECT))
+        {
+            if(0 == strEffect.compareTo("give_health"))
+            {
+                setEffect(Effect.GiveHealth);
+            }
+        }
+    }
+    
+    public void setEffect(Effect effect)
+    {
+        m_effect = effect;
+    }
+    
+    public Effect getEffect()
+    {
+        return m_effect;
     }
     
     public void setDamage(String strDamage)

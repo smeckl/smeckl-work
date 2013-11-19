@@ -52,4 +52,5 @@ public class XMLNames
     public static String LOOT_TABLE_ID  = "loot_table_id";
     public static String ITEM_REF       = "item_ref";
     public static String DROP_PERCENT   = "drop_percent";
+    public static String EFFECT         = "effect";
 }

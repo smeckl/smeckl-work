@@ -265,6 +265,10 @@ action_message:
 	{
 		$$ = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.QuestLog, "", ""));
 	}
+| USE CHARNAME
+	{
+		$$ = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.UseItem, $2.sval, ""));
+	}
 ;
 
 %%
