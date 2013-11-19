@@ -710,6 +710,7 @@ public class GameServer implements ActionListener
             }
             break;
             
+        // Display the items in the player's inventory
         case Inventory:
         {
             try
@@ -737,6 +738,49 @@ public class GameServer implements ActionListener
             }
         }    
             break;
+        
+        // Show the quests in the player's quest log
+        case QuestLog:
+        {
+
+        ArrayList<QuestStep> questSteps = m_dbConn.getQuestLogForUser(user.getUserInfo().getName());
+            
+            if(null != questSteps)
+            {
+                sendUserText(user, "");
+                sendUserText(user, padString("Quest Name:", 30) + "Description:");
+                sendUserText(user, padString("--------------", 30) + "----------------");
+                
+                for(int i = 0; i < questSteps.size(); i++)
+                {
+                    QuestStep step = questSteps.get(i);
+                    
+                    if(step.getDescription().length() <= 50)
+                        sendUserText(user, padString(step.getQuestName(), 30) + step.getDescription());
+                    else
+                    {                      
+                        i = 0;
+                        do
+                        {
+                            String strName = (0 == i) ? step.getQuestName() : "";
+                            
+                            if(step.getDescription().length() > (i+1)*50)
+                                sendUserText(user, padString(strName, 30) + step.getDescription().substring(i*50, (i+1)*50));
+                            else
+                                sendUserText(user, padString(strName, 30) + step.getDescription().substring(i*50));
+                            
+                            i++;
+                        }
+                        while(step.getDescription().length() > (i*50));
+                    }
+                    
+                    sendUserText(user, "");
+                }
+            }
+            sendUserText(user, "");
+        }
+            break;
+            
 		// If the Look action is aimed at an object or NPC, then
 		// We want to fall through to the next case.
 		case Talk:	
@@ -977,7 +1021,7 @@ public class GameServer implements ActionListener
                 // If a quest needs to be updated, then udpate it
                 if(0 != monster.getUpdateQuestID() && 0 != monster.getUpdateQuestStep())
                 {
-                    if(m_dbConn.userCompletedQuest(monster.getUpdateQuestID(), user.getUserInfo().getName()))
+                    if(!m_dbConn.userCompletedQuest(monster.getUpdateQuestID(), user.getUserInfo().getName()))
                     {
                         DatabaseConnector.ErrorCode ret = m_dbConn.updateUserQuestStep(monster.getUpdateQuestID(), 
                                                                                     monster.getUpdateQuestStep(), 

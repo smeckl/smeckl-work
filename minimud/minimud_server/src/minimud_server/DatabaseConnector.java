@@ -829,4 +829,46 @@ public class DatabaseConnector
 		
 		return item;
 	}
+    
+    public ArrayList<QuestStep> getQuestLogForUser(String strUser)
+	{
+		ArrayList<QuestStep> questSteps = new ArrayList<QuestStep>();
+		
+		try
+		{
+			PreparedStatement pstmt = getConnection().prepareStatement("select quests.name, quest_steps.* from quests, "
+                    + "quest_steps left join quest_status on quest_status.quest_id = quest_steps.quest_id and "
+                    + "quest_status.step = quest_steps.step_number where quest_status.username = ? "
+                    + "and quest_status.completed = 0 and quest_steps.quest_id = quests.ID");
+            
+			pstmt.setString(1, strUser);
+			
+			ResultSet results = pstmt.executeQuery();
+			
+            if(null != results)
+            {
+                while(results.next())
+                {
+                    QuestStep step = new QuestStep();
+                    
+                    step.setID(results.getInt("quest_id"));
+                    step.setDescription(results.getString("description"));
+                    step.setHint(results.getString("hint"));
+                    step.setRewardGold(results.getInt("reward_gold"));
+                    step.setRewardXP(results.getInt("reward_xp"));
+                    step.setRewardItemID(results.getInt("reward_item"));
+                    step.setQuestName(results.getString("name"));
+                    
+                    questSteps.add(step);
+                }
+            }
+		}
+		catch(Exception e)
+		{
+			m_logger.severe("Exception in DatabaseConnector::getQuestLogForUser() " + e);
+			questSteps = null;
+		}
+		
+		return questSteps;
+	}
 }

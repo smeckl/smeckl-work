@@ -77,6 +77,7 @@ xp              {yyparser.yylval = new MessageParserVal(yytext()); return Messag
 with            {yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.WITH;}
 \/inventory     {yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.INVENTORY;}
 \/help          {yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.HELP;}
+\/questlog      {yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.QUESTLOG;}
 
 \,		{return (int)yycharat(0);}
 \=		{return (int)yycharat(0);}

@@ -16,12 +16,16 @@
 
 <!ELEMENT object (name, description, action*)>
 <!ELEMENT npc (name, description, intro, action*)>
-<!ELEMENT item (id, name, description, weapon, damage_type?, damage?)>
+<!ELEMENT item (id, name, description, weapon, damage_type?, damage?, effect?)>
 <!ELEMENT action (name, quest_dependency_id?, quest_dependency_step?, result)>
 
 <!ELEMENT intro (#PCDATA)>
 <!ELEMENT detail (#PCDATA)>
 <!ELEMENT type (#PCDATA)>
+<!ELEMENT effect (#PCDATA)>
+<!ELEMENT weapon (#PCDATA)>
+<!ELEMENT damage_type (#PCDATA)>
+<!ELEMENT damage (#PCDATA)>
 
 <!ELEMENT result (type, description, item_id?, value?)>
 
@@ -40,12 +44,19 @@
 <!ELEMENT quest_dependency_complete (#PCDATA)>
 
 <!ELEMENT monster (id, name, description, health, attack_power, magic_power, defense, magic_defense, loot_table_id, kill_xp, kill_gold, update_quest_id?, update_quest_step?, update_quest_text? )>
+
 <!ELEMENT health (#PCDATA)>
 <!ELEMENT attack_power (#PCDATA)>
 <!ELEMENT magic_power (#PCDATA)>
 <!ELEMENT defense (#PCDATA)>
 <!ELEMENT magic_defense (#PCDATA)>
 <!ELEMENT loot_table_id (#PCDATA)>
+<!ELEMENT kill_xp (#PCDATA)>
+<!ELEMENT kill_gold (#PCDATA)>
+
+<!ELEMENT update_quest_id (#PCDATA)>
+<!ELEMENT update_quest_step (#PCDATA)>
+<!ELEMENT update_quest_text (#PCDATA)>
 
 <!ELEMENT loot_table (loot_table_id, item_ref+)>
 <!ELEMENT item_ref (item_id, drop_percent) >

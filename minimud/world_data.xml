@@ -233,6 +233,14 @@
 		<damage>20</damage>
 	</item>
 
+	<item>
+		<id>8</id>
+		<name>Potion</name>
+		<description>a health potion.</description>
+		<weapon>0</weapon>
+		<effect>give_health</effect>
+	</item>
+
 	<quest>
 		<id>1</id>
 		<name>Welcome to MiniMUD</name>

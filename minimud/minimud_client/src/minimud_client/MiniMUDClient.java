@@ -68,6 +68,8 @@ public class MiniMUDClient
                         {     
                             synchronized(m_rwLock)
                             {
+                                System.out.println("");
+                                
                                 do
                                 {
                                     try

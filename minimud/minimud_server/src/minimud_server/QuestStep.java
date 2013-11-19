@@ -20,6 +20,7 @@ public class QuestStep
 	private int m_nRewardItemID = 0;
 	private int m_nRewardGold = 0;
 	private int m_nRewardXP = 0;
+    private String m_strQuestName = "";
 	
 	private RegularExpressions m_regEx = new RegularExpressions();
     private RangeChecker m_rangeCheck = new RangeChecker();
@@ -173,6 +174,21 @@ public class QuestStep
 	{
 		return m_rangeCheck.checkRange(RangeChecker.RangeID.REWARD_XP, nRewardXP);
 	}
+    
+    public void setQuestName(String strName)
+    {
+        m_strQuestName = strName;
+    }
+    
+    public String getQuestName()
+    {
+        return m_strQuestName;
+    }
+    
+    public boolean isValidQuestName(String strName)
+    {
+        return m_regEx.stringMatchesRegEx(strName, RegularExpressions.RegExID.NAME);
+    }
     
     public boolean isValid()
     {

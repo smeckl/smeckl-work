@@ -18,7 +18,8 @@ public class PlayerActionMessage extends Message
 		Give,
         Leaders,
         Inventory,
-        Help
+        Help,
+        QuestLog
 	}
 	
 	private Action m_action;
@@ -128,6 +129,10 @@ public class PlayerActionMessage extends Message
             
         case Help:
             strOut = "help";
+            break;
+            
+        case QuestLog:
+            strOut = "questlog";
             break;
 		}
 		
