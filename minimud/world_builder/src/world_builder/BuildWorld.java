@@ -110,6 +110,7 @@ public class BuildWorld
 				m_dbConn.dropTable("quest_steps");
                 m_dbConn.dropTable("monsters");
                 m_dbConn.dropTable("monster_locs");
+                m_dbConn.dropTable("loot_table");
 				
 				// Build database tables
 				m_dbConn.addTable("CREATE TABLE rooms (ID INT NOT NULL," +
@@ -160,7 +161,7 @@ public class BuildWorld
 									" PRIMARY KEY ( ItemID, username));");
                 
                 m_dbConn.addTable("CREATE TABLE loot_table (table_id INT NOT NULL, item_id INT NOT NULL, drop_percent INT NOT NULL, " +
-									" PRIMARY KEY ( table_id ));");
+									" PRIMARY KEY ( table_id, item_id ));");
 				
 				m_dbConn.addTable("CREATE TABLE quests (ID INT NOT NULL, name VARCHAR(100) NOT NULL," +
 								  "first_completion_user VARCHAR(30), reward_gold INT NOT NULL," +

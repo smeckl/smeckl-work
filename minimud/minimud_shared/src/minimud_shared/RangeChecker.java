@@ -43,7 +43,8 @@ public class RangeChecker
         FIRST_BONUS,
         QUEST_STEP_NUM,
         VALUE,
-        DAMAGE
+        DAMAGE,
+        PERCENT
 	}
     
     private HashMap<RangeID, Range> m_ranges = new HashMap<RangeID, Range>();
@@ -63,6 +64,7 @@ public class RangeChecker
         m_ranges.put(RangeChecker.RangeID.QUEST_STEP_NUM, new Range(0, 15));
         m_ranges.put(RangeChecker.RangeID.VALUE, new Range(0, 1000));
         m_ranges.put(RangeChecker.RangeID.DAMAGE, new Range(0, 100));
+        m_ranges.put(RangeChecker.RangeID.PERCENT, new Range(0, 100));
     }
     
     public boolean checkRange(RangeID id, int nNum)

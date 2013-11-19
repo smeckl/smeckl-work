@@ -524,4 +524,28 @@ public class DatabaseConnector
 		
 		return retVal;
     }
+    
+    public synchronized ErrorCode addLootTableEntry(int nLootTableID, int nItemID, int nDropPercent)
+	{
+		ErrorCode retVal = ErrorCode.Success;
+		
+		try
+		{
+			PreparedStatement pstmt = getConnection().prepareStatement("insert into loot_table values(?,?,?)");
+			
+            pstmt.setInt(1, nLootTableID);
+            pstmt.setInt(2, nItemID);
+            pstmt.setInt(3, nDropPercent);
+	
+			if(0 == pstmt.executeUpdate())
+				retVal = ErrorCode.InsertFailed;
+		}
+		catch(Exception e)
+		{
+			System.out.println("Exception in DatabaseConnector::addLootTableEntry() " + e);
+			retVal = ErrorCode.Exception;
+		}
+		
+		return retVal;
+	}
 }

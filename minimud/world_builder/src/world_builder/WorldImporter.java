@@ -136,6 +136,10 @@ public class WorldImporter
                     {
                         retVal = processMonsterElement(node);
                     }
+                    else if(0 == strNodeName.compareTo(XMLNames.LOOT_TABLE))
+                    {
+                        retVal = processLootTableElement(node);
+                    }
 				}
 				
 				break;
@@ -784,7 +788,7 @@ public class WorldImporter
 							System.out.println("Invalid MAGIC DEFENSE specified.");
 						}
 					}
-                    else if(0 == nodeName.compareTo(XMLNames.LOOT_TABLE))
+                    else if(0 == nodeName.compareTo(XMLNames.LOOT_TABLE_ID))
 					{
 						if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ID))
 						{
@@ -887,6 +891,154 @@ public class WorldImporter
 		catch(Exception e)
 		{
 			System.out.println("Exception in WorldImporter.processMonsterElement(): " + e);
+			retVal = ErrorCode.Exception;
+		}
+        
+        return retVal;
+    }
+    
+    private ErrorCode processLootTableElement(Node lootTable)
+    {
+        ErrorCode retVal = ErrorCode.Success;
+        
+        int nLootTableID = 0;   
+        
+        boolean bLootTableID = false;
+        boolean bItemRefs = false;
+        boolean bError = false;
+        
+        try
+        {
+            NodeList nodes = lootTable.getChildNodes();
+			
+			for(int i = 0; i < nodes.getLength(); i++)
+			{
+				Node node = nodes.item(i);
+				
+				// Make sure this is an element
+				if (node instanceof Element)
+				{
+					String content = node.getLastChild().getTextContent().trim();
+					
+					String nodeName = node.getNodeName();
+                    
+                    if(0 == nodeName.compareTo(XMLNames.LOOT_TABLE_ID))
+					{
+                        if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ID))
+						{
+							nLootTableID = Integer.parseInt(content);
+                            
+                            if(m_rangeCheck.checkRange(RangeChecker.RangeID.ID, nLootTableID))
+                                bLootTableID = true;
+                            else
+                                bError = true;
+						}
+						else
+						{
+							retVal = ErrorCode.INVALID_NUMBER;
+							System.out.println("Invalid LOOT TABLE ID specified.");
+						}
+                    }
+                    else if(0 == nodeName.compareTo(XMLNames.ITEM_REF))
+                    {
+                        retVal = processItemRef(nLootTableID, node);
+						
+						if(ErrorCode.Success == retVal)
+							bItemRefs &= true;
+						else
+							System.out.println("Invalid <item_ref> specified.");
+                    }
+                }
+            }
+        }
+		catch(Exception e)
+		{
+			System.out.println("Exception in WorldImporter.processLootTableElement(): " + e);
+			retVal = ErrorCode.Exception;
+		}
+        
+        return retVal;
+    }
+    
+    private ErrorCode processItemRef(int nLootTableID, Node itemRef)
+    {
+        ErrorCode retVal = ErrorCode.Success;
+        
+        int nItemID = 0;   
+        int nDropPercent = 0;
+        
+        boolean bItemID = false;
+        boolean bDropPercent = false;
+        boolean bSavedItemRef = false;
+        boolean bError = false;
+        
+        try
+        {
+            NodeList nodes = itemRef.getChildNodes();
+			
+			for(int i = 0; i < nodes.getLength(); i++)
+			{
+				Node node = nodes.item(i);
+				
+				// Make sure this is an element
+				if (node instanceof Element)
+				{
+					String content = node.getLastChild().getTextContent().trim();
+					
+					String nodeName = node.getNodeName();
+                    
+                    if(0 == nodeName.compareTo(XMLNames.ITEM_ID))
+					{
+                        if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ID))
+						{
+							nItemID = Integer.parseInt(content);
+                            
+                            if(m_rangeCheck.checkRange(RangeChecker.RangeID.ID, nItemID))
+                                bItemID = true;
+                            else
+                                bError = true;
+						}
+						else
+						{
+							retVal = ErrorCode.INVALID_NUMBER;
+							System.out.println("Invalid <item_id> specified.");
+						}
+                    }
+                    else if(0 == nodeName.compareTo(XMLNames.DROP_PERCENT))
+					{
+                        if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.POSITIVE_INT))
+						{
+							nDropPercent = Integer.parseInt(content);
+                            
+                            if(m_rangeCheck.checkRange(RangeChecker.RangeID.PERCENT, nItemID))
+                                bDropPercent = true;
+                            else
+                                bError = true;
+						}
+						else
+						{
+							retVal = ErrorCode.INVALID_NUMBER;
+							System.out.println("Invalid <item_id> specified.");
+						}
+                    }
+                }
+            }
+            
+            if(!bError && bItemID && bDropPercent)
+            {
+                m_dbConn.addLootTableEntry(nLootTableID, nItemID, nDropPercent);
+                
+                bSavedItemRef = true;
+            }
+            
+            if(!bSavedItemRef)
+            {
+                System.out.println("FAILED to save <item_ref> element.");
+            }
+        }
+		catch(Exception e)
+		{
+			System.out.println("Exception in WorldImporter.processLootTableElement(): " + e);
 			retVal = ErrorCode.Exception;
 		}
         

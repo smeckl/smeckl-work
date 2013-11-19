@@ -796,4 +796,37 @@ public class DatabaseConnector
 		
 		return actionResults;
 	}
+    
+    public synchronized Item getItemFromLootTable(int nLootTableID, int nPercent)
+	{
+		Item item = null;
+		
+		try
+		{
+			PreparedStatement pstmt = getConnection().prepareStatement("select items.* from items left join loot_table on "
+                    + "items.ID = loot_table.item_id where loot_table.table_id = ? and loot_table.drop_percent >= ?");
+			pstmt.setInt(1, nLootTableID);
+            pstmt.setInt(2, 100 - nPercent);
+			
+			ResultSet results = pstmt.executeQuery();
+            
+            if(null != results && results.next())
+            {
+                item = new Item();
+                item.setID(results.getInt("ID"));
+                item.setName(results.getString("name"));
+                item.setDescription(results.getString("description"));
+                item.setIsWeapon(1 == results.getInt("weapon"));
+                item.setDamageType(results.getString("damage_type"));
+                item.setDamage(results.getInt("damage"));
+            }
+		}
+		catch(Exception e)
+		{
+			m_logger.severe("Exception in DatabaseConnector::getItemsForUser() " + e);
+			item = null;
+		}
+		
+		return item;
+	}
 }

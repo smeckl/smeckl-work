@@ -40,7 +40,6 @@ public class XMLNames
     public static String MAGIC_POWER    = "magic_power";
     public static String DEFENSE        = "defense";
     public static String MAGIC_DEFENSE  = "magic_defense";
-    public static String LOOT_TABLE     = "loot_table_id";
     public static String KILL_XP        = "kill_xp";
     public static String KILL_GOLD      = "kill_gold";
     public static String UPDATE_QUEST_ID    = "update_quest_id";
@@ -49,4 +48,8 @@ public class XMLNames
     public static String WEAPON         = "weapon";
     public static String DAMAGE_TYPE    = "damage_type";
     public static String DAMAGE         = "damage";
+    public static String LOOT_TABLE     = "loot_table";
+    public static String LOOT_TABLE_ID  = "loot_table_id";
+    public static String ITEM_REF       = "item_ref";
+    public static String DROP_PERCENT   = "drop_percent";
 }

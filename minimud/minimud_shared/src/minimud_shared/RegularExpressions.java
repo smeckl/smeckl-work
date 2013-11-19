@@ -47,7 +47,7 @@ public class RegularExpressions
         m_regExMap.put(RegExID.QUEST_DEP_COMPLETE, "^[1-9][0-9]*$");
         m_regExMap.put(RegExID.POSITIVE_INT, "^[1-9][0-9]*$");
         m_regExMap.put(RegExID.WEAPON, "^(0|1)$");
-        m_regExMap.put(RegExID.DAMAGE_TYPE, "^(piercing|slashing|bashing)$");
+        m_regExMap.put(RegExID.DAMAGE_TYPE, "^(piercing|slashing|bashing|magic)$");
 	}
 	
 	public boolean stringMatchesRegEx(String str, RegExID id)

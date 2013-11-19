@@ -45,8 +45,8 @@
 				<name>talk</name>
 				<result>
 					<type>give_quest</type>
-					<value>1</value>
 					<description>Hi.  I'm Tommy.  Welcome to the tavern.  You look new.  You should pick up that lantern over there.  It might come in handy later.</description>
+					<value>1</value>
 				</result>
 			</action>
 			<action>
@@ -171,12 +171,14 @@
 		</object>
 		<monster_id>1</monster_id>		
 	</room>
+
 	<item>
 		<id>1</id>
 		<name>lantern</name>
 		<description>a lantern.  It's a bit rusty, but it still works.</description>
 		<weapon>0</weapon>
 	</item>
+
 	<item>
 		<id>2</id>
 		<name>dagger</name>
@@ -185,6 +187,52 @@
 		<damage_type>piercing</damage_type>
 		<damage>20</damage>
 	</item>
+
+	<item>
+		<id>3</id>
+		<name>club</name>
+		<description>a small, blunt, club.</description>
+		<weapon>1</weapon>
+		<damage_type>bashing</damage_type>
+		<damage>20</damage>
+	</item>
+
+	<item>
+		<id>4</id>
+		<name>sword</name>
+		<description>a standard shortsword.</description>
+		<weapon>1</weapon>
+		<damage_type>slashing</damage_type>
+		<damage>20</damage>
+	</item>
+
+	<item>
+		<id>5</id>
+		<name>Ripper</name>
+		<description>a small dagger, glowing with magic.</description>
+		<weapon>1</weapon>
+		<damage_type>magic</damage_type>
+		<damage>20</damage>
+	</item>
+
+	<item>
+		<id>6</id>
+		<name>Thelonius</name>
+		<description>a metal club, glowing with magic.  The word 'Thelonius' is inscribed on the handle.</description>
+		<weapon>1</weapon>
+		<damage_type>magic</damage_type>
+		<damage>20</damage>
+	</item>
+
+	<item>
+		<id>7</id>
+		<name>Cockney</name>
+		<description>a glorius, magical sword.</description>
+		<weapon>1</weapon>
+		<damage_type>magic</damage_type>
+		<damage>20</damage>
+	</item>
+
 	<quest>
 		<id>1</id>
 		<name>Welcome to MiniMUD</name>
@@ -257,4 +305,40 @@
 		<kill_xp>10</kill_xp>
 		<kill_gold>10</kill_gold>
 	</monster>
+
+	<loot_table>
+		<loot_table_id>1</loot_table_id>
+		<item_ref>
+			<item_id>2</item_id>
+			<drop_percent>30</drop_percent>
+		</item_ref>
+		<item_ref>
+			<item_id>5</item_id>
+			<drop_percent>10</drop_percent>
+		</item_ref>
+	</loot_table>
+
+	<loot_table>
+		<loot_table_id>2</loot_table_id>
+		<item_ref>
+			<item_id>3</item_id>
+			<drop_percent>30</drop_percent>
+		</item_ref>
+		<item_ref>
+			<item_id>6</item_id>
+			<drop_percent>10</drop_percent>
+		</item_ref>
+	</loot_table>
+
+	<loot_table>
+		<loot_table_id>2</loot_table_id>
+		<item_ref>
+			<item_id>4</item_id>
+			<drop_percent>30</drop_percent>
+		</item_ref>
+		<item_ref>
+			<item_id>7</item_id>
+			<drop_percent>10</drop_percent>
+		</item_ref>
+	</loot_table>
 </minimud_world>

@@ -964,19 +964,33 @@ public class GameServer implements ActionListener
                 user.getUserInfo().setXP( user.getUserInfo().getXP() + monster.getKillXP());
                 sendUserText(user, "You earned " + monster.getKillXP() + " XP!");
                 
+                //  Roll on loot in the loot table
+                Item item = rollForLoot(monster.getLootTableID()); 
+                
+                if(null != item)
+                {
+                    // Add item to user's inventory
+                    if(DatabaseConnector.ErrorCode.Success == m_dbConn.addItemToInventory(item.getID(), user.getUserInfo().getName()))
+                        sendUserText(user, "You receive loot!  A " + item.getName() + " has been added to your inventory.");
+                }
+                
                 // If a quest needs to be updated, then udpate it
                 if(0 != monster.getUpdateQuestID() && 0 != monster.getUpdateQuestStep())
                 {
-                    m_dbConn.updateUserQuestStep(monster.getUpdateQuestID(), monster.getUpdateQuestStep(), 
-                            user.getUserInfo().getName());
-                    
-                    // Display the new quest step text
-                    QuestStep step = m_dbConn.getQuestStep(monster.getUpdateQuestID(), monster.getUpdateQuestStep());					
-					sendUserText(user, step.getDescription());
-                }
-                
-                // TODO:  Roll on loot in the loot table
-                //Item item = rollForLoot(monster.getLootTableID()); 
+                    if(m_dbConn.userCompletedQuest(monster.getUpdateQuestID(), user.getUserInfo().getName()))
+                    {
+                        DatabaseConnector.ErrorCode ret = m_dbConn.updateUserQuestStep(monster.getUpdateQuestID(), 
+                                                                                    monster.getUpdateQuestStep(), 
+                                                                                    user.getUserInfo().getName());
+
+                        if(DatabaseConnector.ErrorCode.Success == ret)
+                        {
+                            // Display the new quest step text
+                            QuestStep step = m_dbConn.getQuestStep(monster.getUpdateQuestID(), monster.getUpdateQuestStep());					
+                            sendUserText(user, step.getDescription());
+                        }
+                    }
+                }                       
             }
             // If the monster wins
             else
@@ -1014,7 +1028,15 @@ public class GameServer implements ActionListener
     {
         Item item = null;
         
+        java.util.Random rnd = new java.util.Random();
         
+        int roll = rnd.nextInt() % 100;
+        
+        if(roll < 0)
+            roll *= -1;
+        
+        item = m_dbConn.getItemFromLootTable(nLootTableID, roll);
+
         
         return item;
     }
