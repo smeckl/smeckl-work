@@ -795,6 +795,8 @@ public class GameServer implements ActionListener
                         user.getUserInfo().setHealth(nHealthGained);
                         
                         sendUserText(user, "You gained " + nHealthGained + " health!");
+                        
+                        m_dbConn.saveUserState(user);
                         break;
                 }
                 
