@@ -1,6 +1,7 @@
 package minimud_server;
 
 import minimud_shared.RegularExpressions;
+import minimud_shared.RangeChecker;
 
 public class ActionResult
 {
@@ -11,6 +12,7 @@ public class ActionResult
 	private int m_nValue = 0;
 	
 	private RegularExpressions m_regEx = new RegularExpressions();
+    private RangeChecker m_rangeCheck = new RangeChecker();
 	
 	public void setID(int nID)
 	{
@@ -33,7 +35,7 @@ public class ActionResult
 	
 	public boolean isValidID(int nID)
 	{
-		return (getID() > 0 && getID() < 100);
+		return m_rangeCheck.checkRange(RangeChecker.RangeID.ID, nID);
 	}
 	
 	public void setType(String strType)
@@ -96,7 +98,7 @@ public class ActionResult
 	
 	public boolean isValidItemID(int nID)
 	{
-		return (nID > 0 && nID < 100);
+		return m_rangeCheck.checkRange(RangeChecker.RangeID.ID, nID);
 	}
 	
 	public void setValue(int nValue)
@@ -120,6 +122,15 @@ public class ActionResult
 	
 	public boolean isValidValue(int nValue)
 	{
-		return (nValue > 0 && nValue <= 65535);
+		return m_rangeCheck.checkRange(RangeChecker.RangeID.VALUE, nValue);
 	}
+    
+    public boolean isValid()
+    {
+        return (isValidID(getID())
+                && isValidDescription(getDescription())
+                && isValidItemID(getItemID())
+                && isValidType(getType())
+                && isValidValue(getValue()));
+    }
 }

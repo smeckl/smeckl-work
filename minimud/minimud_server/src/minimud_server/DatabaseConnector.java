@@ -9,7 +9,6 @@ public class DatabaseConnector
 
     public enum ErrorCode
     {
-
         Success,
         Exception,
         InsertFailed
@@ -17,11 +16,11 @@ public class DatabaseConnector
     
     public enum SortBy
     {
-
         Gold,
         XP,
         User
     }
+    
     private Connection m_conn;
     private static String m_strUrl = "jdbc:mysql://";
     private static String m_strDbName = "minimud";
@@ -215,6 +214,12 @@ public class DatabaseConnector
                 userInfo.setMagicPower(results.getInt("magic_power"));
                 userInfo.setDefense(results.getInt("defense"));
                 userInfo.setMagicDefense(results.getInt("magic_defense"));
+                
+                if(!userInfo.isValid())
+                {
+                    m_logger.severe("Invalid UserInfo object.");
+                    userInfo = null;
+                }
             }
         }
         catch (Exception e)
@@ -410,7 +415,12 @@ public class DatabaseConnector
                     actionRes.setItemID(results.getInt("ItemID"));
                     actionRes.setValue(results.getInt("Value"));
                     
-                    actionResults.add(actionRes);
+                    if(actionRes.isValid())
+                        actionResults.add(actionRes);
+                    else
+                    {
+                        m_logger.severe("Invalid ActionResult object.");                        
+                    }
                 }
             }
         }
@@ -452,6 +462,12 @@ public class DatabaseConnector
                 }
                 
                 item.setDamage(results.getInt("damage"));
+                
+                if(!item.isValid())
+                {
+                    m_logger.severe("Invalid Item object.");
+                    item = null;
+                }
             }
             
         }
@@ -515,6 +531,12 @@ public class DatabaseConnector
                     item.setDamage(results.getInt("damage"));
                 
                 item.setEffect(results.getString("effect"));
+                
+                if(!item.isValid())
+                {
+                    m_logger.severe("Invalid Item object.");
+                    item = null;
+                }
             }
         }
         catch (Exception e)
@@ -677,6 +699,12 @@ public class DatabaseConnector
                 quest.setRewardXP(results.getInt("reward_xp"));
                 quest.setRewardItemID(results.getInt("reward_item"));
                 quest.setFirstBonus(results.getInt("first_bonus"));
+                
+                if(!quest.isValid())
+                {
+                    m_logger.severe("Invalid Quest object.");
+                    quest = null;
+                }
             }
         }
         catch (Exception e)
@@ -801,6 +829,12 @@ public class DatabaseConnector
                 step.setRewardGold(results.getInt("reward_gold"));
                 step.setRewardXP(results.getInt("reward_xp"));
                 step.setRewardItemID(results.getInt("reward_item"));
+                
+                if(!step.isValid())
+                {
+                    m_logger.severe("Invalid QuestStep object.");
+                    step = null;
+                }
             }
         }
         catch (Exception e)
@@ -847,7 +881,12 @@ public class DatabaseConnector
                     info.setGold(results.getInt("gold"));
                     info.setXP(results.getInt("xp"));
                     
-                    actionResults.add(info);                    
+                    if(info.isValid())
+                        actionResults.add(info);  
+                    else
+                    {
+                        m_logger.severe("Invalid UserInfo object");
+                    }
                 }
             }
         }
@@ -882,6 +921,12 @@ public class DatabaseConnector
                 item.setIsWeapon(1 == results.getInt("weapon"));
                 item.setDamageType(results.getString("damage_type"));
                 item.setDamage(results.getInt("damage"));
+                
+                if(!item.isValid())
+                {
+                    m_logger.severe("Invalid Item object.");
+                    item = null;
+                }
             }
         }
         catch (Exception e)
@@ -922,7 +967,12 @@ public class DatabaseConnector
                     step.setRewardItemID(results.getInt("reward_item"));
                     step.setQuestName(results.getString("name"));
                     
-                    questSteps.add(step);
+                    if(step.isValid())
+                        questSteps.add(step);
+                    else
+                    {
+                        m_logger.severe("Invalid QuestStep object.");
+                    }
                 }
             }
         }

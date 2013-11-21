@@ -55,7 +55,7 @@ public class Item
 	
 	public boolean isValidID(int nID)
 	{
-		return (getID() > 0 && getID() < 100);
+		return m_rangeCheck.checkRange(RangeChecker.RangeID.ID, nID);
 	}
 	
 	public void setName(String strName)
@@ -151,7 +151,7 @@ public class Item
     
     public void setDamageType(String strDmgType)
     {
-        if(m_regEx.stringMatchesRegEx(strDmgType, RegularExpressions.RegExID.POSITIVE_INT))
+        if(m_regEx.stringMatchesRegEx(strDmgType, RegularExpressions.RegExID.DAMAGE_TYPE))
         {
             if(0 == strDmgType.compareTo("piercing"))
                 setDamageType(DamageType.Piercing);

@@ -37,7 +37,7 @@ public class RegularExpressions
 		m_regExMap.put(RegExID.IP, "^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$");
 		m_regExMap.put(RegExID.DOMAIN, "^[a-z0-9_-]+(\\.[a-z0-9_-]+)*$");
 		m_regExMap.put(RegExID.ID, "^[1-9][0-9]*$");
-		m_regExMap.put(RegExID.DESCRIPTION, "^[a-zA-Z0-9\\-\\.\\,\\:\\?\\!\\'\\\"\\$\\\\ ]{1,2000}$");
+		m_regExMap.put(RegExID.DESCRIPTION, "^[a-zA-Z0-9\\-\\.\\,\\:\\?\\!\\'\\\"\\$\\\\ ]{0,2000}$");
 		m_regExMap.put(RegExID.NAME, "^[a-zA-Z ]{1,50}$");
 		m_regExMap.put(RegExID.DIRECTION, "^(north|south|east|west|northeast|northwest|southeast|southwest|up|down)$");
 		m_regExMap.put(RegExID.NPCTEXT, "^[a-zA-Z0-9\\-\\.\\,\\:\\?\\!\\'\\\"\\$\\\\ ]{1,1000}$");
