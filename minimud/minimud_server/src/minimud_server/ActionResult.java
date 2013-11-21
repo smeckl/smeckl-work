@@ -71,8 +71,7 @@ public class ActionResult
 	{
 		boolean bRet = false;
 		
-		bRet = (m_regEx.stringMatchesRegEx(strDescription, RegularExpressions.RegExID.DESCRIPTION)
-				&& strDescription.length() < 100);
+		bRet = (m_regEx.stringMatchesRegEx(strDescription, RegularExpressions.RegExID.DESCRIPTION));
 		
 		return bRet;
 	}
@@ -129,8 +128,6 @@ public class ActionResult
     {
         return (isValidID(getID())
                 && isValidDescription(getDescription())
-                && isValidItemID(getItemID())
-                && isValidType(getType())
-                && isValidValue(getValue()));
+                && isValidType(getType()));
     }
 }

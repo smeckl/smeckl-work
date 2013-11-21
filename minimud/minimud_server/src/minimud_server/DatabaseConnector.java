@@ -453,6 +453,7 @@ public class DatabaseConnector
                 item.setName(results.getString("name"));
                 item.setDescription(results.getString("description"));                
                 item.setIsWeapon(1 == results.getInt("weapon"));
+                item.setIsStackable((1 == results.getInt("stackable")));
                 
                 String strDamageType = results.getString("damage_type");
                 
@@ -523,6 +524,7 @@ public class DatabaseConnector
                 item.setName(results.getString("name"));
                 item.setDescription(results.getString("description"));
                 item.setIsWeapon(1 == results.getInt("weapon"));
+                item.setIsStackable((1 == results.getInt("stackable")));
                 
                 if(null != results.getString("damage_type"))
                     item.setDamageType(results.getString("damage_type"));
@@ -548,24 +550,129 @@ public class DatabaseConnector
         return item;
     }
     
-    public synchronized ErrorCode addItemToInventory(int nID, String strUserName)
+    public synchronized ErrorCode addItemToInventory(Item item, String strUserName)
     {
         ErrorCode retVal = ErrorCode.Success;
+        boolean bAddNew = true;
         
         try
         {            
-            PreparedStatement pstmt = getConnection().prepareStatement("insert into inventory values(?, ?)");
-            pstmt.setInt(1, nID);
-            pstmt.setString(2, strUserName);
-            
-            if (0 == pstmt.executeUpdate())
+            if(item.getIsStackable())
             {
-                retVal = ErrorCode.InsertFailed;
-                m_logger.severe("Failed to insert item into inventory.");
+                // Load the inventory record for the item
+                PreparedStatement pstmt = getConnection().prepareStatement("select * from inventory where "
+                        + "ItemID=? and username=?");
+                
+                pstmt.setInt(1, item.getID());
+                pstmt.setString(2, strUserName);
+                
+                ResultSet results = pstmt.executeQuery();
+                
+                // If the item exists, then update the record
+                if(null != results && results.next())
+                {
+                    PreparedStatement pstmt2 = getConnection().prepareStatement("update inventory set count=? where ItemID=? and username=?");
+                
+                    pstmt2.setInt(1, results.getInt("count") + 1);
+                    pstmt2.setInt(2, item.getID());
+                    pstmt2.setString(3, strUserName);
+                    
+                    if (0 == pstmt2.executeUpdate())
+                    {
+                        retVal = ErrorCode.InsertFailed;
+                        m_logger.severe("Failed to insert item into inventory.");
+                    }
+                    else
+                    {
+                        m_logger.info("Item " + item.getID() + "added to the inventory of " + strUserName + ".");
+                    }
+                    
+                    bAddNew = false;
+                }
             }
-            else
+            
+            if(bAddNew)
             {
-                m_logger.info("Item " + nID + "added to the inventory of " + strUserName + ".");
+                PreparedStatement pstmt = getConnection().prepareStatement("insert into inventory values(?,?,1)");
+                pstmt.setInt(1, item.getID());
+                pstmt.setString(2, strUserName);
+
+                if (0 == pstmt.executeUpdate())
+                {
+                    retVal = ErrorCode.InsertFailed;
+                    m_logger.severe("Failed to insert item into inventory.");
+                }
+                else
+                {
+                    m_logger.info("Item " + item.getID() + "added to the inventory of " + strUserName + ".");
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            m_logger.severe("Exception in DatabaseConnector.addItemToInventory() " + e);
+            retVal = ErrorCode.Exception;
+        }
+        
+        return retVal;
+    }
+    
+    public synchronized ErrorCode removeItemFromInventory(Item item, String strUserName)
+    {
+        ErrorCode retVal = ErrorCode.Success;
+        boolean bRemove = true;
+        
+        try
+        {            
+            if(item.getIsStackable())
+            {
+                // Load the inventory record for the item
+                PreparedStatement pstmt = getConnection().prepareStatement("select * from inventory where "
+                        + "ItemID=? and username=?");
+                
+                pstmt.setInt(1, item.getID());
+                pstmt.setString(2, strUserName);
+                
+                ResultSet results = pstmt.executeQuery();
+                
+                // If the item exists and the count > 1, then update the record
+                if(null != results && results.next() && results.getInt("count") > 1)
+                {
+                    PreparedStatement pstmt2 = getConnection().prepareStatement("update inventory set count=? where ItemID=? and username=?");
+                
+                    pstmt2.setInt(1, results.getInt("count") - 1);
+                    pstmt2.setInt(2, item.getID());
+                    pstmt2.setString(3, strUserName);
+                    
+                    if (0 == pstmt2.executeUpdate())
+                    {
+                        retVal = ErrorCode.InsertFailed;
+                        m_logger.severe("Failed to delete item into inventory.");
+                    }
+                    else
+                    {
+                        m_logger.info("Item " + item.getID() + "removed to the inventory of " + strUserName + ".");
+                    }
+                    
+                    bRemove = false;
+                }
+            }
+            
+            if(bRemove)
+            {
+                PreparedStatement pstmt = getConnection().prepareStatement("delete from inventory where ItemID=? and username=?");
+                pstmt.setInt(1, item.getID());
+                pstmt.setString(2, strUserName);
+
+                if (0 == pstmt.executeUpdate())
+                {
+                    retVal = ErrorCode.InsertFailed;
+                    m_logger.severe("Failed to delete item into inventory.");
+                }
+                else
+                {
+                    m_logger.info("Item " + item.getID() + "removed to the inventory of " + strUserName + ".");
+                }
             }
         }
         catch (Exception e)
@@ -919,6 +1026,7 @@ public class DatabaseConnector
                 item.setName(results.getString("name"));
                 item.setDescription(results.getString("description"));
                 item.setIsWeapon(1 == results.getInt("weapon"));
+                item.setIsStackable((1 == results.getInt("stackable")));
                 item.setDamageType(results.getString("damage_type"));
                 item.setDamage(results.getInt("damage"));
                 

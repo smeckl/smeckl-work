@@ -140,7 +140,8 @@ public class BuildWorld
 						"ItemID INT, Value INT, PRIMARY KEY ( ID ) );");
 				
 				m_dbConn.addTable("CREATE TABLE items ( ID INT NOT NULL, name VARCHAR(50) NOT NULL, " +
-						"description VARCHAR(1000) NOT NULL, weapon INT, damage_type VARCHAR(10), damage INT, "
+						"description VARCHAR(1000) NOT NULL, weapon INT NOT NULL, stackable INT NOT NULL, "
+                        + "damage_type VARCHAR(10), damage INT, "
                         + "effect VARCHAR(20), "
                         + "PRIMARY KEY ( ID ));");
 				
@@ -158,7 +159,8 @@ public class BuildWorld
                         "update_quest_step INT NOT NULL, " +
                         "PRIMARY KEY ( ID ));");
 				
-				m_dbConn.addTable("CREATE TABLE inventory (ItemID INT NOT NULL, username VARCHAR(32) NOT NULL," +
+				m_dbConn.addTable("CREATE TABLE inventory (ItemID INT NOT NULL, username VARCHAR(32) NOT NULL,"
+                                  + "count INT NOT NULL, " +
 									" PRIMARY KEY ( ItemID, username));");
                 
                 m_dbConn.addTable("CREATE TABLE loot_table (table_id INT NOT NULL, item_id INT NOT NULL, drop_percent INT NOT NULL, " +

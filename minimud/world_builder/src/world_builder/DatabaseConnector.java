@@ -320,7 +320,7 @@ public class DatabaseConnector
 		return retVal;
 	}
 	
-	public ErrorCode addItem(int nID, String strName, String strDescription, String strEffect)
+	public ErrorCode addItem(int nID, String strName, String strDescription, String strEffect, boolean bStackable)
 	{
 		ErrorCode retVal = ErrorCode.Success;
 		
@@ -328,11 +328,12 @@ public class DatabaseConnector
 		{
 			System.out.println("Adding new Item");
 			
-			PreparedStatement pstmt = getConnection().prepareStatement("insert into items values(?, ?, ?, 0, null, null, ?)");
+			PreparedStatement pstmt = getConnection().prepareStatement("insert into items values(?, ?, ?, 0, ?, null, null, ?)");
 			pstmt.setInt(1, nID);
 			pstmt.setString(2, strName);
 			pstmt.setString(3, strDescription);
-            pstmt.setString(4, strEffect);
+            pstmt.setInt(4, bStackable ? 1 : 0);
+            pstmt.setString(5, strEffect);
 
 			
 			if(0 == pstmt.executeUpdate())
@@ -352,7 +353,7 @@ public class DatabaseConnector
 		return retVal;
 	}
     
-    public ErrorCode addItem(int nID, String strName, String strDescription, String strDamageType, int nDamage)
+    public ErrorCode addItem(int nID, String strName, String strDescription, String strDamageType, int nDamage, boolean bStackable)
 	{
 		ErrorCode retVal = ErrorCode.Success;
 		
@@ -360,12 +361,13 @@ public class DatabaseConnector
 		{
 			System.out.println("Adding new Item");
 			
-			PreparedStatement pstmt = getConnection().prepareStatement("insert into items values(?, ?, ?, 1, ?, ?,null)");
+			PreparedStatement pstmt = getConnection().prepareStatement("insert into items values(?, ?, ?, 1, ?, ?, ?,null)");
 			pstmt.setInt(1, nID);
 			pstmt.setString(2, strName);
 			pstmt.setString(3, strDescription);
-            pstmt.setString(4, strDamageType);
-            pstmt.setInt(5, nDamage);
+            pstmt.setInt(4, bStackable ? 1 : 0);
+            pstmt.setString(5, strDamageType);
+            pstmt.setInt(6, nDamage);
 
 			
 			if(0 == pstmt.executeUpdate())

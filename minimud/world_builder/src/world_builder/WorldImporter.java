@@ -313,6 +313,7 @@ public class WorldImporter
         String strDamageType = "";
         int nDamage = 0;
         String strEffect = "";
+        boolean bStackable = false;
 		
 		boolean bSavedItem = false;
 		boolean bID = false;
@@ -392,6 +393,21 @@ public class WorldImporter
 							System.out.println("Invalid <weapon> element specified.");
 						}
                     }
+                    else if(0 == nodeName.compareTo(XMLNames.STACKABLE))
+                    {                       
+                        if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.STACKABLE))
+                        {
+                            int nStackable = Integer.parseInt(content);
+                            
+                            if(1 == nStackable)
+                                bStackable = true;
+                        }
+                        else
+						{
+							retVal = ErrorCode.INVALID_TYPE;
+							System.out.println("Invalid <weapon> element specified.");
+						}
+                    }
                     else if(0 == nodeName.compareTo(XMLNames.DAMAGE_TYPE))
                     {
                         if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.DAMAGE_TYPE))
@@ -436,19 +452,19 @@ public class WorldImporter
             
             if(!bError && !bSavedItem && bName && bDescription && bID && bWeapon)
             {
-                getDBconn().addItem(nID, strName, strDescription, strDamageType, nDamage);
+                getDBconn().addItem(nID, strName, strDescription, strDamageType, nDamage, bStackable);
                 bSavedItem = true;
             }
             else if(!bSavedItem && bName && bDescription && bID)
             {
-                getDBconn().addItem(nID, strName, strDescription, strEffect);
+                getDBconn().addItem(nID, strName, strDescription, strEffect, bStackable);
                 bSavedItem = true;
             }
 			
 			if(!bSavedItem)
 			{
 				retVal = ErrorCode.INVALID_OBJECT;
-				System.out.println("FAILED to import object element.");
+				System.out.println("FAILED to import <item> element.");
 			}
 		}
 		catch(Exception e)

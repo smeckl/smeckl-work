@@ -16,7 +16,7 @@
 
 <!ELEMENT object (name, description, action*)>
 <!ELEMENT npc (name, description, intro, action*)>
-<!ELEMENT item (id, name, description, weapon, damage_type?, damage?, effect?)>
+<!ELEMENT item (id, name, description, weapon, stackable, damage_type?, damage?, effect?)>
 <!ELEMENT action (name, quest_dependency_id?, quest_dependency_step?, result)>
 
 <!ELEMENT intro (#PCDATA)>
@@ -26,6 +26,7 @@
 <!ELEMENT weapon (#PCDATA)>
 <!ELEMENT damage_type (#PCDATA)>
 <!ELEMENT damage (#PCDATA)>
+<!ELEMENT stackable (#PCDATA)>
 
 <!ELEMENT result (type, description, item_id?, value?)>
 

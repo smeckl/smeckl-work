@@ -73,7 +73,8 @@ public class Quest
 	{
 		boolean bRet = false;
 		
-		bRet = (m_regEx.stringMatchesRegEx(strFirstCompleteUser, RegularExpressions.RegExID.USERNAME));
+		bRet = (m_regEx.stringMatchesRegEx(strFirstCompleteUser, RegularExpressions.RegExID.USERNAME)
+                || 0 == strFirstCompleteUser.length());
 		
 		return bRet;
 	}

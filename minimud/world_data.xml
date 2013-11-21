@@ -135,6 +135,19 @@
 				</result>
 			</action>
 		</object>
+
+		<object>
+			<name>potion</name>
+			<description>a small vial containing a reddish liquid.</description>
+			<action>
+				<name>take</name>
+				<result>
+					<type>item_reward</type>
+					<description>You pick up the potion.</description>
+					<item_id>8</item_id>
+				</result>
+			</action>
+		</object>
 	</room>
 
 	<room>
@@ -177,6 +190,7 @@
 		<name>lantern</name>
 		<description>a lantern.  It's a bit rusty, but it still works.</description>
 		<weapon>0</weapon>
+		<stackable>0</stackable>
 	</item>
 
 	<item>
@@ -184,6 +198,7 @@
 		<name>dagger</name>
 		<description>a shiny, stabby dagger.</description>
 		<weapon>1</weapon>
+		<stackable>0</stackable>
 		<damage_type>piercing</damage_type>
 		<damage>20</damage>
 	</item>
@@ -193,6 +208,7 @@
 		<name>club</name>
 		<description>a small, blunt, club.</description>
 		<weapon>1</weapon>
+		<stackable>0</stackable>
 		<damage_type>bashing</damage_type>
 		<damage>20</damage>
 	</item>
@@ -202,6 +218,7 @@
 		<name>sword</name>
 		<description>a standard shortsword.</description>
 		<weapon>1</weapon>
+		<stackable>0</stackable>
 		<damage_type>slashing</damage_type>
 		<damage>20</damage>
 	</item>
@@ -211,6 +228,7 @@
 		<name>Ripper</name>
 		<description>a small dagger, glowing with magic.</description>
 		<weapon>1</weapon>
+		<stackable>0</stackable>
 		<damage_type>magic</damage_type>
 		<damage>20</damage>
 	</item>
@@ -220,6 +238,7 @@
 		<name>Thelonius</name>
 		<description>a metal club, glowing with magic.  The word 'Thelonius' is inscribed on the handle.</description>
 		<weapon>1</weapon>
+		<stackable>0</stackable>
 		<damage_type>magic</damage_type>
 		<damage>20</damage>
 	</item>
@@ -229,6 +248,7 @@
 		<name>Cockney</name>
 		<description>a glorius, magical sword.</description>
 		<weapon>1</weapon>
+		<stackable>0</stackable>
 		<damage_type>magic</damage_type>
 		<damage>20</damage>
 	</item>
@@ -238,6 +258,7 @@
 		<name>Potion</name>
 		<description>a health potion.</description>
 		<weapon>0</weapon>
+		<stackable>1</stackable>
 		<effect>give_health</effect>
 	</item>
 

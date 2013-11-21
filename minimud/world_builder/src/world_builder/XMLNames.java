@@ -53,4 +53,5 @@ public class XMLNames
     public static String ITEM_REF       = "item_ref";
     public static String DROP_PERCENT   = "drop_percent";
     public static String EFFECT         = "effect";
+    public static String STACKABLE      = "stackable";
 }

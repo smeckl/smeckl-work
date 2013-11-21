@@ -728,7 +728,12 @@ public class GameServer implements ActionListener
                     
                     if(null != item)
                     {
-                        sendUserText(user, item.getName());
+                        String strOut = item.getName();
+                        
+                        if(item.getIsStackable())
+                            strOut += " (" + results.getInt("count") + ")";
+                        
+                        sendUserText(user, strOut);
                     }
                 }
             }
@@ -800,8 +805,8 @@ public class GameServer implements ActionListener
                         break;
                 }
                 
-                // TODO:  Remove item from inventory
-                
+                // Remove item from inventory
+                m_dbConn.removeItemFromInventory(item, user.getUserInfo().getName());      
             }
             else
                 sendUserText(user, "You can't use that.");
@@ -885,7 +890,7 @@ public class GameServer implements ActionListener
 									if(null != item)
 									{
 										// Add the item to the user's inventory
-										m_dbConn.addItemToInventory(nItemID, user.getUserInfo().getName());
+										m_dbConn.addItemToInventory(item, user.getUserInfo().getName());
 										
 										sendUserText(user, "The " + item.getName() + " has been added to your inventory.");
 									}
@@ -1041,7 +1046,7 @@ public class GameServer implements ActionListener
                 if(null != item)
                 {
                     // Add item to user's inventory
-                    if(DatabaseConnector.ErrorCode.Success == m_dbConn.addItemToInventory(item.getID(), user.getUserInfo().getName()))
+                    if(DatabaseConnector.ErrorCode.Success == m_dbConn.addItemToInventory(item, user.getUserInfo().getName()))
                         sendUserText(user, "You receive loot!  A " + item.getName() + " has been added to your inventory.");
                 }
                 

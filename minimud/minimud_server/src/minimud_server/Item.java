@@ -29,6 +29,7 @@ public class Item
     private DamageType m_damageType = DamageType.NotSet;
     private int m_nDamage = -1;
     private Effect m_effect = Effect.NotSet;
+    private boolean m_bIsStackable = false;
 	
 	private RegularExpressions m_regEx = new RegularExpressions();
     private RangeChecker m_rangeCheck = new RangeChecker();
@@ -147,6 +148,16 @@ public class Item
     public boolean getIsWeapon()
     {
         return m_bIsWeapon;
+    }
+    
+    public void setIsStackable(boolean bIsStackable)
+    {
+        m_bIsStackable = bIsStackable;
+    }
+    
+    public boolean getIsStackable()
+    {
+        return m_bIsStackable;
     }
     
     public void setDamageType(String strDmgType)
