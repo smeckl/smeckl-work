@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.Timer;
 import minimud_shared.*;
+import java.security.SecureRandom;
 
 public class GameServer implements ActionListener
 {
@@ -304,6 +305,7 @@ public class GameServer implements ActionListener
 				monster.setName(objects.getString("name"));
                 monster.setDescription(objects.getString("description"));
                 monster.setHealth(objects.getInt("health"));
+                monster.setMaxHealth(objects.getInt("max_health"));
                 monster.setAttackPower(objects.getInt("attack_power"));
                 monster.setMagicPower(objects.getInt("magic_power"));
                 monster.setDefense(objects.getInt("defense"));
@@ -626,7 +628,8 @@ public class GameServer implements ActionListener
             try
             {
                 ResultSet results = m_dbConn.getItemsForUser(user.getUserInfo().getName());
-
+                Item weapon = null;
+                
                 if(null != results)
                 {
                     while(results.next())
@@ -640,6 +643,7 @@ public class GameServer implements ActionListener
                                 if(item.getIsWeapon())
                                 {
                                     bValidWeapon = true;
+                                    weapon = item;
                                     break;
                                 }
                                 else
@@ -658,8 +662,10 @@ public class GameServer implements ActionListener
 
                 if(bValidMonster && bValidWeapon)
                 {
-                    simulateFight(user, monster);
+                    doFight(user, monster, weapon);
                 }
+                else
+                    sendUserText(user, "You can't attack with that.");
             }
             catch(Exception e)
             {
@@ -797,7 +803,7 @@ public class GameServer implements ActionListener
                 {
                     case GiveHealth:
                         int nHealthGained = (int)(0.2 * user.getUserInfo().getMaxHealth());
-                        user.getUserInfo().setHealth(nHealthGained);
+                        user.getUserInfo().setHealth(user.getUserInfo().getHealth() + nHealthGained);
                         
                         sendUserText(user, "You gained " + nHealthGained + " health!");
                         
@@ -1012,7 +1018,7 @@ public class GameServer implements ActionListener
 		return retVal;
 	}
     
-    public synchronized FightWinner simulateFight(UserConnectionThread user, Monster monster)
+    public synchronized FightWinner doFight(UserConnectionThread user, Monster monster, Item weapon)
     {
         FightWinner winner = FightWinner.Invalid;
         
@@ -1024,7 +1030,7 @@ public class GameServer implements ActionListener
             
             sendUserText(user, "You attack the " + monster.getName());
 
-            winner = FightWinner.Player;
+            winner = simulateFight(user, monster, weapon);
             
             // If the Player wins, give them their gold, xp, and loot
             if(FightWinner.Player == winner)
@@ -1096,6 +1102,63 @@ public class GameServer implements ActionListener
         }
         else
             sendUserText(user, "You can't attack the " + monster.getName() + " because it is fighting someone else.");
+        
+        return winner;
+    }
+    
+    public FightWinner simulateFight(UserConnectionThread user, Monster monster, Item weapon)
+    {
+        FightWinner winner = FightWinner.Invalid;
+        SecureRandom random = new SecureRandom();
+        
+        try
+        {
+            while(monster.getHealth() > 0 && user.getUserInfo().getHealth() > 0)                    
+            {
+                // Player attacks Monster
+                int nPlayerDamage = (random.nextInt() % user.getUserInfo().getAttackPower())
+                        + weapon.getDamage() - monster.getDefense();
+                
+                if(nPlayerDamage < 0)
+                    nPlayerDamage = 0;
+                
+                monster.setHealth(monster.getHealth() - nPlayerDamage);                                
+                
+                sendUserText(user, "You do " + nPlayerDamage + " damage to the " + monster.getName() + ".");
+                
+                Thread.sleep(1000);
+
+                // If monster is still alive, monster attacks user
+                if(monster.getHealth() <= 0)
+                {
+                    break;
+                }
+                else
+                {
+                    int nMonsterDamage = (random.nextInt() % monster.getAttackPower()) 
+                            - user.getUserInfo().getDefense();
+                    
+                    if(nMonsterDamage < 0)
+                        nMonsterDamage = 0;
+                    
+                    user.getUserInfo().setHealth(user.getUserInfo().getHealth() - nMonsterDamage);
+                    
+                    sendUserText(user, "The " + monster.getName() + " does " + nMonsterDamage + " damage to you.");
+                    
+                    Thread.sleep(1000);
+                }
+            }
+            
+            if(monster.getHealth() <= 0)
+                winner = FightWinner.Player;
+            else
+                winner = FightWinner.Monster;
+        }
+        catch(InterruptedException e)
+        {
+            m_logger.info("Sleep interrupted, invalidating fight.");
+            winner = FightWinner.Invalid;
+        }
         
         return winner;
     }

@@ -311,8 +311,8 @@
 		<name>Imp</name>
 		<description>what looks like the fiery manifestation of Hell...in a bite-sized package.</description>
 		<health>20</health>
-		<attack_power>1</attack_power>
-		<magic_power>1</magic_power>
+		<attack_power>15</attack_power>
+		<magic_power>10</magic_power>
 		<defense>1</defense>
 		<magic_defense>1</magic_defense>
 		<loot_table_id>1</loot_table_id>
@@ -326,7 +326,7 @@
 		<name>Ratter</name>
 		<description>a giant bi-pedal rat or a smallish furry man with a pointy nose.  It's hard tell.</description>
 		<health>20</health>
-		<attack_power>1</attack_power>
+		<attack_power>15</attack_power>
 		<magic_power>1</magic_power>
 		<defense>1</defense>
 		<magic_defense>1</magic_defense>

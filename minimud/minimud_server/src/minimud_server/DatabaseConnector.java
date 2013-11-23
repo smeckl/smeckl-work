@@ -169,8 +169,8 @@ public class DatabaseConnector
             pstmt.setInt(8, 0);     // Gold
             pstmt.setInt(9, 100);    // Health
             pstmt.setInt(10, 100);  // Max Halth
-            pstmt.setInt(11, 1);    // attack power
-            pstmt.setInt(12, 1);    // magic power
+            pstmt.setInt(11, 10);    // attack power
+            pstmt.setInt(12, 10);    // magic power
             pstmt.setInt(13, 10);    // defense
             pstmt.setInt(14, 5);    // magic_defense
             
@@ -206,7 +206,7 @@ public class DatabaseConnector
                 userInfo.setName(results.getString("username"));
                 userInfo.setDescription(results.getString("description"));
                 userInfo.setCharType(results.getInt("char_type"));
-                userInfo.setGold(results.getInt("health"));
+                userInfo.setGold(results.getInt("gold"));
                 userInfo.setXP(results.getInt("xp"));
                 userInfo.setHealth(results.getInt("health"));
                 userInfo.setMaxHealth(results.getInt("max_health"));

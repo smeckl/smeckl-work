@@ -206,6 +206,11 @@ public class Item
         return m_effect;
     }
     
+    public int getDamage()
+    {
+        return m_nDamage;
+    }
+    
     public void setDamage(String strDamage)
     {
         if(m_regEx.stringMatchesRegEx(strDamage, RegularExpressions.RegExID.POSITIVE_INT))
