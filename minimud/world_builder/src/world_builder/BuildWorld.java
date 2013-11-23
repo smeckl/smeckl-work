@@ -148,7 +148,7 @@ public class BuildWorld
 				m_dbConn.addTable("CREATE TABLE characters ( username VARCHAR(32) NOT NULL, pwd_hash VARBINARY(100) NOT NULL, " +
 						"pwd_salt VARBINARY(16) NOT NULL, created DATE NOT NULL, description VARCHAR(1000), char_type INT NOT NULL," +
                         "xp INT, gold INT, health INT NOT NULL, max_health INT NOT NULL, attack_power INT NOT NULL, " +
-                        "magic_power INT NOT NULL, defense INT NOT NULL, magic_defense INT NOT NULL, " +
+                        "magic_power INT NOT NULL, defense INT NOT NULL, magic_defense INT NOT NULL, last_room INT NOT NULL, " +
                         "PRIMARY KEY ( username ));");
                 
                 m_dbConn.addTable("CREATE TABLE monsters ( ID INT NOT NULL, name VARCHAR(32) NOT NULL, " +

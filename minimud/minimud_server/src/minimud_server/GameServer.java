@@ -383,10 +383,10 @@ public class GameServer implements ActionListener
 					  getStartingRoom().getName() + ".");
 		
 		// Set the starting room
-		user.setCurrentRoom(getStartingRoom());
+		user.setCurrentRoom(m_Rooms.get(user.getUserInfo().getLastRoom()));
 		
 		// Add the suer to the starting Room
-		getStartingRoom().addUser(user, strName);
+		user.getCurrentRoom().addUser(user, strName);
 	}
 	
 	public void removeUser(UserConnectionThread user)
@@ -562,6 +562,8 @@ public class GameServer implements ActionListener
 				
 				// Set the new room as the user's current room
 				user.setCurrentRoom(nextRoom);
+                
+                user.getUserInfo().setLastRoom(nextRoom.getID());
 				
 				// Have the user display the new room
 				user.displayCurrentRoom();

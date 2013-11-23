@@ -151,7 +151,7 @@ public class DatabaseConnector
         try
         {
             PreparedStatement pstmt = getConnection().prepareStatement("insert into characters values(?, ?, ?, ?, "
-                    + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                    + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             pstmt.setString(1, strUserName);
             pstmt.setBytes(2, pwdHash);
             pstmt.setBytes(3, pwdSalt);
@@ -173,6 +173,7 @@ public class DatabaseConnector
             pstmt.setInt(12, 10);    // magic power
             pstmt.setInt(13, 10);    // defense
             pstmt.setInt(14, 5);    // magic_defense
+            pstmt.setInt(15, 1);  // last_room
             
             if (0 == pstmt.executeUpdate())
             {
@@ -214,6 +215,7 @@ public class DatabaseConnector
                 userInfo.setMagicPower(results.getInt("magic_power"));
                 userInfo.setDefense(results.getInt("defense"));
                 userInfo.setMagicDefense(results.getInt("magic_defense"));
+                userInfo.setLastRoom(results.getInt("last_room"));
                 
                 if(!userInfo.isValid())
                 {
@@ -237,13 +239,14 @@ public class DatabaseConnector
         
         try
         {
-            PreparedStatement pstmt = getConnection().prepareStatement("update characters set gold=?, xp=?, health=?"
+            PreparedStatement pstmt = getConnection().prepareStatement("update characters set gold=?, xp=?, health=?, last_room=?"
                     + " where username=?");
             
             pstmt.setInt(1, user.getUserInfo().getGold());
             pstmt.setInt(2, user.getUserInfo().getXP());
             pstmt.setInt(3, user.getUserInfo().getHealth());
-            pstmt.setString(4, user.getUserInfo().getName());
+            pstmt.setInt(4, user.getUserInfo().getLastRoom());
+            pstmt.setString(5, user.getUserInfo().getName());
             
             if (0 == pstmt.executeUpdate())
             {

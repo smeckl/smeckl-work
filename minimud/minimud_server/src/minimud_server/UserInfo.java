@@ -12,6 +12,7 @@ public class UserInfo extends Mob
     private CharType m_charType;
     private int m_nGold = 0;
     private int m_nXP;
+    private int m_nLastRoom = 0;
     
     public UserInfo()
     {
@@ -68,5 +69,15 @@ public class UserInfo extends Mob
     public int getXP()
     {
         return m_nXP;
+    }
+    
+    public void setLastRoom(int nRoomID)
+    {
+        m_nLastRoom = nRoomID;
+    }
+    
+    public int getLastRoom()
+    {
+        return m_nLastRoom;
     }
 }

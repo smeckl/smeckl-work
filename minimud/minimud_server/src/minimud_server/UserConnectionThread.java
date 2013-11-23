@@ -8,6 +8,9 @@ import java.io.StringReader;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.util.concurrent.Semaphore;
+import java.util.Date;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import minimud_shared.*;
 
@@ -43,6 +46,8 @@ public class UserConnectionThread extends Thread
     private String m_strUsername = "";
     
     private static int SOCKET_WAIT_MS = 1000;
+    
+    private Calendar m_lastCommandTime = new GregorianCalendar();
 	
 	public enum ErrorCode
 	{
@@ -61,6 +66,7 @@ public class UserConnectionThread extends Thread
 	{
 		Unauthenticated,
 		Playing,
+        Disconnected,
 		LoggingOut
 	};
 	
@@ -206,6 +212,9 @@ public class UserConnectionThread extends Thread
                    m_logger.severe("UserConnectionThread::run() - Failed to load user record.");
 					break;
                }
+               
+               // Authenticated.  Add this user thread to the game server.
+	        	getGameServer().addUser(this, getUserInfo().getName());
                 
 				// If we got this far, the user is logged in
 				setUserState(UserSessionState.Playing);
@@ -226,6 +235,9 @@ public class UserConnectionThread extends Thread
 			        // Try to read a message from the client
 			        if((inputLine = ReceiveMessage()) != null)
 			        {
+                        // Get current time
+                        m_lastCommandTime.setTime(new Date());
+                        
 			        	// If a message is recieved, parse it into a Message object
 			        	Message msg = parseClientCommand(inputLine);
 					    
@@ -242,9 +254,30 @@ public class UserConnectionThread extends Thread
 					    	m_logger.info("Received invalid command from user (" + getUserInfo().getName() 
 										  + "): " + inputLine);
 					    }
-			        }		 
+			        }	
+                    
+                    // Calculate the session expire time
+                    Calendar expireTime = (GregorianCalendar)m_lastCommandTime.clone();
+                    expireTime.add(Calendar.MINUTE, 5);
+                    
+                    Calendar now = new GregorianCalendar();
+                    now.setTime(new Date());
+                    
+                    if(now.after(expireTime))
+                    {
+                        setUserState(UserSessionState.LoggingOut);
+                        m_logger.info("User " + getUserInfo().getName() + " has been logged out due to inactivity.");
+                        m_display.sendText("You are being logged out due to inactivity.");
+                        m_display.sendCommand(new UserLogoutMessage());
+                    }
 				}
-				
+
+                // We have exited the game loop either due to a logout or a 
+                // disconnection.  Save state.
+                getCurrentRoom().removeUser(this);
+                m_game.removeUser(this);
+                m_dbConn.saveUserState(this);
+                
 				// The user has logged out or disconnected, stop the session
 				retVal = teardownGameSession();
 				
@@ -446,10 +479,7 @@ public class UserConnectionThread extends Thread
 		        	else
 		        	{
 		        		m_logger.info("User created correctly.");
-		        		m_display.sendCommand(new ServerStatusMessage(ServerStatusMessage.Status.LOGON_SUCCESS));
-		        		
-		        		// Authenticated.  Add this user thread to the game server.
-	        			getGameServer().addUser(this, strUserName);
+		        		m_display.sendCommand(new ServerStatusMessage(ServerStatusMessage.Status.LOGON_SUCCESS));		        		
                         
                         m_strUsername = strUserName;
 		        	}
@@ -486,10 +516,7 @@ public class UserConnectionThread extends Thread
 			        		if(bLoggedIn)
 			        		{
 			        			m_logger.info("User " + strUserName + " logged in successfully.");
-			        			m_display.sendCommand(new ServerStatusMessage(ServerStatusMessage.Status.LOGON_SUCCESS));
-			        			
-			        			// Authenticated.  Add this user thread to the game server.
-			        			getGameServer().addUser(this, strUserName);
+			        			m_display.sendCommand(new ServerStatusMessage(ServerStatusMessage.Status.LOGON_SUCCESS));			        						        			
                                 
                                 m_strUsername = strUserName;
 			        		}
@@ -557,10 +584,7 @@ public class UserConnectionThread extends Thread
 			{				
 				// Set user state to Logging Out
 				setUserState(UserSessionState.LoggingOut);
-				
-				// Remove the user from the GameServer object
-				m_game.removeUser(this);
-			
+											
 				// Send the logout message to the user
 				m_display.sendCommand(msg);
 			}
