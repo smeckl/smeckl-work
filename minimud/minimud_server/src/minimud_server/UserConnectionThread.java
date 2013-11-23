@@ -48,6 +48,10 @@ public class UserConnectionThread extends Thread
     private static int SOCKET_WAIT_MS = 1000;
     
     private Calendar m_lastCommandTime = new GregorianCalendar();
+    
+    private String m_strIP = "";
+    
+    private boolean m_bStop = false;
 	
 	public enum ErrorCode
 	{
@@ -78,6 +82,9 @@ public class UserConnectionThread extends Thread
 		setDatabaseConnector(dbConn);
 		m_stopSem = stopSem;
 		m_logger = logger;
+        
+        // Store IP address for client
+        setIPAddress(socket.getInetAddress().getHostAddress());
 	}
 	
 	public void setSocket(Socket socket)
@@ -143,6 +150,23 @@ public class UserConnectionThread extends Thread
 			cur.displayRoom(m_display);
 	}
     
+    public void setIPAddress(String strIP)
+    {
+        m_strIP = strIP;
+    }
+    
+    public final String getIPAddress()
+    {
+        return m_strIP;
+    }
+    
+    public void terminate()
+    {
+        m_display.sendText("You are being logged out due to a new login session from your account.");
+        m_display.sendCommand(new UserLogoutMessage());
+        m_bStop = true;
+    }
+    
     // Reads one line of text from the TCP socket
     public String ReceiveMessage()
     {
@@ -203,6 +227,19 @@ public class UserConnectionThread extends Thread
 					m_logger.severe("UserConnectionThread::run() - User logon failed.");
 					break;
 				}
+                
+                // See if this user is already logged in from the same IP address
+                UserConnectionThread existUser = m_game.getUser(m_strUsername);
+                
+                if(null != existUser)
+                {
+                    //  If there is an existing user with the same IP, then...
+                    if(0 == existUser.getIPAddress().compareTo(getIPAddress()))
+                    {
+                        // Kill the thread
+                        existUser.terminate();
+                    }
+                }
 				
                 // Load user info from database into memory.
                m_userInfo = getDatabaseConnector().loadUserInfo(m_strUsername);
@@ -228,7 +265,8 @@ public class UserConnectionThread extends Thread
 				while(ErrorCode.Success == retVal 
 					  && 1 == m_stopSem.availablePermits()
 					  && UserSessionState.Playing == getUserState()
-					  && getSocket().isConnected())
+					  && getSocket().isConnected()
+                      && !m_bStop)
 				{	
 			        String inputLine;
 			
@@ -274,6 +312,7 @@ public class UserConnectionThread extends Thread
 
                 // We have exited the game loop either due to a logout or a 
                 // disconnection.  Save state.
+
                 getCurrentRoom().removeUser(this);
                 m_game.removeUser(this);
                 m_dbConn.saveUserState(this);

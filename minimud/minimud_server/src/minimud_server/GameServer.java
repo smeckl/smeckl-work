@@ -388,6 +388,11 @@ public class GameServer implements ActionListener
 		// Add the suer to the starting Room
 		user.getCurrentRoom().addUser(user, strName);
 	}
+    
+    public UserConnectionThread getUser(String strName)
+    {
+        return m_userMap.get(strName);
+    }
 	
 	public void removeUser(UserConnectionThread user)
 	{
