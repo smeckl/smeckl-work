@@ -46,7 +46,7 @@ public class MMLogger
 		m_logger.severe(strSafeLog);
 	}
 	
-	public String escapeString(String strLog)
+	private String escapeString(String strLog)
 	{
 		return StringEscapeUtils.escapeJava(strLog);
 	}

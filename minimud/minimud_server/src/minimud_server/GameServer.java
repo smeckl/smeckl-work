@@ -304,8 +304,11 @@ public class GameServer implements ActionListener
                 monster.setID(objects.getInt("ID"));
 				monster.setName(objects.getString("name"));
                 monster.setDescription(objects.getString("description"));
-                monster.setHealth(objects.getInt("health"));
+                
+                //  Need to set Max Health first because setHealth() does bounds checking based
+                // on max health
                 monster.setMaxHealth(objects.getInt("max_health"));
+                monster.setHealth(objects.getInt("health"));             
                 monster.setAttackPower(objects.getInt("attack_power"));
                 monster.setMagicPower(objects.getInt("magic_power"));
                 monster.setDefense(objects.getInt("defense"));
@@ -410,10 +413,7 @@ public class GameServer implements ActionListener
 		ErrorCode retVal = ErrorCode.Success;
 		
 		try
-		{		
-			m_logger.info("Received message from user (" + user.getUserInfo().getName() 
-						  + "): " + msg.serialize());
-			
+		{							
 			// Process user chat message
 			if(MessageID.USER_CHAT == msg.getMessageId())
 			{
@@ -795,15 +795,20 @@ public class GameServer implements ActionListener
                     sendUserText(user, "");
                 }
             }
-            sendUserText(user, "");
         }
+            break;
+         
+        case CharInfo:
+        {
+            user.displayInfo();
+        }            
             break;
             
         case UseItem:
         {
             // Get object from inventory
             Item item = m_dbConn.getItemForUser(user.getUserInfo().getName(), msg.getObject());
-            
+                    
             if(null != item)
             {
                 switch(item.getEffect())
@@ -819,12 +824,12 @@ public class GameServer implements ActionListener
                 }
                 
                 // Remove item from inventory
-                m_dbConn.removeItemFromInventory(item, user.getUserInfo().getName());      
+                m_dbConn.removeItemFromInventory(item, user.getUserInfo().getName());     
+                break;
             }
-            else
-                sendUserText(user, "You can't use that.");
         }
-            break;
+        // If the item wasn't in inventory, then treat it as an action targeting
+        // an NPC or room object.  DROP TO NEXT CASE
             
 		// If the Look action is aimed at an object or NPC, then
 		// We want to fall through to the next case.
@@ -928,6 +933,15 @@ public class GameServer implements ActionListener
 									sendUserText(user, "Congratulations.  You have earned " + result.getValue()
 											+ " gold pieces!");
 								}
+                                else if(0 == result.getType().compareTo("give_health"))
+                                {
+                                    int nHealthGained = (int)(0.2 * user.getUserInfo().getMaxHealth());
+                                    user.getUserInfo().setHealth(user.getUserInfo().getHealth() + nHealthGained);
+
+                                    sendUserText(user, "You gained " + nHealthGained + " health!");
+
+                                    m_dbConn.saveUserState(user);
+                                }
 								else if(0 == result.getType().compareTo("give_quest"))
 								{
 									int nQuestID = result.getValue();
@@ -1054,13 +1068,18 @@ public class GameServer implements ActionListener
                 sendUserText(user, "You earned " + monster.getKillXP() + " XP!");
                 
                 //  Roll on loot in the loot table
-                Item item = rollForLoot(monster.getLootTableID()); 
+                ArrayList<Item> items = rollForLoot(monster.getLootTableID()); 
                 
-                if(null != item)
+                if(null != items)
                 {
-                    // Add item to user's inventory
-                    if(DatabaseConnector.ErrorCode.Success == m_dbConn.addItemToInventory(item, user.getUserInfo().getName()))
-                        sendUserText(user, "You receive loot!  A " + item.getName() + " has been added to your inventory.");
+                    for(int i = 0; i < items.size(); i++)
+                    {
+                        Item item = items.get(i);
+                        
+                        // Add item to user's inventory
+                        if(DatabaseConnector.ErrorCode.Success == m_dbConn.addItemToInventory(item, user.getUserInfo().getName()))
+                            sendUserText(user, "You receive loot!  A " + item.getName() + " has been added to your inventory.");
+                    }
                 }
                 
                 // If a quest needs to be updated, then udpate it
@@ -1126,9 +1145,6 @@ public class GameServer implements ActionListener
                 int nPlayerDamage = (random.nextInt() % user.getUserInfo().getAttackPower())
                         + weapon.getDamage() - monster.getDefense();
                 
-                if(nPlayerDamage < 0)
-                    nPlayerDamage = 0;
-                
                 monster.setHealth(monster.getHealth() - nPlayerDamage);                                
                 
                 sendUserText(user, "You do " + nPlayerDamage + " damage to the " + monster.getName() + ".");
@@ -1144,9 +1160,6 @@ public class GameServer implements ActionListener
                 {
                     int nMonsterDamage = (random.nextInt() % monster.getAttackPower()) 
                             - user.getUserInfo().getDefense();
-                    
-                    if(nMonsterDamage < 0)
-                        nMonsterDamage = 0;
                     
                     user.getUserInfo().setHealth(user.getUserInfo().getHealth() - nMonsterDamage);
                     
@@ -1170,9 +1183,9 @@ public class GameServer implements ActionListener
         return winner;
     }
     
-    public Item rollForLoot(int nLootTableID)
+    public ArrayList<Item> rollForLoot(int nLootTableID)
     {
-        Item item = null;
+        ArrayList<Item> items = null;
         
         java.util.Random rnd = new java.util.Random();
         
@@ -1181,10 +1194,10 @@ public class GameServer implements ActionListener
         if(roll < 0)
             roll *= -1;
         
-        item = m_dbConn.getItemFromLootTable(nLootTableID, roll);
+        items = m_dbConn.getItemFromLootTable(nLootTableID, roll);
 
         
-        return item;
+        return items;
     }
 	
 	public static void sendUserText(UserConnectionThread user, String strMsg)

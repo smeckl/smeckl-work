@@ -74,6 +74,12 @@ public class Mob
     public void setHealth(int nHealth)
     {
         m_nHealth = nHealth;
+        
+        if(m_nHealth > getMaxHealth())
+            m_nHealth = getMaxHealth();
+        
+        if(m_nHealth < 0)
+            m_nHealth = 0;
     }
     
     public int getHealth()

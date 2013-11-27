@@ -136,7 +136,7 @@ public class BuildWorld
 						"description VARCHAR(2000) NOT NULL, PRIMARY KEY ( ID ) );");
 				
 				m_dbConn.addTable("CREATE TABLE action_results ( ID INT NOT NULL, parent INT NOT NULL, " +
-						"Type VARCHAR(20) NOT NULL, description VARCHAR(200), " +
+						"Type VARCHAR(20) NOT NULL, description VARCHAR(2000), " +
 						"ItemID INT, Value INT, PRIMARY KEY ( ID ) );");
 				
 				m_dbConn.addTable("CREATE TABLE items ( ID INT NOT NULL, name VARCHAR(50) NOT NULL, " +

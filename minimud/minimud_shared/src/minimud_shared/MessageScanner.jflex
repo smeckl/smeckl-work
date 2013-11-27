@@ -79,6 +79,7 @@ with            {yyparser.yylval = new MessageParserVal(yytext()); return Messag
 \/help          {yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.HELP;}
 \/questlog      {yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.QUESTLOG;}
 use             {yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.USE;}
+\/charinfo      {yyparser.yylval = new MessageParserVal(yytext()); return MessageParser.CHARINFO;}
 
 \,		{return (int)yycharat(0);}
 \=		{return (int)yycharat(0);}

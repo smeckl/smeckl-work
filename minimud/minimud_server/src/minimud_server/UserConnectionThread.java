@@ -150,6 +150,15 @@ public class UserConnectionThread extends Thread
 			cur.displayRoom(m_display);
 	}
     
+    public void displayInfo()
+    {
+        m_display.sendText("Character Information:");
+        m_display.sendText("-------------------------");
+        m_display.sendText("Health: " + getUserInfo().getHealth() + "/" + getUserInfo().getMaxHealth());
+        m_display.sendText("Gold: " + getUserInfo().getGold());
+        m_display.sendText("XP: " + getUserInfo().getXP());
+    }
+    
     public void setIPAddress(String strIP)
     {
         m_strIP = strIP;
@@ -276,6 +285,9 @@ public class UserConnectionThread extends Thread
                         // Get current time
                         m_lastCommandTime.setTime(new Date());
                         
+                        m_logger.info("Received command from user (" + getUserInfo().getName() 
+										  + "): " + inputLine);
+                        
 			        	// If a message is recieved, parse it into a Message object
 			        	Message msg = parseClientCommand(inputLine);
 					    
@@ -287,10 +299,9 @@ public class UserConnectionThread extends Thread
 					    else
 					    {
 					    	// Failed to parse command, let the user know
-					    	m_display.sendText("Invalid command.");
-					    	
-					    	m_logger.info("Received invalid command from user (" + getUserInfo().getName() 
-										  + "): " + inputLine);
+					    	m_display.sendText("Invalid command.");		
+                            
+                            m_logger.info(getUserInfo().getName() + "'s command was rejected as invalid.");
 					    }
 			        }	
                     
@@ -312,6 +323,7 @@ public class UserConnectionThread extends Thread
 
                 // We have exited the game loop either due to a logout or a 
                 // disconnection.  Save state.
+
 
                 getCurrentRoom().removeUser(this);
                 m_game.removeUser(this);

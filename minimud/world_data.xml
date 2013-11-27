@@ -153,12 +153,27 @@
 	<room>
 		<id>2</id>
 		<name>Main Street</name>
-		<description>You turn on to Main Street.  There isn't much traffic this time of day.  To the east is a loud, smelly tavern.</description>
+		<description>You turn on to Main Street.  There isn't much traffic this time of day.  To the east is a loud, smelly tavern.  To the north is the local church.  The light in the doorway indicates that it is open.  To the west is the town bank.  To the south is a park.</description>
 		<move>
 			<direction>east</direction>
 			<next_room_id>1</next_room_id>
 			<description>Tavern door</description>
 		</move>	
+		<move>
+			<direction>north</direction>
+			<next_room_id>4</next_room_id>
+			<description>Church doorway.</description>
+		</move>	
+		<move>
+			<direction>west</direction>
+			<next_room_id>5</next_room_id>
+			<description>Bank doorway.</description>
+		</move>
+		<move>
+			<direction>south</direction>
+			<next_room_id>6</next_room_id>
+			<description>Central Park.</description>
+		</move>
 	</room>
 
 	<room>
@@ -183,6 +198,65 @@
 			</action>
 		</object>
 		<monster_id>1</monster_id>		
+	</room>
+
+	<room>
+		<id>4</id>
+		<name>Church</name>
+		<description>You enter the main worship area of a church.  Rows of pews led up to an altar and a pedestal.  In the back of the church, stairs lead down.  A door to the south leads back out to Main Street.  A font of holy water shimmers in teh back of the room.</description>
+		<move>
+			<direction>south</direction>
+			<next_room_id>2</next_room_id>
+			<description>Church doorway.</description>
+		</move>	
+
+		<npc>
+			<name>Theodore</name>
+			<description>a stout, balding man in golden priests' robes.  Around his neck is a chain holding a giant, shiny religious symbol.</description>
+			<intro>I am Theodore, the head priest of this glorius church.  Welcome!</intro>
+			<action>
+				<name>talk</name>
+				<result>
+					<type>give_quest</type>
+					<description>Hello there, my son.  Welcome to my church.  As you have probably discovered, our town seems to attract trouble.  The town wizard can probably help us, but only if we can find a champion worthy of asking.  Might you be the champion we're looking for?  If you think you're up to snuff, head down the stairs and take the test of faith.  If you pass, you just might be able to save us!</description>
+					<value>3</value>
+				</result>
+			</action>
+		</npc>
+		
+		<object>
+			<name>font</name>
+			<description>a bowl on a pedestal, filled with water blessed by the church's head priest.  It looks delicious.  Maybe you should try using the font.</description>
+			<action>
+				<name>use</name>
+				<result>
+					<type>give_health</type>
+					<description>You drink from the font of holy water.</description>
+				</result>
+			</action>
+		</object>		
+	</room>
+
+	<room>
+		<id>5</id>
+		<name>Town Bank</name>
+		<description>The town bank is pretty standard for this part of the world.  A row of teller stations with granite counter tops separates the main entryway from the vault area.  A haze of dust is emanating from the open vault door.  The bank employees are moving around frantically.  </description>
+		<move>
+			<direction>east</direction>
+			<next_room_id>2</next_room_id>
+			<description>Bank doorway.</description>
+		</move>			
+	</room>
+
+	<room>
+		<id>6</id>
+		<name>Central Park</name>
+		<description>You enter the city park.  It is a large garden filled with flowers and shrubs of every kind imaginable.  The centerpiece of the garden is a glorious tree that towers over the garden.  Herds of small, fluffy animals are playing in the branches.</description>
+		<move>
+			<direction>north</direction>
+			<next_room_id>2</next_room_id>
+			<description>Main Street</description>
+		</move>			
 	</room>
 
 	<item>
@@ -265,21 +339,21 @@
 	<quest>
 		<id>1</id>
 		<name>Welcome to MiniMUD</name>
-		<reward_xp>10</reward_xp>
+		<reward_xp>100</reward_xp>
 		<first_bonus>20</first_bonus>
 		<reward_gold>100</reward_gold>
 		<quest_step>
 			<step_number>1</step_number>
 			<description>Tommy has asked you to pick up the lantern from the table.</description>
 			<hint>type 'take lantern' to pick up the lantern.</hint>
-			<reward_xp>100</reward_xp>
+			<reward_xp>10</reward_xp>
 			<reward_gold>10</reward_gold>
 		</quest_step>
 		<quest_step>
 			<step_number>2</step_number>
 			<description>Talk to Tommy to complete the quest.</description>
 			<hint>this one's easy.</hint>
-			<reward_xp>100</reward_xp>
+			<reward_xp>10</reward_xp>
 			<reward_gold>10</reward_gold>
 		</quest_step>
 	</quest>
@@ -301,6 +375,21 @@
 			<step_number>2</step_number>
 			<description>Now that you have cleared out the storeroom, let Tommy know.</description>
 			<hint>Go talk to Tommy and let him know you cleared out the storeroom.</hint>
+			<reward_xp>10</reward_xp>
+			<reward_gold>10</reward_gold>
+		</quest_step>
+	</quest>
+
+	<quest>
+		<id>3</id>
+		<name>Test of Faith</name>
+		<reward_xp>10</reward_xp>
+		<first_bonus>20</first_bonus>
+		<reward_gold>100</reward_gold>
+		<quest_step>
+			<step_number>1</step_number>
+			<description>Theodore has instructed you to head down the stairs and pass a test of faith.</description>
+			<hint>head down the stairs and begin the test of .</hint>
 			<reward_xp>10</reward_xp>
 			<reward_gold>10</reward_gold>
 		</quest_step>
@@ -345,6 +434,10 @@
 			<item_id>5</item_id>
 			<drop_percent>10</drop_percent>
 		</item_ref>
+		<item_ref>
+			<item_id>8</item_id>
+			<drop_percent>20</drop_percent>
+		</item_ref>
 	</loot_table>
 
 	<loot_table>
@@ -357,10 +450,14 @@
 			<item_id>6</item_id>
 			<drop_percent>10</drop_percent>
 		</item_ref>
+		<item_ref>
+			<item_id>8</item_id>
+			<drop_percent>20</drop_percent>
+		</item_ref>
 	</loot_table>
 
 	<loot_table>
-		<loot_table_id>2</loot_table_id>
+		<loot_table_id>3</loot_table_id>
 		<item_ref>
 			<item_id>4</item_id>
 			<drop_percent>30</drop_percent>
@@ -368,6 +465,10 @@
 		<item_ref>
 			<item_id>7</item_id>
 			<drop_percent>10</drop_percent>
+		</item_ref>
+		<item_ref>
+			<item_id>8</item_id>
+			<drop_percent>20</drop_percent>
 		</item_ref>
 	</loot_table>
 </minimud_world>

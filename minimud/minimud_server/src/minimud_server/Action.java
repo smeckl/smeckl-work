@@ -149,7 +149,7 @@ public class Action
 	
 	public boolean isValidQuestDependencyCompletion(int nQuestDependencyCompletion)
 	{
-		return (getQuestDependencyCompletion() > 0 || getQuestDependencyCompletion() < 100);
+		return (getQuestDependencyCompletion() >= 0 || getQuestDependencyCompletion() < 100);
 	}
 	
 	public boolean isValid()

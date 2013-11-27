@@ -20,7 +20,8 @@ public class PlayerActionMessage extends Message
         Inventory,
         Help,
         QuestLog,
-        UseItem
+        UseItem,
+        CharInfo
 	}
 	
 	private Action m_action;
@@ -121,23 +122,27 @@ public class PlayerActionMessage extends Message
             break;
             
         case Leaders:
-            strOut = "leaders";
+            strOut = "/leaders";
             break;
             
         case Inventory:
-            strOut = "inventory";
+            strOut = "/inventory";
             break;
             
         case Help:
-            strOut = "help";
+            strOut = "/help";
             break;
             
         case QuestLog:
-            strOut = "questlog";
+            strOut = "/questlog";
             break;
             
         case UseItem:
             strOut = "use";
+            break;
+            
+        case CharInfo:
+            strOut = "/charinfo";
             break;
 		}
 		

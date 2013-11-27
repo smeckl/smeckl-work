@@ -209,8 +209,9 @@ public class DatabaseConnector
                 userInfo.setCharType(results.getInt("char_type"));
                 userInfo.setGold(results.getInt("gold"));
                 userInfo.setXP(results.getInt("xp"));
-                userInfo.setHealth(results.getInt("health"));
+                
                 userInfo.setMaxHealth(results.getInt("max_health"));
+                userInfo.setHealth(results.getInt("health"));                
                 userInfo.setAttackPower(results.getInt("attack_power"));
                 userInfo.setMagicPower(results.getInt("magic_power"));
                 userInfo.setDefense(results.getInt("defense"));
@@ -1009,9 +1010,9 @@ public class DatabaseConnector
         return actionResults;
     }
     
-    public synchronized Item getItemFromLootTable(int nLootTableID, int nPercent)
+    public synchronized ArrayList<Item> getItemFromLootTable(int nLootTableID, int nPercent)
     {
-        Item item = null;
+        ArrayList<Item> items = new ArrayList<Item>();
         
         try
         {
@@ -1024,6 +1025,8 @@ public class DatabaseConnector
             
             if (null != results && results.next())
             {
+                Item item = new Item();
+                
                 item = new Item();
                 item.setID(results.getInt("ID"));
                 item.setName(results.getString("name"));
@@ -1038,15 +1041,17 @@ public class DatabaseConnector
                     m_logger.severe("Invalid Item object.");
                     item = null;
                 }
+                else
+                    items.add(item);
             }
         }
         catch (Exception e)
         {
             m_logger.severe("Exception in DatabaseConnector::getItemsForUser() " + e);
-            item = null;
+            items = null;
         }
         
-        return item;
+        return items;
     }
     
     public ArrayList<QuestStep> getQuestLogForUser(String strUser)

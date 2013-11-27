@@ -96,6 +96,8 @@ public class MiniMUDClient
                                 while (null != serverInput
                                         && (1 == m_stopSem.availablePermits()));
 
+                                System.out.println("");
+                                
                                 if(bMsgDisplayedText)
                                     System.out.print(">>");
                             }
