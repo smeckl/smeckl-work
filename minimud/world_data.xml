@@ -209,6 +209,12 @@
 			<next_room_id>2</next_room_id>
 			<description>Church doorway.</description>
 		</move>	
+		
+		<move>
+			<direction>down</direction>
+			<next_room_id>7</next_room_id>
+			<description>Stairs down to the basement.</description>
+		</move>
 
 		<npc>
 			<name>Theodore</name>
@@ -267,6 +273,17 @@
 			<next_room_id>2</next_room_id>
 			<description>Main Street</description>
 		</move>			
+	</room>
+
+	<room>
+		<id>7</id>
+		<name>Church Basement</name>
+		<description>You enter the basement of the church.  It isn't quite what you'd expect given the immaculate state of the main church.  The basement is dark and moldy with water dripping down the walls.  To the east is a door that says 'Enter the Test of Faith.'  The stairs lead back up to the church.</description>
+		<move>
+			<direction>up</direction>
+			<next_room_id>4</next_room_id>
+			<description>Stairs leading up to the church's main worship area.</description>
+		</move>
 	</room>
 
 	<item>
