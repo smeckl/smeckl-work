@@ -281,7 +281,7 @@ public class WorldImporter
 				}
 			}
 			
-			if(!bSavedRoom && bID && bName && bDescription && bMoves)
+			if(!bSavedRoom && bID && bName && bDescription)
 			{
 				getDBconn().addRoom(nID, strName, strDescription);
 				bSavedRoom = true;
@@ -316,6 +316,11 @@ public class WorldImporter
         boolean bStackable = false;
         int nReqRoomID = 0;
         int nValue = 0;
+        boolean bDeleteOnUse = false;
+        String strEffectText = "";
+        int nDependencyID = 0;
+        int nDepndencyStep = 0;
+        int nUpdateQuestStep = 0;
 		
 		boolean bSavedItem = false;
 		boolean bID = false;
@@ -393,6 +398,21 @@ public class WorldImporter
 						{
 							retVal = ErrorCode.INVALID_TYPE;
 							System.out.println("Invalid <weapon> element specified.");
+						}
+                    }
+                    else if(0 == nodeName.compareTo(XMLNames.DELETE_ON_USE))
+                    {                       
+                        if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.DELETE_ON_USE))
+                        {
+                            int nDeleteOnUse = Integer.parseInt(content);
+                            
+                            if(1 == nDeleteOnUse)
+                                bDeleteOnUse = true;
+                        }
+                        else
+						{
+							retVal = ErrorCode.INVALID_TYPE;
+							System.out.println("Invalid <delete_on_use> element specified.");
 						}
                     }
                     else if(0 == nodeName.compareTo(XMLNames.STACKABLE))
@@ -479,17 +499,76 @@ public class WorldImporter
 							System.out.println("Invalid <value> specified.");
 						}
                     }
+                    else if(0 == nodeName.compareTo(XMLNames.EFFECT_TEXT))
+					{
+						if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.DESCRIPTION))
+						{
+							strEffectText = content;
+						}
+						else
+						{
+							retVal = ErrorCode.INVALID_NAME;
+							System.out.println("Invalid <effect_text> specified.");
+						}
+					}
+                    else if(0 == nodeName.compareTo(XMLNames.QUEST_DEP_ID))
+					{
+						if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ID))
+						{
+							nDependencyID = Integer.parseInt(content);
+                            
+                            if(!m_rangeCheck.checkRange(RangeChecker.RangeID.ATTACK_POWER, nDependencyID))
+                                bError = true;
+						}
+						else
+						{
+							retVal = ErrorCode.INVALID_ID;
+							System.out.println("Invalid Quest Dependency ID specified.");
+						}
+					}
+					else if(0 == nodeName.compareTo(XMLNames.QUEST_DEP_STEP))
+					{
+						if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.POSITIVE_INT))
+						{
+							nDepndencyStep = Integer.parseInt(content);
+                            
+                            if(!m_rangeCheck.checkRange(RangeChecker.RangeID.QUEST_STEP_NUM, nDependencyID))
+                                bError = true;
+						}
+						else
+						{
+							retVal = ErrorCode.INVALID_ID;
+							System.out.println("Invalid Quest Step Dependency specified.");
+						}
+					}
+                    else if(0 == nodeName.compareTo(XMLNames.UPDATE_QUEST_STEP))
+					{
+						if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.POSITIVE_INT))
+						{
+							nUpdateQuestStep = Integer.parseInt(content);
+                            
+                            if(!m_rangeCheck.checkRange(RangeChecker.RangeID.REWARD_XP, nUpdateQuestStep))                                
+                                bError = true;
+						}
+						else
+						{
+							retVal = ErrorCode.INVALID_NUMBER;
+							System.out.println("Invalid UPDATE QUEST STEP specified.");
+						}
+					}
 				}                                
 			}
             
             if(!bError && !bSavedItem && bName && bDescription && bID && bWeapon)
             {
-                getDBconn().addItem(nID, strName, strDescription, strDamageType, nDamage, bStackable, nReqRoomID, nValue);
+                getDBconn().addItem(nID, strName, strDescription, strDamageType, nDamage, bDeleteOnUse, bStackable, 
+                        nReqRoomID, nValue, strEffectText, nDependencyID, nDepndencyStep, nUpdateQuestStep);
                 bSavedItem = true;
             }
             else if(!bSavedItem && bName && bDescription && bID)
             {
-                getDBconn().addItem(nID, strName, strDescription, strEffect, bStackable, nReqRoomID, nValue);
+                getDBconn().addItem(nID, strName, strDescription, strEffect, bDeleteOnUse, bStackable, nReqRoomID, 
+                        nValue, strEffectText, nDependencyID, nDepndencyStep, nUpdateQuestStep);
                 bSavedItem = true;
             }
 			

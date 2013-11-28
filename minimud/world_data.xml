@@ -298,8 +298,14 @@
 				<name>talk</name>
 				<result>
 					<type>give_quest</type>
-					<description>Curse the Gods!  The bank has been robbed by Goblins.  They came from underground and took everything in the vault!  The town is ruined!  Please help us get the town's riches back!</description>
+					<description>Curse the Gods!  The bank has been robbed by Goblins.  They came from underground and took everything in the vault!  The town is ruined!  Please help us get the town's riches back!  Take this ankh pendant.  When you find the town's money, use it and the gold an gems will be teleported back to the vault.  I'd use it from here, but you need to be in close proximity to the items for it to work.</description>
 					<value>4</value>
+				</result>
+
+				<result>
+					<type>item_reward</type>
+					<description>You take the ankh pendant and add it to your inventory</description>
+					<item_id>12</item_id>
 				</result>
 			</action>
 			<action>
@@ -309,6 +315,24 @@
 				<result>
 					<type>text_only</type>
 					<description>Please help recover the town's riches.</description>
+				</result>				
+			</action>
+			<action>
+				<name>talk</name>
+				<quest_dependency_id>4</quest_dependency_id>
+				<quest_dependency_step>2</quest_dependency_step>
+				<result>
+					<type>complete_quest</type>
+					<description>The town's riches are back!  Thank you so much for saving us.  Your actions today will be legend!</description>
+					<value>4</value>
+				</result>
+			</action>
+			<action>
+				<name>talk</name>
+				<quest_dependency_complete>4</quest_dependency_complete>
+				<result>
+					<type>text_only</type>
+					<description>You're a hero!  Your praises will be sung for eternity!</description>
 				</result>
 			</action>
 		</npc>	
@@ -1049,12 +1073,49 @@
 	<room>
 		<id>19</id>
 		<name>Cavern Room</name>
-		<description>You enter a rectangular room carved out of the cavern.  It is lit with torches hanging from the walls.  Random furniture is scattered about.  A wooden door leads south.</description>
-		<move>
-			<direction>south</direction>
-			<next_room_id>20</next_room_id>
-			<description>Tunnel west.</description>
-		</move>	
+		<description>You enter a rectangular room carved out of the cavern.  It is lit with torches hanging from the walls.  Random furniture is scattered about.  One side of the room glows white.</description>
+
+		<monster_id>6</monster_id>
+	</room>
+
+	<room>
+		<id>20</id>
+		<name>White and Purple Room</name>
+		<description>You appear in another rectangluar room carved from pure rock.  Random goblin furniture adorns the room, but there are no doors.  Glowing orbs light the room.  One side glows white.  The other side glows purple.  A goblin with a spear guards the room.</description>
+		
+		<monster_id>7</monster_id>
+	</room>
+
+	<room>
+		<id>21</id>
+		<name>White and Green Room</name>
+		<description>You appear in another rectangluar room carved from pure rock.  Random goblin furniture adorns the room, but there are no doors.  Glowing orbs light the room.  One side glows white.  The other side glows green.  A goblin with a sword guards the room.</description>
+		
+		<monster_id>8</monster_id>
+	</room>
+
+	<room>
+		<id>22</id>
+		<name>Black and Pink Room</name>
+		<description>You appear in another rectangluar room carved from pure rock.  Random goblin furniture adorns the room, but there are no doors.  Glowing orbs light the room.  One side glows black.  The other side glows pink.  A goblin with a mace guards the room.</description>
+		
+		<monster_id>9</monster_id>
+	</room>
+
+	<room>
+		<id>23</id>
+		<name>Maroon and Green Room</name>
+		<description>You appear in another rectangluar room carved from pure rock.  Random goblin furniture adorns the room, but there are no doors.  Glowing orbs light the room.  One side glows maroon.  The other side glows green.  A goblin with a halberd guards the room.</description>
+		
+		<monster_id>10</monster_id>
+	</room>
+
+	<room>
+		<id>24</id>
+		<name>Goblin Vault</name>
+		<description>You appear in a vault that looks almost identical to the one in the Town Bank, except that it is carved out of pure bedrock instead of wrought from iron...and the vault door is sealed.  Piled high in the room is an enormous collection of gold and gems that you imagine is the town's riches.  A giant ogre is standing guard, carrying a two-handed battle axe.  </description>
+		
+		<monster_id>11</monster_id>
 	</room>
 
 	<item>
@@ -1062,6 +1123,7 @@
 		<name>lantern</name>
 		<description>a lantern.  It's a bit rusty, but it still works.</description>
 		<weapon>0</weapon>
+		<delete_on_use>0</delete_on_use>
 		<stackable>0</stackable>
 	</item>
 
@@ -1070,6 +1132,7 @@
 		<name>dagger</name>
 		<description>a shiny, stabby dagger.</description>
 		<weapon>1</weapon>
+		<delete_on_use>0</delete_on_use>
 		<stackable>0</stackable>
 		<damage_type>piercing</damage_type>
 		<damage>20</damage>
@@ -1080,6 +1143,7 @@
 		<name>club</name>
 		<description>a small, blunt, club.</description>
 		<weapon>1</weapon>
+		<delete_on_use>0</delete_on_use>
 		<stackable>0</stackable>
 		<damage_type>bashing</damage_type>
 		<damage>20</damage>
@@ -1090,6 +1154,7 @@
 		<name>sword</name>
 		<description>a standard shortsword.</description>
 		<weapon>1</weapon>
+		<delete_on_use>0</delete_on_use>
 		<stackable>0</stackable>
 		<damage_type>slashing</damage_type>
 		<damage>20</damage>
@@ -1100,9 +1165,10 @@
 		<name>Ripper</name>
 		<description>a small dagger, glowing with magic.</description>
 		<weapon>1</weapon>
+		<delete_on_use>0</delete_on_use>
 		<stackable>0</stackable>
 		<damage_type>magic</damage_type>
-		<damage>20</damage>
+		<damage>40</damage>
 	</item>
 
 	<item>
@@ -1110,9 +1176,10 @@
 		<name>Thelonius</name>
 		<description>a metal club, glowing with magic.  The word 'Thelonius' is inscribed on the handle.</description>
 		<weapon>1</weapon>
+		<delete_on_use>0</delete_on_use>
 		<stackable>0</stackable>
 		<damage_type>magic</damage_type>
-		<damage>20</damage>
+		<damage>50</damage>
 	</item>
 
 	<item>
@@ -1120,6 +1187,7 @@
 		<name>Cockney</name>
 		<description>a glorius, magical sword.</description>
 		<weapon>1</weapon>
+		<delete_on_use>0</delete_on_use>
 		<stackable>0</stackable>
 		<damage_type>magic</damage_type>
 		<damage>20</damage>
@@ -1130,6 +1198,7 @@
 		<name>Potion</name>
 		<description>a health potion.</description>
 		<weapon>0</weapon>
+		<delete_on_use>1</delete_on_use>
 		<stackable>1</stackable>
 		<effect>give_health</effect>
 	</item>
@@ -1139,6 +1208,7 @@
 		<name>Phylactery</name>
 		<description>a small charm.  It looks magical.</description>
 		<weapon>0</weapon>
+		<delete_on_use>1</delete_on_use>
 		<effect>teleport</effect>
 		<req_room_id>6</req_room_id>
 		<value>12</value>
@@ -1149,6 +1219,7 @@
 		<name>Ruby</name>
 		<description>a small ruby.  It looks magical.</description>
 		<weapon>0</weapon>
+		<delete_on_use>0</delete_on_use>
 		<effect>teleport</effect>
 		<req_room_id>18</req_room_id>
 		<value>19</value>
@@ -1159,8 +1230,144 @@
 		<name>Sapphire</name>
 		<description>a small sapphire.  It looks magical.</description>
 		<weapon>0</weapon>
+		<delete_on_use>0</delete_on_use>
 		<effect>teleport</effect>
 		<req_room_id>19</req_room_id>
+		<value>18</value>
+	</item>
+
+	<item>
+		<id>12</id>
+		<name>ankh</name>
+		<description>a small ankh pendant.</description>
+		<weapon>0</weapon>
+		<delete_on_use>1</delete_on_use>
+		<effect>update_quest</effect>
+		<req_room_id>24</req_room_id>
+		<effect_text>The pile of riches disappears in a flash of light, leavig behind only an illusion of itself.</effect_text>
+		<quest_dependency_id>4</quest_dependency_id>
+		<quest_dependency_step>1</quest_dependency_step>
+		<update_quest_step>2</update_quest_step>
+	</item>
+
+	<item>
+		<id>13</id>
+		<name>opal</name>
+		<description>a small opal.  It looks magical.</description>
+		<weapon>0</weapon>
+		<delete_on_use>0</delete_on_use>
+		<effect>teleport</effect>
+		<req_room_id>19</req_room_id>
+		<value>20</value>
+	</item>
+
+	<item>
+		<id>14</id>
+		<name>quartz</name>
+		<description>a small quartz.  It looks magical.</description>
+		<weapon>0</weapon>
+		<delete_on_use>0</delete_on_use>
+		<effect>teleport</effect>
+		<req_room_id>19</req_room_id>
+		<value>21</value>
+	</item>
+
+	<item>
+		<id>15</id>
+		<name>onyx</name>
+		<description>a small onyx.  It looks magical.</description>
+		<weapon>0</weapon>
+		<delete_on_use>0</delete_on_use>
+		<effect>teleport</effect>
+		<req_room_id>20</req_room_id>
+		<value>19</value>
+	</item>
+
+	<item>
+		<id>16</id>
+		<name>amethyst</name>
+		<description>a small amethyst.  It looks magical.</description>
+		<weapon>0</weapon>
+		<delete_on_use>0</delete_on_use>
+		<effect>teleport</effect>
+		<req_room_id>20</req_room_id>
+		<value>22</value>
+	</item>
+
+	<item>
+		<id>17</id>
+		<name>citrine</name>
+		<description>a small citrine.  It looks magical.</description>
+		<weapon>0</weapon>
+		<delete_on_use>0</delete_on_use>
+		<effect>teleport</effect>
+		<req_room_id>21</req_room_id>
+		<value>19</value>
+	</item>
+
+	<item>
+		<id>18</id>
+		<name>jade</name>
+		<description>a small jade.  It looks magical.</description>
+		<weapon>0</weapon>
+		<delete_on_use>0</delete_on_use>
+		<effect>teleport</effect>
+		<req_room_id>21</req_room_id>
+		<value>23</value>
+	</item>
+
+	<item>
+		<id>19</id>
+		<name>hematite</name>
+		<description>a small hematite.  It looks magical.</description>
+		<weapon>0</weapon>
+		<delete_on_use>0</delete_on_use>
+		<effect>teleport</effect>
+		<req_room_id>22</req_room_id>
+		<value>20</value>
+	</item>
+
+	<item>
+		<id>20</id>
+		<name>topaz</name>
+		<description>a small topaz.  It looks magical.</description>
+		<weapon>0</weapon>
+		<delete_on_use>0</delete_on_use>
+		<effect>teleport</effect>
+		<req_room_id>22</req_room_id>
+		<value>24</value>
+	</item>
+
+	<item>
+		<id>21</id>
+		<name>garnet</name>
+		<description>a small garnet.  It looks magical.</description>
+		<weapon>0</weapon>
+		<delete_on_use>0</delete_on_use>
+		<effect>teleport</effect>
+		<req_room_id>23</req_room_id>
+		<value>21</value>
+	</item>
+
+	<item>
+		<id>22</id>
+		<name>emerald</name>
+		<description>a small emerald.  It looks magical.</description>
+		<weapon>0</weapon>
+		<delete_on_use>0</delete_on_use>
+		<effect>teleport</effect>
+		<req_room_id>23</req_room_id>
+		<value>24</value>
+	</item>
+
+	<item>
+		<id>23</id>
+		<name>diamond</name>
+		<description>a small diamond.  It looks magical.</description>
+		<weapon>0</weapon>
+		<delete_on_use>0</delete_on_use>
+		<effect>teleport</effect>
+		<req_room_id>24</req_room_id>
 		<value>18</value>
 	</item>
 
@@ -1266,8 +1473,16 @@
 		<reward_gold>100</reward_gold>
 		<quest_step>
 			<step_number>1</step_number>
-			<description>Charles is begging you to get the town's rickes back from the goblins.</description>
+			<description>Charles is begging you to get the town's riches back from the goblins.</description>
 			<hint>Head down into the tunnel in the vault.</hint>
+			<reward_xp>10</reward_xp>
+			<reward_gold>10</reward_gold>
+		</quest_step>	
+
+		<quest_step>
+			<step_number>2</step_number>
+			<description>You have transported the town's riches back to the bank.  Return to Charles.</description>
+			<hint>Figure out how to get out of here.</hint>
 			<reward_xp>10</reward_xp>
 			<reward_gold>10</reward_gold>
 		</quest_step>		
@@ -1327,8 +1542,8 @@
 		<name>BunnyFooFoo</name>
 		<description>a tiny, furry, toy rabbit.</description>
 		<health>200</health>
-		<attack_power>20</attack_power>
-		<magic_power>20</magic_power>
+		<attack_power>25</attack_power>
+		<magic_power>25</magic_power>
 		<defense>15</defense>
 		<magic_defense>15</magic_defense>
 		<loot_table_id>2</loot_table_id>
@@ -1344,16 +1559,106 @@
 		<name>Chester</name>
 		<description>a large, wooden, angry chest...with pointy teeth.</description>
 		<health>100</health>
-		<attack_power>20</attack_power>
-		<magic_power>20</magic_power>
-		<defense>15</defense>
-		<magic_defense>15</magic_defense>
+		<attack_power>25</attack_power>
+		<magic_power>25</magic_power>
+		<defense>10</defense>
+		<magic_defense>10</magic_defense>
 		<loot_table_id>4</loot_table_id>
 		<kill_xp>100</kill_xp>
 		<kill_gold>10</kill_gold>
 		<respawn_timer>0</respawn_timer>
 		<update_quest_id>3</update_quest_id>
 		<update_quest_step>3</update_quest_step>
+	</monster>
+
+	<monster>
+		<id>6</id>
+		<name>Goblin</name>
+		<description>a smallish green goblin.  He looks mostly harmless, except for the dagger he's pointing at you.</description>
+		<health>50</health>
+		<attack_power>20</attack_power>
+		<magic_power>20</magic_power>
+		<defense>10</defense>
+		<magic_defense>10</magic_defense>
+		<loot_table_id>5</loot_table_id>
+		<kill_xp>10</kill_xp>
+		<kill_gold>10</kill_gold>
+		<respawn_timer>2</respawn_timer>
+	</monster>
+
+	<monster>
+		<id>7</id>
+		<name>Goblin</name>
+		<description>a smallish green goblin.  He looks mostly harmless, except for the spear he's pointing at you.</description>
+		<health>50</health>
+		<attack_power>20</attack_power>
+		<magic_power>20</magic_power>
+		<defense>10</defense>
+		<magic_defense>10</magic_defense>
+		<loot_table_id>6</loot_table_id>
+		<kill_xp>10</kill_xp>
+		<kill_gold>10</kill_gold>
+		<respawn_timer>2</respawn_timer>
+	</monster>
+
+	<monster>
+		<id>8</id>
+		<name>Goblin</name>
+		<description>a smallish green goblin.  He looks mostly harmless, except for the sword he's pointing at you.</description>
+		<health>50</health>
+		<attack_power>20</attack_power>
+		<magic_power>20</magic_power>
+		<defense>10</defense>
+		<magic_defense>10</magic_defense>
+		<loot_table_id>7</loot_table_id>
+		<kill_xp>10</kill_xp>
+		<kill_gold>10</kill_gold>
+		<respawn_timer>2</respawn_timer>
+	</monster>
+
+	<monster>
+		<id>9</id>
+		<name>Goblin</name>
+		<description>a smallish green goblin.  He looks mostly harmless, except for the mace he's pointing at you.</description>
+		<health>50</health>
+		<attack_power>20</attack_power>
+		<magic_power>20</magic_power>
+		<defense>10</defense>
+		<magic_defense>10</magic_defense>
+		<loot_table_id>8</loot_table_id>
+		<kill_xp>10</kill_xp>
+		<kill_gold>10</kill_gold>
+		<respawn_timer>2</respawn_timer>
+	</monster>
+
+	<monster>
+		<id>10</id>
+		<name>Goblin</name>
+		<description>a smallish green goblin.  He looks mostly harmless, except for the halberd he's pointing at you.</description>
+		<health>50</health>
+		<attack_power>20</attack_power>
+		<magic_power>20</magic_power>
+		<defense>10</defense>
+		<magic_defense>10</magic_defense>
+		<loot_table_id>9</loot_table_id>
+		<kill_xp>10</kill_xp>
+		<kill_gold>10</kill_gold>
+		<respawn_timer>2</respawn_timer>
+	</monster>
+
+	<monster>
+		<id>11</id>
+		<name>Ogre</name>
+		<description>a giant two-headed ogre wielding a two-handed battle axe.</description>
+		<health>300</health>
+		<attack_power>25</attack_power>
+		<magic_power>25</magic_power>
+		<defense>10</defense>
+		<magic_defense>10</magic_defense>
+		<loot_table_id>10</loot_table_id>
+		<kill_xp>100</kill_xp>
+		<kill_gold>100</kill_gold>
+		<respawn_timer>2</respawn_timer>
 	</monster>
 
 	<loot_table>
@@ -1412,6 +1717,106 @@
 		</item_ref>
 		<item_ref>
 			<item_id>11</item_id>
+			<drop_percent>100</drop_percent>
+		</item_ref>
+		<item_ref>
+			<item_id>8</item_id>
+			<drop_percent>60</drop_percent>
+		</item_ref>
+	</loot_table>
+
+	<loot_table>
+		<loot_table_id>5</loot_table_id>
+		<item_ref>
+			<item_id>13</item_id>
+			<drop_percent>100</drop_percent>
+		</item_ref>
+		<item_ref>
+			<item_id>14</item_id>
+			<drop_percent>100</drop_percent>
+		</item_ref>
+		<item_ref>
+			<item_id>8</item_id>
+			<drop_percent>60</drop_percent>
+		</item_ref>
+	</loot_table>
+
+	<loot_table>
+		<loot_table_id>6</loot_table_id>
+		<item_ref>
+			<item_id>15</item_id>
+			<drop_percent>100</drop_percent>
+		</item_ref>
+		<item_ref>
+			<item_id>16</item_id>
+			<drop_percent>100</drop_percent>
+		</item_ref>
+		<item_ref>
+			<item_id>8</item_id>
+			<drop_percent>60</drop_percent>
+		</item_ref>
+	</loot_table>
+
+	<loot_table>
+		<loot_table_id>7</loot_table_id>
+		<item_ref>
+			<item_id>17</item_id>
+			<drop_percent>100</drop_percent>
+		</item_ref>
+		<item_ref>
+			<item_id>18</item_id>
+			<drop_percent>100</drop_percent>
+		</item_ref>
+		<item_ref>
+			<item_id>8</item_id>
+			<drop_percent>60</drop_percent>
+		</item_ref>
+	</loot_table>
+
+	<loot_table>
+		<loot_table_id>8</loot_table_id>
+		<item_ref>
+			<item_id>19</item_id>
+			<drop_percent>100</drop_percent>
+		</item_ref>
+		<item_ref>
+			<item_id>20</item_id>
+			<drop_percent>100</drop_percent>
+		</item_ref>
+		<item_ref>
+			<item_id>5</item_id>
+			<drop_percent>50</drop_percent>
+		</item_ref>
+		<item_ref>
+			<item_id>8</item_id>
+			<drop_percent>60</drop_percent>
+		</item_ref>
+	</loot_table>
+
+	<loot_table>
+		<loot_table_id>9</loot_table_id>
+		<item_ref>
+			<item_id>21</item_id>
+			<drop_percent>100</drop_percent>
+		</item_ref>
+		<item_ref>
+			<item_id>22</item_id>
+			<drop_percent>100</drop_percent>
+		</item_ref>
+		<item_ref>
+			<item_id>6</item_id>
+			<drop_percent>50</drop_percent>
+		</item_ref>
+		<item_ref>
+			<item_id>8</item_id>
+			<drop_percent>60</drop_percent>
+		</item_ref>
+	</loot_table>
+
+	<loot_table>
+		<loot_table_id>10</loot_table_id>
+		<item_ref>
+			<item_id>23</item_id>
 			<drop_percent>100</drop_percent>
 		</item_ref>
 		<item_ref>

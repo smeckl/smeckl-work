@@ -20,7 +20,8 @@ public class Item
     {
         NotSet,
         GiveHealth,
-        Teleport
+        Teleport,
+        UpdateQuest
     }
     
 	private int m_nID = 0;
@@ -33,6 +34,11 @@ public class Item
     private boolean m_bIsStackable = false;
     private int m_nReqRoomID = 0;
     private int m_nValue = 0;
+    private boolean m_bDeleteOnUse = false;
+    private String m_strEffectText = "";
+    private int m_nQuestDependencyID = 0;
+	private int m_nQuestDependencyStep = 0;
+    private int m_nUpdateQuestStep = 0;
 	
 	private RegularExpressions m_regEx = new RegularExpressions();
     private RangeChecker m_rangeCheck = new RangeChecker();
@@ -163,6 +169,16 @@ public class Item
         return m_bIsStackable;
     }
     
+    public void setDeleteOnUse(boolean bDeleteOnUse)
+    {
+        m_bDeleteOnUse = bDeleteOnUse;
+    }
+    
+    public boolean getDeleteOnUse()
+    {
+        return m_bDeleteOnUse;
+    }
+    
     public void setDamageType(String strDmgType)
     {
         if(m_regEx.stringMatchesRegEx(strDmgType, RegularExpressions.RegExID.DAMAGE_TYPE))
@@ -199,6 +215,10 @@ public class Item
             else if(0 == strEffect.compareTo("teleport"))
             {
                 setEffect(Effect.Teleport);
+            }
+            else if(0 == strEffect.compareTo("update_quest"))
+            {
+                setEffect(Effect.UpdateQuest);
             }
         }
     }
@@ -283,4 +303,91 @@ public class Item
 	{
 		return m_regEx;
 	}
+    
+    public void setEffectText(String strEffectText)
+    {
+        m_strEffectText = strEffectText;
+    }
+    
+    public String getEffectText()
+    {
+        return m_strEffectText;
+    }
+    
+    public boolean isValidEffectText()
+    {
+        return getRegEx().stringMatchesRegEx(getEffectText(), RegularExpressions.RegExID.DESCRIPTION);
+    }
+    
+    public void setQuestDependencyID(int nQuestDependencyID)
+	{
+		m_nQuestDependencyID = nQuestDependencyID;
+	}
+	
+	public int getQuestDependencyID()
+	{
+		return m_nQuestDependencyID;
+	}
+	
+	public boolean isValidQuestDependencyID(String strQuestDependencyID)
+	{
+		boolean bRet = false;
+		
+		bRet = m_regEx.stringMatchesRegEx(strQuestDependencyID, RegularExpressions.RegExID.ID);
+		
+		return bRet;
+	}
+	
+	public boolean isValidQuestDependencyID(int nQuestDependencyID)
+	{
+		return (getQuestDependencyID() >= 0 && getQuestDependencyID() < 100);
+	}
+	
+	public void setQuestDependencyStep(int nQuestDependencyStep)
+	{
+		m_nQuestDependencyStep = nQuestDependencyStep;
+	}
+	
+	public int getQuestDependencyStep()
+	{
+		return m_nQuestDependencyStep;
+	}
+	
+	public boolean isValidQuestDependencyStep(String strQuestDependencyStep)
+	{
+		boolean bRet = false;
+		
+		bRet = m_regEx.stringMatchesRegEx(strQuestDependencyStep, RegularExpressions.RegExID.ID);
+		
+		return bRet;
+	}
+	
+	public boolean isValidQuestDependencyStep(int nQuestDependencyStep)
+	{
+		return (getQuestDependencyID() >= 0 && getQuestDependencyID() < 100);
+    }
+    
+    public void setUpdateQuestStep(int nUpdateQuestStep)
+	{
+		m_nUpdateQuestStep = nUpdateQuestStep;
+	}
+	
+	public int getUpdateQuestStep()
+	{
+		return m_nUpdateQuestStep;
+	}
+	
+	public boolean isValidUpdateQuestStep(String strUpdateQuestStep)
+	{
+		boolean bRet = false;
+		
+		bRet = m_regEx.stringMatchesRegEx(strUpdateQuestStep, RegularExpressions.RegExID.ID);
+		
+		return bRet;
+	}
+	
+	public boolean isValidUpdateQuestStep(int nUpdateQuestStep)
+	{
+		return (nUpdateQuestStep >= 0 && nUpdateQuestStep < 100);
+    }
 }

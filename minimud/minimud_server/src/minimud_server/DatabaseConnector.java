@@ -457,6 +457,7 @@ public class DatabaseConnector
                 item.setName(results.getString("name"));
                 item.setDescription(results.getString("description"));                
                 item.setIsWeapon(1 == results.getInt("weapon"));
+                item.setDeleteOnUse(1 == results.getInt("delete_on_use"));
                 item.setIsStackable((1 == results.getInt("stackable")));
                 
                 String strDamageType = results.getString("damage_type");
@@ -469,6 +470,10 @@ public class DatabaseConnector
                 item.setDamage(results.getInt("damage"));
                 item.setReqRoomID(results.getInt("req_room_id"));
                 item.setValue(results.getInt("value"));
+                item.setEffectText(results.getString("effect_text"));
+                item.setQuestDependencyID(results.getInt("quest_dependency_id"));
+                item.setQuestDependencyStep(results.getInt("quest_dependency_step"));
+                item.setUpdateQuestStep(results.getInt("update_quest_step"));
                 
                 if(!item.isValid())
                 {
@@ -530,6 +535,7 @@ public class DatabaseConnector
                 item.setName(results.getString("name"));
                 item.setDescription(results.getString("description"));
                 item.setIsWeapon(1 == results.getInt("weapon"));
+                item.setDeleteOnUse(1 == results.getInt("delete_on_use"));
                 item.setIsStackable((1 == results.getInt("stackable")));
                 
                 if(null != results.getString("damage_type"))
@@ -541,6 +547,10 @@ public class DatabaseConnector
                 item.setEffect(results.getString("effect"));
                 item.setReqRoomID(results.getInt("req_room_id"));
                 item.setValue(results.getString("value"));
+                item.setEffectText(results.getString("effect_text"));
+                item.setQuestDependencyID(results.getInt("quest_dependency_id"));
+                item.setQuestDependencyStep(results.getInt("quest_dependency_step"));
+                item.setUpdateQuestStep(results.getInt("update_quest_step"));
                 
                 if(!item.isValid())
                 {

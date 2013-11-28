@@ -56,4 +56,6 @@ public class XMLNames
     public static String STACKABLE      = "stackable";
     public static String REQ_ROOM_ID    = "req_room_id";
     public static String RESPAWN_TIMER  = "respawn_timer";
+    public static String DELETE_ON_USE  = "delete_on_use";
+    public static String EFFECT_TEXT    = "effect_text";
 }

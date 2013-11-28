@@ -1,7 +1,7 @@
 
 <!ELEMENT minimud_world (room+, item+, quest+, monster*, loot_table*)>
 
-<!ELEMENT room (id, name, description, move+, npc*, object*, monster_id* ) >
+<!ELEMENT room (id, name, description, move*, npc*, object*, monster_id* ) >
 
 <!ELEMENT id (#PCDATA)>
 <!ELEMENT item_id (#PCDATA)>
@@ -16,8 +16,8 @@
 
 <!ELEMENT object (name, description, action*)>
 <!ELEMENT npc (name, description, intro, action*)>
-<!ELEMENT item (id, name, description, weapon, stackable, damage_type?, damage?, effect?, req_room_id?, value?)>
-<!ELEMENT action (name, quest_dependency_id?, quest_dependency_step?, result)>
+<!ELEMENT item (id, name, description, weapon, delete_on_use, stackable, damage_type?, damage?, effect?, req_room_id?, value?, effect_text?, quest_dependency_id?, quest_dependency_step?, update_quest_step?)>
+<!ELEMENT action (name, quest_dependency_id?, quest_dependency_step?, result+)>
 
 <!ELEMENT intro (#PCDATA)>
 <!ELEMENT detail (#PCDATA)>
@@ -27,6 +27,7 @@
 <!ELEMENT damage_type (#PCDATA)>
 <!ELEMENT damage (#PCDATA)>
 <!ELEMENT stackable (#PCDATA)>
+<!ELEMENT effect_text (#PCDATA)>
 
 <!ELEMENT result (type, description, item_id?, value?)>
 

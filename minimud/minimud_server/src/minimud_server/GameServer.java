@@ -778,19 +778,19 @@ public class GameServer implements ActionListener
                         sendUserText(user, padString(step.getQuestName(), 30) + step.getDescription());
                     else
                     {                      
-                        i = 0;
+                        int j = 0;
                         do
                         {
-                            String strName = (0 == i) ? step.getQuestName() : "";
+                            String strName = (0 == j) ? step.getQuestName() : "";
                             
-                            if(step.getDescription().length() > (i+1)*50)
-                                sendUserText(user, padString(strName, 30) + step.getDescription().substring(i*50, (i+1)*50));
+                            if(step.getDescription().length() > (j+1)*50)
+                                sendUserText(user, padString(strName, 30) + step.getDescription().substring(j*50, (j+1)*50));
                             else
-                                sendUserText(user, padString(strName, 30) + step.getDescription().substring(i*50));
+                                sendUserText(user, padString(strName, 30) + step.getDescription().substring(j*50));
                             
-                            i++;
+                            j++;
                         }
-                        while(step.getDescription().length() > (i*50));
+                        while(step.getDescription().length() > (j*50));
                     }
                     
                     sendUserText(user, "");
@@ -812,39 +812,66 @@ public class GameServer implements ActionListener
                     
             if(null != item)
             {
-                if(0 != item.getReqRoomID()
-                        && user.getCurrentRoom().getID() == item.getReqRoomID())
+                if(0 == item.getReqRoomID()
+                        || user.getCurrentRoom().getID() == item.getReqRoomID())
                 {
-                    switch(item.getEffect())
+                    if((0 == item.getQuestDependencyID() || 0 == item.getQuestDependencyStep())
+                            || m_dbConn.isUserOnQuestStep(user.getUserInfo().getName(), item.getQuestDependencyID(), 
+                                                            item.getQuestDependencyStep()))
                     {
-                        case GiveHealth:
-                            int nHealthGained = (int)(0.2 * user.getUserInfo().getMaxHealth());
-                            user.getUserInfo().setHealth(user.getUserInfo().getHealth() + nHealthGained);
+                        switch(item.getEffect())
+                        {
+                            case GiveHealth:
+                                int nHealthGained = (int)(0.2 * user.getUserInfo().getMaxHealth());
+                                user.getUserInfo().setHealth(user.getUserInfo().getHealth() + nHealthGained);
 
-                            sendUserText(user, "You gained " + nHealthGained + " health!");
+                                sendUserText(user, "You gained " + nHealthGained + " health!");
 
-                            m_dbConn.saveUserState(user);
-                            break;
+                                m_dbConn.saveUserState(user);
+                                break;
 
-                        case Teleport:
-                            int nRoomID = item.getValue();
+                            case Teleport:
+                                int nRoomID = item.getValue();
 
-                            user.getCurrentRoom().removeUser(user);
+                                user.getCurrentRoom().removeUser(user);
 
-                            Room room = m_Rooms.get(nRoomID);
+                                Room room = m_Rooms.get(nRoomID);
 
-                            if(null != room)
+                                if(null != room)
+                                {
+                                    room.addUser(user, user.getUserInfo().getName());
+                                    user.setCurrentRoom(room);
+                                    user.getUserInfo().setLastRoom(nRoomID);
+                                    user.displayCurrentRoom();
+                                }
+                                break;
+                                
+                            case UpdateQuest:
                             {
-                                room.addUser(user, user.getUserInfo().getName());
-                                user.setCurrentRoom(room);
-                                user.displayCurrentRoom();
+                                int nQuestID = item.getQuestDependencyID();
+                                int nNewStep = item.getUpdateQuestStep();
+
+                                if(0 != nQuestID)
+                                {
+                                    m_dbConn.updateUserQuestStep(nQuestID, nNewStep, user.getUserInfo().getName());
+
+                                    QuestStep step = m_dbConn.getQuestStep(nQuestID, nNewStep);
+
+                                    String strEffectText = item.getEffectText();
+                                    
+                                    if(!strEffectText.isEmpty())
+                                        sendUserText(user, strEffectText);
+
+                                    sendUserText(user, step.getDescription());
+                                }
                             }
-                            break;
+                                break;
+                        }
+
+                        // Remove item from inventory
+                        if(item.getDeleteOnUse())
+                            m_dbConn.removeItemFromInventory(item, user.getUserInfo().getName());  
                     }
-                    
-                    // Remove item from inventory
-                    if(item.getIsStackable())
-                        m_dbConn.removeItemFromInventory(item, user.getUserInfo().getName());  
                 }
                 else
                 {
@@ -923,6 +950,7 @@ public class GameServer implements ActionListener
 								if(0 == result.getType().compareTo("text_only"))
 								{
 									sendUserText(user, result.getDescription());
+                                    sendUserText(user, "");
 								}
 								else if(0 == result.getType().compareTo("item_reward")
 										&& (obj instanceof GameObject))
@@ -1170,6 +1198,7 @@ public class GameServer implements ActionListener
                 
                 // Set the user's starting room
                 user.setCurrentRoom(getStartingRoom());
+                user.getUserInfo().setLastRoom(getStartingRoom().getID());
 
                 // Add the user to the starting Room
                 getStartingRoom().addUser(user, user.getUserInfo().getName());
