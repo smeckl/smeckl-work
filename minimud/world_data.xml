@@ -951,7 +951,7 @@
 	<room>
 		<id>14</id>
 		<name>Cave Entrance</name>
-		<description>You jump down into the cave.  It is dark and hazy.  A tunnel leads to the west.</description>
+		<description>You are in a small cavern below the bank vault.  A hole in the ceiling leads upward into the bank vault.  A tunnel leads west.</description>
 		<move>
 			<direction>up</direction>
 			<next_room_id>13</next_room_id>
@@ -969,7 +969,7 @@
 	<room>
 		<id>15</id>
 		<name>Cave Tunnel</name>
-		<description>You follow the tunnel to the west.  It looks like it keeps going down.</description>
+		<description>You are in an underground tunnel.  It leads west into the dark.  It leads east back to the bank vault.</description>
 		<move>
 			<direction>east</direction>
 			<next_room_id>14</next_room_id>
@@ -987,7 +987,7 @@
 	<room>
 		<id>16</id>
 		<name>Cave Tunnel</name>
-		<description>You follow the tunnel to the west.  It looks like it keeps going down.  The bank vault is to the east.</description>
+		<description>You are in an underground tunnel.  It leads west into the dark.  It leads east back to the bank vault.</description>
 		<move>
 			<direction>east</direction>
 			<next_room_id>15</next_room_id>
@@ -1023,7 +1023,7 @@
 	<room>
 		<id>18</id>
 		<name>Cavern Room</name>
-		<description>You enter a rectangular room carved out of the cavern.  It is lit with torches hanging from the walls.  Random furniture is scattered about.  A large chest sits in the center of the room.</description>
+		<description>You enter a rectangular room carved out of the cavern.  It is lit with torches hanging from the walls.  Random furniture is scattered about.  A large chest sits in the center of the room.  A wooden door leads east.</description>
 		<move>
 			<direction>east</direction>
 			<next_room_id>17</next_room_id>
@@ -1044,6 +1044,17 @@
 		</object>
 		
 		<monster_id>5</monster_id>
+	</room>
+
+	<room>
+		<id>19</id>
+		<name>Cavern Room</name>
+		<description>You enter a rectangular room carved out of the cavern.  It is lit with torches hanging from the walls.  Random furniture is scattered about.  A wooden door leads south.</description>
+		<move>
+			<direction>south</direction>
+			<next_room_id>20</next_room_id>
+			<description>Tunnel west.</description>
+		</move>	
 	</room>
 
 	<item>
@@ -1131,6 +1142,26 @@
 		<effect>teleport</effect>
 		<req_room_id>6</req_room_id>
 		<value>12</value>
+	</item>
+
+	<item>
+		<id>10</id>
+		<name>Ruby</name>
+		<description>a small ruby.  It looks magical.</description>
+		<weapon>0</weapon>
+		<effect>teleport</effect>
+		<req_room_id>18</req_room_id>
+		<value>19</value>
+	</item>
+
+	<item>
+		<id>11</id>
+		<name>Sapphire</name>
+		<description>a small sapphire.  It looks magical.</description>
+		<weapon>0</weapon>
+		<effect>teleport</effect>
+		<req_room_id>19</req_room_id>
+		<value>18</value>
 	</item>
 
 	<quest>
@@ -1317,7 +1348,7 @@
 		<magic_power>20</magic_power>
 		<defense>15</defense>
 		<magic_defense>15</magic_defense>
-		<loot_table_id>2</loot_table_id>
+		<loot_table_id>4</loot_table_id>
 		<kill_xp>100</kill_xp>
 		<kill_gold>10</kill_gold>
 		<respawn_timer>0</respawn_timer>
@@ -1337,7 +1368,7 @@
 		</item_ref>
 		<item_ref>
 			<item_id>8</item_id>
-			<drop_percent>20</drop_percent>
+			<drop_percent>40</drop_percent>
 		</item_ref>
 	</loot_table>
 
@@ -1353,7 +1384,7 @@
 		</item_ref>
 		<item_ref>
 			<item_id>8</item_id>
-			<drop_percent>20</drop_percent>
+			<drop_percent>40</drop_percent>
 		</item_ref>
 	</loot_table>
 
@@ -1369,7 +1400,23 @@
 		</item_ref>
 		<item_ref>
 			<item_id>8</item_id>
-			<drop_percent>20</drop_percent>
+			<drop_percent>40</drop_percent>
+		</item_ref>
+	</loot_table>
+
+	<loot_table>
+		<loot_table_id>4</loot_table_id>
+		<item_ref>
+			<item_id>10</item_id>
+			<drop_percent>100</drop_percent>
+		</item_ref>
+		<item_ref>
+			<item_id>11</item_id>
+			<drop_percent>100</drop_percent>
+		</item_ref>
+		<item_ref>
+			<item_id>8</item_id>
+			<drop_percent>60</drop_percent>
 		</item_ref>
 	</loot_table>
 </minimud_world>

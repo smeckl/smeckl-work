@@ -25,7 +25,8 @@ public class RegularExpressions
         WEAPON,
         DAMAGE_TYPE,
         EFFECT,
-        STACKABLE
+        STACKABLE,
+        RESPAWN_TIMER
 	}
 	
 	private Map<RegExID, String> m_regExMap = new HashMap<RegExID, String>();
@@ -48,6 +49,7 @@ public class RegularExpressions
 		m_regExMap.put(RegExID.ACTION_RESULT_DESC, "^[a-zA-Z0-9\\-\\.\\,\\:\\?\\!\\'\\\"\\$\\\\ ]{1,200}$");
         m_regExMap.put(RegExID.QUEST_DEP_COMPLETE, "^[1-9][0-9]*$");
         m_regExMap.put(RegExID.POSITIVE_INT, "^[1-9][0-9]*$");
+        m_regExMap.put(RegExID.RESPAWN_TIMER, "^(0|[1-9][0-9]*)$");
         m_regExMap.put(RegExID.WEAPON, "^(0|1)$");
         m_regExMap.put(RegExID.STACKABLE, "^(0|1)$");
         m_regExMap.put(RegExID.DAMAGE_TYPE, "^(piercing|slashing|bashing|magic)$");

@@ -903,11 +903,11 @@ public class WorldImporter
 					}
                     else if(0 == nodeName.compareTo(XMLNames.RESPAWN_TIMER))
 					{
-						if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.POSITIVE_INT))
+						if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.RESPAWN_TIMER))
 						{
 							nRespawnTimer = Integer.parseInt(content);
                             
-                            if(!m_rangeCheck.checkRange(RangeChecker.RangeID.REWARD_XP, nRespawnTimer))
+                            if(!m_rangeCheck.checkRange(RangeChecker.RangeID.RESPAWN_TIMER, nRespawnTimer))
                                 bError = true;
 						}
 						else

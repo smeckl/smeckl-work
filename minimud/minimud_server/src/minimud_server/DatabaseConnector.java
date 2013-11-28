@@ -1014,7 +1014,7 @@ public class DatabaseConnector
         return actionResults;
     }
     
-    public synchronized ArrayList<Item> getItemFromLootTable(int nLootTableID, int nPercent)
+    public synchronized ArrayList<Item> getItemsFromLootTable(int nLootTableID, int nPercent)
     {
         ArrayList<Item> items = new ArrayList<Item>();
         
@@ -1027,7 +1027,7 @@ public class DatabaseConnector
             
             ResultSet results = pstmt.executeQuery();
             
-            if (null != results && results.next())
+            while (null != results && results.next())
             {
                 Item item = new Item();
                 

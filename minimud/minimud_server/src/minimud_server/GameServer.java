@@ -1252,7 +1252,7 @@ public class GameServer implements ActionListener
         if(roll < 0)
             roll *= -1;
         
-        items = m_dbConn.getItemFromLootTable(nLootTableID, roll);
+        items = m_dbConn.getItemsFromLootTable(nLootTableID, roll);
 
         
         return items;
