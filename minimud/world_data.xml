@@ -222,6 +222,16 @@
 					<value>3</value>
 				</result>
 			</action>
+
+			<action>
+				<name>talk</name>
+				<quest_dependency_id>3</quest_dependency_id>
+				<quest_dependency_step>1</quest_dependency_step>
+				<result>
+					<type>text_only</type>
+					<description>If you think you're up to the task, head downstairs and take the Test of Faith.</description>
+				</result>
+			</action>
 		</npc>
 		
 		<object>

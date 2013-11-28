@@ -5,6 +5,14 @@ import minimud_shared.RegularExpressions;
 
 public class BuildWorld 
 {
+    
+    enum ImportType
+    {
+        Invalid,
+        Update,
+        Reset
+    };
+    
 	/**
 	 * @param args
 	 */
@@ -17,6 +25,9 @@ public class BuildWorld
 		String strPassword = "";
 		String strDataFile = "./world_data.xml";
 		String strDBServer = "";
+        
+        ImportType impType = ImportType.Invalid;
+        
 		
 		RegularExpressions regEx = new RegularExpressions();
 		
@@ -24,7 +35,7 @@ public class BuildWorld
 		
 		while(true)
 		{
-			if(args.length < 3)
+			if(args.length < 4)
 			{
 				System.out.println("Invalid number of arguments.");
 				break;
@@ -52,11 +63,20 @@ public class BuildWorld
 				System.out.println("Invalid port number specified.");
 				break;
 			}
-			
+            
+            if(0 == args[2].compareTo("reset"))
+            {
+                impType = ImportType.Reset;
+            }
+            else if(0 == args[2].compareTo("update"))
+            {
+                impType = ImportType.Update;
+            }
+            
 			// Validate user name format
-			if(regEx.stringMatchesRegEx(args[2], RegularExpressions.RegExID.USERNAME))
+			if(regEx.stringMatchesRegEx(args[3], RegularExpressions.RegExID.USERNAME))
 			{
-				strUser = args[2];
+				strUser = args[3];
 			}
 			else
 			{
@@ -64,11 +84,11 @@ public class BuildWorld
 				break;
 			}
 			
-			if(args.length == 5)
+			if(args.length == 6)
             {
-                strPassword = args[3];
+                strPassword = args[4];
                 
-                strDataFile = args[4];
+                strDataFile = args[5];
             }
             else
             {
@@ -87,7 +107,7 @@ public class BuildWorld
                     break;
                 }
                 
-                strDataFile = args[3];
+                strDataFile = args[4];
             }
 			
 			try
@@ -96,22 +116,43 @@ public class BuildWorld
 				m_dbConn.connect();
 				
 				// Drop old tables
+                if(ImportType.Reset == impType)
+                {
+                    m_dbConn.dropTable("characters");
+                    m_dbConn.dropTable("inventory");
+                    m_dbConn.dropTable("quest_status");
+                }
+                
 				m_dbConn.dropTable("rooms");
 				m_dbConn.dropTable("action_results");
-				m_dbConn.dropTable("actions");
-				m_dbConn.dropTable("characters");
+				m_dbConn.dropTable("actions");		
 				m_dbConn.dropTable("items");
 				m_dbConn.dropTable("moves");
 				m_dbConn.dropTable("npcs");
-				m_dbConn.dropTable("objects");
-				m_dbConn.dropTable("inventory");
-				m_dbConn.dropTable("quests");
-				m_dbConn.dropTable("quest_status");
+				m_dbConn.dropTable("objects");				
+				m_dbConn.dropTable("quests");				
 				m_dbConn.dropTable("quest_steps");
                 m_dbConn.dropTable("monsters");
                 m_dbConn.dropTable("monster_locs");
                 m_dbConn.dropTable("loot_table");
 				
+                if(ImportType.Reset == impType)
+                {
+                    m_dbConn.addTable("CREATE TABLE characters ( username VARCHAR(32) NOT NULL, pwd_hash VARBINARY(100) NOT NULL, " +
+                                "pwd_salt VARBINARY(16) NOT NULL, created DATE NOT NULL, description VARCHAR(1000), char_type INT NOT NULL," +
+                                "xp INT, gold INT, health INT NOT NULL, max_health INT NOT NULL, attack_power INT NOT NULL, " +
+                                "magic_power INT NOT NULL, defense INT NOT NULL, magic_defense INT NOT NULL, last_room INT NOT NULL, " +
+                                "PRIMARY KEY ( username ));");
+                    
+                    m_dbConn.addTable("CREATE TABLE inventory (ItemID INT NOT NULL, username VARCHAR(32) NOT NULL,"
+                                  + "count INT NOT NULL, " +
+									" PRIMARY KEY ( ItemID, username));");
+                    
+                    m_dbConn.addTable("CREATE TABLE quest_status (username VARCHAR(30) NOT NULL," +
+								  "quest_id INT NOT NULL, step INT NOT NULL, completed INT NOT NULL, " +
+								  "PRIMARY KEY (username, quest_id));");
+                }
+                
 				// Build database tables
 				m_dbConn.addTable("CREATE TABLE rooms (ID INT NOT NULL," +
 						"name VARCHAR(30) NOT NULL,description VARCHAR(2000) NOT NULL, " +
@@ -143,13 +184,7 @@ public class BuildWorld
 						"description VARCHAR(1000) NOT NULL, weapon INT NOT NULL, stackable INT NOT NULL, "
                         + "damage_type VARCHAR(10), damage INT, "
                         + "effect VARCHAR(20), "
-                        + "PRIMARY KEY ( ID ));");
-				
-				m_dbConn.addTable("CREATE TABLE characters ( username VARCHAR(32) NOT NULL, pwd_hash VARBINARY(100) NOT NULL, " +
-						"pwd_salt VARBINARY(16) NOT NULL, created DATE NOT NULL, description VARCHAR(1000), char_type INT NOT NULL," +
-                        "xp INT, gold INT, health INT NOT NULL, max_health INT NOT NULL, attack_power INT NOT NULL, " +
-                        "magic_power INT NOT NULL, defense INT NOT NULL, magic_defense INT NOT NULL, last_room INT NOT NULL, " +
-                        "PRIMARY KEY ( username ));");
+                        + "PRIMARY KEY ( ID ));");								
                 
                 m_dbConn.addTable("CREATE TABLE monsters ( ID INT NOT NULL, name VARCHAR(32) NOT NULL, " +
                         "description VARCHAR(1000) NOT NULL, " +
@@ -158,11 +193,7 @@ public class BuildWorld
                         "kill_xp INT NOT NULL, kill_gold INT NOT NULL, update_quest_id INT NOT NULL," +
                         "update_quest_step INT NOT NULL, " +
                         "PRIMARY KEY ( ID ));");
-				
-				m_dbConn.addTable("CREATE TABLE inventory (ItemID INT NOT NULL, username VARCHAR(32) NOT NULL,"
-                                  + "count INT NOT NULL, " +
-									" PRIMARY KEY ( ItemID, username));");
-                
+								                
                 m_dbConn.addTable("CREATE TABLE loot_table (table_id INT NOT NULL, item_id INT NOT NULL, drop_percent INT NOT NULL, " +
 									" PRIMARY KEY ( table_id, item_id ));");
 				
@@ -170,11 +201,7 @@ public class BuildWorld
 								  "first_completion_user VARCHAR(30), reward_gold INT NOT NULL," +
 								  "reward_xp INT NOT NULL, reward_item INT, first_bonus INT NOT NULL," +
 								  " PRIMARY KEY (ID));");
-				
-				m_dbConn.addTable("CREATE TABLE quest_status (username VARCHAR(30) NOT NULL," +
-								  "quest_id INT NOT NULL, step INT NOT NULL, completed INT NOT NULL, " +
-								  "PRIMARY KEY (username, quest_id));");
-				
+												
 				m_dbConn.addTable("CREATE TABLE quest_steps (quest_id INT NOT NULL, step_number INT NOT NULL," +
 								  "description VARCHAR(1000) NOT NULL, hint VARCHAR(200) NOT NULL," +
 								  "reward_gold INT, reward_xp INT NOT NULL, reward_item INT," +
