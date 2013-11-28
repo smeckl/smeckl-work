@@ -889,6 +889,7 @@ public class GameServer implements ActionListener
 						{
                             int nRewardGold = 0;
 							int nRewardXP = 0;
+                            int nRewardItemID = 0;
                                 
 							for(int i = 0; i < results.size(); i++)
 							{
@@ -963,6 +964,8 @@ public class GameServer implements ActionListener
 										m_dbConn.updateUserQuestStep(nQuestID, nNewStep, user.getUserInfo().getName());
                                         
                                         QuestStep step = m_dbConn.getQuestStep(nQuestID, nNewStep);
+                                        
+                                        sendUserText(user, result.getDescription());
 										
 										sendUserText(user, step.getDescription());
 									}
@@ -980,8 +983,9 @@ public class GameServer implements ActionListener
 										{
 											// Get the quest reward values
 											nRewardGold = quest.getRewardGold();
-											nRewardXP = quest.getRewardXP();
-											
+											nRewardXP = quest.getRewardXP();											
+                                            nRewardItemID = quest.getRewardItemID();                                                                                        
+                                            
 											// If this is the first time the quest has been completed
 											if(quest.getFirstCompleteUser().isEmpty())
 											{
@@ -1008,6 +1012,18 @@ public class GameServer implements ActionListener
                             // Update user with rewards
                             user.getUserInfo().setGold(user.getUserInfo().getGold() + nRewardGold);
                             user.getUserInfo().setXP(user.getUserInfo().getXP() + nRewardXP);
+                            
+                            if(0 != nRewardItemID)
+                            {
+                                Item item = m_dbConn.getItem(nRewardItemID);
+
+                                if(null != item)
+                                {
+                                    sendUserText(user, "You receive a " + item.getName() + "!");
+
+                                    m_dbConn.addItemToInventory(item, user.getUserInfo().getName());
+                                }
+                            }
 
                             m_dbConn.saveUserState(user);
 						}

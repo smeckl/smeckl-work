@@ -238,6 +238,27 @@
 					<description>If you think you're up to the task, head downstairs and take the Test of Faith.</description>
 				</result>
 			</action>
+
+			<action>
+				<name>talk</name>
+				<quest_dependency_id>3</quest_dependency_id>
+				<quest_dependency_step>3</quest_dependency_step>				
+				<result>
+					<type>complete_quest</type>
+					<description>Praise the Gods.  You have completed The Test!  You may yet be our savior.</description>
+					<value>3</value>
+				</result>
+			</action>
+
+			<action>
+				<name>talk</name>
+				<quest_dependency_complete>3</quest_dependency_complete>				
+				<result>
+					<type>text_only</type>
+					<description>Praise the Gods.  You have completed The Test!  You may yet be our savior.</description>
+				</result>
+			</action>
+
 		</npc>
 		
 		<object>
@@ -294,7 +315,7 @@
 
 	<room>
 		<id>8</id>
-		<name>Test of Faith Part I</name>
+		<name>Test of Faith</name>
 		<description>As you step through the door, it closes behind you with a thud.  You are stainding in an impossibly large cavern.  A glowing yellow light illuminates the center of the cavern, but leaves the edges cloaked in shadows.  You hear a low growl and the slithering sound of footsteps as a vicious-looking adult dragon emerges from the shadows.  In a booming voice, it roars 'If you want to complete the Test of Faith, you must first DEFEAT ME!!!'  It assumes a fighting stance, or so you assume.  You've never seen a dragon in person before.  To the north is a door that with 'Test of Strength' inscribed on it.  The door to the south reads 'Test of Intellect.'</description>
 		
 		<move>
@@ -315,13 +336,508 @@
 	<room>
 		<id>9</id>
 		<name>Test of Intellect</name>
-		<description>You enter the test of faith.</description>
+		<description>You enter a white cube of a room.  On the north wall is a green light.  On the south wall is a red light.  On the floor between the two lights is a row of eleven pedestals with spherical rocks on top of them.  Each rock has a number etched on its surface.  They are arranged in ascending order from the green side to the red.  A voice, out of nowhere, says 'Pick a number from one to eleven.  You get only four guesses.'</description>
 
 		<move>
 			<direction>east</direction>
 			<next_room_id>11</next_room_id>
 			<description>Door to the east.</description>
 		</move>
+
+		<object>
+			<name>One</name>
+			<description>a spherical stone rock with the number one inscribed on it.</description>
+			
+			<action>
+				<name>use</name>
+				<result>
+					<type>text_only</type>
+					<description>Nothing happens.</description>
+				</result>
+			</action>
+			<action>
+				<name>use</name>
+				<quest_dependency_id>3</quest_dependency_id>
+				<quest_dependency_step>2</quest_dependency_step>
+				<result>
+					<type>update_quest</type>
+					<description>The red light blinks.</description>
+					<value>4</value>
+				</result>
+			</action>
+	
+			<action>
+				<name>use</name>
+				<quest_dependency_id>3</quest_dependency_id>
+				<quest_dependency_step>4</quest_dependency_step>
+				<result>
+					<type>update_quest</type>
+					<description>The red light blinks.</description>
+					<value>5</value>
+				</result>
+			</action>
+
+			<action>
+				<name>use</name>
+				<quest_dependency_id>3</quest_dependency_id>
+				<quest_dependency_step>5</quest_dependency_step>
+				<result>
+					<type>update_quest</type>
+					<description>The red light blinks.</description>
+					<value>6</value>
+				</result>
+			</action>
+		</object>
+
+		<object>
+			<name>Two</name>
+			<description>a spherical stone rock with the number two inscribed on it.</description>
+			<action>
+				<name>use</name>
+				<result>
+					<type>text_only</type>
+					<description>Nothing happens.</description>
+				</result>
+			</action>
+
+			<action>
+				<name>use</name>
+				<quest_dependency_id>3</quest_dependency_id>
+				<quest_dependency_step>2</quest_dependency_step>
+				<result>
+					<type>update_quest</type>
+					<description>The red light blinks.</description>
+					<value>4</value>
+				</result>
+			</action>
+	
+			<action>
+				<name>use</name>
+				<quest_dependency_id>3</quest_dependency_id>
+				<quest_dependency_step>4</quest_dependency_step>
+				<result>
+					<type>update_quest</type>
+					<description>The red light blinks.</description>
+					<value>5</value>
+				</result>
+			</action>
+
+			<action>
+				<name>use</name>
+				<quest_dependency_id>3</quest_dependency_id>
+				<quest_dependency_step>5</quest_dependency_step>
+				<result>
+					<type>update_quest</type>
+					<description>The red light blinks.</description>
+					<value>6</value>
+				</result>
+			</action>
+		</object>
+
+		<object>
+			<name>Three</name>
+			<description>a spherical stone rock with the number three inscribed on it.</description>
+			<action>
+				<name>use</name>
+				<result>
+					<type>text_only</type>
+					<description>Nothing happens.</description>
+				</result>
+			</action>
+
+			<action>
+				<name>use</name>
+				<quest_dependency_id>3</quest_dependency_id>
+				<quest_dependency_step>2</quest_dependency_step>
+				<result>
+					<type>update_quest</type>
+					<description>The red light blinks.</description>
+					<value>4</value>
+				</result>
+			</action>
+	
+			<action>
+				<name>use</name>
+				<quest_dependency_id>3</quest_dependency_id>
+				<quest_dependency_step>4</quest_dependency_step>
+				<result>
+					<type>update_quest</type>
+					<description>The red light blinks.</description>
+					<value>5</value>
+				</result>
+			</action>
+
+			<action>
+				<name>use</name>
+				<quest_dependency_id>3</quest_dependency_id>
+				<quest_dependency_step>5</quest_dependency_step>
+				<result>
+					<type>update_quest</type>
+					<description>The red light blinks.</description>
+					<value>6</value>
+				</result>
+			</action>
+		</object>
+
+		<object>
+			<name>Four</name>
+			<description>a spherical stone rock with the number four inscribed on it.</description>
+			<action>
+				<name>use</name>
+				<result>
+					<type>text_only</type>
+					<description>Nothing happens.</description>
+				</result>
+			</action>
+
+			<action>
+				<name>use</name>
+				<quest_dependency_id>3</quest_dependency_id>
+				<quest_dependency_step>2</quest_dependency_step>
+				<result>
+					<type>update_quest</type>
+					<description>The red light blinks.</description>
+					<value>4</value>
+				</result>
+			</action>
+	
+			<action>
+				<name>use</name>
+				<quest_dependency_id>3</quest_dependency_id>
+				<quest_dependency_step>4</quest_dependency_step>
+				<result>
+					<type>update_quest</type>
+					<description>The red light blinks.</description>
+					<value>5</value>
+				</result>
+			</action>
+
+			<action>
+				<name>use</name>
+				<quest_dependency_id>3</quest_dependency_id>
+				<quest_dependency_step>5</quest_dependency_step>
+				<result>
+					<type>update_quest</type>
+					<description>The red light blinks.</description>
+					<value>6</value>
+				</result>
+			</action>
+		</object>
+
+		<object>
+			<name>Five</name>
+			<description>a spherical stone rock with the number five inscribed on it.</description>
+			<action>
+				<name>use</name>
+				<result>
+					<type>text_only</type>
+					<description>Nothing happens.</description>
+				</result>
+			</action>
+
+			<action>
+				<name>use</name>
+				<quest_dependency_id>3</quest_dependency_id>
+				<quest_dependency_step>2</quest_dependency_step>
+				<result>
+					<type>update_quest</type>
+					<description>The entire room glows gold.  A voice says 'You have passed the Test of Intelligence!  Proceed through the door.</description>
+					<value>3</value>
+				</result>
+			</action>
+	
+			<action>
+				<name>use</name>
+				<quest_dependency_id>3</quest_dependency_id>
+				<quest_dependency_step>4</quest_dependency_step>
+				<result>
+					<type>update_quest</type>
+					<description>The entire room glows gold.  A voice says 'You have passed the Test of Intelligence!  Proceed through the door.</description>
+					<value>3</value>
+				</result>
+			</action>
+
+			<action>
+				<name>use</name>
+				<quest_dependency_id>3</quest_dependency_id>
+				<quest_dependency_step>5</quest_dependency_step>
+				<result>
+					<type>update_quest</type>
+					<description>The entire room glows gold.  A voice says 'You have passed the Test of Intelligence!  Proceed through the door.</description>
+					<value>3</value>
+				</result>
+			</action>
+		</object>
+
+		<object>
+			<name>Six</name>
+			<description>a spherical stone rock with the number six inscribed on it.</description>
+			<action>
+				<name>use</name>
+				<result>
+					<type>text_only</type>
+					<description>Nothing happens.</description>
+				</result>
+			</action>
+
+			<action>
+				<name>use</name>
+				<quest_dependency_id>3</quest_dependency_id>
+				<quest_dependency_step>2</quest_dependency_step>
+				<result>
+					<type>update_quest</type>
+					<description>The green light blinks.</description>
+					<value>4</value>
+				</result>
+			</action>
+	
+			<action>
+				<name>use</name>
+				<quest_dependency_id>3</quest_dependency_id>
+				<quest_dependency_step>4</quest_dependency_step>
+				<result>
+					<type>update_quest</type>
+					<description>The green light blinks.</description>
+					<value>5</value>
+				</result>
+			</action>
+
+			<action>
+				<name>use</name>
+				<quest_dependency_id>3</quest_dependency_id>
+				<quest_dependency_step>5</quest_dependency_step>
+				<result>
+					<type>update_quest</type>
+					<description>The green light blinks.</description>
+					<value>6</value>
+				</result>
+			</action>
+		</object>
+
+		<object>
+			<name>Seven</name>
+			<description>a spherical stone rock with the number seven inscribed on it.</description>
+			<action>
+				<name>use</name>
+				<result>
+					<type>text_only</type>
+					<description>Nothing happens.</description>
+				</result>
+			</action>
+
+			<action>
+				<name>use</name>
+				<quest_dependency_id>3</quest_dependency_id>
+				<quest_dependency_step>2</quest_dependency_step>
+				<result>
+					<type>update_quest</type>
+					<description>The green light blinks.</description>
+					<value>4</value>
+				</result>
+			</action>
+	
+			<action>
+				<name>use</name>
+				<quest_dependency_id>3</quest_dependency_id>
+				<quest_dependency_step>4</quest_dependency_step>
+				<result>
+					<type>update_quest</type>
+					<description>The green light blinks.</description>
+					<value>5</value>
+				</result>
+			</action>
+
+			<action>
+				<name>use</name>
+				<quest_dependency_id>3</quest_dependency_id>
+				<quest_dependency_step>5</quest_dependency_step>
+				<result>
+					<type>update_quest</type>
+					<description>The green light blinks.</description>
+					<value>6</value>
+				</result>
+			</action>
+		</object>
+
+		<object>
+			<name>Eight</name>
+			<description>a spherical stone rock with the number eight inscribed on it.</description>
+			<action>
+				<name>use</name>
+				<result>
+					<type>text_only</type>
+					<description>Nothing happens.</description>
+				</result>
+			</action>
+
+			<action>
+				<name>use</name>
+				<quest_dependency_id>3</quest_dependency_id>
+				<quest_dependency_step>2</quest_dependency_step>
+				<result>
+					<type>update_quest</type>
+					<description>The green light blinks.</description>
+					<value>4</value>
+				</result>
+			</action>
+	
+			<action>
+				<name>use</name>
+				<quest_dependency_id>3</quest_dependency_id>
+				<quest_dependency_step>4</quest_dependency_step>
+				<result>
+					<type>update_quest</type>
+					<description>The green light blinks.</description>
+					<value>5</value>
+				</result>
+			</action>
+
+			<action>
+				<name>use</name>
+				<quest_dependency_id>3</quest_dependency_id>
+				<quest_dependency_step>5</quest_dependency_step>
+				<result>
+					<type>update_quest</type>
+					<description>The green light blinks.</description>
+					<value>6</value>
+				</result>
+			</action>
+		</object>
+
+		<object>
+			<name>Nine</name>
+			<description>a spherical stone rock with the number nine inscribed on it.</description>
+			<action>
+				<name>use</name>
+				<result>
+					<type>text_only</type>
+					<description>Nothing happens.</description>
+				</result>
+			</action>
+
+			<action>
+				<name>use</name>
+				<quest_dependency_id>3</quest_dependency_id>
+				<quest_dependency_step>2</quest_dependency_step>
+				<result>
+					<type>update_quest</type>
+					<description>The green light blinks.</description>
+					<value>4</value>
+				</result>
+			</action>
+	
+			<action>
+				<name>use</name>
+				<quest_dependency_id>3</quest_dependency_id>
+				<quest_dependency_step>4</quest_dependency_step>
+				<result>
+					<type>update_quest</type>
+					<description>The green light blinks.</description>
+					<value>5</value>
+				</result>
+			</action>
+
+			<action>
+				<name>use</name>
+				<quest_dependency_id>3</quest_dependency_id>
+				<quest_dependency_step>5</quest_dependency_step>
+				<result>
+					<type>update_quest</type>
+					<description>The green light blinks.</description>
+					<value>6</value>
+				</result>
+			</action>
+		</object>
+
+		<object>
+			<name>Ten</name>
+			<description>a spherical stone rock with the number ten inscribed on it.</description>
+			<action>
+				<name>use</name>
+				<result>
+					<type>text_only</type>
+					<description>Nothing happens.</description>
+				</result>
+			</action>
+
+			<action>
+				<name>use</name>
+				<quest_dependency_id>3</quest_dependency_id>
+				<quest_dependency_step>2</quest_dependency_step>
+				<result>
+					<type>update_quest</type>
+					<description>The green light blinks.</description>
+					<value>4</value>
+				</result>
+			</action>
+	
+			<action>
+				<name>use</name>
+				<quest_dependency_id>3</quest_dependency_id>
+				<quest_dependency_step>4</quest_dependency_step>
+				<result>
+					<type>update_quest</type>
+					<description>The green light blinks.</description>
+					<value>5</value>
+				</result>
+			</action>
+
+			<action>
+				<name>use</name>
+				<quest_dependency_id>3</quest_dependency_id>
+				<quest_dependency_step>5</quest_dependency_step>
+				<result>
+					<type>update_quest</type>
+					<description>The green light blinks.</description>
+					<value>6</value>
+				</result>
+			</action>
+		</object>
+
+		<object>
+			<name>Eleven</name>
+			<description>a spherical stone rock with the number eleven inscribed on it.</description>
+			<action>
+				<name>use</name>
+				<result>
+					<type>text_only</type>
+					<description>Nothing happens.</description>
+				</result>
+			</action>
+
+			<action>
+				<name>use</name>
+				<quest_dependency_id>3</quest_dependency_id>
+				<quest_dependency_step>2</quest_dependency_step>
+				<result>
+					<type>update_quest</type>
+					<description>The green light blinks.</description>
+					<value>4</value>
+				</result>
+			</action>
+	
+			<action>
+				<name>use</name>
+				<quest_dependency_id>3</quest_dependency_id>
+				<quest_dependency_step>4</quest_dependency_step>
+				<result>
+					<type>update_quest</type>
+					<description>The green light blinks.</description>
+					<value>5</value>
+				</result>
+			</action>
+
+			<action>
+				<name>use</name>
+				<quest_dependency_id>3</quest_dependency_id>
+				<quest_dependency_step>5</quest_dependency_step>
+				<result>
+					<type>update_quest</type>
+					<description>The green light blinks.</description>
+					<value>6</value>
+				</result>
+			</action>
+		</object>
 	</room>
 
 	<room>
@@ -528,6 +1044,27 @@
 			<step_number>3</step_number>
 			<description>Continue the Test of Faith.</description>
 			<hint>You'll have to figure this one out on your own.</hint>
+			<reward_xp>10</reward_xp>
+		</quest_step>
+
+		<quest_step>
+			<step_number>4</step_number>
+			<description>Pick a number.</description>
+			<hint>Use a rock: One through Eleven.</hint>
+			<reward_xp>10</reward_xp>
+		</quest_step>
+
+		<quest_step>
+			<step_number>5</step_number>
+			<description>Pick a number.</description>
+			<hint>Use a rock: One through Eleven.</hint>
+			<reward_xp>10</reward_xp>
+		</quest_step>
+	
+		<quest_step>
+			<step_number>6</step_number>
+			<description>Pick a number.</description>
+			<hint>Use a rock: One through Eleven.</hint>
 			<reward_xp>10</reward_xp>
 		</quest_step>
 	</quest>
