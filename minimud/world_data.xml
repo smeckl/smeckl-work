@@ -203,7 +203,7 @@
 	<room>
 		<id>4</id>
 		<name>Church</name>
-		<description>You enter the main worship area of a church.  Rows of pews led up to an altar and a pedestal.  In the back of the church, stairs lead down.  A door to the south leads back out to Main Street.  A font of holy water shimmers in teh back of the room.</description>
+		<description>You enter the main worship area of a church.  Rows of pews led up to an altar and a pedestal.  In the back of the church, stairs lead down.  A door to the south leads back out to Main Street.  A font of holy water shimmers in the back of the room.</description>
 		<move>
 			<direction>south</direction>
 			<next_room_id>2</next_room_id>
@@ -282,7 +282,36 @@
 			<direction>east</direction>
 			<next_room_id>2</next_room_id>
 			<description>Bank doorway.</description>
-		</move>			
+		</move>	
+
+		<move>
+			<direction>west</direction>
+			<next_room_id>13</next_room_id>
+			<description>Vault entrance.</description>
+		</move>		
+
+		<npc>
+			<name>Charles</name>
+			<description>a stout man in a suit.  He looks a bit dazed.</description>
+			<intro>I am the Charles, the bank manager.</intro>
+			<action>
+				<name>talk</name>
+				<result>
+					<type>give_quest</type>
+					<description>Curse the Gods!  The bank has been robbed by Goblins.  They came from underground and took everything in the vault!  The town is ruined!  Please help us get the town's riches back!</description>
+					<value>4</value>
+				</result>
+			</action>
+			<action>
+				<name>talk</name>
+				<quest_dependency_id>4</quest_dependency_id>
+				<quest_dependency_step>1</quest_dependency_step>
+				<result>
+					<type>text_only</type>
+					<description>Please help recover the town's riches.</description>
+				</result>
+			</action>
+		</npc>	
 	</room>
 
 	<room>
@@ -902,6 +931,121 @@
 		</move>
 	</room>
 
+	<room>
+		<id>13</id>
+		<name>Bank Vault</name>
+		<description>The vault is in complete disarray.  There isn't a single gold piece anywhere to be found and all of the deposit boxes have been emptied.  A smoking hole leads down into the darkness from the center of the vault.  A few fragments of goblin weapons are scattered about the floor.</description>
+		<move>
+			<direction>east</direction>
+			<next_room_id>5</next_room_id>
+			<description>Bank doorway.</description>
+		</move>	
+
+		<move>
+			<direction>down</direction>
+			<next_room_id>14</next_room_id>
+			<description>Vault entrance.</description>
+		</move>		
+	</room>
+
+	<room>
+		<id>14</id>
+		<name>Cave Entrance</name>
+		<description>You jump down into the cave.  It is dark and hazy.  A tunnel leads to the west.</description>
+		<move>
+			<direction>up</direction>
+			<next_room_id>13</next_room_id>
+			<description>Bank Vault.</description>
+		</move>	
+	
+		<move>
+			<direction>west</direction>
+			<next_room_id>15</next_room_id>
+			<description>Tunnel West.</description>
+		</move>	
+		
+	</room>
+
+	<room>
+		<id>15</id>
+		<name>Cave Tunnel</name>
+		<description>You follow the tunnel to the west.  It looks like it keeps going down.</description>
+		<move>
+			<direction>east</direction>
+			<next_room_id>14</next_room_id>
+			<description>Tunnel east.</description>
+		</move>	
+	
+		<move>
+			<direction>west</direction>
+			<next_room_id>16</next_room_id>
+			<description>Tunnel west.</description>
+		</move>	
+		
+	</room>
+
+	<room>
+		<id>16</id>
+		<name>Cave Tunnel</name>
+		<description>You follow the tunnel to the west.  It looks like it keeps going down.  The bank vault is to the east.</description>
+		<move>
+			<direction>east</direction>
+			<next_room_id>15</next_room_id>
+			<description>Tunnel east.</description>
+		</move>	
+	
+		<move>
+			<direction>west</direction>
+			<next_room_id>17</next_room_id>
+			<description>Tunnel west.</description>
+		</move>	
+		
+	</room>
+
+	<room>
+		<id>17</id>
+		<name>Cave Tunnel</name>
+		<description>The tunnel west comes to and end.  At the west end of the tunne is a wooden door, standing ajar.  The bank vault is to the east.</description>
+		<move>
+			<direction>east</direction>
+			<next_room_id>16</next_room_id>
+			<description>Tunnel east.</description>
+		</move>	
+	
+		<move>
+			<direction>west</direction>
+			<next_room_id>18</next_room_id>
+			<description>Wooden door.</description>
+		</move>	
+		
+	</room>
+
+	<room>
+		<id>18</id>
+		<name>Cavern Room</name>
+		<description>You enter a rectangular room carved out of the cavern.  It is lit with torches hanging from the walls.  Random furniture is scattered about.  A large chest sits in the center of the room.</description>
+		<move>
+			<direction>east</direction>
+			<next_room_id>17</next_room_id>
+			<description>Tunnel east.</description>
+		</move>	
+	
+		<object>
+			<name>chest</name>
+			<description>a large wooden chest with golden handles and accent work.</description>
+			<action>
+				<name>use</name>
+				<result>
+					<type>spawn_monster</type>
+					<description>You try to open the chest, but it comes alive and tries to bite you.</description>
+					<value>5</value>
+				</result>
+			</action>
+		</object>
+		
+		<monster_id>5</monster_id>
+	</room>
+
 	<item>
 		<id>1</id>
 		<name>lantern</name>
@@ -1083,6 +1227,21 @@
 		</quest_step>
 	</quest>
 
+	<quest>
+		<id>4</id>
+		<name>The Heist</name>
+		<reward_xp>1000</reward_xp>
+		<first_bonus>20</first_bonus>
+		<reward_gold>100</reward_gold>
+		<quest_step>
+			<step_number>1</step_number>
+			<description>Charles is begging you to get the town's rickes back from the goblins.</description>
+			<hint>Head down into the tunnel in the vault.</hint>
+			<reward_xp>10</reward_xp>
+			<reward_gold>10</reward_gold>
+		</quest_step>		
+	</quest>
+
 	<monster>
 		<id>1</id>
 		<name>Imp</name>
@@ -1095,6 +1254,7 @@
 		<loot_table_id>1</loot_table_id>
 		<kill_xp>10</kill_xp>
 		<kill_gold>10</kill_gold>
+		<respawn_timer>2</respawn_timer>
 		<update_quest_id>2</update_quest_id>
 		<update_quest_step>2</update_quest_step>
 	</monster>
@@ -1109,6 +1269,7 @@
 		<defense>1</defense>
 		<magic_defense>1</magic_defense>
 		<loot_table_id>1</loot_table_id>
+		<respawn_timer>2</respawn_timer>
 		<kill_xp>10</kill_xp>
 		<kill_gold>10</kill_gold>
 	</monster>
@@ -1125,6 +1286,7 @@
 		<loot_table_id>1</loot_table_id>
 		<kill_xp>10</kill_xp>
 		<kill_gold>10</kill_gold>
+		<respawn_timer>2</respawn_timer>
 		<update_quest_id>3</update_quest_id>
 		<update_quest_step>2</update_quest_step>
 	</monster>
@@ -1141,6 +1303,24 @@
 		<loot_table_id>2</loot_table_id>
 		<kill_xp>100</kill_xp>
 		<kill_gold>10</kill_gold>
+		<respawn_timer>2</respawn_timer>
+		<update_quest_id>3</update_quest_id>
+		<update_quest_step>3</update_quest_step>
+	</monster>
+
+	<monster>
+		<id>5</id>
+		<name>Chester</name>
+		<description>a large, wooden, angry chest...with pointy teeth.</description>
+		<health>100</health>
+		<attack_power>20</attack_power>
+		<magic_power>20</magic_power>
+		<defense>15</defense>
+		<magic_defense>15</magic_defense>
+		<loot_table_id>2</loot_table_id>
+		<kill_xp>100</kill_xp>
+		<kill_gold>10</kill_gold>
+		<respawn_timer>0</respawn_timer>
 		<update_quest_id>3</update_quest_id>
 		<update_quest_step>3</update_quest_step>
 	</monster>

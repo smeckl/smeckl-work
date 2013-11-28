@@ -190,7 +190,7 @@ public class BuildWorld
                         "description VARCHAR(1000) NOT NULL, " +
 						"health INT NOT NULL, max_health INT NOT NULL, attack_power INT NOT NULL, magic_power INT NOT NULL," +
                         "defense INT NOT NULL, magic_defense INT NOT NULL, loot_table_id INT NOT NULL, " +
-                        "kill_xp INT NOT NULL, kill_gold INT NOT NULL, update_quest_id INT NOT NULL," +
+                        "kill_xp INT NOT NULL, kill_gold INT NOT NULL, respawn_timer INT NOT NULL, update_quest_id INT NOT NULL," +
                         "update_quest_step INT NOT NULL, " +
                         "PRIMARY KEY ( ID ));");
 								                

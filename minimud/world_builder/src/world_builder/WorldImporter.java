@@ -691,6 +691,7 @@ public class WorldImporter
         int nLootTableID = 0;
         int nKillXP = 0;
         int nKillGold = 0;
+        int nRespawnTimer = 0;
         int nUpdateQuestID = 0;
         int nUpdateQuestStep = 0;
         
@@ -900,6 +901,21 @@ public class WorldImporter
 							System.out.println("Invalid KILL GOLD specified.");
 						}
 					}
+                    else if(0 == nodeName.compareTo(XMLNames.RESPAWN_TIMER))
+					{
+						if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.POSITIVE_INT))
+						{
+							nRespawnTimer = Integer.parseInt(content);
+                            
+                            if(!m_rangeCheck.checkRange(RangeChecker.RangeID.REWARD_XP, nRespawnTimer))
+                                bError = true;
+						}
+						else
+						{
+							retVal = ErrorCode.INVALID_NUMBER;
+							System.out.println("Invalid RESPAWN TIMER specified.");
+						}
+					} 
                     else if(0 == nodeName.compareTo(XMLNames.UPDATE_QUEST_ID))
 					{
 						if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.POSITIVE_INT))
@@ -938,7 +954,7 @@ public class WorldImporter
             {
                 getDBconn().addMonster(nID, strName, strDescription, nHealth,
                         nAttackPower, nMagicPower, nDefense, nMagicDefense, nLootTableID,
-                        nKillXP, nKillGold, nUpdateQuestID, nUpdateQuestStep);
+                        nKillXP, nKillGold, nRespawnTimer, nUpdateQuestID, nUpdateQuestStep);
 
                 bSavedMonster = true;
             }

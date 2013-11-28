@@ -55,4 +55,5 @@ public class XMLNames
     public static String EFFECT         = "effect";
     public static String STACKABLE      = "stackable";
     public static String REQ_ROOM_ID    = "req_room_id";
+    public static String RESPAWN_TIMER  = "respawn_timer";
 }

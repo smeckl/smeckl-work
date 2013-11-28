@@ -41,6 +41,7 @@ public class Monster extends Mob
     private int m_nKillGold = 0;
     private int m_nUpdateQuestID = 0;
     private int m_nUpdateQuestStep = 0;
+    private int m_nRespawnTimer = 0;
     
     public Monster()
     {
@@ -56,7 +57,7 @@ public class Monster extends Mob
         {
             // Calculate the next respawn time
             m_respawnTime.setTime(new Date());
-            m_respawnTime.add(Calendar.MINUTE, 2);
+            m_respawnTime.add(Calendar.MINUTE, getRespawnTimer());
         }
     }
     
@@ -70,7 +71,7 @@ public class Monster extends Mob
         boolean bRet = false;
         
         // If the monster is dead, respawn if it is time
-        if(Monster.State.Dead == getState())
+        if(Monster.State.Dead == getState() && 0 != getRespawnTimer())
         {
             // Get current time
             Calendar now = new GregorianCalendar();
@@ -164,12 +165,28 @@ public class Monster extends Mob
         return rangeCheck.checkRange(RangeID.QUEST_STEP_NUM, nStep);
     }
     
+    public void setRespawnTimer(int nRespawnTimer)
+    {
+        m_nRespawnTimer = nRespawnTimer;
+    }
+    
+    public int getRespawnTimer()
+    {
+        return m_nRespawnTimer;
+    }
+    
+    public boolean isValidRespawnTimer(int nRespawnTimer)
+    {
+        return rangeCheck.checkRange(RangeID.RESPAWN_TIMER, nRespawnTimer);
+    }
+    
     public boolean isValid()
     {
         return (super.isValid()
                 && isValidLootTableID(getLootTableID())
                 && isValidKillXP(getKillXP())
-                && isValidKillGold(getKillGold()));
+                && isValidKillGold(getKillGold())
+                && isValidRespawnTimer(getRespawnTimer()));
     }
     
     private Winner runSimulation(UserConnectionThread user)

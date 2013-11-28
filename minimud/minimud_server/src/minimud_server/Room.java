@@ -2,6 +2,7 @@ package minimud_server;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.ArrayList;
 
 import minimud_shared.*;
 
@@ -154,6 +155,33 @@ public class Room
     public void addMonster(Monster monster)
     {
         m_Monsters.put(monster.getName(), monster);
+        
+        if(0 == monster.getRespawnTimer())
+            monster.setState(Monster.State.Dead);
+        else
+            monster.setState(Monster.State.Open);
+    }
+    
+    public Monster spawnMonster(int nMonsterID)
+    {
+        Monster retVal = null;
+        
+        Iterator<Monster> list = m_Monsters.values().iterator();
+        
+        while(list.hasNext())
+        {
+            Monster mon = list.next();
+            
+            if(null != mon && mon.getID() == nMonsterID)
+            {
+                mon.setState(Monster.State.Open);
+                mon.setHealth(mon.getMaxHealth());
+                
+                retVal = mon;
+            }
+        }
+        
+        return retVal;
     }
 	
 	public boolean isValid()

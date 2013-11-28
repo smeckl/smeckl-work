@@ -316,6 +316,7 @@ public class GameServer implements ActionListener
                 monster.setLootTableID(objects.getInt("loot_table_id"));
                 monster.setKillGold(objects.getInt("kill_gold"));
                 monster.setKillXP(objects.getInt("kill_xp"));
+                monster.setRespawnTimer(objects.getInt("respawn_timer"));
                 monster.setUpdateQuestID(objects.getInt("update_quest_id"));
                 monster.setUpdateQuestStep(objects.getInt("update_quest_step"));
                 
@@ -978,6 +979,17 @@ public class GameServer implements ActionListener
 										sendUserText(user, result.getDescription());
 									}
 								}
+                                else if(0 == result.getType().compareTo("spawn_monster"))
+                                {
+                                    Room curRoom = user.getCurrentRoom();
+                                    
+                                    if(null != curRoom)
+                                    {
+                                        Monster mon = curRoom.spawnMonster(result.getValue());
+
+                                        sendRoomText(curRoom, "A " + mon.getName() + " has appeared.");
+                                    }
+                                }
 								else if(0 == result.getType().compareTo("update_quest"))
 								{
 									int nQuestID = action.getQuestDependencyID();
@@ -1167,7 +1179,7 @@ public class GameServer implements ActionListener
             }
         }
         else
-            sendUserText(user, "You can't attack the " + monster.getName() + " because it is fighting someone else.");
+            sendUserText(user, "You can't attack the " + monster.getName() + " because it is not available.");
         
         return winner;
     }
@@ -1251,6 +1263,19 @@ public class GameServer implements ActionListener
 		ClientShowTextMessage clMsg = new ClientShowTextMessage("server", strMsg);
 		user.processGameServerCommand(clMsg);
 	}
+    
+    public static void sendRoomText(Room room, String strMsg)
+    {
+        Iterator<UserConnectionThread> users = room.getUserList();
+        
+        while(users.hasNext())
+        {
+            UserConnectionThread user = users.next();
+            
+            if(null != user)
+                sendUserText(user, strMsg);
+        }
+    }
     
     private ErrorCode showLeaderBoard (UserConnectionThread user, boolean bGold)
     {
