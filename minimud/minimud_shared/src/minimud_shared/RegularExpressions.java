@@ -51,7 +51,7 @@ public class RegularExpressions
         m_regExMap.put(RegExID.WEAPON, "^(0|1)$");
         m_regExMap.put(RegExID.STACKABLE, "^(0|1)$");
         m_regExMap.put(RegExID.DAMAGE_TYPE, "^(piercing|slashing|bashing|magic)$");
-        m_regExMap.put(RegExID.EFFECT, "^(give_health)$");
+        m_regExMap.put(RegExID.EFFECT, "^(give_health|teleport)$");
 	}
 	
 	public boolean stringMatchesRegEx(String str, RegExID id)

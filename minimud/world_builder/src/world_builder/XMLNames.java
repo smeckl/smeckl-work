@@ -54,4 +54,5 @@ public class XMLNames
     public static String DROP_PERCENT   = "drop_percent";
     public static String EFFECT         = "effect";
     public static String STACKABLE      = "stackable";
+    public static String REQ_ROOM_ID    = "req_room_id";
 }

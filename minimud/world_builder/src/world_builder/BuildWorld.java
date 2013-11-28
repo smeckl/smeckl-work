@@ -182,8 +182,8 @@ public class BuildWorld
 				
 				m_dbConn.addTable("CREATE TABLE items ( ID INT NOT NULL, name VARCHAR(50) NOT NULL, " +
 						"description VARCHAR(1000) NOT NULL, weapon INT NOT NULL, stackable INT NOT NULL, "
-                        + "damage_type VARCHAR(10), damage INT, "
-                        + "effect VARCHAR(20), "
+                        + "damage_type VARCHAR(10) NOT NULL, damage INT NOT NULL, "
+                        + "effect VARCHAR(20) NOT NULL, req_room_id INT NOT NULL, value INT NOT NULL, "
                         + "PRIMARY KEY ( ID ));");								
                 
                 m_dbConn.addTable("CREATE TABLE monsters ( ID INT NOT NULL, name VARCHAR(32) NOT NULL, " +

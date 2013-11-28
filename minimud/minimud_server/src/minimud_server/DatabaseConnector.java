@@ -467,6 +467,8 @@ public class DatabaseConnector
                 }
                 
                 item.setDamage(results.getInt("damage"));
+                item.setReqRoomID(results.getInt("req_room_id"));
+                item.setValue(results.getInt("value"));
                 
                 if(!item.isValid())
                 {
@@ -537,6 +539,8 @@ public class DatabaseConnector
                     item.setDamage(results.getInt("damage"));
                 
                 item.setEffect(results.getString("effect"));
+                item.setReqRoomID(results.getInt("req_room_id"));
+                item.setValue(results.getString("value"));
                 
                 if(!item.isValid())
                 {
@@ -1035,6 +1039,8 @@ public class DatabaseConnector
                 item.setIsStackable((1 == results.getInt("stackable")));
                 item.setDamageType(results.getString("damage_type"));
                 item.setDamage(results.getInt("damage"));
+                item.setValue(results.getInt("value"));
+                item.setReqRoomID(results.getInt("req_room_id"));
                 
                 if(!item.isValid())
                 {

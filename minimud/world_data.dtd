@@ -16,7 +16,7 @@
 
 <!ELEMENT object (name, description, action*)>
 <!ELEMENT npc (name, description, intro, action*)>
-<!ELEMENT item (id, name, description, weapon, stackable, damage_type?, damage?, effect?)>
+<!ELEMENT item (id, name, description, weapon, stackable, damage_type?, damage?, effect?, req_room_id?, value?)>
 <!ELEMENT action (name, quest_dependency_id?, quest_dependency_step?, result)>
 
 <!ELEMENT intro (#PCDATA)>

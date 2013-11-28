@@ -890,6 +890,18 @@
 		</npc>
 	</room>
 
+	<room>
+		<id>12</id>
+		<name>The Wizard Tower</name>
+		<description>A glowing door appears in the base of the tree and you go through it.  You appear in a glorious looking entry way, with an intricate design made of gems built into the floor.  A marble staircase leads up to the next floor.  On the west wall is a door leading back out to the park</description>
+
+		<move>
+			<direction>west</direction>
+			<next_room_id>6</next_room_id>
+			<description>Door to the east</description>
+		</move>
+	</room>
+
 	<item>
 		<id>1</id>
 		<name>lantern</name>
@@ -972,7 +984,9 @@
 		<name>Phylactery</name>
 		<description>a small charm.  It looks magical.</description>
 		<weapon>0</weapon>
-		<stackable>0</stackable>
+		<effect>teleport</effect>
+		<req_room_id>6</req_room_id>
+		<value>12</value>
 	</item>
 
 	<quest>

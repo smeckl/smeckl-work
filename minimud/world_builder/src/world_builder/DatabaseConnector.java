@@ -320,7 +320,8 @@ public class DatabaseConnector
 		return retVal;
 	}
 	
-	public ErrorCode addItem(int nID, String strName, String strDescription, String strEffect, boolean bStackable)
+	public ErrorCode addItem(int nID, String strName, String strDescription, String strEffect, boolean bStackable, 
+                            int nReqRoomID, int nValue)
 	{
 		ErrorCode retVal = ErrorCode.Success;
 		
@@ -328,12 +329,14 @@ public class DatabaseConnector
 		{
 			System.out.println("Adding new Item");
 			
-			PreparedStatement pstmt = getConnection().prepareStatement("insert into items values(?, ?, ?, 0, ?, null, null, ?)");
+			PreparedStatement pstmt = getConnection().prepareStatement("insert into items values(?, ?, ?, 0, ?, 0, 0, ?, ?, ?)");
 			pstmt.setInt(1, nID);
 			pstmt.setString(2, strName);
 			pstmt.setString(3, strDescription);
             pstmt.setInt(4, bStackable ? 1 : 0);
             pstmt.setString(5, strEffect);
+            pstmt.setInt(6, nReqRoomID);
+            pstmt.setInt(7, nValue);
 
 			
 			if(0 == pstmt.executeUpdate())
@@ -353,7 +356,8 @@ public class DatabaseConnector
 		return retVal;
 	}
     
-    public ErrorCode addItem(int nID, String strName, String strDescription, String strDamageType, int nDamage, boolean bStackable)
+    public ErrorCode addItem(int nID, String strName, String strDescription, String strDamageType, int nDamage, 
+                            boolean bStackable, int nReqRoomID, int nValue)
 	{
 		ErrorCode retVal = ErrorCode.Success;
 		
@@ -361,13 +365,15 @@ public class DatabaseConnector
 		{
 			System.out.println("Adding new Item");
 			
-			PreparedStatement pstmt = getConnection().prepareStatement("insert into items values(?, ?, ?, 1, ?, ?, ?,null)");
+			PreparedStatement pstmt = getConnection().prepareStatement("insert into items values(?, ?, ?, 1, ?, ?, ?, 0, ?, ?)");
 			pstmt.setInt(1, nID);
 			pstmt.setString(2, strName);
 			pstmt.setString(3, strDescription);
             pstmt.setInt(4, bStackable ? 1 : 0);
             pstmt.setString(5, strDamageType);
             pstmt.setInt(6, nDamage);
+            pstmt.setInt(7, nReqRoomID);
+            pstmt.setInt(8, nValue);
 
 			
 			if(0 == pstmt.executeUpdate())
@@ -387,7 +393,8 @@ public class DatabaseConnector
 		return retVal;
 	}
 	
-	public ErrorCode addQuest(int nID, String strName, int nRewardXP, int nFirstBonus, int nRewardGold, int nRewardItem)
+	public ErrorCode addQuest(int nID, String strName, int nRewardXP, int nFirstBonus, int nRewardGold, 
+                            int nRewardItem)
 	{
 		ErrorCode retVal = ErrorCode.Success;
 		

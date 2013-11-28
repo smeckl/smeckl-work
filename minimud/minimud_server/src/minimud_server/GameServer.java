@@ -811,20 +811,44 @@ public class GameServer implements ActionListener
                     
             if(null != item)
             {
-                switch(item.getEffect())
+                if(0 != item.getReqRoomID()
+                        && user.getCurrentRoom().getID() == item.getReqRoomID())
                 {
-                    case GiveHealth:
-                        int nHealthGained = (int)(0.2 * user.getUserInfo().getMaxHealth());
-                        user.getUserInfo().setHealth(user.getUserInfo().getHealth() + nHealthGained);
-                        
-                        sendUserText(user, "You gained " + nHealthGained + " health!");
-                        
-                        m_dbConn.saveUserState(user);
-                        break;
+                    switch(item.getEffect())
+                    {
+                        case GiveHealth:
+                            int nHealthGained = (int)(0.2 * user.getUserInfo().getMaxHealth());
+                            user.getUserInfo().setHealth(user.getUserInfo().getHealth() + nHealthGained);
+
+                            sendUserText(user, "You gained " + nHealthGained + " health!");
+
+                            m_dbConn.saveUserState(user);
+                            break;
+
+                        case Teleport:
+                            int nRoomID = item.getValue();
+
+                            user.getCurrentRoom().removeUser(user);
+
+                            Room room = m_Rooms.get(nRoomID);
+
+                            if(null != room)
+                            {
+                                room.addUser(user, user.getUserInfo().getName());
+                                user.setCurrentRoom(room);
+                                user.displayCurrentRoom();
+                            }
+                            break;
+                    }
+                    
+                    // Remove item from inventory
+                    if(item.getIsStackable())
+                        m_dbConn.removeItemFromInventory(item, user.getUserInfo().getName());  
                 }
-                
-                // Remove item from inventory
-                m_dbConn.removeItemFromInventory(item, user.getUserInfo().getName());     
+                else
+                {
+                    sendUserText(user, "You can't use that here.");
+                }
                 break;
             }
         }

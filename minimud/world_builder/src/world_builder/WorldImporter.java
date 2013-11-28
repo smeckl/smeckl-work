@@ -314,6 +314,8 @@ public class WorldImporter
         int nDamage = 0;
         String strEffect = "";
         boolean bStackable = false;
+        int nReqRoomID = 0;
+        int nValue = 0;
 		
 		boolean bSavedItem = false;
 		boolean bID = false;
@@ -447,17 +449,47 @@ public class WorldImporter
 							System.out.println("Invalid <effect> specified.");
 						}
 					}
+                    else if(0 == nodeName.compareTo(XMLNames.REQ_ROOM_ID))
+					{
+						if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.ID))
+						{
+							nReqRoomID = Integer.parseInt(content);
+                            
+                            if(!m_rangeCheck.checkRange(RangeChecker.RangeID.ID, nReqRoomID))
+                                bError = true;
+						}
+						else
+						{
+							retVal = ErrorCode.INVALID_ID;
+							System.out.println("Invalid ID specified.");
+						}
+					}
+                    else if(0 == nodeName.compareTo(XMLNames.VALUE))
+                    {
+                        if(m_regEx.stringMatchesRegEx(content, RegularExpressions.RegExID.POSITIVE_INT))
+                        {
+                            nValue = Integer.parseInt(content);
+                            
+                            if(!m_rangeCheck.checkRange(RangeChecker.RangeID.VALUE, nValue))
+                                bError = true;
+                        }
+                        else
+						{
+							retVal = ErrorCode.INVALID_TYPE;
+							System.out.println("Invalid <value> specified.");
+						}
+                    }
 				}                                
 			}
             
             if(!bError && !bSavedItem && bName && bDescription && bID && bWeapon)
             {
-                getDBconn().addItem(nID, strName, strDescription, strDamageType, nDamage, bStackable);
+                getDBconn().addItem(nID, strName, strDescription, strDamageType, nDamage, bStackable, nReqRoomID, nValue);
                 bSavedItem = true;
             }
             else if(!bSavedItem && bName && bDescription && bID)
             {
-                getDBconn().addItem(nID, strName, strDescription, strEffect, bStackable);
+                getDBconn().addItem(nID, strName, strDescription, strEffect, bStackable, nReqRoomID, nValue);
                 bSavedItem = true;
             }
 			

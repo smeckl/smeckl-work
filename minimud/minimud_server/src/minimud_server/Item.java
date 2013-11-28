@@ -19,7 +19,8 @@ public class Item
     public enum Effect
     {
         NotSet,
-        GiveHealth
+        GiveHealth,
+        Teleport
     }
     
 	private int m_nID = 0;
@@ -30,6 +31,8 @@ public class Item
     private int m_nDamage = -1;
     private Effect m_effect = Effect.NotSet;
     private boolean m_bIsStackable = false;
+    private int m_nReqRoomID = 0;
+    private int m_nValue = 0;
 	
 	private RegularExpressions m_regEx = new RegularExpressions();
     private RangeChecker m_rangeCheck = new RangeChecker();
@@ -193,6 +196,10 @@ public class Item
             {
                 setEffect(Effect.GiveHealth);
             }
+            else if(0 == strEffect.compareTo("teleport"))
+            {
+                setEffect(Effect.Teleport);
+            }
         }
     }
     
@@ -226,6 +233,51 @@ public class Item
     {
         m_nDamage = nDamage;
     }
+    
+    public int getValue()
+    {
+        return m_nValue;
+    }
+    
+    public void setValue(String strValue)
+    {
+        if(m_regEx.stringMatchesRegEx(strValue, RegularExpressions.RegExID.POSITIVE_INT))
+        {
+            int nValue = Integer.parseInt(strValue);
+            
+            if(m_rangeCheck.checkRange(RangeChecker.RangeID.VALUE, nValue))
+                setValue(nValue);
+        }
+    }
+    
+    public void setValue(int nValue)
+    {
+        m_nValue = nValue;
+    }
+    
+    public void setReqRoomID(int nID)
+	{
+		m_nReqRoomID = nID;
+	}
+	
+	public int getReqRoomID()
+	{
+		return m_nReqRoomID;
+	}
+	
+	public boolean isValidReqRoomID(String strReqRoomID)
+	{
+		boolean bRet = false;
+		
+		bRet = m_regEx.stringMatchesRegEx(strReqRoomID, RegularExpressions.RegExID.ID);
+		
+		return bRet;
+	}
+	
+	public boolean isValidReqRoomID(int nID)
+	{
+		return m_rangeCheck.checkRange(RangeChecker.RangeID.ID, nID);
+	}
 	
 	protected RegularExpressions getRegEx()
 	{
