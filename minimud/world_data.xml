@@ -284,6 +284,94 @@
 			<next_room_id>4</next_room_id>
 			<description>Stairs leading up to the church's main worship area.</description>
 		</move>
+
+		<move>
+			<direction>east</direction>
+			<next_room_id>8</next_room_id>
+			<description>Door to the Test of Faith.</description>
+		</move>
+	</room>
+
+	<room>
+		<id>8</id>
+		<name>Test of Faith Part I</name>
+		<description>As you step through the door, it closes behind you with a thud.  You are stainding in an impossibly large cavern.  A glowing yellow light illuminates the center of the cavern, but leaves the edges cloaked in shadows.  You hear a low growl and the slithering sound of footsteps as a vicious-looking adult dragon emerges from the shadows.  In a booming voice, it roars 'If you want to complete the Test of Faith, you must first DEFEAT ME!!!'  It assumes a fighting stance, or so you assume.  You've never seen a dragon in person before.  To the north is a door that with 'Test of Strength' inscribed on it.  The door to the south reads 'Test of Intellect.'</description>
+		
+		<move>
+			<direction>north</direction>
+			<next_room_id>10</next_room_id>
+			<description>Door to the Test of Strength</description>
+		</move>
+
+		<move>
+			<direction>south</direction>
+			<next_room_id>9</next_room_id>
+			<description>Door to the Test of Intellect</description>
+		</move>
+
+		<monster_id>3</monster_id>
+	</room>
+
+	<room>
+		<id>9</id>
+		<name>Test of Intellect</name>
+		<description>You enter the test of faith.</description>
+
+		<move>
+			<direction>east</direction>
+			<next_room_id>11</next_room_id>
+			<description>Door to the east.</description>
+		</move>
+	</room>
+
+	<room>
+		<id>10</id>
+		<name>Test of Strength</name>
+		<description>The Test of Strength looks like a child's room, with a bed, chest of drawers, and a night table.  On the bed is a foot tall toy rabbit.  It cackles and shouts 'I am the strongest creature in the realm.  Fight me to the death or fail the Test of Faith.'  On the eastern wall of the room is what looks like closet door.</description>
+
+		<move>
+			<direction>east</direction>
+			<next_room_id>11</next_room_id>
+			<description>Door to the east</description>
+		</move>
+		<monster_id>4</monster_id>
+	</room>
+
+	<room>
+		<id>11</id>
+		<name>Completing the Test</name>
+		<description>You enter a small room upholstered with the same golden cloth that Theodore's robes are made of.  In the center of the room is a bronze statue.  Stairs lead up.</description>
+
+		<move>
+			<direction>up</direction>
+			<next_room_id>4</next_room_id>
+			<description>Stairway up.</description>
+		</move>
+
+		<npc>
+			<name>Statue</name>
+			<description>a bronze statue of Theodore.  It is moving.</description>
+			<intro>I am Theodore, the head priest of this glorius church.  Welcome!</intro>
+			<action>
+				<name>talk</name>
+				<result>
+					<type>text_only</type>
+					<description>You have failed the Test of Faith.  Return to the church.</description>
+					<value>3</value>
+				</result>
+			</action>
+
+			<action>
+				<name>talk</name>
+				<quest_dependency_id>3</quest_dependency_id>
+				<quest_dependency_step>3</quest_dependency_step>
+				<result>
+					<type>complete_quest</type>
+					<description>Congratulations!  You have passed the Test of Faith!</description>
+					<value>1</value>
+				</result>
+			</action>
+		</npc>
 	</room>
 
 	<item>
@@ -363,6 +451,14 @@
 		<effect>give_health</effect>
 	</item>
 
+	<item>
+		<id>9</id>
+		<name>Phylactery</name>
+		<description>a small charm.  It looks magical.</description>
+		<weapon>0</weapon>
+		<stackable>0</stackable>
+	</item>
+
 	<quest>
 		<id>1</id>
 		<name>Welcome to MiniMUD</name>
@@ -410,15 +506,29 @@
 	<quest>
 		<id>3</id>
 		<name>Test of Faith</name>
-		<reward_xp>10</reward_xp>
+		<reward_xp>1000</reward_xp>
 		<first_bonus>20</first_bonus>
 		<reward_gold>100</reward_gold>
+		<reward_item>9</reward_item>
 		<quest_step>
 			<step_number>1</step_number>
 			<description>Theodore has instructed you to head down the stairs and pass a test of faith.</description>
 			<hint>head down the stairs and begin the test of .</hint>
 			<reward_xp>10</reward_xp>
-			<reward_gold>10</reward_gold>
+		</quest_step>
+
+		<quest_step>
+			<step_number>2</step_number>
+			<description>Continue the Test of Faith.</description>
+			<hint>You'll have to figure this one out on your own.</hint>
+			<reward_xp>10</reward_xp>
+		</quest_step>
+	
+		<quest_step>
+			<step_number>3</step_number>
+			<description>Continue the Test of Faith.</description>
+			<hint>You'll have to figure this one out on your own.</hint>
+			<reward_xp>10</reward_xp>
 		</quest_step>
 	</quest>
 
@@ -437,6 +547,7 @@
 		<update_quest_id>2</update_quest_id>
 		<update_quest_step>2</update_quest_step>
 	</monster>
+
 	<monster>
 		<id>2</id>
 		<name>Ratter</name>
@@ -449,6 +560,38 @@
 		<loot_table_id>1</loot_table_id>
 		<kill_xp>10</kill_xp>
 		<kill_gold>10</kill_gold>
+	</monster>
+
+	<monster>
+		<id>3</id>
+		<name>Dragon</name>
+		<description>an enormous, frothing dragon with flames erupting from its nose.</description>
+		<health>10</health>
+		<attack_power>1</attack_power>
+		<magic_power>1</magic_power>
+		<defense>1</defense>
+		<magic_defense>1</magic_defense>
+		<loot_table_id>1</loot_table_id>
+		<kill_xp>10</kill_xp>
+		<kill_gold>10</kill_gold>
+		<update_quest_id>3</update_quest_id>
+		<update_quest_step>2</update_quest_step>
+	</monster>
+
+	<monster>
+		<id>4</id>
+		<name>BunnyFooFoo</name>
+		<description>a tiny, furry, toy rabbit.</description>
+		<health>200</health>
+		<attack_power>20</attack_power>
+		<magic_power>20</magic_power>
+		<defense>15</defense>
+		<magic_defense>15</magic_defense>
+		<loot_table_id>2</loot_table_id>
+		<kill_xp>100</kill_xp>
+		<kill_gold>10</kill_gold>
+		<update_quest_id>3</update_quest_id>
+		<update_quest_step>3</update_quest_step>
 	</monster>
 
 	<loot_table>

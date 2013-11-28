@@ -1145,6 +1145,9 @@ public class GameServer implements ActionListener
                 int nPlayerDamage = (random.nextInt() % user.getUserInfo().getAttackPower())
                         + weapon.getDamage() - monster.getDefense();
                 
+                if(nPlayerDamage < 0)
+                    nPlayerDamage = 0;
+                
                 monster.setHealth(monster.getHealth() - nPlayerDamage);                                
                 
                 sendUserText(user, "You do " + nPlayerDamage + " damage to the " + monster.getName() + ".");
@@ -1160,6 +1163,9 @@ public class GameServer implements ActionListener
                 {
                     int nMonsterDamage = (random.nextInt() % monster.getAttackPower()) 
                             - user.getUserInfo().getDefense();
+                    
+                    if(nMonsterDamage < 0)
+                        nMonsterDamage = 0;
                     
                     user.getUserInfo().setHealth(user.getUserInfo().getHealth() - nMonsterDamage);
                     
