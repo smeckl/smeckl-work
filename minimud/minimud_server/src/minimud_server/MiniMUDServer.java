@@ -136,8 +136,8 @@ public class MiniMUDServer
 	public static void startListener(int nPort)
 	{	
 		//Specifying the Keystore details
-		System.setProperty("javax.net.ssl.keyStore","/home/steve/.keystore");
-		System.setProperty("javax.net.ssl.keyStorePassword","%t0rmP34ks");
+		System.setProperty("javax.net.ssl.keyStore","");
+		System.setProperty("javax.net.ssl.keyStorePassword","");
 		
 		try
 		{
