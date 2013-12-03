@@ -28,15 +28,17 @@ public class MiniMUDServer
 
 		int nPort = 0;
 		String strUser = "";
-		String strPassword = "";
+		String strDBPassword = "";
 		String strLogFile = "./log.txt";
 		String strDBServer = "";
+        String strCertFile = "";
+        String strCertPwd = "";
 		
 		RegularExpressions regEx = new RegularExpressions();
 		
 		while(true)
 		{
-			if(args.length < 3)
+			if(args.length < 4)
 			{
 				System.out.println("Invalid number of arguments.");
 				break;
@@ -76,10 +78,12 @@ public class MiniMUDServer
 				break;
 			}
             
-            // If a log file was specified, then use it
-            if(args.length == 4)
+            strCertFile = args[3];
+            
+            // If a password was specified, then use it
+            if(args.length > 4)
             {
-                strPassword = args[3];
+                strDBPassword = args[4];
             }
             else
             {
@@ -90,11 +94,33 @@ public class MiniMUDServer
 
                 if (null != szPwd)
                 {
-                    strPassword = new String(szPwd);
+                    strDBPassword = new String(szPwd);
                 }
                 else
                 {
-                    System.out.println("Invalid login credentials.");
+                    System.out.println("Invalid database login credentials.");
+                    break;
+                }
+            }
+            
+            if(args.length == 6)
+            {
+                strCertPwd = args[5];
+            }
+            else
+            {
+                // Have the user enter the password
+                System.out.print("Enter the password to the certificate store: ");
+
+                char szPwd[] = System.console().readPassword();
+
+                if (null != szPwd)
+                {
+                    strCertPwd = new String(szPwd);
+                }
+                else
+                {
+                    System.out.println("Invalid certificate store login credentials.");
                     break;
                 }
             }
@@ -104,7 +130,7 @@ public class MiniMUDServer
 				logger = new MMLogger(null);
 						
 			    // Connect to the database
-				m_dbConn = new DatabaseConnector(strDBServer, nPort, strUser, strPassword, logger);
+				m_dbConn = new DatabaseConnector(strDBServer, nPort, strUser, strDBPassword, logger);
 				m_dbConn.connect();
 				
 				// Create the game server and load data into memory
@@ -116,7 +142,7 @@ public class MiniMUDServer
 				{
 					// Start listening to new connections
 					// This call blocks until the server is shut down
-					startListener(SSL_PORT);
+					startListener(SSL_PORT, strCertFile, strCertPwd);
 				}
 				else
 					logger.severe("Failed to load game data.");
@@ -133,11 +159,11 @@ public class MiniMUDServer
 		}
 	}
 	
-	public static void startListener(int nPort)
+	public static void startListener(int nPort, String strKeyStoreFile, String strKeyStorePwd)
 	{	
 		//Specifying the Keystore details
-		System.setProperty("javax.net.ssl.keyStore","/home/steve/.keystore");
-		System.setProperty("javax.net.ssl.keyStorePassword","%t0rmP34ks");
+		System.setProperty("javax.net.ssl.keyStore", strKeyStoreFile);
+		System.setProperty("javax.net.ssl.keyStorePassword", strKeyStorePwd);
 		
 		try
 		{

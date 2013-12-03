@@ -16,9 +16,6 @@ import minimud_shared.*;
 
 public class MiniMUDClient
 {
-
-    public static String m_serverName = "localhost"; // SSL Server Name
-    public static int SSL_PORT = 1443; 							// Port where the SSL Server is listening
     private static SSLSocket m_sslSocket = null;
     private static PrintWriter m_serverOut = null;
     private static BufferedReader m_serverIn = null;
@@ -46,8 +43,36 @@ public class MiniMUDClient
             while (true)
             {
                 ErrorCode retVal = ErrorCode.Success;
+                
+                if(args.length != 2)
+                {
+                    System.out.println("Invalid number of parameters.");  
+                    System.out.println("Proper usage is: java -jar minimud_client.jar <server> <port>");
+                    break;
+                }
+                
+                RegularExpressions regEx = new RegularExpressions();
+                
+                String strServer = args[0];
+                
+                if(!regEx.stringMatchesRegEx(strServer, RegularExpressions.RegExID.IP)
+                        && !regEx.stringMatchesRegEx(strServer, RegularExpressions.RegExID.DOMAIN))
+                {
+                    System.out.println("Invalid server specified.");
+                    break;
+                }
 
-                retVal = initializeClient();
+                String strPort = args[1];
+                
+                if(!regEx.stringMatchesRegEx(strPort, RegularExpressions.RegExID.PORT))
+                {
+                    System.out.println("Invalid port number specified");
+                    break;
+                }
+                
+                int nPort = Integer.parseInt(strPort);
+                
+                retVal = initializeClient(strServer, nPort);
 
                 if (ErrorCode.Success != retVal)
                 {
@@ -138,7 +163,7 @@ public class MiniMUDClient
         }
     }
 
-    private static ErrorCode initializeClient()
+    private static ErrorCode initializeClient(String strServer, int nPort)
     {
         ErrorCode retVal = ErrorCode.Success;
 
@@ -179,7 +204,7 @@ public class MiniMUDClient
             final SSLSocketFactory socketFactory = sslContext.getSocketFactory();
 
             // Creating Client Sockets
-            m_sslSocket = (SSLSocket) socketFactory.createSocket(m_serverName, SSL_PORT);
+            m_sslSocket = (SSLSocket) socketFactory.createSocket(strServer, nPort);
             m_sslSocket.setSoTimeout(SOCKET_WAIT_MS);
 
             // Initializing the streams for Communication with the Server
