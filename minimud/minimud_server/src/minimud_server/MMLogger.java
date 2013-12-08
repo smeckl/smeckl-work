@@ -3,6 +3,7 @@ package minimud_server;
 import java.io.IOException;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
+import java.util.logging.SimpleFormatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -21,9 +22,20 @@ public class MMLogger
 			
 			// Set up the logger object
 			if(!strLogFile.isEmpty())
+            {
 				m_fh = new FileHandler(strLogFile, true);
+                m_fh.setFormatter(new SimpleFormatter());
 			
-			m_logger.addHandler(m_fh);
+                // Remove existing handlers
+                Handler handlers [] = m_logger.getHandlers();
+
+                for(int i = 0; i < handlers.length; i++)
+                    m_logger.removeHandler(handlers[i]);
+
+                // Add the new file handler
+                m_logger.addHandler(m_fh);
+            }
+            
 			m_logger.setLevel(Level.FINE);
 		}
 		catch(Exception e)

@@ -4,6 +4,10 @@ import java.util.concurrent.Semaphore;
 import javax.net.ssl.SSLServerSocket;
 import javax.net.ssl.SSLServerSocketFactory;
 import javax.net.ssl.SSLSocket;
+import java.io.InputStreamReader;
+import java.io.FileInputStream;
+import java.io.BufferedReader;
+import java.io.IOException;
 import minimud_shared.*;
 /**
  * @author Steve Meckl
@@ -19,6 +23,11 @@ public class MiniMUDServer
 	private static DatabaseConnector m_dbConn = null;
 	private static Semaphore m_stopSem = new Semaphore(1);
 	
+    private static String m_strDBPassword = "";
+    private static String m_strCertPwd = "";
+    
+    private static RegularExpressions regEx = new RegularExpressions();
+    
 	/**
 	 * @param args
 	 */
@@ -27,18 +36,15 @@ public class MiniMUDServer
 		System.out.println("Starting Mini MUD server.");
 
 		int nPort = 0;
-		String strUser = "";
-		String strDBPassword = "";
-		String strLogFile = "./log.txt";
+		String strUser = "";		
+		String strLogFile = "";
 		String strDBServer = "";
         String strCertFile = "";
-        String strCertPwd = "";
-		
-		RegularExpressions regEx = new RegularExpressions();
+        String strPasswordFile = "";
 		
 		while(true)
 		{
-			if(args.length < 4)
+			if(args.length < 5)
 			{
 				System.out.println("Invalid number of arguments.");
 				break;
@@ -78,59 +84,67 @@ public class MiniMUDServer
 				break;
 			}
             
+            // The only invalid file paths in linux are ones that can't load
             strCertFile = args[3];
             
-            // If a password was specified, then use it
-            if(args.length > 4)
-            {
-                strDBPassword = args[4];
-            }
-            else
-            {
-                // Have the user enter the password
-                System.out.print("Enter the password to the database: ");
-
-                char szPwd[] = System.console().readPassword();
-
-                if (null != szPwd)
-                {
-                    strDBPassword = new String(szPwd);
-                }
-                else
-                {
-                    System.out.println("Invalid database login credentials.");
-                    break;
-                }
-            }
+            strLogFile = args[4];
             
-            if(args.length == 6)
+            strPasswordFile = args[5];
+            
+            if(!loadPasswords(strPasswordFile))
             {
-                strCertPwd = args[5];
-            }
-            else
-            {
-                // Have the user enter the password
-                System.out.print("Enter the password to the certificate store: ");
-
-                char szPwd[] = System.console().readPassword();
-
-                if (null != szPwd)
+                // If a password was specified, then use it
+                if(args.length > 5)
                 {
-                    strCertPwd = new String(szPwd);
+                    m_strDBPassword = args[5];
                 }
                 else
                 {
-                    System.out.println("Invalid certificate store login credentials.");
-                    break;
+                    // Have the user enter the password
+                    System.out.print("Enter the password to the database: ");
+
+                    char szPwd[] = System.console().readPassword();
+
+                    if (null != szPwd)
+                    {
+                        m_strDBPassword = new String(szPwd);
+                    }
+                    else
+                    {
+                        System.out.println("Invalid database login credentials.");
+                        break;
+                    }
+                }
+
+                if(args.length > 6)
+                {
+                    m_strCertPwd = args[6];
+                }
+                else
+                {
+                    // Have the user enter the password
+                    System.out.print("Enter the password to the certificate store: ");
+
+                    char szPwd[] = System.console().readPassword();
+
+                    if (null != szPwd)
+                    {
+                        m_strCertPwd = new String(szPwd);
+                    }
+                    else
+                    {
+                        System.out.println("Invalid certificate store login credentials.");
+                        break;
+                    }
                 }
             }
 			
 			try
 			{				
-				logger = new MMLogger(null);
+				logger = new MMLogger(strLogFile);
 						
 			    // Connect to the database
-				m_dbConn = new DatabaseConnector(strDBServer, nPort, strUser, strDBPassword, logger);
+				m_dbConn = new DatabaseConnector(strDBServer, nPort, strUser, m_strDBPassword, logger);
 				m_dbConn.connect();
 				
 				// Create the game server and load data into memory
@@ -142,7 +156,7 @@ public class MiniMUDServer
 				{
 					// Start listening to new connections
 					// This call blocks until the server is shut down
-					startListener(SSL_PORT, strCertFile, strCertPwd);
+					startListener(SSL_PORT, strCertFile, m_strCertPwd);
 				}
 				else
 					logger.severe("Failed to load game data.");
@@ -161,7 +175,7 @@ public class MiniMUDServer
 	
 	public static void startListener(int nPort, String strKeyStoreFile, String strKeyStorePwd)
 	{	
-		//Specifying the Keystore details
+		//Specifying the Keystore detailsg
 		System.setProperty("javax.net.ssl.keyStore", strKeyStoreFile);
 		System.setProperty("javax.net.ssl.keyStorePassword", strKeyStorePwd);
 		
@@ -195,5 +209,52 @@ public class MiniMUDServer
 			logger.severe("Exception caught: " + e);
 		}
 	}
+    
+    private static boolean loadPasswords(String strPasswordFile)
+    {
+        boolean bRet = true;
+        
+        try
+        {
+            FileInputStream in = new FileInputStream(strPasswordFile);
+            
+            BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+            
+            // Try to read the database password
+            String line = reader.readLine();
+
+            if(null != line && regEx.stringMatchesRegEx(line, RegularExpressions.RegExID.PASSWORD))
+            {
+                m_strDBPassword = line;
+            }
+            else
+            {
+                bRet = false;
+            }
+            
+            if(bRet)
+            {
+                line = reader.readLine();
+                
+                if(null != line && regEx.stringMatchesRegEx(line, RegularExpressions.RegExID.PASSWORD))
+                {
+                    m_strCertPwd = line;
+                }
+                else
+                {
+                    bRet = false;
+                }
+            }
+            
+            reader.close();
+            in.close();
+        } 
+        catch (IOException e) 
+        {
+            bRet = false;
+        }
+        
+        return bRet;
+    }
 
 }

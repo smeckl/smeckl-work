@@ -56,6 +56,7 @@ public class RegularExpressions
         m_regExMap.put(RegExID.DELETE_ON_USE, "^(0|1)$");
         m_regExMap.put(RegExID.DAMAGE_TYPE, "^(piercing|slashing|bashing|magic)$");
         m_regExMap.put(RegExID.EFFECT, "^(give_health|teleport|update_quest)$");
+        
 	}
 	
 	public boolean stringMatchesRegEx(String str, RegExID id)
