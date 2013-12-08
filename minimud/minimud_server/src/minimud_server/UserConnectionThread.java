@@ -70,6 +70,7 @@ public class UserConnectionThread extends Thread
 	{
 		Unauthenticated,
 		Playing,
+        Fighting,
         Disconnected,
 		LoggingOut
 	};
@@ -273,7 +274,7 @@ public class UserConnectionThread extends Thread
 				// Loop until the user logs out or the socket is disconnected
 				while(ErrorCode.Success == retVal 
 					  && 1 == m_stopSem.availablePermits()
-					  && UserSessionState.Playing == getUserState()
+					  && (UserSessionState.Playing == getUserState() || UserSessionState.Fighting == getUserState())
 					  && getSocket().isConnected()
                       && !m_bStop)
 				{	
@@ -293,8 +294,13 @@ public class UserConnectionThread extends Thread
 					    
 					    if(null != msg)
 					    {
-					    	// We have a valid Message object, process it
-					    	retVal = executeClientCommand(msg);	    		
+                            if(UserSessionState.Fighting != getUserState())
+                            {
+                                // We have a valid Message object, process it
+                                retVal = executeClientCommand(msg);	    
+                            }
+                            else
+                                m_display.sendText("You can't do that while in a fight.");
 					    }
 					    else
 					    {

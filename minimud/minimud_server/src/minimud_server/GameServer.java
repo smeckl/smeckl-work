@@ -1131,7 +1131,13 @@ public class GameServer implements ActionListener
             
             sendUserText(user, "You attack the " + monster.getName());
 
+            // Set user state to Fighting
+            user.setUserState(UserConnectionThread.UserSessionState.Fighting);
+            
             winner = simulateFight(user, monster, weapon);
+            
+            // Set user state back to Playing
+            user.setUserState(UserConnectionThread.UserSessionState.Playing);
             
             // If the Player wins, give them their gold, xp, and loot
             if(FightWinner.Player == winner)
