@@ -21,7 +21,8 @@ public class PlayerActionMessage extends Message
         Help,
         QuestLog,
         UseItem,
-        CharInfo
+        CharInfo,
+        QuestCompletion
 	}
 	
 	private Action m_action;
@@ -143,6 +144,10 @@ public class PlayerActionMessage extends Message
             
         case CharInfo:
             strOut = "/charinfo";
+            break;
+            
+        case QuestCompletion:
+            strOut = "/questcompletion";
             break;
 		}
 		

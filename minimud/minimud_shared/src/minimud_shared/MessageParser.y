@@ -7,6 +7,7 @@ import java.io.*;
 %token GO_NORTH GO_SOUTH GO_EAST GO_WEST GO_NORTHEAST GO_NORTHWEST GO_SOUTHEAST GO_SOUTHWEST GO_UP GO_DOWN
 %token CHARNAME CHARLITERAL STRINGLITERAL INT LOOK
 %token KICK PUNCH TALK STAB PUSH SLASH SHOOT TAKE DROP ATTACK GIVE LEADERS GOLD XP WITH INVENTORY HELP QUESTLOG CHARINFO
+%token QUESTCOMPLETION
 %%
 
 message:
@@ -264,6 +265,10 @@ action_message:
 | QUESTLOG
 	{
 		$$ = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.QuestLog, "", ""));
+	}
+| QUESTCOMPLETION
+	{
+		$$ = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.QuestCompletion, "", ""));
 	}
 | CHARINFO
 	{

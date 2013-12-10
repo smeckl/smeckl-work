@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.Timer;
 import minimud_shared.*;
 import java.security.SecureRandom;
+import org.apache.commons.lang3.StringEscapeUtils;
 
 public class GameServer implements ActionListener
 {
@@ -24,6 +25,13 @@ public class GameServer implements ActionListener
         Invalid,
         Player,
         Monster
+    }
+    
+    public enum QuestEventType
+    {
+        Room,       // 0
+        Object,     // 1
+        Item        // 2
     }
     
     private static int GAME_SYNC_INTERVAL = (60*1000);
@@ -573,6 +581,11 @@ public class GameServer implements ActionListener
 				
 				// Have the user display the new room
 				user.displayCurrentRoom();
+                
+                // Log event if user is on a quest
+                m_dbConn.addUncompletedQuestEventForUser(user.getUserInfo().getName(), 
+                                                         QuestEventType.Room, 
+                                                         nextRoom.getName());
 			}
 		}	
 		
@@ -805,6 +818,68 @@ public class GameServer implements ActionListener
         }            
             break;
             
+        case QuestCompletion:
+        {
+            try
+            {
+                ResultSet results = m_dbConn.getQuestSolutionInfo();
+                
+                String strLastQuestName = "";
+                
+                while(null !=  results && results.next())
+                {
+                    String strQuestName = results.getString(1);
+                    String strFirstCompletionuser = results.getString(2);
+                    int nQuestID = results.getInt(3);
+                    String strUserName = results.getString(4);
+                    int nEventType = results.getInt(5);
+                    String strValue = results.getString(6);
+                    
+                    // If this is the first entry for the quest
+                    if(0 != strLastQuestName.compareTo(strQuestName))
+                    {
+                        sendUserText(user, "");
+                        sendUserText(user, "");
+                        sendUserText(user, "Quest Name: " + strQuestName + " - First Completed By: " + strUserName);
+                        sendUserText(user, "----------------------------------------------------------------------------");
+                        
+                        strLastQuestName = strQuestName;
+                    }
+                    
+                    // Log event data if the record is for the first_completion_user
+                    if(0 == strFirstCompletionuser.compareTo(strUserName))
+                    {
+                        String strOut = "";
+                        
+                        switch(nEventType)
+                        {
+                            case 0:     // Room
+                                strOut = "Room: ";
+                                break;
+                                
+                            case 1:     // Object
+                                strOut = "Object: ";
+                                break;
+                                
+                            case 2:     //Item
+                                strOut = "Item: ";
+                                break;
+                        }
+                        
+                        strOut += strValue;
+                        
+                        sendUserText(user, strOut);
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                
+            }
+        }
+            
+            break;
+            
         case UseItem:
         {
             // Get object from inventory
@@ -871,6 +946,11 @@ public class GameServer implements ActionListener
                         // Remove item from inventory
                         if(item.getDeleteOnUse())
                             m_dbConn.removeItemFromInventory(item, user.getUserInfo().getName());  
+                        
+                        // Log event if user is on a quest
+                        m_dbConn.addUncompletedQuestEventForUser(user.getUserInfo().getName(), 
+                                                         QuestEventType.Item, 
+                                                         item.getName());
                     }
                 }
                 else
@@ -1090,6 +1170,11 @@ public class GameServer implements ActionListener
                             }
 
                             m_dbConn.saveUserState(user);
+                            
+                            // Log event if user is on a quest
+                            m_dbConn.addUncompletedQuestEventForUser(user.getUserInfo().getName(), 
+                                                                     QuestEventType.Object, 
+                                                                     obj.getName());
 						}
 						else
 						{
@@ -1295,7 +1380,9 @@ public class GameServer implements ActionListener
 	
 	public static void sendUserText(UserConnectionThread user, String strMsg)
 	{
-		ClientShowTextMessage clMsg = new ClientShowTextMessage("server", strMsg);
+        String strOut = StringEscapeUtils.escapeHtml4(strMsg);
+        
+		ClientShowTextMessage clMsg = new ClientShowTextMessage("server", strOut);
 		user.processGameServerCommand(clMsg);
 	}
     

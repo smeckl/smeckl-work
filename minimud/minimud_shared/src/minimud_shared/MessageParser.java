@@ -214,7 +214,8 @@ public final static short INVENTORY=310;
 public final static short HELP=311;
 public final static short QUESTLOG=312;
 public final static short CHARINFO=313;
-public final static short USE=314;
+public final static short QUESTCOMPLETION=314;
+public final static short USE=315;
 public final static short YYERRCODE=256;
 final static short yylhs[] = {                           -1,
     0,    0,    0,    0,    0,    0,    0,    1,    1,    2,
@@ -222,7 +223,7 @@ final static short yylhs[] = {                           -1,
     5,    6,    6,    6,    6,    6,    6,    6,    6,    6,
     6,    7,    7,    7,    7,    7,    7,    7,    7,    7,
     7,    7,    7,    7,    7,    7,    7,    7,    7,    7,
-    7,    7,    7,    7,    7,
+    7,    7,    7,    7,    7,    7,
 };
 final static short yylen[] = {                            2,
     1,    1,    1,    1,    1,    1,    1,    7,    7,    7,
@@ -230,68 +231,68 @@ final static short yylen[] = {                            2,
     1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
     1,    1,    3,    2,    3,    2,    4,    3,    2,    2,
     2,    2,    2,    2,    2,    2,    4,    1,    2,    2,
-    1,    1,    1,    1,    2,
+    1,    1,    1,    1,    1,    2,
 };
 final static short yydefred[] = {                         0,
     0,    0,    0,   15,   16,    0,    0,    0,    0,   21,
    22,   23,   24,   25,   26,   27,   28,   29,   30,   31,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
-    0,    0,    0,   51,   52,   53,   54,    0,    0,    1,
-    2,    3,    4,    5,    6,    7,    0,    0,    0,    0,
-   18,   19,    0,    0,   34,   42,   41,    0,   36,   43,
-   45,   44,   46,   39,   40,    0,    0,   49,   50,   55,
-    0,    0,    0,   17,   20,   33,   35,    0,    0,   38,
-    0,    0,    0,    0,   12,   13,   14,   47,   37,    0,
-    0,    0,    0,    0,    0,    0,    0,    8,    9,   10,
-   11,
+    0,    0,    0,   51,   52,   53,   55,   54,    0,    0,
+    1,    2,    3,    4,    5,    6,    7,    0,    0,    0,
+    0,   18,   19,    0,    0,   34,   42,   41,    0,   36,
+   43,   45,   44,   46,   39,   40,    0,    0,   49,   50,
+   56,    0,    0,    0,   17,   20,   33,   35,    0,    0,
+   38,    0,    0,    0,    0,   12,   13,   14,   47,   37,
+    0,    0,    0,    0,    0,    0,    0,    0,    8,    9,
+   10,   11,
 };
-final static short yydgoto[] = {                         39,
-   40,   41,   42,   43,   44,   45,   46,
+final static short yydgoto[] = {                         40,
+   41,   42,   43,   44,   45,   46,   47,
 };
 final static short yysindex[] = {                      -257,
- -251, -262, -248,    0,    0, -280, -278, -240, -232,    0,
+ -251, -262, -248,    0,    0, -280, -278, -240, -231,    0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
- -228, -231, -230, -256, -229, -227, -226, -225, -224, -223,
- -222, -221, -295,    0,    0,    0,    0, -220,    0,    0,
-    0,    0,    0,    0,    0,    0,   10,   11,   12, -218,
-    0,    0, -217, -214,    0,    0,    0, -213,    0,    0,
-    0,    0,    0,    0,    0, -219, -255,    0,    0,    0,
- -254, -216, -268,    0,    0,    0,    0, -212, -211,    0,
- -178, -177, -176, -175,    0,    0,    0,    0,    0,   23,
-   24,   25,   26, -204, -203, -201, -200,    0,    0,    0,
-    0,
+ -228, -230, -229, -256, -227, -226, -225, -224, -223, -222,
+ -221, -220, -295,    0,    0,    0,    0,    0, -219,    0,
+    0,    0,    0,    0,    0,    0,    0,   11,   12,   13,
+ -217,    0,    0, -215, -214,    0,    0,    0, -212,    0,
+    0,    0,    0,    0,    0,    0, -218, -255,    0,    0,
+    0, -254, -216, -268,    0,    0,    0,    0, -211, -210,
+    0, -177, -176, -175, -174,    0,    0,    0,    0,    0,
+   24,   25,   26,   27, -203, -202, -200, -199,    0,    0,
+    0,    0,
 };
 final static short yyrindex[] = {                         0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
-   93,    0,    0,    0,    0,    0,    0,    0,    0,    0,
-    0,    0,   94,    0,    0,    0,    0,    0,    0,    0,
+   94,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+    0,    0,   95,    0,    0,    0,    0,    0,    0,    0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
-    0,
+    0,    0,
 };
 final static short yygindex[] = {                         0,
     0,    0,    0,    0,    0,    0,    0,
 };
-final static int YYTABLESIZE=94;
+final static int YYTABLESIZE=95;
 static short yytable[];
 static { yytable();}
 static void yytable(){
 yytable = new short[]{                          1,
-   85,   86,   48,   58,   79,   87,    2,   47,   81,   50,
-    3,   68,   69,   51,    4,    5,   49,    6,    7,    8,
+   86,   87,   49,   59,   80,   88,    2,   48,   82,   51,
+    3,   69,   70,   52,    4,    5,   50,    6,    7,    8,
     9,   10,   11,   12,   13,   14,   15,   16,   17,   18,
-   19,   20,   54,   59,   80,   82,   21,   22,   23,   24,
-   25,   26,   27,   28,   29,   30,   31,   32,   33,   83,
-   84,   52,   34,   35,   36,   37,   38,   53,   56,   57,
-   60,   55,   61,   62,   63,   64,   65,   66,   67,   70,
-   71,   72,   73,   74,   75,   76,   77,   88,   89,   90,
-   91,   92,   93,   94,   95,   96,   97,   98,   99,   78,
-  100,  101,   32,   48,
+   19,   20,   55,   60,   81,   83,   21,   22,   23,   24,
+   25,   26,   27,   28,   29,   30,   31,   32,   33,   84,
+   85,   53,   34,   35,   36,   37,   38,   39,   54,   57,
+   58,   56,   61,   62,   63,   64,   65,   66,   67,   68,
+   71,   72,   73,   74,   75,   77,   76,   78,   89,   90,
+   91,   92,   93,   94,   95,   96,   97,   98,   99,  100,
+   79,  101,  102,   32,   48,
 };
 }
 static short yycheck[];
@@ -303,15 +304,15 @@ yycheck = new short[] {                        257,
   278,  279,  280,  281,  282,  283,  284,  285,  286,  287,
   288,  289,  261,  290,  290,  290,  294,  295,  296,  297,
   298,  299,  300,  301,  302,  303,  304,  305,  306,  266,
-  267,  292,  310,  311,  312,  313,  314,  290,  290,  290,
+  267,  292,  310,  311,  312,  313,  314,  315,  290,  290,
   290,  290,  290,  290,  290,  290,  290,  290,  290,  290,
-   61,   61,   61,  292,  292,  290,  290,  290,  290,  258,
-  258,  258,  258,   61,   61,   61,   61,  292,  292,  309,
-  292,  292,    0,    0,
+  290,   61,   61,   61,  292,  290,  292,  290,  290,  290,
+  258,  258,  258,  258,   61,   61,   61,   61,  292,  292,
+  309,  292,  292,    0,    0,
 };
 }
-final static short YYFINAL=39;
-final static short YYMAXTOKEN=314;
+final static short YYFINAL=40;
+final static short YYMAXTOKEN=315;
 final static String yyname[] = {
 "end-of-file",null,null,null,null,null,null,null,null,null,null,null,null,null,
 null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
@@ -336,7 +337,7 @@ null,null,null,null,null,"TEXTMSG","MESSAGE","FROM","TO","AT","PLAYER","SERVER",
 "GO_NORTHEAST","GO_NORTHWEST","GO_SOUTHEAST","GO_SOUTHWEST","GO_UP","GO_DOWN",
 "CHARNAME","CHARLITERAL","STRINGLITERAL","INT","LOOK","KICK","PUNCH","TALK",
 "STAB","PUSH","SLASH","SHOOT","TAKE","DROP","ATTACK","GIVE","LEADERS","GOLD",
-"XP","WITH","INVENTORY","HELP","QUESTLOG","CHARINFO","USE",
+"XP","WITH","INVENTORY","HELP","QUESTLOG","CHARINFO","QUESTCOMPLETION","USE",
 };
 final static String yyrule[] = {
 "$accept : message",
@@ -393,11 +394,12 @@ final static String yyrule[] = {
 "action_message : INVENTORY",
 "action_message : HELP",
 "action_message : QUESTLOG",
+"action_message : QUESTCOMPLETION",
 "action_message : CHARINFO",
 "action_message : USE CHARNAME",
 };
 
-//#line 279 "./minimud_shared/MessageParser.y"
+//#line 284 "./minimud_shared/MessageParser.y"
 
 /* Byacc/J expects a member method int yylex(). We need to provide one
    through this mechanism. See the jflex manual for more information. */
@@ -469,7 +471,7 @@ final static String yyrule[] = {
     }
     
     
-//#line 400 "MessageParser.java"
+//#line 402 "MessageParser.java"
 //###############################################################
 // method: yylexdebug : check lexer state
 //###############################################################
@@ -624,105 +626,105 @@ boolean doaction;
       {
 //########## USER-SUPPLIED ACTIONS ##########
 case 1:
-//#line 14 "./minimud_shared/MessageParser.y"
+//#line 15 "./minimud_shared/MessageParser.y"
 {
 		m_lastMsg = (Message)yyval.obj;
 	}
 break;
 case 2:
-//#line 18 "./minimud_shared/MessageParser.y"
+//#line 19 "./minimud_shared/MessageParser.y"
 {
 		m_lastMsg = (Message)yyval.obj;
 	}
 break;
 case 3:
-//#line 22 "./minimud_shared/MessageParser.y"
+//#line 23 "./minimud_shared/MessageParser.y"
 {
 		m_lastMsg = (Message)yyval.obj;
 	}
 break;
 case 4:
-//#line 26 "./minimud_shared/MessageParser.y"
+//#line 27 "./minimud_shared/MessageParser.y"
 {
 		m_lastMsg = (Message)yyval.obj;
 	}
 break;
 case 5:
-//#line 30 "./minimud_shared/MessageParser.y"
+//#line 31 "./minimud_shared/MessageParser.y"
 {
 		m_lastMsg = (Message)yyval.obj;
 	}
 break;
 case 6:
-//#line 34 "./minimud_shared/MessageParser.y"
+//#line 35 "./minimud_shared/MessageParser.y"
 {
 		m_lastMsg = (Message)yyval.obj;
 	}
 break;
 case 7:
-//#line 38 "./minimud_shared/MessageParser.y"
+//#line 39 "./minimud_shared/MessageParser.y"
 {
 		m_lastMsg = (Message)yyval.obj;
 	}
 break;
 case 8:
-//#line 45 "./minimud_shared/MessageParser.y"
+//#line 46 "./minimud_shared/MessageParser.y"
 {
   	  yyval = new MessageParserVal(new ClientShowTextMessage("", trimQuotes(val_peek(0).sval)));
   }
 break;
 case 9:
-//#line 49 "./minimud_shared/MessageParser.y"
+//#line 50 "./minimud_shared/MessageParser.y"
 {
       yyval = new MessageParserVal(new ClientShowTextMessage(val_peek(3).sval, trimQuotes(val_peek(0).sval)));
   }
 break;
 case 10:
-//#line 56 "./minimud_shared/MessageParser.y"
+//#line 57 "./minimud_shared/MessageParser.y"
 {
       yyval = new MessageParserVal(new ClientRequestInputMessage(ClientRequestInputMessage.Type.Normal, 
       					trimQuotes(val_peek(0).sval)));
   }
 break;
 case 11:
-//#line 61 "./minimud_shared/MessageParser.y"
+//#line 62 "./minimud_shared/MessageParser.y"
 {
   	  yyval = new MessageParserVal(new ClientRequestInputMessage(ClientRequestInputMessage.Type.Password, 
       					trimQuotes(val_peek(0).sval)));
   }
 break;
 case 12:
-//#line 69 "./minimud_shared/MessageParser.y"
+//#line 70 "./minimud_shared/MessageParser.y"
 {
 		yyval = new MessageParserVal(new ServerStatusMessage(ServerStatusMessage.Status.LOGON_SUCCESS));
 	}
 break;
 case 13:
-//#line 73 "./minimud_shared/MessageParser.y"
+//#line 74 "./minimud_shared/MessageParser.y"
 {
 		yyval = new MessageParserVal(new ServerStatusMessage(ServerStatusMessage.Status.LOGON_FAILED));
 	}
 break;
 case 14:
-//#line 77 "./minimud_shared/MessageParser.y"
+//#line 78 "./minimud_shared/MessageParser.y"
 {
 		yyval = new MessageParserVal(new ServerStatusMessage(ServerStatusMessage.Status.LOGOUT));
 	}
 break;
 case 15:
-//#line 84 "./minimud_shared/MessageParser.y"
+//#line 85 "./minimud_shared/MessageParser.y"
 {
 		yyval = new MessageParserVal(new UserLogoutMessage());
 	}
 break;
 case 16:
-//#line 88 "./minimud_shared/MessageParser.y"
+//#line 89 "./minimud_shared/MessageParser.y"
 {
 		yyval = new MessageParserVal(new UserLogoutMessage());
 	}
 break;
 case 17:
-//#line 94 "./minimud_shared/MessageParser.y"
+//#line 95 "./minimud_shared/MessageParser.y"
 {
   		UserChatMessage chatMsg = new UserChatMessage();
 	    chatMsg.setMsgType(UserChatMessage.MsgType.Tell);
@@ -733,7 +735,7 @@ case 17:
   	}
 break;
 case 18:
-//#line 103 "./minimud_shared/MessageParser.y"
+//#line 104 "./minimud_shared/MessageParser.y"
 {
 		UserChatMessage chatMsg = new UserChatMessage();
   		chatMsg.setMsgType(UserChatMessage.MsgType.Say);
@@ -743,7 +745,7 @@ case 18:
 	}
 break;
 case 19:
-//#line 111 "./minimud_shared/MessageParser.y"
+//#line 112 "./minimud_shared/MessageParser.y"
 {
 		UserChatMessage chatMsg = new UserChatMessage();
       	chatMsg.setMsgType(UserChatMessage.MsgType.Shout);
@@ -753,7 +755,7 @@ case 19:
 	}
 break;
 case 20:
-//#line 119 "./minimud_shared/MessageParser.y"
+//#line 120 "./minimud_shared/MessageParser.y"
 {
 		UserChatMessage chatMsg = new UserChatMessage();
       	chatMsg.setMsgType(UserChatMessage.MsgType.Tell);
@@ -764,7 +766,7 @@ case 20:
 	}
 break;
 case 21:
-//#line 128 "./minimud_shared/MessageParser.y"
+//#line 129 "./minimud_shared/MessageParser.y"
 {
         UserChatMessage chatMsg = new UserChatMessage();
       	chatMsg.setMsgType(UserChatMessage.MsgType.Who);;
@@ -773,210 +775,216 @@ case 21:
     }
 break;
 case 22:
-//#line 138 "./minimud_shared/MessageParser.y"
+//#line 139 "./minimud_shared/MessageParser.y"
 {
 		yyval = new MessageParserVal(new PlayerMoveMessage(PlayerMoveMessage.Direction.North));
 	}
 break;
 case 23:
-//#line 142 "./minimud_shared/MessageParser.y"
+//#line 143 "./minimud_shared/MessageParser.y"
 {
 		yyval = new MessageParserVal(new PlayerMoveMessage(PlayerMoveMessage.Direction.South));
 	}
 break;
 case 24:
-//#line 146 "./minimud_shared/MessageParser.y"
+//#line 147 "./minimud_shared/MessageParser.y"
 {
 		yyval = new MessageParserVal(new PlayerMoveMessage(PlayerMoveMessage.Direction.East));
 	}
 break;
 case 25:
-//#line 150 "./minimud_shared/MessageParser.y"
+//#line 151 "./minimud_shared/MessageParser.y"
 {
 		yyval = new MessageParserVal(new PlayerMoveMessage(PlayerMoveMessage.Direction.West));
 	}
 break;
 case 26:
-//#line 154 "./minimud_shared/MessageParser.y"
+//#line 155 "./minimud_shared/MessageParser.y"
 {
 		yyval = new MessageParserVal(new PlayerMoveMessage(PlayerMoveMessage.Direction.Northeast));
 	}
 break;
 case 27:
-//#line 158 "./minimud_shared/MessageParser.y"
+//#line 159 "./minimud_shared/MessageParser.y"
 {
 		yyval = new MessageParserVal(new PlayerMoveMessage(PlayerMoveMessage.Direction.Northwest));
 	}
 break;
 case 28:
-//#line 162 "./minimud_shared/MessageParser.y"
+//#line 163 "./minimud_shared/MessageParser.y"
 {
 		yyval = new MessageParserVal(new PlayerMoveMessage(PlayerMoveMessage.Direction.Southeast));
 	}
 break;
 case 29:
-//#line 166 "./minimud_shared/MessageParser.y"
+//#line 167 "./minimud_shared/MessageParser.y"
 {
 		yyval = new MessageParserVal(new PlayerMoveMessage(PlayerMoveMessage.Direction.Southwest));
 	}
 break;
 case 30:
-//#line 170 "./minimud_shared/MessageParser.y"
+//#line 171 "./minimud_shared/MessageParser.y"
 {
 		yyval = new MessageParserVal(new PlayerMoveMessage(PlayerMoveMessage.Direction.Up));
 	}
 break;
 case 31:
-//#line 174 "./minimud_shared/MessageParser.y"
+//#line 175 "./minimud_shared/MessageParser.y"
 {
 		yyval = new MessageParserVal(new PlayerMoveMessage(PlayerMoveMessage.Direction.Down));
 	}
 break;
 case 32:
-//#line 181 "./minimud_shared/MessageParser.y"
+//#line 182 "./minimud_shared/MessageParser.y"
 {
   		yyval = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Look, "", ""));
   	}
 break;
 case 33:
-//#line 185 "./minimud_shared/MessageParser.y"
+//#line 186 "./minimud_shared/MessageParser.y"
 {
   		yyval = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Look, val_peek(0).sval, ""));
   	}
 break;
 case 34:
-//#line 189 "./minimud_shared/MessageParser.y"
+//#line 190 "./minimud_shared/MessageParser.y"
 {
   		yyval = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Look, val_peek(0).sval, ""));
   	}
 break;
 case 35:
-//#line 193 "./minimud_shared/MessageParser.y"
+//#line 194 "./minimud_shared/MessageParser.y"
 {
 		yyval = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Talk, val_peek(0).sval, ""));
 	}
 break;
 case 36:
-//#line 197 "./minimud_shared/MessageParser.y"
+//#line 198 "./minimud_shared/MessageParser.y"
 {
 		yyval = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Talk, val_peek(0).sval, ""));
 	}
 break;
 case 37:
-//#line 201 "./minimud_shared/MessageParser.y"
+//#line 202 "./minimud_shared/MessageParser.y"
 {
 		yyval = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Give, val_peek(0).sval, val_peek(2).sval));
 	}
 break;
 case 38:
-//#line 205 "./minimud_shared/MessageParser.y"
+//#line 206 "./minimud_shared/MessageParser.y"
 {
 		yyval = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Talk, val_peek(0).sval, val_peek(1).sval));
 	}
 break;
 case 39:
-//#line 209 "./minimud_shared/MessageParser.y"
+//#line 210 "./minimud_shared/MessageParser.y"
 {
 		yyval = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Take, val_peek(0).sval, ""));
 	}
 break;
 case 40:
-//#line 213 "./minimud_shared/MessageParser.y"
+//#line 214 "./minimud_shared/MessageParser.y"
 {
 		yyval = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Drop, val_peek(0).sval, ""));
 	}
 break;
 case 41:
-//#line 217 "./minimud_shared/MessageParser.y"
+//#line 218 "./minimud_shared/MessageParser.y"
 {
 		yyval = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Punch, val_peek(0).sval, ""));
 	}
 break;
 case 42:
-//#line 221 "./minimud_shared/MessageParser.y"
+//#line 222 "./minimud_shared/MessageParser.y"
 {
 		yyval = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Kick, val_peek(0).sval, ""));
 	}
 break;
 case 43:
-//#line 225 "./minimud_shared/MessageParser.y"
+//#line 226 "./minimud_shared/MessageParser.y"
 {
 		yyval = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Stab, val_peek(0).sval, ""));
 	}
 break;
 case 44:
-//#line 229 "./minimud_shared/MessageParser.y"
+//#line 230 "./minimud_shared/MessageParser.y"
 {
 		yyval = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Slash, val_peek(0).sval, ""));
 	}
 break;
 case 45:
-//#line 233 "./minimud_shared/MessageParser.y"
+//#line 234 "./minimud_shared/MessageParser.y"
 {
 		yyval = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Push, val_peek(0).sval, ""));
 	}
 break;
 case 46:
-//#line 237 "./minimud_shared/MessageParser.y"
+//#line 238 "./minimud_shared/MessageParser.y"
 {
 		yyval = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Shoot, val_peek(0).sval, ""));
 	}
 break;
 case 47:
-//#line 241 "./minimud_shared/MessageParser.y"
+//#line 242 "./minimud_shared/MessageParser.y"
 {
 		yyval = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Attack, val_peek(2).sval, val_peek(0).sval));
 	}
 break;
 case 48:
-//#line 245 "./minimud_shared/MessageParser.y"
+//#line 246 "./minimud_shared/MessageParser.y"
 {
 		yyval = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Leaders, "", ""));
 	}
 break;
 case 49:
-//#line 249 "./minimud_shared/MessageParser.y"
+//#line 250 "./minimud_shared/MessageParser.y"
 {
 		yyval = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Leaders, "gold", ""));
 	}
 break;
 case 50:
-//#line 253 "./minimud_shared/MessageParser.y"
+//#line 254 "./minimud_shared/MessageParser.y"
 {
 		yyval = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Leaders, "xp", ""));
 	}
 break;
 case 51:
-//#line 257 "./minimud_shared/MessageParser.y"
+//#line 258 "./minimud_shared/MessageParser.y"
 {
 		yyval = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Inventory, "", ""));
 	}
 break;
 case 52:
-//#line 261 "./minimud_shared/MessageParser.y"
+//#line 262 "./minimud_shared/MessageParser.y"
 {
 		yyval = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.Help, "", ""));
 	}
 break;
 case 53:
-//#line 265 "./minimud_shared/MessageParser.y"
+//#line 266 "./minimud_shared/MessageParser.y"
 {
 		yyval = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.QuestLog, "", ""));
 	}
 break;
 case 54:
-//#line 269 "./minimud_shared/MessageParser.y"
+//#line 270 "./minimud_shared/MessageParser.y"
+{
+		yyval = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.QuestCompletion, "", ""));
+	}
+break;
+case 55:
+//#line 274 "./minimud_shared/MessageParser.y"
 {
 		yyval = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.CharInfo, "", ""));
 	}
 break;
-case 55:
-//#line 273 "./minimud_shared/MessageParser.y"
+case 56:
+//#line 278 "./minimud_shared/MessageParser.y"
 {
 		yyval = new MessageParserVal(new PlayerActionMessage(PlayerActionMessage.Action.UseItem, val_peek(0).sval, ""));
 	}
 break;
-//#line 902 "MessageParser.java"
+//#line 910 "MessageParser.java"
 //########## END OF USER-SUPPLIED ACTIONS ##########
     }//switch
     //#### Now let's reduce... ####

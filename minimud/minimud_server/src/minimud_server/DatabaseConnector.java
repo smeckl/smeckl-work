@@ -1116,4 +1116,92 @@ public class DatabaseConnector
         
         return questSteps;
     }
+    
+    public ErrorCode addUncompletedQuestEventForUser(String strUser, GameServer.QuestEventType type, String strName)
+    {
+        ErrorCode retVal = ErrorCode.Success;
+        
+        try
+        {
+            PreparedStatement pstmt = getConnection().prepareStatement("select ID from quests left join quest_status on "
+                    + "quest_status.quest_id = quests.ID where quests.first_completion_user = '' and "
+                    + "quest_status.completed=0 and username=?;");
+            
+            pstmt.setString(1, strUser);
+            
+            ResultSet results = pstmt.executeQuery();
+            
+            // For each uncompleted Quest
+            if (null != results)
+            { 
+                while (results.next())
+                {
+                    try
+                    {   
+                        PreparedStatement pstmt2 = getConnection().prepareStatement("insert into quest_solutions values "
+                                + "(?, ?, ?, ?);");
+
+                        pstmt2.setInt(1, results.getInt("ID"));
+                        pstmt2.setString(2, strUser);
+                        
+                        int nType = 0;
+                        switch(type)
+                        {
+                            case Room:
+                                nType = 0;
+                                break;
+                                
+                            case Object:
+                                nType = 1;
+                                break;
+                              
+                            case Item:
+                                nType = 2;
+                                break;
+                        }
+                        
+                        pstmt2.setInt(3, nType);
+                        pstmt2.setString(4, strName);
+                        
+                        if (0 == pstmt2.executeUpdate())
+                        {
+                            retVal = ErrorCode.InsertFailed;
+                        }              
+                    }
+                    catch(Exception e)
+                    {
+
+                    }
+                }                
+            }
+        }
+        catch (Exception e)
+        {
+            m_logger.severe("Exception in DatabaseConnector::getQuestLogForUser() " + e);
+            retVal = ErrorCode.InsertFailed;
+        }   
+        
+        return retVal;
+    }
+    
+    public synchronized ResultSet getQuestSolutionInfo()
+    {
+        ResultSet results = null;
+        
+        try
+        {
+            PreparedStatement pstmt = getConnection().prepareStatement("select quests.name, quests.first_completion_user,"
+                    + "  quest_solutions.* from quests, quest_solutions  where quests.ID = quest_solutions.quest_id and "
+                    + "quests.first_completion_user<>'';");
+            
+            results = pstmt.executeQuery();
+        }
+        catch (Exception e)
+        {
+            m_logger.severe("Exception in DatabaseConnector::getRooms() " + e);
+            results = null;
+        }
+        
+        return results;
+    }
 }

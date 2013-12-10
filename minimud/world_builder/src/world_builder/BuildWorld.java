@@ -121,6 +121,7 @@ public class BuildWorld
                     m_dbConn.dropTable("characters");
                     m_dbConn.dropTable("inventory");
                     m_dbConn.dropTable("quest_status");
+                    m_dbConn.dropTable("quest_solutions");
                 }
                 
 				m_dbConn.dropTable("rooms");
@@ -151,6 +152,11 @@ public class BuildWorld
                     m_dbConn.addTable("CREATE TABLE quest_status (username VARCHAR(30) NOT NULL," +
 								  "quest_id INT NOT NULL, step INT NOT NULL, completed INT NOT NULL, " +
 								  "PRIMARY KEY (username, quest_id));");
+                    
+                    m_dbConn.addTable("CREATE TABLE quest_solutions (quest_id INT NOT NULL, "
+                            + "username VARCHAR(32) NOT NULL,"
+                            + "event_type INT NOT NULL, name VARCHAR(32) NOT NULL,"
+                            + "PRIMARY KEY (quest_id, username, event_type, name));");
                 }
                 
 				// Build database tables
