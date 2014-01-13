@@ -140,7 +140,10 @@ public class MiniMUDServer
             }
 			
 			try
-			{				
+			{		
+                System.out.close();
+                System.err.close();
+                
 				logger = new MMLogger(strLogFile);
 						
 			    // Connect to the database
