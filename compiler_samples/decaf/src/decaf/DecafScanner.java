@@ -1,4 +1,4 @@
-// $ANTLR 3.5.2 /home/steve/smeckl-work/compiler_samples/decaf/src/decaf/DecafScanner.g 2014-07-13 06:56:52
+// $ANTLR 3.5.2 /home/steve/smeckl-work/compiler_samples/decaf/src/decaf/DecafScanner.g 2014-07-13 07:11:36
 package decaf;
 
 import org.antlr.runtime.*;
