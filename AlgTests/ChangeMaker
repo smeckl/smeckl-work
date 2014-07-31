@@ -1,0 +1,61 @@
+package AlgTests;
+
+import java.util.Vector;
+import java.util.Collections;
+
+public class ChangeMaker
+{
+    private Vector<Integer> values = null;
+    
+    public ChangeMaker()
+    {
+        values = new Vector<Integer>();
+        
+        // Make sure 1 is in the list
+        values.add(new Integer(1));
+    }
+     
+    public void addCoinValue(int newVal)
+    {
+        if(0 > Collections.binarySearch(values, new Integer(newVal)))
+            values.add(new Integer(newVal));
+    }
+    
+    public int minNumCoins(int wholeVal)
+    {
+        sortValues();
+        
+        int nc[] = new int[wholeVal+1];               
+        
+        // Recursion for making change
+        //
+        //           { 0   if i == 0 
+        //  nc[i] =  { 
+        //           { min(for all v in values) {(i/v) + nc[i - (v*(i/v))]
+        //
+        
+        // Initialize nc[]
+        nc[0] = 0;
+        for(int i = 1; i <= wholeVal; i++)
+            nc[i] = Integer.MAX_VALUE;
+        
+        for(int i = 1; i <= wholeVal; i++)
+        {                        
+            for(int j = 0; j < values.size(); j++)
+            {
+                int v = values.get(j);
+                int cost = (i/v) + nc[i - (v*(i/v))];
+                
+                if(cost < nc[i])
+                    nc[i] = cost;
+            }
+        }
+                
+        return nc[wholeVal];
+    }
+    
+    private void sortValues()
+    {
+        Collections.sort(values);
+    }
+}
