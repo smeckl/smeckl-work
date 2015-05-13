@@ -1,0 +1,4 @@
+LIBRARY	"Evil_DLL"
+
+EXPORTS
+   InstallHooks @1

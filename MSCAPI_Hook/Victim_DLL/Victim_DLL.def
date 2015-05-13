@@ -1,0 +1,6 @@
+LIBRARY	"Victim_DLL"
+
+EXPORTS
+   DeriveKey @1
+   MyEncryptFile @2
+   MyDecryptFile @3

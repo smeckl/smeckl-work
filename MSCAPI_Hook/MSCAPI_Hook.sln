@@ -1,0 +1,58 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Evil_DLL", "Evil_DLL\Evil_DLL.vcxproj", "{7E9BE6CD-6428-4869-93AC-5B59420509F3}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Evil_EXE", "Evil_EXE\Evil_EXE.vcxproj", "{8E5DE3B3-FD6D-4580-A881-D7B79F46F8BC}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Victim_DLL", "Victim_DLL\Victim_DLL.vcxproj", "{C4818798-2467-406B-87F9-3E418D0AC1ED}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Victim_EXE", "Victim_EXE\Victim_EXE.vcxproj", "{1D9273FD-B794-46AA-A7ED-B271980363A3}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 5
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://smeckl.visualstudio.com/defaultcollection
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = Evil_DLL\\Evil_DLL.vcxproj
+		SccProjectName1 = Evil_DLL
+		SccLocalPath1 = Evil_DLL
+		SccProjectUniqueName2 = Evil_EXE\\Evil_EXE.vcxproj
+		SccProjectName2 = Evil_EXE
+		SccLocalPath2 = Evil_EXE
+		SccProjectUniqueName3 = Victim_DLL\\Victim_DLL.vcxproj
+		SccProjectName3 = Victim_DLL
+		SccLocalPath3 = Victim_DLL
+		SccProjectUniqueName4 = Victim_EXE\\Victim_EXE.vcxproj
+		SccProjectName4 = Victim_EXE
+		SccLocalPath4 = Victim_EXE
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7E9BE6CD-6428-4869-93AC-5B59420509F3}.Debug|Win32.ActiveCfg = Debug|Win32
+		{7E9BE6CD-6428-4869-93AC-5B59420509F3}.Debug|Win32.Build.0 = Debug|Win32
+		{7E9BE6CD-6428-4869-93AC-5B59420509F3}.Release|Win32.ActiveCfg = Release|Win32
+		{7E9BE6CD-6428-4869-93AC-5B59420509F3}.Release|Win32.Build.0 = Release|Win32
+		{8E5DE3B3-FD6D-4580-A881-D7B79F46F8BC}.Debug|Win32.ActiveCfg = Debug|Win32
+		{8E5DE3B3-FD6D-4580-A881-D7B79F46F8BC}.Debug|Win32.Build.0 = Debug|Win32
+		{8E5DE3B3-FD6D-4580-A881-D7B79F46F8BC}.Release|Win32.ActiveCfg = Release|Win32
+		{8E5DE3B3-FD6D-4580-A881-D7B79F46F8BC}.Release|Win32.Build.0 = Release|Win32
+		{C4818798-2467-406B-87F9-3E418D0AC1ED}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C4818798-2467-406B-87F9-3E418D0AC1ED}.Debug|Win32.Build.0 = Debug|Win32
+		{C4818798-2467-406B-87F9-3E418D0AC1ED}.Release|Win32.ActiveCfg = Release|Win32
+		{C4818798-2467-406B-87F9-3E418D0AC1ED}.Release|Win32.Build.0 = Release|Win32
+		{1D9273FD-B794-46AA-A7ED-B271980363A3}.Debug|Win32.ActiveCfg = Debug|Win32
+		{1D9273FD-B794-46AA-A7ED-B271980363A3}.Debug|Win32.Build.0 = Debug|Win32
+		{1D9273FD-B794-46AA-A7ED-B271980363A3}.Release|Win32.ActiveCfg = Release|Win32
+		{1D9273FD-B794-46AA-A7ED-B271980363A3}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
