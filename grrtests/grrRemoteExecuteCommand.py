@@ -7,9 +7,9 @@ uriExtension = sys.argv[1] # The API GET string we want to use for this command
 data = sys.argv[2] # The JSON structured data we are passing to the API
    
 # TODO: Need to find a more secure way to manage credentials here
-grrserver = 'http://10.10.5.20:8000'   
-username = 'admin'   
-password = 'L34rn!ngAg3nt'   
+grrserver = 'http://<server_IP>:8000'   
+username = ''   
+password = ''   
    
 # Create the basic authentication string for the HTTP connection
 base64string = base64.encodestring('%s:%s' % (username, password)).replace('\n', '')   
