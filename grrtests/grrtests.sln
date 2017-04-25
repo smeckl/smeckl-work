@@ -1,0 +1,18 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.4
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5D9A5A19-1335-41E6-B1D2-760F7ED8CD68}"
+	ProjectSection(SolutionItems) = preProject
+		grrGetFlowResults.py = grrGetFlowResults.py
+		grrGetFlowStatus.py = grrGetFlowStatus.py
+		grrRemoteListProcesses.py = grrRemoteListProcesses.py
+		remoteCommandExec.py = remoteCommandExec.py
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
